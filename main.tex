@@ -1,0 +1,275 @@
+\documentclass[a4paper,12pt]{report}
+\usepackage[french]{babel}
+\usepackage{ragged2e} % pour \justifying
+\usepackage{array} 
+\usepackage{longtable}
+\usepackage{tocbasic}
+\usepackage{caption}
+\usepackage{fancyhdr}
+\usepackage{titletoc}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage[a4paper, left=2cm, right=2cm, top=2.5cm, bottom=2.5cm]{geometry}
+\usepackage{multirow}
+\usepackage{rotating}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb}
+\usepackage{titlesec}
+\usepackage{pdflscape}
+\usepackage{csquotes}
+\usepackage{pdfpages}
+\usepackage{changepage}
+\usepackage{booktabs}
+\usepackage[T1]{fontenc}
+\usepackage{setspace}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage[dvipsnames,table]{xcolor}
+\usepackage[backend=biber, style=numeric, sorting=none]{biblatex}
+\usepackage{listings}
+\usepackage{pgfgantt}
+\usepackage[colorlinks=true, linkcolor=black, citecolor=black, urlcolor=black]{hyperref}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning}
+\definecolor{lightblue}{rgb}{0.68, 0.85, 0.9} % Définition de la couleur lightblue
+
+
+\usepackage{acronym}
+\usepackage{tabularx}
+\usepackage{pifont}
+\usepackage{pmboxdraw}
+\newcommand{\cmark}{\ding{51}}
+\newcommand{\xmark}{\ding{55}}
+
+\addbibresource{bibliographie.bib}
+
+\definecolor{rouge}{RGB}{200, 0, 0}
+
+
+\setcounter{tocdepth}{3}
+
+\geometry{margin=2.3cm}
+\onehalfspacing
+
+
+\pagestyle{fancy}
+\fancyhf{}
+\setlength{\headheight}{15pt}
+
+% IMPORTANT : définir proprement ce que contient \leftmark
+\renewcommand{\chaptermark}[1]{%
+  \markboth{Chapitre \thechapter\ -- #1}{}%
+}
+
+% �� CHAPITRE dans l'en-tête
+\fancyhead[R]{\nouppercase{\leftmark}}  %% A été changé par les deux lignes au dessous
+% \newcommand{\currentchapter}{} 
+% \fancyhead[R]{\currentchapter}
+
+\fancyfoot[C]{\thepage}
+% \usepackage[none]{hyphenat}
+
+\setcounter{secnumdepth}{5}% profondeur de la table des matières
+%
+\titleformat{\chapter}[frame]
+{\normalsize}
+{\filright\rmfamily\Large
+\enspace Chapitre \thechapter\enspace}
+{18pt}
+{\rmfamily\huge\bfseries\filcenter}
+
+\titlespacing*{\chapter}{0pt}{-55pt}{40pt}
+% Numérotation des sections
+
+% Configuration générale pour Python
+\lstset{
+    language=Python,
+    basicstyle=\ttfamily\small,      % style de la police
+    keywordstyle=\color{blue},       % mots-clés en bleu
+    commentstyle=\color{gray}\itshape,  % commentaires en gris italique
+    stringstyle=\color{orange},      % chaînes de caractères en orange
+    numbers=left,                    % numéro de ligne à gauche
+    numberstyle=\tiny\color{gray},   % style des numéros de ligne
+    stepnumber=1,                     % numéro toutes les lignes
+    numbersep=5pt,                    % espace entre code et numéro
+    frame=single,                     % cadre autour du code
+    breaklines=true,                  % retour à la ligne automatique
+    showstringspaces=false,           % ne pas afficher les espaces dans les chaînes
+    tabsize=4,                        % taille de tabulation
+}
+
+
+% =========================================================
+% PROFONDEUR DU SOMMAIRE
+% =========================================================
+\setcounter{tocdepth}{5}
+\setcounter{secnumdepth}{5}
+
+
+% =========================================================
+% TOC : DÉFINITION DES NIVEAUX (IMPORTANT)
+% =========================================================
+\makeatletter
+
+% niveau 4 : subsubsubsection
+\newcommand\l@subsubsubsection{\@dottedtocline{4}{7em}{4em}}
+
+% niveau 5 : subsubsubsubsection
+\newcommand\l@subsubsubsubsection{\@dottedtocline{5}{10em}{4.5em}}
+
+\makeatother
+
+
+% =========================================================
+% SUBSUBSUBSECTION (niveau 4)
+% =========================================================
+\newcounter{subsubsubsection}[subsubsection]
+\renewcommand\thesubsubsubsection{\thesubsubsection.\arabic{subsubsubsection}}
+
+\titleformat{\subsubsubsection}
+  {\normalfont\normalsize\bfseries}
+  {\thesubsubsubsection}{1em}{}
+
+\titlespacing*{\subsubsubsection}
+{0pt}{3.25ex}{1.5ex}
+
+\newcommand{\subsubsubsection}[1]{%
+  \refstepcounter{subsubsubsection}%
+  \addcontentsline{toc}{subsubsubsection}{%
+    \protect\numberline{\thesubsubsubsection}#1%
+  }%
+  \noindent\textbf{\thesubsubsubsection\quad #1}\par
+}
+
+
+% =========================================================
+% SUBSUBSUBSUBSECTION (niveau 5)
+% =========================================================
+\newcounter{subsubsubsubsection}[subsubsubsection]
+\renewcommand\thesubsubsubsubsection{\thesubsubsubsection.\arabic{subsubsubsubsection}}
+
+\titleformat{\subsubsubsubsection}
+  {\normalfont\normalsize\bfseries}
+  {\thesubsubsubsubsection}{1em}{}
+
+\titlespacing*{\subsubsubsubsection}
+{0pt}{3.25ex}{1.5ex}
+
+\newcommand{\subsubsubsubsection}[1]{%
+  \refstepcounter{subsubsubsubsection}%
+  \addcontentsline{toc}{subsubsubsubsection}{%
+    \protect\numberline{\thesubsubsubsubsection}#1%
+  }%
+  \noindent\textbf{\thesubsubsubsubsection\quad #1}\par
+}
+
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}\\}
+
+
+
+\definecolor{bleumarine}{RGB}{0, 51, 102} % Définit le bleu marine
+\begin{document}
+% \begin{titlepage}
+%     \centering
+
+    % --- EN-TÊTE AVEC LOGOS ---
+    % \begin{minipage}{0.35\textwidth}
+    %     \centering
+    %     \includegraphics[width=0.8\textwidth]{Images/enicar.jpg}
+    % \end{minipage}%
+    % \hfill
+    % \begin{minipage}{0.35\textwidth}
+    %     \centering
+    %     \includegraphics[width=0.8\textwidth]{Images/ucar.jpg}
+    % \end{minipage}
+    
+%     \vspace*{2.2cm}
+
+%     % --- TITRE DU PROJET ---
+%     % Titre général du module ou du type de projet
+%     {\Huge \bfseries }\\[2cm]
+
+%     \vspace{1cm}
+%     \rule{0.8\textwidth}{1pt}\\[0.4cm]
+    
+%     % Titre Spécifique
+%     {\LARGE \textbf{}}\\[0.4cm]
+%     {\Large \textbf{}}\\[0.4cm]
+    
+    
+%     \rule{0.8\textwidth}{1pt}
+
+%     \vfill
+
+%     % --- NOMS ---
+%     \textbf{Réalisé par :} \\[0.3cm]
+%     {\large Souissi Ons } \\[0.8cm] 
+
+%     \textbf{Encadré par :} \\[0.3cm]
+%         {\large } \\[0.8cm] 
+
+    
+%     % (Vérifiez si c'est le même superviseur pour ce projet)
+
+%     % --- BAS DE PAGE ---
+%     {\large  }\\[1cm]
+%     \textbf{Année Universitaire 2025 -- 2026}
+
+% \end{titlepage}
+
+\clearpage
+
+
+\cleardoublepage
+% \includepdf[pages=1,pagecommand={\thispagestyle{empty}}]{Page de garde.pdf}
+\pagenumbering{roman}
+% \RaggedRight
+
+
+\tableofcontents
+\listoffigures
+\listoftables
+
+\input{Chapitres/abreviations}
+
+
+
+\clearpage
+\pagenumbering{arabic}
+
+
+\input{Chapitres/introduction}
+    \clearpage
+    
+ \input{Chapitres/chapitre1}
+   \clearpage
+
+\input{Chapitres/chapitre2}
+    \clearpage
+
+\input{Chapitres/chapitre3}
+    \clearpage
+
+\input{Chapitres/chapitre4}
+    \clearpage
+
+\input{Chapitres/chapitre5}
+    \clearpage
+
+% \input{Chapitres/chapitre6}
+%     \clearpage
+
+        
+ \input{Chapitres/conclusion}
+  \clearpage
+
+
+
+% \input{annexe}
+%     \clearpage
+
+ \printbibliography[heading=bibintoc]
+   
+\end{document}
+

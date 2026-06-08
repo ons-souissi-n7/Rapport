@@ -1,0 +1,98 @@
+% !TEX root = ../main.tex
+% ══════════════════════════════════════════════════════════════
+\chapter{Organisme d’accueil et système d’information}
+% ══════════════════════════════════════════════════════════════
+\begingroup
+\let\clearpage\relax
+\startcontents[chapters]
+\printcontents[chapters]{}{1}{\section*{Plan}}
+\endgroup
+\newpage
+
+\section*{Introduction}
+\justifying
+\phantomsection
+\addcontentsline{toc}{section}{Introduction}
+
+Ce chapitre présente l'organisme d'accueil, le service des Relations Internationales de l'ENSEEIHT, et décrit les outils actuellement utilisés pour la gestion des mobilités, ainsi que les limites structurelles qui ont motivé ce projet.
+
+% ─────────────────────────────────────────────────────────────
+\section{Présentation de l'organisme d'accueil}
+% ─────────────────────────────────────────────────────────────
+
+Ce stage a été effectué au sein de Toulouse INP-ENSEEIHT, école d'ingénieurs publique toulousaine, et plus précisément dans son service des Relations Internationales. 
+Cette partie présente d’abord l’établissement d’accueil, puis le service dans lequel j’ai effectué mon stage.
+
+\subsection{Présentation de Toulouse INP-ENSEEIHT}
+
+Toulouse INP-ENSEEIHT est une grande école publique d’ingénieurs, située au cœur de Toulouse et composante de l’Institut national polytechnique de Toulouse. Accréditée à délivrer le diplôme d'ingénieur, elle forme chaque année plusieurs centaines d'ingénieurs et des étudiants en master et en doctorat, dans des domaines : Sciences du Numérique (SN), Électronique–Énergie électrique–Automatique (EEEA) et Mécanique des Fluides, Énergétique \& Environnement (MFEE).
+
+L’école maintient des liens étroits avec plusieurs laboratoires de recherche de référence, tels que IMFT, IRIT, LAAS et LAPLACE, et des relations solides avec de nombreux partenaires industriels. L’international occupe également une place centrale dans sa stratégie de développement : l’école élargit continuellement son réseau d’universités partenaires et encourage activement les expériences de mobilité à l’étranger pour ses étudiants ~\cite{enseeiht_presentation}.
+
+\subsection{Le service des relations internationales}
+
+Le service des Relations Internationales (RI) de l'ENSEEIHT pilote l'ensemble de la politique d'ouverture internationale de l'école. Il joue un rôle central à la fois dans le développement des partenariats académiques et dans le suivi opérationnel des mobilités étudiantes. Ses missions principales couvrent six grands axes ~\cite{enseeiht_international}.
+
+\textbf{La gestion des partenariats académiques} : administration d'un réseau d'accords bilatéraux avec des universités étrangères, couvrant les programmes d'échange et les doubles diplômes, avec suivi des quotas de places par accord et par département.
+
+\textbf{L'organisation des mobilités sortantes} : pilotage de la campagne annuelle de sélection et d'affectation des étudiants de l'ENSEEIHT partant à l'étranger, de la publication des destinations jusqu'à la validation des résultats ~\cite{enseeiht_sortante}.
+
+\textbf{L'accueil des mobilités entrantes} : enregistrement, rattachement administratif et suivi des étudiants internationaux accueillis dans le cadre des accords de partenariat ~\cite{enseeiht_entrante}.
+
+\textbf{L'accompagnement administratif et pédagogique} : information des étudiants sur les procédures, gestion des aspects financiers, et vérification de la conformité des dossiers avec les exigences académiques.
+
+\textbf{Le pilotage et le reporting CTI} : suivi des flux entrants et sortants pour les audits de la Commission des Titres d'Ingénieur, qui impose une durée minimale de mobilité internationale à chaque étudiant pour l'obtention du diplôme d'ingénieur.
+
+\textbf{La gestion des programmes courts} : suivi des étudiants participant à des summer schools, séjours linguistiques ou autres programmes de courte durée à l'étranger, qui peuvent être pris en compte dans le calcul de la durée de mobilité sous certaines conditions ~\cite{enseeiht_programmes_courts}.
+
+Ces missions impliquent de manipuler quotidiennement des volumes importants de données issues de sources multiples et hétérogènes, ce qui constitue l'un des enjeux centraux du projet décrit dans ce rapport.
+
+
+% ─────────────────────────────────────────────────────────────
+\section{Analyse du système d’information interne}
+% ─────────────────────────────────────────────────────────────
+
+Avant de concevoir une solution adaptée, il est nécessaire de réaliser une analyse des outils et des méthodes utilisés actuellement au sein du service des Relations Internationales. Cette section présente tout d’abord les différents systèmes institutionnels mis en place puis met en lumière les principales limites et difficultés de ce mode de fonctionnement.
+
+\subsection{Les outils en place}
+
+La gestion des mobilités repose sur trois systèmes institutionnels qui ne communiquent pas entre eux, complétés par des fichiers Excel locaux.
+
+\subsubsection{QS MoveON}
+
+MoveON est la plateforme centrale du service RI. Elle gère l'ensemble des accords bilatéraux, les quotas globaux INP et les candidatures post-sélection. Elle expose une API REST permettant d'en extraire les données. C'est l'outil le plus riche de l'écosystème actuel ~\cite{qs_moveon}, mais son périmètre reste limité : il ne tient pas compte des résultats académiques des étudiants, ne propose pas de mécanisme d'aide à la sélection, et ne prend pas en compte les stages ou autres éléments du parcours individuel.
+
+\subsubsection{Pégase}
+
+Pégase est le système d'information académique de Toulouse INP. Il rassemble les informations d'inscription et les notes — notamment le GPA trimestriel, élément essentiel pour le classement des candidatures. Les données sont accessibles via API, mais aucun lien automatique n'existe avec MoveON.
+
+\subsubsection{Eudonet}
+
+Eudonet est le CRM utilisé pour la gestion des conventions de stage. Il centralise les informations relatives aux stages nationaux et internationaux (entreprise d'accueil, dates, durée) ~\cite{eudonet_crm}. Ces données sont importantes pour le calcul de la durée de mobilité CTI, mais elles ne sont pas intégrées automatiquement dans les autres systèmes .
+
+\subsubsection{Les fichiers Excel}
+
+Pour compenser les lacunes des trois systèmes précédents, le service RI maintient une collection de fichiers Excel dédiés au suivi des quotas par département, à la gestion des mobilités entrantes, au calcul des durées et au suivi des mobilités complémentaires. Cette approche fonctionne à court terme, mais reste fragile : une simple erreur de manipulation, une mauvaise copie ou un oubli de mise à jour suffit à créer des incohérences dans les données.
+
+\subsection{Limites structurelles}
+
+L'analyse du fonctionnement actuel fait apparaître plusieurs problèmes structurels.
+
+\begin{itemize}
+    \item \textbf{Aucune intégration entre les systèmes.} Les outils ne communiquent pas entre eux, ce qui oblige les équipes à multiplier les exports manuels depuis différentes plateformes avant de retraiter les données dans Excel. Ces manipulations sont chronophages, répétitives et génèrent un risque d'erreurs difficile à maîtriser.
+
+    \item \textbf{Absence d'aide à la décision pour l'affectation.} La sélection se fait manuellement, en comparant les GPA dans un tableau. Sans algorithme, les égalités sont tranchées à l'appréciation, et la cohérence des décisions d'une année sur l'autre n'est pas garantie.
+
+    \item \textbf{Manque de granularité des quotas.} MoveON gère les quotas à l'échelle  de l'INP global. La répartition par école (ENSEEIHT) puis par département constitue une couche supplémentaire maintenue dans Excel, en dehors de tout système structuré.
+    
+    \item \textbf{Absence de traçabilité des mobilités complémentaires.} Les summer schools, séjours linguistiques et programmes courts ne font l'objet d'aucun suivi structuré, ce qui fragilise leur prise en compte dans le calcul de la durée de  mobilité.
+    
+    \item \textbf{Calcul de la durée de mobilité non automatisable.} En raison de la dispersion des données entre plusieurs systèmes, agréger fiablement toutes les périodes de mobilité d'un étudiant est un exercice manuel long et sujet à erreurs.
+\end{itemize}
+
+\section*{Conclusion}
+\justifying
+\phantomsection
+\addcontentsline{toc}{section}{Conclusion}
+
+L’analyse de l’existant met en évidence un environnement fragmenté, où le manque de communication entre outils oblige encore à des traitements manuels sous Excel, peu fiables. Cela met en évidence le besoin d’une solution plus intégrée, présenté dans la suite du rapport.

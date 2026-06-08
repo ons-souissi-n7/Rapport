@@ -1,0 +1,966 @@
+% ══════════════════════════════════════════════════════════════
+\chapter{Réalisation}
+% ══════════════════════════════════════════════════════════════
+\begingroup
+\let\clearpage\relax
+\startcontents[chapters]
+\printcontents[chapters]{}{1}{\section*{Plan}}
+\endgroup
+\newpage
+
+\section*{Introduction}
+\justifying
+\phantomsection
+\addcontentsline{toc}{section}{Introduction}
+
+Ce chapitre couvre la phase de réalisation du projet, organisée en
+sprints successifs. Pour chaque sprint, le backlog, la conception
+détaillée, l'implémentation et les tests sont présentés conformément
+à la définition of done.
+
+% ─────────────────────────────────────────────────────────────
+\section{{Sprint 1 — Socle technique et référentiels}}
+% ─────────────────────────────────────────────────────────────
+
+Cette section présente la réalisation du Sprint 1, dédié à la mise en place du socle technique et des référentiels. Elle couvre successivement l'objectif du sprint, le backlog, la conception UML, l'implémentation et les tests.
+
+\subsection{Objectif du sprint}
+
+Le Sprint 1 a pour objectif d'implémenter les fondations irréversibles du système : référentiels stables (\texttt{Country}, \texttt{Department}), universités partenaires (\texttt{PartnerUniversity}), année universitaire avec sa machine à états à 6 phases (\texttt{AcademicYear}), accords et quotas (\texttt{Agreement}, \texttt{AgreementQuota}, \texttt{DepartmentQuota}) et stockage brut des imports (\texttt{RawImport}). Ces composants constituent la colonne vertébrale du système — toute fonctionnalité des sprints suivants en dépend directement.
+
+\textbf{Définition of Done.} À l'issue de ce sprint, le système doit être exécutable via \texttt{docker compose up}, toutes les migrations Django doivent s'appliquer sans erreur, les tests unitaires doivent passer avec une couverture supérieure à 80\,\%, et le pipeline CI/CD doit être opérationnel sur GitHub Actions.
+
+\newcounter{tasknum}
+\setcounter{tasknum}{1}
+\newcommand{\nexttask}{%
+  \ifnum\value{tasknum}<10 0\fi\arabic{tasknum}%
+  \stepcounter{tasknum}%
+}
+
+\newlength{\uswidth}
+\setlength{\uswidth}{\dimexpr 12.6cm + 12\tabcolsep + 5\arrayrulewidth\relax}
+
+\newcommand{\usheadergreen}[2]{%
+  \multicolumn{6}{|p{\uswidth}|}{%
+    \cellcolor{green!8}%
+    \textbf{#1} — \small\textit{#2}%
+  } \\ \hline
+}
+\newcommand{\usheader}[2]{%
+  \multicolumn{6}{|p{\uswidth}|}{%
+    \cellcolor{blue!8}%
+    \textbf{#1} — \small\textit{#2}%
+  } \\ \hline
+}
+
+\subsection{Sprint Backlog — Sprint 1}
+
+\begingroup
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.6}
+
+\begin{longtable}{|p{0.4cm}|p{3.3cm}|p{4.9cm}|p{3.7cm}|p{1.4cm}|p{0.4cm}|}
+\hline
+\rowcolor{gray!20}
+\textbf{\#} & \textbf{Tâche} & \textbf{Description} &
+\textbf{Critères d'acceptation} & \textbf{Prior.} & \textbf{SP} \\
+\hline
+\endfirsthead
+\hline
+\rowcolor{gray!20}
+\textbf{\#} & \textbf{Tâche} & \textbf{Description} &
+\textbf{Critères d'acceptation} & \textbf{Prior.} & \textbf{SP} \\
+\hline
+\endhead
+\hline
+\endfoot
+
+% ── US-01 ─────────────────────────────────────────────────────────────────────
+\usheadergreen{US-01 — Référentiels de base}{%
+  En tant qu'\textbf{administrateur RI}, je veux disposer d'un référentiel
+  stable des pays, départements et universités partenaires afin que toutes
+  les entités du système s'appuient sur des données de référence cohérentes.}
+
+\nexttask &
+Définir \texttt{Country} et \texttt{Department} &
+Créer les deux modèles de référentiel
+avec \texttt{iso2} unique, région CTI,
+\texttt{clean()} et \texttt{last\_sync\_moveon}. &
+Les modèles migrent sans erreur. &
+Haute & 2 \\
+\hline
+
+\nexttask &
+Définir \texttt{PartnerUniversity} &
+Créer le modèle avec \texttt{moveon\_id}
+comme clé de jointure MoveON. &
+Le modèle migre sans erreur. &
+Haute & 1 \\
+\hline
+
+\nexttask &
+Page d'administration des référentiels &
+Créer une interface Next.js permettant
+à l'administrateur RI de consulter et
+filtrer les pays, départements et universités
+partenaires enregistrés. &
+La liste s'affiche, le filtre par nom
+fonctionne, les données sont
+chargées depuis l'API. &
+Haute & 2 \\
+\hline
+
+% ── US-02 ─────────────────────────────────────────────────────────────────────
+\usheadergreen{US-02 — Année universitaire et cycle de vie}{%
+  En tant qu'\textbf{administrateur RI}, je veux que le système gère
+  le cycle de vie de l'année universitaire via une machine à états
+  afin de contrôler chaque phase de la campagne de manière sécurisée.}
+
+\nexttask &
+Définir \texttt{AcademicYear} avec FSM &
+Définir le modèle \texttt{AcademicYear}
+en utilisant une machine à états finis (FSM),
+implémentée avec \texttt{django-fsm},
+comprenant 6 états correspondant aux
+différentes phases de la campagne.
+Mettre en place des transitions sécurisées
+entre ces états, ainsi qu'une méthode
+\texttt{clean()} permettant de garantir
+la cohérence des dates. &
+Les transitions valides fonctionnent.
+Les invalides lèvent
+\texttt{TransitionNotAllowed}.
+\texttt{start\_date > end\_date}
+lève \texttt{ValidationError}. &
+Haute & 2 \\
+\hline
+
+\nexttask &
+Composant de gestion de l'année universitaire &
+Créer une interface Next.js affichant
+l'état courant de l'année universitaire
+avec les boutons de transition disponibles
+(selon la FSM) et les dates clés
+configurables par l'administrateur. &
+L'état affiché reflète la FSM.
+Les transitions non autorisées
+sont masquées.
+Les dates se sauvegardent
+via l'API. &
+Haute & 2 \\
+\hline
+
+% ── US-03 ─────────────────────────────────────────────────────────────────────
+\usheadergreen{US-03 — Accords et quotas — modèle de données}{%
+  En tant qu'\textbf{administrateur RI}, je veux disposer d'un modèle
+  de données complet pour les accords et leurs quotas afin d'avoir
+  une base fiable pour l'algorithme d'affectation.}
+
+\nexttask &
+Définir \texttt{Agreement} &
+Créer le modèle avec \texttt{moveon\_id},
+\texttt{code\_moveon} unique,
+\texttt{agreement\_type},
+\texttt{valid\_from/until},
+\texttt{is\_active} et
+\texttt{last\_sync\_moveon}. &
+Le modèle migre sans erreur.
+\texttt{is\_valid\_for\_year()} retourne
+\texttt{False} pour un accord expiré
+ou inactif. &
+Haute & 2 \\
+\hline
+
+\nexttask &
+Définir \texttt{AgreementQuota}
+et \texttt{DepartmentQuota} &
+Créer les modèles de quotas avec
+hiérarchie INP $\to$ N7 estimé
+$\to$ N7 ajusté. &
+\texttt{get\_effective\_quota()} retourne
+l'ajusté si renseigné, sinon l'estimé.
+\texttt{is\_eligible()} est fonctionnel. &
+Haute & 2 \\
+\hline
+
+\nexttask &
+Définir \texttt{RawImport} &
+Créer le modèle de stockage brut JSON
+avec \texttt{source}, \texttt{processed},
+\texttt{error\_message} et rattachement
+à \texttt{AcademicYear}. &
+Le modèle migre sans erreur.
+Les 4 sources sont disponibles.
+\texttt{processed=False} par défaut. &
+Haute & 1 \\
+\hline
+
+\nexttask &
+Page de consultation des accords et quotas &
+Créer une interface Next.js listant
+les accords par université partenaire,
+avec affichage des quotas INP, estimé N7
+et ajusté N7 par département, et un
+indicateur visuel de validité de l'accord. &
+Les accords s'affichent avec leurs
+quotas effectifs.
+Les accords expirés ou inactifs
+sont signalés visuellement.
+L'ajustement manuel du quota
+N7 est possible depuis l'interface. &
+Haute & 3 \\
+\hline
+
+\end{longtable}
+\endgroup
+
+\subsection{Conception détaillée}
+
+Cette section présente la conception UML détaillée des entités métier du Sprint 1.
+
+\subsubsection{Diagramme de classes}
+
+Le diagramme de la figure~\ref{fig:diag-class-sprint1} modélise le domaine de gestion des accords de mobilité internationale de l'ENSEEIHT. L'entité centrale est \texttt{Agreement}, qui représente un accord entre l'ENSEEIHT et une université partenaire (\texttt{PartnerUniversity}), qualifiée par un cadre (\texttt{Category}) et des niveaux d'études (\texttt{Level}).
+
+La structure des quotas est organisée sur deux niveaux : \texttt{AgreementYear} matérialise la déclinaison annuelle d'un accord avec le quota N7 global, et \texttt{AgreementYearDepartment} distribue ce quota par département. \texttt{AgreementDepartment} liste les départements autorisés par accord, indépendamment de l'année, et constitue la contrainte référentielle qui interdit d'allouer un quota à un département non autorisé.
+
+\texttt{AcademicYear} pilote le cycle de vie de la campagne via une machine à états à six phases. Toutes les classes portent les champs d'audit \texttt{created\_at}, \texttt{updated\_at}, \texttt{created\_by} et \texttt{updated\_by}.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{figures/conception/Sprint1/Diagramme_de_classe_sprint1.png}
+  \caption{Diagramme de classes — Sprint 1}
+  \label{fig:diag-class-sprint1}
+\end{figure}
+
+\subsection{Implémentation}
+\subsection{Tests}
+
+% \subsection{Implémentation}
+
+% Cette sous-section décrit les principaux choix d'implémentation du Sprint 1 : modèle de données, synchronisation MoveON, API REST et interface utilisateur.
+
+% \subsubsection{Modèle de données}
+
+% Le Sprint 1 introduit onze entités persistantes réparties sur quatre modules Django — \texttt{reference}, \texttt{institutions}, \texttt{academic} et \texttt{mobility}. Toutes héritent du modèle abstrait \texttt{TimeStampedModel}, qui fournit automatiquement les champs d'audit \texttt{created\_at}, \texttt{updated\_at}, \texttt{created\_by} et \texttt{updated\_by}.
+
+% \renewcommand{\arraystretch}{1.4}
+% \begin{table}[H]
+% \centering
+% \footnotesize
+% \begin{tabular}{|p{3cm}|p{4.5cm}|p{7cm}|}
+% \hline
+% \rowcolor{gray!20}
+% \textbf{Module} & \textbf{Entité} & \textbf{Rôle} \\
+% \hline
+% \texttt{reference}    & \texttt{Country}                 & Pays (code ISO 3166-1 alpha-2, région CTI) \\
+% \hline
+%                       & \texttt{Department}              & Département pédagogique (code unique) \\
+% \hline
+%                       & \texttt{Level}                   & Niveau d'études (3A, 4A, M1, M2…) \\
+% \hline
+%                       & \texttt{Parcours}                & Spécialisation rattachée à un département \\
+% \hline
+% \texttt{institutions} & \texttt{PartnerUniversity}       & Université partenaire (id MoveON, code Erasmus) \\
+% \hline
+% \texttt{academic}     & \texttt{AcademicYear}            & Année universitaire avec FSM de cycle de vie \\
+% \hline
+% \texttt{mobility}     & \texttt{MobilityCategory}        & Cadre de mobilité (Erasmus+, hors-Erasmus…) \\
+% \hline
+%                       & \texttt{Agreement}               & Accord bilatéral (places INP, dates de validité) \\
+% \hline
+%                       & \texttt{AgreementDepartment}     & Restriction départementale d'un accord \\
+% \hline
+%                       & \texttt{AgreementYear}           & Instance annuelle d'un accord (quota N7) \\
+% \hline
+%                       & \texttt{AgreementYearDepartment} & Quota estimé par département et par année \\
+% \hline
+% \end{tabular}
+% \caption{Entités créées au Sprint 1}
+% \label{tab:sprint1-entities}
+% \end{table}
+
+% Les contraintes d'intégrité métier sont exprimées via \texttt{UniqueConstraint} et la méthode \texttt{clean()}. La cohérence des quotas est vérifiée avant chaque sauvegarde d'\texttt{AgreementYear} : le quota N7 ne peut dépasser le quota INP global ni être négatif, garantissant la cohérence du modèle en amont de l'algorithme d'affectation. La séparation en deux niveaux — \texttt{AgreementYear} pour le quota global N7 et \texttt{AgreementYearDepartment} pour la répartition par département — modélise la contrainte duale de l'algorithme : chaque candidature est rejetée si elle dépasse l'un ou l'autre des plafonds.
+
+% \subsubsection{Synchronisation MoveON — pipeline ETL}
+
+% La synchronisation avec l'API MoveON suit un pipeline ETL en cinq étapes conçu pour être résilient aux pannes partielles. L'extraction interroge l'API via un client dédié avec mécanisme de retry exponentiel ; le payload brut est immédiatement persisté dans \texttt{RawImport} avant toute transformation, ce qui permet de rejouer l'import sans rappeler l'API. Les données sont ensuite converties en dataclasses typées, validées selon les règles métier, puis persistées par upsert atomique.
+
+% La résolution des universités partenaires applique une stratégie en cascade — \texttt{moveon\_id}, puis code Erasmus, puis nom normalisé. En cas d'échec de toutes les tentatives, l'enregistrement est marqué \texttt{FAILED} dans \texttt{RawImport} et reste disponible pour une correction manuelle via l'interface d'administration.
+
+% \subsubsection{API REST}
+
+% L'API REST est exposée via Django Ninja, qui génère automatiquement la documentation OpenAPI et valide les entrées/sorties via des schémas Pydantic. Le Sprint 1 produit une trentaine d'endpoints répartis en six groupes fonctionnels.
+
+% \renewcommand{\arraystretch}{1.4}
+% \begin{table}[H]
+% \centering
+% \footnotesize
+% \begin{tabular}{|p{4cm}|p{10.5cm}|}
+% \hline
+% \rowcolor{gray!20}
+% \textbf{Groupe} & \textbf{Fonctions exposées} \\
+% \hline
+% Référentiels        & CRUD pays, départements, niveaux, parcours ; synchronisation Pégase \\
+% \hline
+% Institutions        & CRUD universités partenaires \\
+% \hline
+% Accords             & CRUD accords, restrictions par département et par niveau \\
+% \hline
+% Instances annuelles & Activation, validation, redistribution automatique des quotas \\
+% \hline
+% Quotas département  & CRUD des places estimées par département \\
+% \hline
+% Synchronisation     & Déclenchement MoveON (tâche Django-Q2 asynchrone), gestion des erreurs \\
+% \hline
+% \end{tabular}
+% \caption{Groupes d'endpoints produits au Sprint 1}
+% \label{tab:sprint1-api}
+% \end{table}
+
+% Les endpoints de synchronisation retournent immédiatement un identifiant de tâche ; le traitement s'exécute en arrière-plan via Django-Q2, évitant de bloquer l'interface pendant les imports.
+
+% \subsubsection{Interface utilisateur}
+
+% Le frontend Next.js 14 délivre deux espaces de gestion : un espace \textbf{Référentiels} pour la gestion CRUD des pays, départements, niveaux et parcours avec panneau de correction des erreurs d'import, et un espace \textbf{Mobilité} couvrant les accords bilatéraux, catégories de mobilité, instances annuelles et quotas par département, avec validation en ligne et redistribution automatique des places.
+
+% \subsection{Tests}
+
+% Les tests du Sprint 1 s'organisent en deux niveaux : des \textbf{tests unitaires} qui vérifient les modèles et les fonctions de transformation de manière isolée, et des \textbf{tests d'intégration} qui exercent les services de synchronisation et les endpoints REST contre une base PostgreSQL réelle, sans mock ORM.
+
+% \subsubsection{Tests des modèles}
+
+% Les tests couvrent les contraintes et validations métier des entités principales : création nominale et rejet en cas d'incohérence de dates pour \texttt{Agreement} ; dépassement du quota N7 par rapport au quota INP global et quota négatif pour \texttt{AgreementYear} ; cohérence du département de rattachement pour \texttt{AgreementYearDepartment} ; validation du format ISO2 pour \texttt{Country} ; et unicité \texttt{(department, code)} pour \texttt{Parcours}.
+
+% \subsubsection{Tests de synchronisation}
+
+% Les tests de synchronisation MoveON couvrent les scénarios nominaux et les cas d'erreur représentatifs : import complet d'un accord avec ses entités associées, upsert sans doublon lors d'un ré-import, résolution par code Erasmus en l'absence de \texttt{moveon\_id}, traçabilité d'un accord avec université introuvable (\texttt{FAILED} dans \texttt{RawImport}), et mise à jour des quotas INP sans altération des quotas N7 saisis.
+
+% \subsubsection{Résultats}
+
+% L'ensemble des tests du Sprint 1 passe sans régression sur l'environnement d'intégration continue (GitHub Actions / PostgreSQL 16).
+
+
+% Quelques précisions sur le diagramme de classe ci-dessus, pour la correspondance exacte avec le code :
+
+% \begin{itemize}
+%   \item Le champ \texttt{status} d'\texttt{AcademicYear} est typé comme \texttt{CampaignStatus} — une classe \texttt{TextChoices} Django qui joue le rôle d'énumération à six valeurs. Dans le diagramme UML, ce champ doit être annoté avec ce type plutôt qu'avec \texttt{String}.
+%   \item Les méthodes \texttt{is\_active()}, \texttt{is\_closed()} et \texttt{is\_wishes\_open()} sont des \textbf{propriétés calculées} (\texttt{@property} en Python) et non des méthodes ordinaires. Elles n'acceptent aucun argument et ne produisent aucun effet de bord — le résultat est recalculé à chaque accès à partir des champs \texttt{status} et des dates.
+%   \item Le modèle \texttt{RawImport} expose le champ \texttt{created\_at} (horodatage automatique \texttt{auto\_now\_add=True}), qui doit figurer explicitement dans le diagramme car il est utilisé pour la politique de purge des imports anciens (tâche Django-Q2 planifiée).
+% \end{itemize}
+
+% \subsection{Implémentation}
+
+% \subsubsection{Référentiels — module \texttt{app.reference}}
+
+% Les modèles \texttt{Country} et \texttt{Department} ont été implémentés dans le module \texttt{app.reference}. \texttt{Country} expose un champ \texttt{iso2} unique (ISO 3166-1 alpha-2 \cite{ISO3166}) et un champ \texttt{cti\_region} à choix fermés (\texttt{CTIRegion}) couvrant les sept zones géographiques reconnues par la CTI. La méthode \texttt{clean()} normalise le code en majuscules et lève une \texttt{ValidationError} si la valeur n'est pas exactement deux lettres alphabétiques. \texttt{Department} expose un champ \texttt{code} unique et un champ \texttt{pegase\_id} permettant la jointure future avec Pégase.
+
+% \subsubsection{Universités partenaires — module \texttt{app.institutions}}
+
+% Le modèle \texttt{PartnerUniversity} a été implémenté dans \texttt{app.institutions}. Il utilise \texttt{moveon\_id} (entier unique, nullable) comme clé de jointure avec la plateforme MoveON, et une clé étrangère vers \texttt{Country} protégée contre la suppression en cascade (\texttt{on\_delete=PROTECT}). Des index de base de données sont positionnés sur \texttt{moveon\_id} et \texttt{country} pour accélérer les recherches les plus fréquentes. La méthode \texttt{has\_active\_agreements()} permet de tester rapidement si une université dispose d'accords actifs.
+
+% \subsubsection{Année universitaire — module \texttt{app.academic}}
+
+% Le modèle \texttt{AcademicYear} a été implémenté dans \texttt{app.academic} en utilisant \texttt{django-fsm} \cite{DjangoFSM2024}. Le champ \texttt{status} est déclaré avec l'option \texttt{protected=True}, ce qui empêche toute modification directe du statut en dehors des méthodes de transition. Six états sont définis : \texttt{initialization}, \texttt{recommendation}, \texttt{consolidation}, \texttt{pre\_assignment}, \texttt{validation} et \texttt{closed}. Les transitions correspondantes — \texttt{open\_recommendation()}, \texttt{start\_consolidation()}, \texttt{launch\_pre\_assignment()}, \texttt{submit\_for\_validation()} et \texttt{close()} — ne sont disponibles que dans l'ordre séquentiel imposé par la FSM.
+
+% La méthode \texttt{clean()} garantit que \texttt{start\_date} précède \texttt{end\_date} et que \texttt{wishes\_open\_date} précède \texttt{wishes\_close\_date}. Les méthodes \texttt{is\_active()}, \texttt{is\_closed()} et \texttt{is\_wishes\_open()} sont calculées dynamiquement plutôt que stockées en base, évitant toute désynchronisation. Les méthodes de classe \texttt{get\_current()} et \texttt{detect\_by\_date()} permettent de récupérer l'année universitaire en cours depuis n'importe quel module du système.
+
+% \subsubsection{Accords, quotas et imports bruts — module \texttt{app.mobility}}
+
+% Le module \texttt{app.mobility} implémente les quatre modèles cœur du Sprint 1 :
+
+% \begin{itemize}
+%   \item \textbf{\texttt{Agreement}} : accord de mobilité rattaché à une \texttt{PartnerUniversity}. Le champ \texttt{moveon\_relation\_id} est unique et sert de clé de jointure MoveON. La méthode \texttt{clean()} vérifie la cohérence des dates. Le champ \texttt{is\_active} permet de filtrer les accords expirés.
+
+%   \item \textbf{\texttt{AgreementQuota}} : quota par accord et par année universitaire. La hiérarchie INP → N7 estimé → N7 ajusté est matérialisée par les champs \texttt{source\_total\_places}, \texttt{estimated\_total\_places} et \texttt{total\_places}. La propriété calculée \texttt{allocated\_places} retourne la différence entre \texttt{total\_places} et \texttt{remaining\_places}. La méthode \texttt{clean()} interdit les valeurs négatives et garantit que \texttt{remaining\_places} $\leq$ \texttt{total\_places}. Une contrainte d'unicité porte sur le triplet (\texttt{agreement}, \texttt{academic\_year\_label}, \texttt{period}).
+
+%   \item \textbf{\texttt{DepartmentQuota}} : répartition du quota d'un accord par département pédagogique. Un quota de département ne peut pas exister sans un \texttt{AgreementQuota} parent (\texttt{on\_delete=CASCADE}). La contrainte \texttt{unique\_together} sur (\texttt{agreement\_quota}, \texttt{department}) empêche les doublons.
+
+%   \item \textbf{\texttt{RawImport}} : stockage brut JSON des données importées depuis MoveON ou Pégase. Chaque enregistrement porte un \texttt{status} parmi \texttt{pending}, \texttt{imported}, \texttt{failed} et \texttt{ignored}, ainsi qu'un \texttt{error\_message} et un horodatage \texttt{imported\_at}. L'énumération \texttt{RawImportEntity} identifie le type d'entité concerné.
+% \end{itemize}
+
+% \subsubsection{API REST — Django Ninja}
+
+% Chaque module expose ses ressources via un routeur Django Ninja \cite{DjangoNinja2024}. Les schémas Pydantic (\texttt{*In} / \texttt{*Out}) valident automatiquement les données entrantes et typent les réponses, garantissant une documentation OpenAPI générée sans effort. Le tableau~\ref{tab:endpoints-sprint1} récapitule les principaux endpoints exposés.
+
+% \renewcommand{\arraystretch}{1.3}
+% \begin{table}[H]
+% \centering
+% \footnotesize
+% \begin{tabular}{|p{3cm}|p{5.5cm}|p{5cm}|}
+% \hline
+% \rowcolor{gray!20}
+% \textbf{Module} & \textbf{Endpoints} & \textbf{Opérations} \\
+% \hline
+% \texttt{app.reference} &
+% \texttt{GET/POST /api/v1/reference/countries/} \newline
+% \texttt{PUT/DELETE .../countries/\{id\}/} \newline
+% \texttt{GET/POST /api/v1/reference/departments/} \newline
+% \texttt{PUT/DELETE .../departments/\{id\}/} &
+% CRUD pays et départements \\
+% \hline
+% \texttt{app.institutions} &
+% \texttt{GET/POST /api/v1/institutions/universities/} \newline
+% \texttt{PUT/DELETE .../universities/\{id\}/} &
+% CRUD universités partenaires \\
+% \hline
+% \texttt{app.academic} &
+% \texttt{GET/POST /api/v1/academic/years/} \newline
+% \texttt{PUT/DELETE .../years/\{id\}/} \newline
+% \texttt{POST .../years/\{id\}/open-recommendation/} \newline
+% \texttt{POST .../years/\{id\}/close/} &
+% CRUD + transitions FSM \\
+% \hline
+% \texttt{app.mobility} &
+% \texttt{GET/POST /api/v1/mobility/agreements/} \newline
+% \texttt{GET/POST .../agreement-quotas/} \newline
+% \texttt{GET/POST .../department-quotas/} \newline
+% \texttt{GET .../raw-imports/} &
+% CRUD accords, quotas, imports \\
+% \hline
+% \end{tabular}
+% \caption{Principaux endpoints REST — Sprint 1}
+% \label{tab:endpoints-sprint1}
+% \end{table}
+
+% Les erreurs de validation (dates incohérentes, contraintes d'unicité violées, transitions FSM non autorisées) sont systématiquement converties en réponses HTTP 400 via la fonction utilitaire \texttt{save\_validated()}.
+
+% \subsubsection{Interface utilisateur — Next.js 14}
+
+% Les trois pages de l'espace administrateur RI ont été implémentées avec Next.js 14 App Router \cite{Vercel2024} et Tailwind CSS \cite{Tailwind2024} :
+
+% \begin{itemize}
+%   \item \textbf{Page Référentiels} (\texttt{/references}) : affiche dans des onglets séparés les pays, départements et universités partenaires. Chaque onglet expose une table filtrée par nom avec boutons de création, modification et suppression.
+
+%   \item \textbf{Page Année universitaire} (\texttt{/academic-years}) : affiche l'état courant de la FSM, les boutons de transition disponibles (masqués si la transition n'est pas autorisée) et un formulaire de configuration des dates clés.
+
+%   \item \textbf{Page Mobilité} (\texttt{/mobility}) : liste les accords par université partenaire avec leurs quotas INP et N7 par période et par département. L'ajustement manuel du quota N7 est possible directement depuis l'interface.
+% \end{itemize}
+
+% \subsection{Tests}
+
+% \justifying
+
+% Les tests du Sprint 1 ont été écrits avec \textbf{pytest} \cite{pytest2024} et l'extension \texttt{pytest-django}. Ils sont organisés en deux niveaux : tests unitaires des modèles et tests d'intégration de l'API.
+
+% \subsubsection{Tests unitaires des modèles}
+
+% \paragraph{Référentiels (\texttt{app.reference}).}
+% La classe \texttt{TestCountry} couvre six cas de test :
+% \begin{itemize}
+%   \item \texttt{test\_create\_country} : vérifie la création d'un pays et la représentation \texttt{\_\_str\_\_} ;
+%   \item \texttt{test\_iso2\_unique} : vérifie qu'une \texttt{IntegrityError} est levée en cas de doublon sur \texttt{iso2} ;
+%   \item \texttt{test\_iso2\_uppercase\_on\_clean} : vérifie que \texttt{clean()} normalise le code en majuscules ;
+%   \item \texttt{test\_iso2\_invalid\_length\_raises} et \texttt{test\_iso2\_non\_alpha\_raises} : vérifient que \texttt{clean()} lève une \texttt{ValidationError} pour un code de longueur incorrecte ou contenant un chiffre ;
+%   \item \texttt{test\_cti\_region\_choices\_match\_reference\_data} : vérifie l'exhaustivité des sept régions CTI définies.
+% \end{itemize}
+% La classe \texttt{TestDepartment} vérifie la création d'un département et l'unicité de son \texttt{code}.
+
+% \paragraph{Universités partenaires (\texttt{app.institutions}).}
+% La classe \texttt{TestPartnerUniversity} couvre trois cas de test :
+% \begin{itemize}
+%   \item \texttt{test\_create\_partner\_university} : vérifie la création et la représentation \texttt{\_\_str\_\_} ;
+%   \item \texttt{test\_moveon\_id\_unique} : vérifie qu'une \texttt{IntegrityError} est levée en cas de doublon sur \texttt{moveon\_id} ;
+%   \item \texttt{test\_moveon\_id\_can\_be\_blank} : vérifie que plusieurs universités peuvent coexister sans \texttt{moveon\_id}.
+% \end{itemize}
+
+% \paragraph{Année universitaire (\texttt{app.academic}).}
+% La classe \texttt{TestAcademicYear} couvre huit cas de test :
+% \begin{itemize}
+%   \item \texttt{test\_create\_academic\_year} : vérifie la création et le statut initial \texttt{initialization} ;
+%   \item \texttt{test\_start\_date\_must\_be\_before\_end\_date} : vérifie que \texttt{full\_clean()} lève une \texttt{ValidationError} si \texttt{start\_date} $>$ \texttt{end\_date} ;
+%   \item \texttt{test\_wishes\_open\_date\_must\_be\_before\_close\_date} : vérifie la cohérence des dates de dépôt des vœux ;
+%   \item \texttt{test\_campaign\_workflow} : parcourt la séquence complète des cinq transitions (\texttt{initialization} $\to$ \texttt{recommendation} $\to$ \texttt{consolidation} $\to$ \texttt{pre\_assignment} $\to$ \texttt{validation} $\to$ \texttt{closed}) et vérifie l'état à chaque étape ;
+%   \item \texttt{test\_transition\_order\_is\_enforced} : tente la transition \texttt{close()} depuis \texttt{initialization} et vérifie que \texttt{TransitionNotAllowed} est levée ;
+%   \item \texttt{test\_is\_active}, \texttt{test\_is\_wishes\_open} : vérifient les méthodes de statut calculées ;
+%   \item \texttt{test\_get\_current} et \texttt{test\_detect\_by\_date} : vérifient les méthodes de recherche de l'année courante.
+% \end{itemize}
+
+% \paragraph{Accords et quotas (\texttt{app.mobility}).}
+% Les classes \texttt{TestAgreement}, \texttt{TestAgreementQuota} et \texttt{TestDepartmentQuota} couvrent au total huit cas de test :
+% \begin{itemize}
+%   \item \texttt{test\_create\_agreement} : vérifie la création d'un accord et sa représentation ;
+%   \item \texttt{test\_start\_date\_must\_be\_before\_end\_date} : vérifie la validation des dates de l'accord ;
+%   \item \texttt{test\_moveon\_relation\_id\_unique} : vérifie l'unicité de l'identifiant MoveON ;
+%   \item \texttt{test\_create\_agreement\_quota} : vérifie la propriété \texttt{allocated\_places} (total $-$ restant) ;
+%   \item \texttt{test\_remaining\_places\_cannot\_exceed\_total\_places} : vérifie que \texttt{full\_clean()} lève une \texttt{ValidationError} si \texttt{remaining\_places} $>$ \texttt{total\_places} ;
+%   \item \texttt{test\_unique\_quota\_period} : vérifie la contrainte d'unicité sur le triplet accord/année/période ;
+%   \item \texttt{test\_create\_department\_quota} et \texttt{test\_department\_quota\_unique\_per\_quota} : vérifient la création et l'unicité des quotas par département.
+% \end{itemize}
+
+% \subsubsection{Tests d'intégration de l'API}
+
+% Les tests d'API utilisent le client de test Django (\texttt{django.test.Client}) pour appeler les endpoints HTTP réels, sans bouchon. Chaque classe de test instancie les objets nécessaires dans \texttt{setup\_method} et vérifie les codes HTTP ainsi que le contenu des réponses JSON.
+
+% \paragraph{API Référentiels (\texttt{TestCountryAPI}, \texttt{TestDepartmentAPI}).}
+% Les tests couvrent les opérations CRUD complètes (\texttt{GET}, \texttt{POST}, \texttt{PUT}, \texttt{DELETE}), la normalisation du code ISO en majuscules lors de la création (\texttt{test\_create\_country} retourne \texttt{iso2="DE"} pour une entrée \texttt{"de"}), et le rejet HTTP 400 pour un code ISO de longueur incorrecte (\texttt{test\_create\_country\_invalid\_iso\_returns\_400}).
+
+% \paragraph{API Universités partenaires (\texttt{TestPartnerUniversityAPI}).}
+% Les tests couvrent le CRUD, le rejet HTTP 400 pour un \texttt{country\_id} inexistant, la gestion des erreurs d'import (\texttt{test\_list\_university\_import\_errors}) et le mécanisme de ré-essai avec correction de pays (\texttt{test\_retry\_university\_import\_with\_corrected\_country}).
+
+% \paragraph{API Année universitaire (\texttt{TestAcademicYearAPI}).}
+% Les tests couvrent le CRUD, la transition vers \texttt{recommendation} (\texttt{test\_transition\_to\_recommendation} retourne le nouveau statut), et le rejet HTTP 400 pour une transition non autorisée (\texttt{test\_transition\_order\_returns\_400} : tentative de \texttt{close} depuis \texttt{initialization}).
+
+% \paragraph{API Accords et quotas (\texttt{TestMobilityAgreementAPI}).}
+% Les tests couvrent la liste et la création des accords et quotas, la validation des données entrantes (HTTP 400 si \texttt{remaining\_places} $>$ \texttt{total\_places}), la gestion des erreurs d'import MoveON (\texttt{test\_list\_moveon\_import\_errors}), le ré-essai d'import avec correction de l'université partenaire, et l'ignoration manuelle d'une entrée en erreur (\texttt{test\_ignore\_raw\_import}).
+
+% \subsection{Matrice de traçabilité — Sprint 1}
+
+% Le tableau suivant relie chaque user story du Sprint 1 aux modules Django, aux endpoints API, aux classes de test et aux pages Next.js correspondants, permettant de vérifier que chaque exigence est couverte de bout en bout.
+
+% \renewcommand{\arraystretch}{1.4}
+% \begin{table}[H]
+% \centering
+% \footnotesize
+% \begin{tabular}{|p{0.9cm}|p{2.2cm}|p{2.4cm}|p{3.5cm}|p{2.4cm}|p{2.2cm}|}
+% \hline
+% \rowcolor{gray!20}
+% \textbf{US} & \textbf{Titre} & \textbf{Module Django} & \textbf{Endpoints API} & \textbf{Tests} & \textbf{Interface} \\
+% \hline
+% US-01 &
+% Référentiels de base &
+% \texttt{app.reference} \newline \texttt{app.institutions} &
+% \texttt{GET/POST /reference/countries/} \newline
+% \texttt{GET/POST /reference/departments/} \newline
+% \texttt{GET/POST /institutions/universities/} &
+% \texttt{TestCountry} \newline \texttt{TestDepartment} \newline \texttt{TestPartnerUniversity} \newline \texttt{TestCountryAPI} \newline \texttt{TestPartnerUniversityAPI} &
+% \texttt{/references} \\
+% \hline
+% US-02 &
+% Année universitaire et FSM &
+% \texttt{app.academic} &
+% \texttt{GET/POST /academic/years/} \newline
+% \texttt{PUT/DELETE .../years/\{id\}/} \newline
+% \texttt{POST .../open-recommendation/} \newline
+% \texttt{POST .../start-consolidation/} \newline
+% \texttt{POST .../close/} &
+% \texttt{TestAcademicYear} \newline \texttt{TestAcademicYearAPI} &
+% \texttt{/academic-years} \\
+% \hline
+% US-03 &
+% Accords et quotas &
+% \texttt{app.mobility} &
+% \texttt{GET/POST /mobility/agreements/} \newline
+% \texttt{GET/POST .../agreement-quotas/} \newline
+% \texttt{GET/POST .../department-quotas/} \newline
+% \texttt{GET .../raw-imports/} &
+% \texttt{TestAgreement} \newline \texttt{TestAgreementQuota} \newline \texttt{TestDepartmentQuota} \newline \texttt{TestMobilityAgreementAPI} &
+% \texttt{/mobility} \\
+% \hline
+% \end{tabular}
+% \caption{Matrice de traçabilité — Sprint 1 (US → module → endpoint → tests → interface)}
+% \label{tab:tracabilite-sprint1}
+% \end{table}
+
+% ─────────────────────────────────────────────────────────────
+\section{Sprint 2 — Données et traçabilité}
+% ─────────────────────────────────────────────────────────────
+
+Cette section présente la réalisation du Sprint 2, consacré à la gestion des étudiants, de leurs inscriptions annuelles et de leurs vœux de mobilité. Elle couvre successivement l'objectif du sprint, le backlog, la conception UML, l'implémentation et les tests.
+
+\subsection{Objectif du sprint}
+
+Le Sprint 2 a pour objectif de rendre le système opérationnel pour la collecte et la centralisation des données. Il couvre quatre user stories : la traçabilité des actions via l'audit log (US-04), l'import et la synchronisation des données académiques étudiants depuis Pégase (US-05), l'import des dossiers de candidature et vœux depuis MoveON (US-06), et la génération des rapports d'import (US-07). Ces quatre user stories sont le prérequis indispensable au Sprint 3 : sans données étudiants fiables issues de Pégase, le gel du GPA et l'algorithme Gale-Shapley ne peuvent pas s'exécuter.
+
+\textbf{Définition of Done.} À l'issue de ce sprint, les imports Pégase et MoveON s'exécutent sans erreur, les données sont persistées en base et rattachées à l'année universitaire courante, un rapport d'import est généré pour chaque synchronisation, et toute action d'un administrateur RI est tracée dans l'audit log avec l'auteur et l'horodatage.
+
+\setcounter{tasknum}{1}
+
+\subsection{Sprint Backlog — Sprint 2}
+
+\begingroup
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.6}
+
+\begin{longtable}{|p{0.4cm}|p{3.3cm}|p{4.9cm}|p{3.7cm}|p{1.4cm}|p{0.4cm}|}
+\hline
+\rowcolor{gray!20}
+\textbf{\#} & \textbf{Tâche} & \textbf{Description} &
+\textbf{Critères d'acceptation} & \textbf{Prior.} & \textbf{SP} \\
+\hline
+\endfirsthead
+\hline
+\rowcolor{gray!20}
+\textbf{\#} & \textbf{Tâche} & \textbf{Description} &
+\textbf{Critères d'acceptation} & \textbf{Prior.} & \textbf{SP} \\
+\hline
+\endhead
+\hline
+\endfoot
+
+% ── US-04 ────────────────────────────────────────────────────────────────────
+\usheader{US-04 — Audit log et traçabilité}{%
+  En tant qu'\textbf{administrateur RI}, je veux que chaque action importante
+  (import, transition FSM, modification, validation) soit enregistrée avec
+  l'auteur et l'horodatage, afin de garantir la traçabilité complète des
+  décisions.}
+
+\nexttask &
+Définir \texttt{AuditLog} &
+Créer le modèle avec \texttt{user},
+\texttt{action}, \texttt{entity\_type},
+\texttt{entity\_id}, \texttt{payload}
+JSONB et \texttt{timestamp}.
+Connecter via signal Django
+\texttt{post\_save} sur les
+modèles critiques. &
+Le modèle migre sans erreur.
+Chaque transition FSM et
+chaque import créent une
+entrée \texttt{AuditLog} avec
+l'auteur. &
+Haute & 2 \\
+\hline
+
+\nexttask &
+Endpoint consultation audit &
+Exposer \texttt{GET /api/audit-logs}
+avec filtres par date, auteur
+et type d'entité via Django Ninja. &
+Les 20 dernières entrées
+s'affichent en moins de 200 ms.
+Les filtres date/auteur/type
+fonctionnent correctement. &
+Haute & 1 \\
+\hline
+
+% ── US-05 ────────────────────────────────────────────────────────────────────
+\usheader{US-05 — Données étudiants}{%
+  En tant qu'\textbf{administrateur RI}, je veux importer et synchroniser
+  les données académiques des étudiants (INE, GPA, département, niveau)
+  depuis Pégase, afin d'alimenter l'algorithme d'affectation avec des
+  données étudiants fiables et à jour.}
+
+\nexttask &
+Créer adaptateur \texttt{pegase.py} &
+Implémenter l'extraction des
+données académiques (INE, GPA,
+département, niveau) depuis
+l'API Pégase.
+Stocker la réponse brute en JSONB
+dans \texttt{RawImport}. &
+La réponse brute est stockée
+avec \texttt{source="pegase"}.
+Retry exponentiel (3 tentatives)
+en cas d'échec. &
+Haute & 2 \\
+\hline
+
+\nexttask &
+Définir \texttt{Student} et
+\texttt{AnnualEnrollment} &
+Créer le modèle \texttt{Student}
+(INE comme clé unique, nom,
+prénom, email institutionnel)
+et \texttt{AnnualEnrollment}
+(inscription annuelle avec GPA,
+département, niveau, rattaché
+à \texttt{AcademicYear}). &
+Les modèles migrent sans erreur.
+Un étudiant peut avoir plusieurs
+inscriptions sur des années
+différentes.
+INE est unique sur \texttt{Student}. &
+Haute & 2 \\
+\hline
+
+\nexttask &
+Pipeline ETL Pégase &
+Transformer les données brutes
+en entités \texttt{Student} et
+\texttt{AnnualEnrollment}.
+Upsert sur INE.
+Le GPA est stocké tel quel
+(gel ultérieur en Sprint 3). &
+Les étudiants sont créés ou
+mis à jour.
+Les doublons sont ignorés.
+Un rapport d'import est généré
+avec les anomalies détectées. &
+Haute & 3 \\
+\hline
+
+\nexttask &
+Interface consultation étudiants &
+Créer une page Next.js listant
+les étudiants importés avec
+leur GPA, département et année
+d'inscription courante. &
+La liste s'affiche avec filtre
+par département et niveau.
+Les données proviennent
+de l'API. &
+Haute & 1 \\
+\hline
+
+% ── US-06 ────────────────────────────────────────────────────────────────────
+\usheader{US-06 — Vœux étudiants}{%
+  En tant qu'\textbf{administrateur RI}, je veux importer les dossiers de
+  candidature et les vœux ordonnés des étudiants depuis MoveON, et les
+  consulter par étudiant, afin de les intégrer dans le système d'affectation.}
+
+\nexttask &
+Définir \texttt{ApplicationFile}
+et \texttt{Wish} &
+Créer le modèle \texttt{ApplicationFile}
+(dossier de candidature, FSM à 4 états :
+\texttt{open} → \texttt{submitted}
+→ \texttt{processing} → \texttt{closed})
+et \texttt{Wish} (rang, université
+cible, département préféré,
+rattaché à \texttt{AcademicYear}). &
+Les modèles migrent sans erreur.
+Les transitions FSM invalides
+lèvent \texttt{TransitionNotAllowed}.
+Un \texttt{Wish} ne peut exister
+sans \texttt{ApplicationFile}. &
+Haute & 2 \\
+\hline
+
+\nexttask &
+Pipeline ETL vœux MoveON &
+Importer les vœux depuis MoveON,
+croiser les INE avec la table
+\texttt{Student}, rejeter les
+entrées sans correspondance INE. &
+Les vœux sont persistés avec
+rang et université cible.
+Les INE introuvables sont
+consignés dans le rapport
+avec motif \texttt{INE\_NOT\_FOUND}. &
+Haute & 2 \\
+\hline
+
+\nexttask &
+Interface consultation vœux &
+Créer une page Next.js listant
+les dossiers de candidature par
+étudiant avec le détail des vœux
+et l'état FSM de chaque dossier. &
+La liste s'affiche avec filtre
+par étudiant et état.
+Les données sont chargées
+depuis l'API. &
+Haute & 1 \\
+\hline
+
+% ── US-07 ────────────────────────────────────────────────────────────────────
+\usheader{US-07 — Rapport d'import}{%
+  En tant qu'\textbf{administrateur RI}, je veux consulter un rapport détaillé
+  après chaque import (succès, erreurs, doublons) avec la raison précise
+  de chaque rejet, afin de corriger les anomalies rapidement.}
+
+\nexttask &
+Définir \texttt{ImportReport} &
+Créer le modèle avec
+\texttt{source}, \texttt{total},
+\texttt{success\_count},
+\texttt{error\_count},
+\texttt{duplicate\_count} et
+\texttt{errors} JSONB (motif et
+identifiant par entrée rejetée),
+rattaché à \texttt{RawImport}. &
+Chaque pipeline ETL crée
+automatiquement un rapport.
+Les erreurs contiennent motif
+et numéro de ligne ou
+identifiant source. &
+Haute & 1 \\
+\hline
+
+\nexttask &
+Page rapport d'import &
+Créer une interface Next.js
+listant les rapports par date
+et source avec les compteurs
+synthétiques et le détail
+des erreurs accessible par clic. &
+Les rapports s'affichent triés
+par date.
+Le détail des erreurs est
+accessible.
+Le filtre par source fonctionne. &
+Haute & 2 \\
+\hline
+
+\end{longtable}
+\endgroup
+
+\subsection{Conception détaillée}
+
+Cette section présente la conception UML détaillée des entités métier du Sprint 2.
+
+\subsubsection{Diagramme de classes}
+
+Le diagramme de la figure~\ref{fig:diag-class-sprint2} modélise la gestion des étudiants et de leurs vœux de mobilité au sein du système de mobilité de l'ENSEEIHT.
+
+\texttt{AnnualEnrollment} est la classe d'association centrale du sprint : elle matérialise l'inscription d'un étudiant (\texttt{Student}) pour une année universitaire (\texttt{AcademicYear}) donnée, et porte le département et le niveau d'études. Le parcours est renseigné uniquement lorsque l'étudiant a intégré une filière spécialisée ; il reste absent pour les niveaux en tronc commun (première année). \texttt{StudentWish} matérialise à son tour un vœu de mobilité émis dans le cadre d'une inscription annuelle : chaque inscription peut générer au plus trois vœux, chacun pointant vers un accord différent et portant un rang et un statut.
+
+Une contrainte d'intégrité garantit que le parcours suivi par l'étudiant appartient au même département que son inscription annuelle, exprimée par la contrainte :\\
+ \texttt{\{parcours.department = department\}} annotée sur l'association.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{figures/conception/Sprint2/diagramme_de_classe_sprint2.png}
+  \caption{Diagramme de classes — Sprint 2}
+  \label{fig:diag-class-sprint2}
+\end{figure}
+
+
+\subsection{Implémentation}
+\subsection{Tests}
+
+% \subsection{Implémentation}
+
+% Cette sous-section décrit les principaux choix d'implémentation du Sprint 2 : modèle de données étudiant, pipelines ETL Pégase et MoveON, couche de traçabilité, API REST et interface utilisateur.
+
+% \subsubsection{Modèle de données}
+
+% Le Sprint 2 ajoute cinq entités réparties dans deux modules : trois entités métier dans \texttt{students} et deux entités de traçabilité dans \texttt{imports}.
+
+% \renewcommand{\arraystretch}{1.4}
+% \begin{table}[H]
+% \centering
+% \footnotesize
+% \begin{tabular}{|p{3cm}|p{4.5cm}|p{7cm}|}
+% \hline
+% \rowcolor{gray!20}
+% \textbf{Module} & \textbf{Entité} & \textbf{Rôle} \\
+% \hline
+% \texttt{students} & \texttt{Student}           & Étudiant identifié par son INE (clé universelle) \\
+% \hline
+%                   & \texttt{AnnualEnrollment}  & Inscription d'un étudiant pour une année universitaire \\
+% \hline
+%                   & \texttt{StudentWish}       & Vœu de mobilité ordonné (rang 1–3) \\
+% \hline
+% \texttt{imports}  & \texttt{ImportReport}      & Bilan agrégé d'une session d'import \\
+% \hline
+%                   & \texttt{RawImport}         & Enregistrement brut (payload JSONB) de chaque ligne importée \\
+% \hline
+% \end{tabular}
+% \caption{Entités créées au Sprint 2}
+% \label{tab:sprint2-entities}
+% \end{table}
+
+% \texttt{AnnualEnrollment} est la classe d'association entre \texttt{Student} et \texttt{AcademicYear} ; elle porte le GPA, le département, le niveau et le parcours de l'étudiant pour l'année considérée. Une contrainte d'unicité \texttt{(student, academic\_year)} garantit qu'un étudiant ne peut avoir qu'une inscription par année.
+
+% \texttt{StudentWish} est la classe d'association entre \texttt{AnnualEnrollment} et \texttt{Agreement}. Elle porte le rang du vœu et son statut. Deux contraintes d'unicité empêchent les doublons : \texttt{(annual\_enrollment, rank)} et \texttt{(annual\_enrollment, agreement)}.
+
+% \subsubsection{Pipeline ETL étudiant}
+
+% L'import des données étudiantes depuis Pégase et depuis un fichier Excel suit le même pipeline ETL en cinq étapes que le Sprint 1. Deux adaptateurs produisent une liste homogène de \texttt{StudentRow} : \texttt{adapters/pegase.py} appelle l'API Pégase et normalise le genre et la nationalité, tandis que \texttt{adapters/excel.py} parse un fichier \texttt{.xlsx} via \texttt{openpyxl} selon un modèle de colonnes standardisé. La fonction ETL centrale traite chaque ligne par upsert atomique sur \texttt{Student} et \texttt{AnnualEnrollment} ; les champs non renseignés dans la source ne remplacent jamais une valeur déjà présente en base.
+
+% \subsubsection{Synchronisation des vœux MoveON}
+
+% La synchronisation des vœux applique plusieurs mécanismes de robustesse. Un filtre sur la fenêtre temporelle \texttt{[start\_date - 12 mois, end\_date]} compense l'absence de l'année universitaire dans les données MoveON. La résolution des étudiants s'effectue prioritairement sur l'INE ; en son absence, un repli sur le champ \textit{Individu} au format « NOM Prénom » est tenté. Avant la création d'un vœu, le système vérifie qu'une \texttt{AnnualEnrollment} existe pour l'étudiant dans l'année cible — précondition qui garantit que le vœu dispose d'un département et d'un GPA de rattachement.
+
+% \subsubsection{Traçabilité des imports}
+
+% Le Sprint 2 formalise la couche d'audit commune à toutes les sources de données. Chaque session d'import crée un \texttt{ImportReport} (bilan agrégé : lignes créées, mises à jour, non résolues, ignorées) et autant de \texttt{RawImport} que de lignes traitées. Le payload JSON brut est conservé avant toute transformation, ce qui permet de rejouer un import défaillant sans rappeler l'API externe. L'interface d'administration expose les erreurs et permet de les ignorer ou de les corriger manuellement.
+
+% \subsubsection{API REST et interface utilisateur}
+
+% Le Sprint 2 ajoute une quinzaine d'endpoints sous \texttt{/api/students/} couvrant l'import Pégase, l'upload Excel, la consultation paginée des étudiants par année, les statistiques de promotion et la synchronisation des vœux MoveON. Deux espaces frontend sont délivrés : l'espace \textbf{Étudiants} (\texttt{/etudiants}) pour l'import, la consultation et la gestion des erreurs, et l'espace \textbf{Vœux} (\texttt{/voeux}) pour la synchronisation et la visualisation des vœux classés par rang.
+
+% \subsection{Tests}
+
+% Les tests du Sprint 2 suivent la même stratégie que le Sprint 1 — tests unitaires isolés et tests d'intégration sur PostgreSQL réel — étendus aux nouvelles entités et aux deux pipelines ETL ajoutés.
+
+% \subsubsection{Tests des modèles}
+
+% Les tests couvrent les invariants des trois entités métier : unicité de l'INE et représentation textuelle pour \texttt{Student} ; unicité \texttt{(student, academic\_year)} et cohérence du parcours avec le département d'inscription pour \texttt{AnnualEnrollment} ; unicité \texttt{(enrollment, rank)}, unicité \texttt{(enrollment, agreement)} et rang strictement positif pour \texttt{StudentWish}.
+
+% \subsubsection{Tests du pipeline ETL}
+
+% Les tests du pipeline \texttt{import\_students()} vérifient la création nominale, l'upsert sans doublon lors d'un ré-import, la non-écrasement des champs vides dans la source, et le traçage propre des lignes en erreur (département ou niveau inconnu) sans interruption du traitement.
+
+% \subsubsection{Tests de synchronisation des vœux}
+
+% Les tests de \texttt{sync\_moveon\_wishes()} couvrent la correspondance par INE, le repli sur le champ « NOM Prénom », la résolution de l'accord par \texttt{moveon\_id}, le filtrage par fenêtre temporelle, la gestion de l'\texttt{AnnualEnrollment} manquante et la capture des conflits de rang.
+
+% \subsubsection{Résultats}
+
+% Tous les tests du Sprint 2 passent sans régression. Les tests du Sprint 1 continuent de passer, confirmant l'absence d'effet de bord des nouvelles entités sur le socle existant.
+
+% % ─────────────────────────────────────────────────────────────
+% \section{Sprint 3 — Eudonet, mobilités complémentaires et entrantes}
+% % ─────────────────────────────────────────────────────────────
+
+% \subsection{Objectifs et périmètre du sprint}
+% \subsection{Conception détaillée}
+% \subsection{Implémentation}
+% \subsection{Tests}
+% \subsection{Revue de sprint}
+
+% % ─────────────────────────────────────────────────────────────
+% \section{Sprint 4 — Conformité CTI et espace étudiant}
+% % ─────────────────────────────────────────────────────────────
+
+% \subsection{Objectifs et périmètre du sprint}
+% \subsection{Conception détaillée}
+% \subsection{Implémentation}
+% \subsection{Tests}
+% \subsection{Revue de sprint}
+
+% % ─────────────────────────────────────────────────────────────
+% \section{Sprint 5 — Supervision et fonctionnalités V2}
+% % ─────────────────────────────────────────────────────────────
+
+% \subsection{Objectifs et périmètre du sprint}
+% \subsection{Conception détaillée}
+% \subsection{Implémentation}
+% \subsection{Tests}
+% \subsection{Revue de sprint}
+
+% % ─────────────────────────────────────────────────────────────
+% \section{Sprint 6 — Finalisation, tests et déploiement}
+% % ─────────────────────────────────────────────────────────────
+
+% \subsection{Objectifs et périmètre du sprint}
+% \subsection{Conception détaillée}
+% \subsection{Implémentation}
+
+% \subsection{Tests de charge}
+% [Résultats Locust sur l'algorithme d'affectation et les imports,
+%  temps de réponse, nombre d'utilisateurs simultanés supportés]
+
+% \subsection{Tests de non-régression}
+% % [Vérification que les résultats des campagnes passées sont inchangés
+% %  après chaque déploiement — description du mécanisme et des résultats]
+
+% \subsection{Audit de sécurité}
+% % [Résultats OWASP ZAP, vulnérabilités détectées et corrections appliquées]
+
+% \subsection{Tests d'acceptation (UAT)}
+% % [Résultats des tests avec le service RI, retours et corrections]
+
+% \subsection{Déploiement}
+% % [Procédure de déploiement sur staging puis production,
+% %  configuration Nginx, variables d'environnement, sauvegardes]
+
+% \subsection{Revue de sprint}
+
+% % ─────────────────────────────────────────────────────────────
+% \section{Bilan technique}
+% % ─────────────────────────────────────────────────────────────
+
+% \subsection{Métriques de qualité}
+% % [Couverture de tests globale, nombre de user stories livrées vs planifiées,
+% %  vélocité moyenne par sprint]
+
+% \subsection{Écarts par rapport au backlog initial}
+% % [User stories reportées ou abandonnées, justification]
+
+% \subsection{Perspectives d'évolution}
+% % [Ce qui reste à faire après le PFE :
+% %  moteur de recommandation avancé, chatbot RAG si non réalisé,
+% %  intégration directe dans l'interface MoveON, etc.]
+
+% \section*{Conclusion}
+% \justifying
+% \phantomsection
+% \addcontentsline{toc}{section}{Conclusion}
+
+% % [À rédiger en fin de projet]
