@@ -20,7 +20,9 @@ Ce chapitre présente les solutions existantes afin d’évaluer leur capacité 
 \section{Grille d'évaluation}
 % ─────────────────────────────────────────────────────────────
 
-Pour comparer les solutions de façon rigoureuse, une grille de huit critères a été définie à partir des problèmes concrets identifiés au chapitre précédent. Chaque critère traduit une lacune précise du système actuel.
+Pour comparer les solutions de façon rigoureuse, une grille de huit critères a été définie
+à partir des problèmes concrets identifiés au chapitre précédent. Chaque critère traduit une
+lacune précise du système actuel.
 
 \renewcommand{\arraystretch}{1.45}
 \begin{table}[H]
@@ -43,7 +45,7 @@ C4 & Calcul de la durée de mobilité & Agrégation automatique de toutes les p�
 \hline
 C5 & Mobilités complémentaires & Prise en charge des expériences hors accord bilatéral (summer schools, séjours linguistiques, programmes courts) avec dépôt et validation de justificatifs \\
 \hline
-C6 & Adaptabilité aux règles internes & Possibilité de configurer des règles propres à l'établissement — priorités d'affectation, seuils, critères locaux — sans modifier le code source \\
+C6 & Adaptabilité aux règles internes & Capacité du système à fonctionner selon les règles propres à l'établissement : priorités d'affectation, seuils de sélection, critères locaux \\
 \hline
 C7 & Recommandation de destinations & Suggestion de destinations adaptées au profil de l'étudiant (département, GPA, langue, préférences) pour l'accompagner dans son choix \\
 \hline
@@ -58,148 +60,78 @@ C8 & Reporting CTI & Production automatique des indicateurs clés (KPIs) exigés
 \section{Analyse des solutions existantes}
 % ─────────────────────────────────────────────────────────────
 
-Trois solutions ont été examinées au regard de la grille d'évaluation définie 
-précédemment : la plateforme QS MoveON, déjà en place au sein du 
-service RI, la solution ErasmusJET développée dans le cadre du programme Erasmus+, 
-et les travaux académiques d'Elahi et al. portant sur la recommandation de 
-destinations.
+Trois solutions ont été examinées : QS MoveON, déjà utilisé par le service RI, ErasmusJET, développé dans le cadre du programme Erasmus+, et les travaux académiques d'Elahi et al. sur la recommandation de destinations.
 
 \subsection{QS MoveON}
 
-MoveON est la plateforme commerciale de gestion de la mobilité la plus répandue 
-dans les établissements d'enseignement supérieur français. Sa position dans 
-l'écosystème de l'ENSEEIHT est particulière : c'est déjà l'outil principal du 
-service RI, ce qui en fait la première solution à examiner — non pas comme un 
-système à remplacer, mais pour cerner précisément ce qu'il ne couvre pas ~\cite{qs_moveon}.
+MoveON est l'outil central du service RI pour la gestion des accords bilatéraux et des candidatures. Il est examiné ici non pas pour le remplacer, mais pour identifier précisément ce qu'il ne couvre pas~\cite{qs_moveon}.
 
-\textbf{Points forts:}  \\
-MoveON gère efficacement le référentiel des accords 
-bilatéraux, les candidatures post-sélection et le suivi administratif des dossiers 
-étudiants. Son API REST permet d'extraire les données.
+\textbf{Points forts  :} le référentiel des accords bilatéraux, le suivi des candidatures post-sélection et l'administration des dossiers étudiants. Son API REST est un point d'appui utile pour extraire les données.
 
-\textbf{Limites par rapport aux critères définis:}
+\textbf{Limites par rapport aux critères définis :}
 
 \begin{itemize}
-    \item MoveON ne couvre 
-    qu'une partie des données : les mobilités sortantes et les accords bilatéraux. 
-    Les données académiques, les stages internationaux et les 
-    mobilités complémentaires sont absents. Le service RI est contraint d'exporter 
-    les données de MoveON, de les compléter manuellement dans Excel, puis de 
-    travailler sur ce fichier hybride — c'est précisément cette friction que le 
-    projet cherche à éliminer.
+    \item MoveON se limite aux mobilités sortantes et aux accords. Les données académiques (GPA, département, parcours), les stages internationaux et les mobilités complémentaires en sont totalement absents. Le service RI est donc contraint d'exporter depuis MoveON, de compléter à la main dans Excel, puis de travailler sur ce fichier hybride — ce cumul de gestes est exactement ce que ce projet cherche à éliminer.
 
-    \item MoveON gère les 
-    quotas à l'échelle de l'INP global. La granularité d'abord par école 
-    (ENSEEIHT), puis par département pédagogique, qui conditionne pourtant les 
-    règles d'affectation internes, est entièrement absente et maintenue dans des 
-    fichiers Excel en dehors de tout système structuré.
+    \item Les quotas ne sont gérés qu'à l'échelle INP. La déclinaison par école (ENSEEIHT) puis par département pédagogique, qui conditionne l'affectation interne, est entièrement tenue dans des fichiers Excel sans aucune contrainte de cohérence.
 
-    \item Aucun mécanisme 
-    de classement ou d'affectation automatique n'existe. La sélection se fait 
-    entièrement à la main.
+    \item Aucun classement automatique n'existe. La sélection est intégralement manuelle, ce qui signifie que les règles appliquées varient selon l'agent et la campagne.
 
-    \item
-    MoveON ne connaît ni les stages, ni les expériences complémentaires. 
-    Le calcul de la durée de mobilité est donc impossible à automatiser depuis 
-    MoveON seul.
+    \item Sans les stages ni les expériences complémentaires, le calcul de la durée de mobilité est impossible à automatiser depuis MoveON seul.
 
-    \item MoveON ne propose aucun 
-    mécanisme de suggestion de destinations adapté au profil de l'étudiant.
+    \item Aucune suggestion de destinations adaptée au profil de l'étudiant.
 
-    \item  MoveON ne produit pas les indicateurs CTI 
-    structurés (taux de mobilité par promotion, durées moyennes, répartition 
-    géographique) dans un format exploitable directement pour les audits.
-
+    \item Les exports MoveON ne produisent pas les indicateurs CTI structurés (taux de mobilité par promotion, durées moyennes, répartition géographique) dans un format directement exploitable pour les audits.
 \end{itemize}
 
-MoveON reste un bon outil pour ce qu'il fait, mais sa conception ne prévoit pas 
-de couvrir les besoins opérationnels internes d'un établissement. 
+MoveON reste un bon outil pour ce qu'il fait, mais sa conception ne prévoit pas de
+couvrir les besoins opérationnels internes d'un établissement.
 
 \subsection{ErasmusJET}
 
-ErasmusJET est une solution de gestion de la mobilité développée dans le cadre 
-des initiatives de digitalisation du programme Erasmus+. Elle vise à centraliser 
-la gestion des mobilités entrantes et sortantes au sein du réseau Erasmus, en 
-standardisant les échanges de données entre partenaires (candidatures, conventions, 
-transcripts).
+ErasmusJET est une plateforme développée dans le cadre des initiatives de digitalisation du programme Erasmus+. Son objectif est de standardiser les échanges de données entre établissements partenaires du réseau européen.
 
-\textbf{Points forts:}  \\ ErasmusJET simplifie les processus administratifs liés 
-aux mobilités Erasmus+ : dépôt de candidatures en ligne, génération et signature 
-numérique des conventions, échange automatique de relevés de notes entre 
-institutions. Pour un établissement très fortement orienté Erasmus, c'est un 
-outil cohérent.
+\textbf{Points forts :} la gestion complète du cycle Erasmus — dépôt de candidatures en ligne, génération et signature des conventions, échange de relevés de notes entre institutions. Pour un établissement dont toutes les mobilités relèvent du programme Erasmus, c'est une solution adaptée.
 
-\textbf{Limites par rapport aux critères définis:}
+\textbf{Limites par rapport aux critères définis :}
 
 \begin{itemize}
-    \item ErasmusJET se 
-    limite aux mobilités Erasmus+. Les données académiques, les stages 
-    internationaux et les mobilités hors programme européen restent entièrement 
-    en dehors de son périmètre.
+    \item ErasmusJET ne fonctionne que pour Erasmus+. Les accords hors Europe — qui représentent une grande partie des mobilités de l'ENSEEIHT — restent en dehors de son périmètre, tout comme les données académiques, les stages et les mobilités complémentaires.
 
-    \item  Les quotas par école et par département, 
-    l'auto-affectation, le calcul de la durée de mobilité et les expériences 
-    complémentaires hors Erasmus+ sont entièrement hors de son périmètre. Pour 
-    l'ENSEEIHT, une part importante des mobilités repose sur des accords bilatéraux 
-    hors Europe, ce qui réduit encore davantage la couverture réelle d'ErasmusJET.
+    \item Les quotas par département, l'auto-affectation et le calcul de durée CTI ne sont pas prévus dans la plateforme.
 
-    \item La plateforme est standardisée à l'échelle 
-    européenne. Les règles métier propres à l'établissement ne peuvent pas être 
-    configurées.
+    \item Son format est standardisé pour les échanges européens, ce qui ne laisse pas de place pour les règles propres à chaque établissement.
 
-    \item  Aucune recommandation de destinations ni production 
-    d'indicateurs CTI structurés ne sont prévues.
+    \item Ni recommandation de destinations, ni reporting CTI.
 \end{itemize}
 
-ErasmusJET peut compléter MoveON pour le volet Erasmus+, mais ne répond à aucun 
-des problèmes structurels identifiés.
+ErasmusJET peut être utile pour la partie Erasmus+, mais il ne règle aucun des problèmes identifiés.
 
 \subsection{Travaux académiques : Elahi et al. (2022)}
 
-Elahi et al. proposent une architecture de système de gestion 
-de mobilité étudiante intégrant un moteur de recommandation d'universités basé 
-sur le filtrage collaboratif et les préférences des étudiants. Les auteurs 
-modélisent le processus d'affectation comme un problème de mise en correspondance 
-entre étudiants et destinations, et évaluent leur approche sur un jeu de données 
-simulé représentant les vœux et profils académiques d'étudiants. ~\cite{Elahi2022}
+Les travaux d'Elahi et al. proposent un système qui combine recommandation de destinations et processus d'affectation étudiante. Les tests sont réalisés sur un jeu de données simulé~\cite{Elahi2022}.
 
-\textbf{Points forts:} \\
-L'article démontre la faisabilité technique de coupler un 
-algorithme de recommandation avec un processus de sélection. Sur le critère C7, 
-c'est la seule solution analysée qui propose une approche structurée de 
-recommandation de destinations adaptée au profil de l'étudiant. 
+\textbf{Points forts :} c'est la seule des trois solutions qui aborde sérieusement le critère C7 — la recommandation personnalisée de destinations. L'article démontre la faisabilité technique de coupler un algorithme de suggestion avec un processus de sélection, ce qui en fait une référence directement pertinente pour la partie intelligence du projet.
 
-\textbf{Limites par rapport aux critères définis:}
+\textbf{Limites par rapport aux critères définis :}
 
 \begin{itemize}
-    \item Le modèle ne propose aucune 
-    centralisation des données de mobilité. Il repose sur un dataset uniforme et 
-    simulé, sans connexion avec des systèmes institutionnels réels.
+    \item Le modèle repose sur un dataset simulé et uniforme, sans connexion avec des systèmes institutionnels réels. Il ne propose aucune intégration avec MoveON, Pégase ou Eudonet.
 
-    \item Les quotas par école et par département, 
-    l'auto-affectation sous contraintes, le calcul de la durée de mobilité et la 
-    gestion des mobilités complémentaires sont absents du modèle, qui se concentre 
-    uniquement sur la recommandation.
+    \item La gestion des quotas par département, l'affectation sous contraintes, le calcul de durée de mobilité et les expériences complémentaires sont entièrement hors du périmètre — le modèle ne traite que la recommandation.
 
-    \item Étant un prototype de recherche, le système 
-    ne prévoit aucun mécanisme de configuration des règles métier propres à un 
-    établissement.
+    \item C'est un prototype de recherche : il n'y a aucun moyen de configurer des règles propres à un établissement.
 
-    \item La dimension réglementaire du reporting, 
-    centrale pour un établissement accrédité CTI, est entièrement 
-    absente du modèle.
+    \item Le reporting CTI n'est pas abordé.
 \end{itemize}
 
-Ces travaux constituent une référence utile pour la partie recommandation du 
-projet, mais ils ne proposent pas de solution opérationnelle transposable à 
-l'ENSEEIHT.
+Ces travaux sont une référence utile pour la partie recommandation, mais ils ne forment pas une solution prête à être utilisée à l'ENSEEIHT.
 
 % ─────────────────────────────────────────────────────────────
 \section{Tableau comparatif de synthèse}
 % ─────────────────────────────────────────────────────────────
 
-Le tableau suivant résume la couverture de chaque solution pour les huit critères 
-de la grille d'évaluation.
+Le tableau~\ref{tab:synthese_solutions} résume la couverture de chaque solution pour les huit critères de la grille d'évaluation.
 
 \renewcommand{\arraystretch}{1.45}
 \begin{table}[H]
@@ -210,7 +142,7 @@ de la grille d'évaluation.
 \rowcolor{gray!20}
 \centering{\textbf{Critère}} & \textbf{QS MoveON} & \textbf{ErasmusJET} & \textbf{Elahi et al.} \\
 \hline
-C1 – Centralisation des données & Partiel & \xmark & \xmark \\
+C1 – Centralisation des données & Mobilités sortantes uniquement & \xmark & \xmark \\
 \hline
 C2 – Quotas par école et département & \xmark & \xmark & \xmark \\
 \hline
@@ -220,19 +152,18 @@ C4 – Calcul durée de mobilité & \xmark & \xmark & \xmark \\
 \hline
 C5 – Mobilités complémentaires & \xmark & \xmark & \xmark \\
 \hline
-C6 – Adaptabilité métier & Limitée & \xmark & \xmark \\
+C6 – Adaptabilité métier & Règles non adaptables à l'établissement & \xmark & \xmark \\
 \hline
-C7 – Recommandation de destinations & \xmark & \xmark & Partiel \\
+C7 – Recommandation de destinations & \xmark & \xmark & Prototype sur données simulées \\
 \hline
-C8 – Reporting CTI & Partiel & \xmark & \xmark \\
+C8 – Reporting CTI & \xmark & \xmark & \xmark \\
 \hline
 \end{tabular}
 \caption{Synthèse comparative des solutions selon la grille d'évaluation}
 \label{tab:synthese_solutions}
 \end{table}
 
-Aucune des solutions analysées ne satisfait l'ensemble des critères définis. 
-Ce constat justifie la conception d'une solution spécifique.
+Aucune des solutions étudiées ne répond à l'ensemble des besoins identifiés. Ce résultat confirme la nécessité de développer une solution propre au service RI.
 
 % ─────────────────────────────────────────────────────────────
 \section{Problématique et solution proposée}
@@ -242,21 +173,29 @@ Cette section formule la problématique centrale du projet, puis présente la so
 
 \subsection{Problématique}
 
-Comment concevoir une plateforme intégrée qui automatise le processus de gestion 
-des mobilités internationales à l'ENSEEIHT, depuis la centralisation des données 
-multi-sources jusqu'à l'affectation algorithmique, tout en garantissant la 
-conformité CTI et l'aide à la décision des étudiants ?
+Le service RI utilise plusieurs outils qui ne communiquent pas entre eux. Chaque transfert de données se fait à la main, l'affectation des étudiants n'a pas de règle fixe, et il n'existe pas de moyen simple de calculer la durée de mobilité. Aucune des solutions analysées dans ce chapitre ne répond à ces besoins. Cinq problèmes restent sans solution :
+
+\begin{itemize}
+  \item Les données sont dispersées entre plusieurs systèmes et ne peuvent pas être consultées depuis un seul endroit.
+  \item Les quotas ne descendent pas jusqu'au niveau département, alors que c'est ce niveau qui détermine qui peut partir et où.
+  \item La sélection des candidats se fait à la main, sans règle définie à l'avance.
+  \item Le calcul de la durée de mobilité oblige à rassembler des données venant de plusieurs sources différentes.
+  \item Les étudiants n'ont pas d'aide pour choisir leurs destinations.
+\end{itemize}
+
+C'est à partir de ce constat que se formule la question centrale du projet :
+
+\begin{quote}
+\textit{Comment concevoir une plateforme intégrée qui automatise le processus de gestion des mobilités internationales à l'ENSEEIHT, depuis la centralisation des données multi-sources jusqu'à l'affectation algorithmique, tout en garantissant la conformité CTI et l'aide à la décision des étudiants ?}
+\end{quote}
 
 \subsection{Solution proposée}
 
-La réponse ne passe pas par le remplacement de MoveON ou des autres outils en 
-place, mais par le développement d'une couche d'intégration et d'automatisation 
-qui vient se greffer sur l'existant, en répondant à l'ensemble des huit critères 
-définis dans la grille d'évaluation.
+Ce constat conduit au développement d'une plateforme propre au service RI. Elle ne remplace pas les outils existants, mais se connecte à eux pour récupérer les données automatiquement. Elle permet de gérer les quotas par département, de classer et affecter les étudiants selon des règles définies à l'avance, de calculer la durée de mobilité de façon automatique, et d'aider les étudiants à choisir leurs destinations. L'objectif est de centraliser les données et de réduire le travail manuel.
 
 \section*{Conclusion}
 \justifying
 \phantomsection
 \addcontentsline{toc}{section}{Conclusion}
 
-L’étude des solutions existantes montre qu’aucun des outils analysés ne répond pleinement aux besoins du service RI. Ce constat conduit donc à définir plus précisément les besoins du système ainsi que les choix technologiques les plus adaptés.
+L’étude des solutions existantes montre qu’aucun des outils analysés ne répond pleinement aux besoins du service RI. Ce qui justifie le développement d’une solution sur mesure, dont les spécifications précises font l’objet du chapitre suivant.

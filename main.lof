@@ -1,14 +1,16 @@
 \babel@toc {french}{}\relax 
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {1.1}{\ignorespaces Système d'information existant du service RI}}{5}{figure.caption.7}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Architecture logicielle}}{63}{figure.caption.32}%
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Architecture physique}}{68}{figure.caption.34}%
-\contentsline {figure}{\numberline {4.3}{\ignorespaces Machine à états — AcademicYear}}{73}{figure.caption.37}%
-\contentsline {figure}{\numberline {4.4}{\ignorespaces Pipeline global de traitement des données}}{75}{figure.caption.40}%
-\contentsline {figure}{\numberline {4.5}{\ignorespaces Pipeline détaillé de l’étape de nettoyage des données}}{78}{figure.caption.41}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces Diagramme de classes — Sprint 1}}{85}{figure.caption.44}%
-\contentsline {figure}{\numberline {5.2}{\ignorespaces Diagramme de classes — Sprint 2}}{89}{figure.caption.45}%
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Architecture logicielle}}{67}{figure.caption.36}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Architecture physique}}{73}{figure.caption.38}%
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Machine à états — AcademicYear}}{78}{figure.caption.41}%
+\contentsline {figure}{\numberline {5.4}{\ignorespaces Pipeline global de traitement des données}}{80}{figure.caption.44}%
+\contentsline {figure}{\numberline {5.5}{\ignorespaces Pipeline détaillé de l’étape de nettoyage des données}}{83}{figure.caption.45}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {6.1}{\ignorespaces Diagramme de classes — Sprint 1}}{90}{figure.caption.48}%
+\contentsline {figure}{\numberline {6.2}{\ignorespaces Diagramme de classes — Sprint 2}}{94}{figure.caption.49}%
 \contentsfinish 

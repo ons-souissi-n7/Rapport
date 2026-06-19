@@ -1,5 +1,6 @@
+% !TEX root = ../main.tex
 % ══════════════════════════════════════════════════════════════
-\chapter{Réalisation}
+\chapter{Conception du système}
 % ══════════════════════════════════════════════════════════════
 \begingroup
 \let\clearpage\relax
@@ -13,954 +14,1225 @@
 \phantomsection
 \addcontentsline{toc}{section}{Introduction}
 
-Ce chapitre couvre la phase de réalisation du projet, organisée en
-sprints successifs. Pour chaque sprint, le backlog, la conception
-détaillée, l'implémentation et les tests sont présentés conformément
-à la définition of done.
+Ce chapitre présente la conception globale du système : le product backlog Scrum qui structure le développement, l'architecture logicielle et physique, le modèle de données et les machines à états qui gouvernent les cycles de vie métier.
 
 % ─────────────────────────────────────────────────────────────
-\section{{Sprint 1 — Socle technique et référentiels}}
+\section{Product Backlog}
 % ─────────────────────────────────────────────────────────────
 
-Cette section présente la réalisation du Sprint 1, dédié à la mise en place du socle technique et des référentiels. Elle couvre successivement l'objectif du sprint, le backlog, la conception UML, l'implémentation et les tests.
+\subsection{Priorités MoSCoW}
 
-\subsection{Objectif du sprint}
+Chaque user story est priorisée selon la méthode MoSCoW, qui permet de séparer l'essentiel de l'accessoire et d'éviter que des fonctionnalités secondaires ne retardent la livraison du cœur du système.
 
-Le Sprint 1 a pour objectif d'implémenter les fondations irréversibles du système : référentiels stables (\texttt{Country}, \texttt{Department}), universités partenaires (\texttt{PartnerUniversity}), année universitaire avec sa machine à états à 6 phases (\texttt{AcademicYear}), accords et quotas (\texttt{Agreement}, \texttt{AgreementQuota}, \texttt{DepartmentQuota}) et stockage brut des imports (\texttt{RawImport}). Ces composants constituent la colonne vertébrale du système — toute fonctionnalité des sprints suivants en dépend directement.
+\begin{itemize}[label=•]
+    \item \textbf{M — Must Have} : fonctionnalités sans lesquelles le système ne peut pas remplir son objectif. Leur absence rendrait le projet inutilisable pour le service RI.
+    \item \textbf{S — Should Have} : fonctionnalités importantes, mais dont le report à une version suivante reste acceptable sans compromettre le MVP.
+    \item \textbf{C — Could Have} : fonctionnalités souhaitables, planifiées uniquement si la capacité restante du sprint le permet une fois les priorités supérieures traitées.
+    \item \textbf{W — Won't Have} : fonctionnalités explicitement exclues du périmètre actuel, documentées pour ne pas créer d'attente non maîtrisée.
+\end{itemize}
 
-\textbf{Définition of Done.} À l'issue de ce sprint, le système doit être exécutable via \texttt{docker compose up}, toutes les migrations Django doivent s'appliquer sans erreur, les tests unitaires doivent passer avec une couverture supérieure à 80\,\%, et le pipeline CI/CD doit être opérationnel sur GitHub Actions.
 
-\newcounter{tasknum}
-\setcounter{tasknum}{1}
-\newcommand{\nexttask}{%
-  \ifnum\value{tasknum}<10 0\fi\arabic{tasknum}%
-  \stepcounter{tasknum}%
+\subsection{Story points}
+
+L'effort de chaque story est estimé en story points selon l'échelle de Fibonacci. Cette échelle non linéaire reflète le fait que l'incertitude croît avec la complexité : la différence entre 5 et 8 points n'est pas la même que celle entre 1 et 2. Le tableau~\ref{tab:story-points} donne les correspondances retenues pour ce projet, avec des exemples concrets.
+
+\begin{table}[H]
+\centering
+\footnotesize
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{|p{1cm}|p{6cm}|p{8.5cm}|}
+\hline
+\rowcolor{gray!20}
+\textbf{SP} & \textbf{Effort estimé} & \textbf{Exemples typiques} \\
+\hline
+1 & Très faible — quelques heures & Ajout d'un champ, endpoint simple \\
+\hline
+2 & Faible — une demi-journée & Nouveau modèle Django, endpoint CRUD \\
+\hline
+3 & Modéré — une journée & Service métier, FSM à 3 états \\
+\hline
+5 & Significatif — deux jours & Pipeline d'import, interface multi-composants \\
+\hline
+8 & Élevé — trois à quatre jours & Intégration SSO, import Excel avec rapport \\
+\hline
+13 & Très élevé — une semaine & Algorithme d'affectation, moteur de recommandation \\
+\hline
+21 & Exceptionnel — plus d'une semaine & Chatbot RAG complet \\
+\hline
+\end{tabular}
+\caption{Échelle des story points}
+\label{tab:story-points}
+\end{table}
+
+\subsection{Tableau du Product Backlog}
+
+\newcounter{usnum}
+\setcounter{usnum}{1}
+\newcommand{\nextus}{%
+  US-\ifnum\value{usnum}<10 0\fi\arabic{usnum}%
+  \stepcounter{usnum}%
 }
-
-\newlength{\uswidth}
-\setlength{\uswidth}{\dimexpr 12.6cm + 12\tabcolsep + 5\arrayrulewidth\relax}
-
-\newcommand{\usheadergreen}[2]{%
-  \multicolumn{6}{|p{\uswidth}|}{%
-    \cellcolor{green!8}%
-    \textbf{#1} — \small\textit{#2}%
-  } \\ \hline
-}
-\newcommand{\usheader}[2]{%
-  \multicolumn{6}{|p{\uswidth}|}{%
-    \cellcolor{blue!8}%
-    \textbf{#1} — \small\textit{#2}%
-  } \\ \hline
-}
-
-\subsection{Sprint Backlog — Sprint 1}
 
 \begingroup
 \footnotesize
-\setlength{\tabcolsep}{3pt}
-\renewcommand{\arraystretch}{1.6}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.4}
 
-\begin{longtable}{|p{0.4cm}|p{3.3cm}|p{4.9cm}|p{3.7cm}|p{1.4cm}|p{0.4cm}|}
+\begin{longtable}{|p{1cm}|p{3cm}|p{7.5cm}|p{1.2cm}|p{0.9cm}|p{1cm}|}
+\caption{Product Backlog}\\
 \hline
 \rowcolor{gray!20}
-\textbf{\#} & \textbf{Tâche} & \textbf{Description} &
-\textbf{Critères d'acceptation} & \textbf{Prior.} & \textbf{SP} \\
+\textbf{ID} & \textbf{Titre} & \textbf{User Story} & \textbf{Prior.} & \textbf{SP} & \textbf{Sprint} \\
 \hline
 \endfirsthead
 \hline
 \rowcolor{gray!20}
-\textbf{\#} & \textbf{Tâche} & \textbf{Description} &
-\textbf{Critères d'acceptation} & \textbf{Prior.} & \textbf{SP} \\
+\textbf{ID} & \textbf{Titre} & \textbf{User Story} & \textbf{Prior.} & \textbf{SP} & \textbf{Sprint} \\
 \hline
 \endhead
-\hline
-\endfoot
 
-% ── US-01 ─────────────────────────────────────────────────────────────────────
-\usheadergreen{US-01 — Référentiels de base}{%
-  En tant qu'\textbf{administrateur RI}, je veux disposer d'un référentiel
-  stable des pays, départements et universités partenaires afin que toutes
-  les entités du système s'appuient sur des données de référence cohérentes.}
-
-\nexttask &
-Définir \texttt{Country} et \texttt{Department} &
-Créer les deux modèles de référentiel
-avec \texttt{iso2} unique, région CTI,
-\texttt{clean()} et \texttt{last\_sync\_moveon}. &
-Les modèles migrent sans erreur. &
-Haute & 2 \\
+% ── SPRINT 1 ─────────────────────────────────────────────────
+% ── ÉPOPÉE 1 : Fondations techniques ─────────────────────────
+\multicolumn{6}{|l|}{\cellcolor{green!10}\textbf{Fondations techniques}} \\
 \hline
 
-\nexttask &
-Définir \texttt{PartnerUniversity} &
-Créer le modèle avec \texttt{moveon\_id}
-comme clé de jointure MoveON. &
-Le modèle migre sans erreur. &
-Haute & 1 \\
+\nextus & Référentiels de base &
+En tant qu’\textbf{administrateur RI}, je veux disposer d’un référentiel
+stable des pays, départements et universités partenaires (synchronisé
+depuis MoveON) afin que toutes les entités du système s’appuient sur
+des données de référence cohérentes. &
+M & 5 & S1 \\
 \hline
 
-\nexttask &
-Page d'administration des référentiels &
-Créer une interface Next.js permettant
-à l'administrateur RI de consulter et
-filtrer les pays, départements et universités
-partenaires enregistrés. &
-La liste s'affiche, le filtre par nom
-fonctionne, les données sont
-chargées depuis l'API. &
-Haute & 2 \\
+\nextus & Année universitaire et FSM &
+En tant qu’\textbf{administrateur RI}, je veux que le cycle de vie de l’année
+universitaire soit géré par une machine à états (initialisation → recommandation
+→ consolidation → pré-affectation → validation → clôturée) afin de contrôler
+chaque phase de la campagne de manière sécurisée. &
+M & 4 & S1 \\
 \hline
 
-% ── US-02 ─────────────────────────────────────────────────────────────────────
-\usheadergreen{US-02 — Année universitaire et cycle de vie}{%
-  En tant qu'\textbf{administrateur RI}, je veux que le système gère
-  le cycle de vie de l'année universitaire via une machine à états
-  afin de contrôler chaque phase de la campagne de manière sécurisée.}
-
-\nexttask &
-Définir \texttt{AcademicYear} avec FSM &
-Définir le modèle \texttt{AcademicYear}
-en utilisant une machine à états finis (FSM),
-implémentée avec \texttt{django-fsm},
-comprenant 6 états correspondant aux
-différentes phases de la campagne.
-Mettre en place des transitions sécurisées
-entre ces états, ainsi qu'une méthode
-\texttt{clean()} permettant de garantir
-la cohérence des dates. &
-Les transitions valides fonctionnent.
-Les invalides lèvent
-\texttt{TransitionNotAllowed}.
-\texttt{start\_date > end\_date}
-lève \texttt{ValidationError}. &
-Haute & 2 \\
+\nextus & Accords et quotas &
+En tant qu’\textbf{administrateur RI}, je veux un modèle de données complet
+pour les accords et leurs quotas (INP global, estimation N7, ajustement N7,
+répartition par département), synchronisé depuis MoveON, afin d’avoir une
+base fiable pour l’algorithme d’affectation. &
+M & 8 & S1 \\
 \hline
 
-\nexttask &
-Composant de gestion de l'année universitaire &
-Créer une interface Next.js affichant
-l'état courant de l'année universitaire
-avec les boutons de transition disponibles
-(selon la FSM) et les dates clés
-configurables par l'administrateur. &
-L'état affiché reflète la FSM.
-Les transitions non autorisées
-sont masquées.
-Les dates se sauvegardent
-via l'API. &
-Haute & 2 \\
+% ── SPRINT 2 ─────────────────────────────────────────────────
+% ── ÉPOPÉE 2 : Données et traçabilité ────────────────────────
+\multicolumn{6}{|l|}{\cellcolor{blue!10}\textbf{Données et traçabilité}} \\
 \hline
 
-% ── US-03 ─────────────────────────────────────────────────────────────────────
-\usheadergreen{US-03 — Accords et quotas — modèle de données}{%
-  En tant qu'\textbf{administrateur RI}, je veux disposer d'un modèle
-  de données complet pour les accords et leurs quotas afin d'avoir
-  une base fiable pour l'algorithme d'affectation.}
-
-\nexttask &
-Définir \texttt{Agreement} &
-Créer le modèle avec \texttt{moveon\_id},
-\texttt{code\_moveon} unique,
-\texttt{agreement\_type},
-\texttt{valid\_from/until},
-\texttt{is\_active} et
-\texttt{last\_sync\_moveon}. &
-Le modèle migre sans erreur.
-\texttt{is\_valid\_for\_year()} retourne
-\texttt{False} pour un accord expiré
-ou inactif. &
-Haute & 2 \\
+\nextus & Audit log et traçabilité &
+En tant qu’\textbf{administrateur RI}, je veux que chaque action importante
+(import, transition FSM, modification, validation) soit enregistrée avec
+l’auteur et l’horodatage, afin de garantir la traçabilité complète des
+décisions. &
+M & 3 & S2 \\
 \hline
 
-\nexttask &
-Définir \texttt{AgreementQuota}
-et \texttt{DepartmentQuota} &
-Créer les modèles de quotas avec
-hiérarchie INP $\to$ N7 estimé
-$\to$ N7 ajusté. &
-\texttt{get\_effective\_quota()} retourne
-l'ajusté si renseigné, sinon l'estimé.
-\texttt{is\_eligible()} est fonctionnel. &
-Haute & 2 \\
+\nextus & Données étudiants &
+En tant qu’\textbf{administrateur RI}, je veux importer et synchroniser
+les données académiques des étudiants (INE, GPA, département, niveau)
+depuis Pégase, afin d’alimenter l’algorithme d’affectation avec des
+données étudiants fiables et à jour. &
+M & 8 & S2 \\
 \hline
 
-\nexttask &
-Définir \texttt{RawImport} &
-Créer le modèle de stockage brut JSON
-avec \texttt{source}, \texttt{processed},
-\texttt{error\_message} et rattachement
-à \texttt{AcademicYear}. &
-Le modèle migre sans erreur.
-Les 4 sources sont disponibles.
-\texttt{processed=False} par défaut. &
-Haute & 1 \\
+\nextus & Vœux étudiants &
+En tant qu’\textbf{administrateur RI}, je veux importer les dossiers de
+candidature et les vœux ordonnés des étudiants depuis MoveON, et les
+consulter par étudiant, afin de les intégrer dans le système d’affectation. &
+M & 5 & S2 \\
 \hline
 
-\nexttask &
-Page de consultation des accords et quotas &
-Créer une interface Next.js listant
-les accords par université partenaire,
-avec affichage des quotas INP, estimé N7
-et ajusté N7 par département, et un
-indicateur visuel de validité de l'accord. &
-Les accords s'affichent avec leurs
-quotas effectifs.
-Les accords expirés ou inactifs
-sont signalés visuellement.
-L'ajustement manuel du quota
-N7 est possible depuis l'interface. &
-Haute & 3 \\
+\nextus & Rapport d’import &
+En tant qu’\textbf{administrateur RI}, je veux consulter un rapport détaillé
+après chaque import (succès, erreurs, doublons) avec la raison précise
+de chaque rejet, afin de corriger les anomalies rapidement. &
+M & 3 & S2 \\
 \hline
+
+% ── SPRINT 3 ─────────────────────────────────────────────────
+% ── ÉPOPÉE 3 : Algorithme d’affectation ──────────────────────
+\multicolumn{6}{|l|}{\cellcolor{orange!10}\textbf{Algorithme d’affectation}} \\
+\hline
+
+\nextus & Algorithme Gale-Shapley &
+En tant qu’\textbf{administrateur RI}, je veux lancer l’algorithme d’affectation
+(Deferred Acceptance) qui affecte chaque étudiant à son meilleur vœu
+disponible en respectant les quotas par département, afin de produire
+une proposition équitable et stable. &
+M & 13 & S3 \\
+\hline
+
+\nextus & Supervision des affectations &
+En tant qu’\textbf{administrateur RI}, je veux consulter les propositions
+d’affectation, les ajuster manuellement pour les cas particuliers et tracer
+chaque modification avec un motif, avant de valider et publier les résultats. &
+M & 8 & S3 \\
+\hline
+
+\nextus & Consultation des résultats &
+En tant qu’\textbf{étudiant}, je veux consulter mon affectation une fois les
+résultats publiés afin de connaître ma destination et les démarches à suivre. &
+M & 3 & S3 \\
+\hline
+
+% ── SPRINT 4 ─────────────────────────────────────────────────
+% ── ÉPOPÉE 4 : Sources complémentaires et mobilités ──────────
+\multicolumn{6}{|l|}{\cellcolor{teal!10}\textbf{Sources complémentaires et mobilités}} \\
+\hline
+
+\nextus & Répartition des quotas par département &
+En tant qu'\textbf{administrateur RI}, je veux que le système calcule
+automatiquement la répartition des places de chaque accord entre les
+départements pédagogiques (SN, 3EA, MF2E) selon la méthode Hamilton
+(plus grands restes), afin que l'algorithme d'affectation dispose de
+quotas par département précis, équitables et vérifiables. &
+M & 5 & S4 \\
+\hline
+
+\nextus & Stages internationaux (Eudonet) &
+En tant qu’\textbf{administrateur RI}, je veux importer et synchroniser les
+conventions de stages internationaux depuis Eudonet afin de les comptabiliser
+dans le calcul CTI de chaque étudiant. &
+M & 8 & S4 \\
+\hline
+
+\nextus & Mobilités entrantes (Excel) &
+En tant qu’\textbf{administrateur RI}, je veux importer les mobilités entrantes
+via un template Excel standardisé afin de centraliser le suivi des étudiants
+internationaux accueillis à l’ENSEEIHT. &
+M & 8 & S4 \\
+\hline
+
+\nextus & Réconciliation sans INE &
+En tant qu’\textbf{administrateur RI}, je veux que le système me propose
+des correspondances pour les enregistrements sans INE valide (via nom,
+prénom, date de naissance) afin de résoudre manuellement les cas ambigus. &
+S & 5 & S4 \\
+\hline
+
+\nextus & Déclaration mobilité complémentaire &
+En tant qu’\textbf{étudiant}, je veux déclarer une expérience internationale
+hors cursus (summer school, séjour linguistique, programme court) avec
+dépôt de justificatifs, afin qu’elle soit prise en compte dans mon
+calcul de durée CTI. &
+M & 8 & S4 \\
+\hline
+
+\nextus & Validation des mobilités complémentaires &
+En tant qu’\textbf{administrateur RI}, je veux consulter les justificatifs
+soumis, valider ou rejeter chaque demande avec un motif, afin de maintenir
+la qualité des données comptabilisées dans le calcul CTI. &
+M & 5 & S4 \\
+\hline
+
+% ── SPRINT 5 ─────────────────────────────────────────────────
+% ── ÉPOPÉE 5 : Conformité CTI ────────────────────────────────
+\multicolumn{6}{|l|}{\cellcolor{yellow!10}\textbf{Conformité CTI}} \\
+\hline
+
+\nextus & Calcul automatique des durées CTI &
+En tant qu’\textbf{administrateur RI}, je veux que le système calcule
+automatiquement la durée totale de mobilité de chaque étudiant (séjours
+académiques, stages, expériences complémentaires validées) afin de vérifier
+la conformité CTI sans intervention manuelle. &
+M & 8 & S5 \\
+\hline
+
+\nextus & Indicateur CTI pour l’étudiant &
+En tant qu’\textbf{étudiant}, je veux visualiser ma durée cumulée de mobilité
+et sa comparaison avec le seuil CTI requis afin de savoir si je suis
+en règle pour l’obtention de mon diplôme. &
+M & 3 & S5 \\
+\hline
+
+\nextus & Export rapport CTI &
+En tant qu’\textbf{administrateur RI}, je veux exporter un rapport de
+conformité CTI pour l’ensemble des étudiants de la promotion afin de
+le soumettre lors des audits. &
+S & 5 & S5 \\
+\hline
+
+% ── ÉPOPÉE 6 : Espace étudiant ───────────────────────────────
+\multicolumn{6}{|l|}{\cellcolor{cyan!10}\textbf{Espace étudiant}} \\
+\hline
+
+\nextus & Catalogue des destinations &
+En tant qu’\textbf{étudiant}, je veux consulter les universités partenaires
+avec les places disponibles estimées, les conditions d’éligibilité (GPA
+minimum, département) et les informations pratiques, afin d’explorer
+les options avant de saisir mes vœux dans MoveON. &
+M & 5 & S5 \\
+\hline
+
+\nextus & Suivi de candidature &
+En tant qu’\textbf{étudiant}, je veux suivre le statut de ma candidature
+en temps réel (soumis, en traitement, affecté, rejeté) afin d’être
+informé de l’avancement sans solliciter le service RI. &
+M & 3 & S5 \\
+\hline
+
+\nextus & Gestion des mobilités entrantes &
+En tant qu’\textbf{administrateur RI}, je veux gérer le suivi administratif
+des étudiants internationaux accueillis (procédure envoyée, candidature
+Moodle, lettre d’acceptation, inscription) afin de centraliser le suivi
+dans un seul outil. &
+M & 5 & S5 \\
+\hline
+
+% ── ÉPOPÉE 7 : Supervision et authentification ───────────────
+\multicolumn{6}{|l|}{\cellcolor{red!10}\textbf{Supervision et authentification}} \\
+\hline
+
+\nextus & Console de supervision de campagne &
+En tant qu’\textbf{administrateur RI}, je veux un tableau de bord affichant
+l’état en temps réel de la campagne (candidatures reçues, imports réalisés,
+anomalies en attente, avancement par phase) afin de piloter efficacement
+la campagne. &
+S & 8 & S5 \\
+\hline
+
+\nextus & Contrôle des prérequis FSM &
+En tant qu’\textbf{administrateur RI}, je veux que le système m’empêche de
+passer à la phase de consolidation tant que tous les GPA étudiants ne sont
+pas renseignés et que les vœux ne sont pas importés, afin de garantir que
+l’algorithme d’affectation dispose de données complètes et fiables. &
+M & 3 & S5 \\
+\hline
+
+\nextus & Authentification SSO &
+En tant qu’\textbf{utilisateur}, je veux m’authentifier via le SSO institutionnel
+(CAS/OIDC) afin d’accéder à mon espace personnalisé (étudiant ou administrateur)
+sans créer de compte séparé. &
+M & 8 & S5 \\
+\hline
+
+\nextus & Tableaux de bord analytiques et exports CTI &
+En tant qu’\textbf{administrateur RI}, je veux disposer de tableaux de bord
+analytiques et d'exports CTI (taux d’affectation par département, évolution
+des flux entrants/sortants, destinations les plus demandées, indicateurs CTI)
+afin d’alimenter le pilotage opérationnel et la réflexion stratégique sur les
+partenariats. &
+M & 8 & S5 \\
+\hline
+
+% ── SPRINT 6 ─────────────────────────────────────────────────
+% ── ÉPOPÉE 8 : Fonctionnalités V2 ────────────────────────────
+% Les fonctionnalités V2 suivantes sont volontairement conservées en commentaire :
+% elles sont classées Could Have et ne seront intégrées qu'ultérieurement, si le MVP
+% des sprints prioritaires est livré et qu'une capacité résiduelle est disponible.
+%
+% \multicolumn{6}{|l|}{\cellcolor{gray!10}\textbf{Fonctionnalités V2 conditionnelles}} \\
+% \hline
+%
+% \nextus & Moteur de recommandation &
+% En tant qu’\textbf{étudiant}, je veux recevoir des suggestions de destinations
+% adaptées à mon profil (GPA, département, historique des affectations similaires)
+% afin de cibler mes vœux de manière réaliste avant la saisie dans MoveON. &
+% C & 13 & Conditionnel \\
+% \hline
+%
+% \nextus & Assistant virtuel (chatbot RAG) &
+% En tant qu’\textbf{étudiant}, je veux poser des questions sur les procédures,
+% critères d’éligibilité et démarches à un assistant virtuel afin d’obtenir
+% des réponses immédiates sans solliciter le service RI. &
+% C & 21 & Conditionnel \\
+% \hline
 
 \end{longtable}
 \endgroup
 
-\subsection{Conception détaillée}
+% ─────────────────────────────────────────────────────────────
+\section{Planification des sprints}
+% ─────────────────────────────────────────────────────────────
 
-Cette section présente la conception UML détaillée des entités métier du Sprint 1.
+Le développement MVP est découpé en cinq sprints de deux à trois semaines chacun, suivant une progression de l'infrastructure vers les fonctionnalités visibles. Les sprints sont ordonnés par dépendances techniques : rien dans le Sprint 2 ne peut exister sans le Sprint 1, et l'algorithme du Sprint 3 dépend directement des données produites par le Sprint 2. Les fonctionnalités classées \textit{Could Have} restent hors engagement initial et ne seront intégrées qu'après validation complète du MVP, selon la capacité disponible. Le tableau~\ref{tab:planif-sprints} détaille la répartition.
 
-\subsubsection{Diagramme de classes}
+\begin{longtable}{|p{1.5cm}|p{4.5cm}|p{9.5cm}|}
+\caption{Planification des sprints}
+\label{tab:planif-sprints} \\
+\hline
+\rowcolor{gray!20}
+\textbf{Sprint} & \textbf{Thème} & \textbf{User stories couvertes} \\
+\hline
+\endfirsthead
 
-Le diagramme de la figure~\ref{fig:diag-class-sprint1} modélise le domaine de gestion des accords de mobilité internationale de l'ENSEEIHT. L'entité centrale est \texttt{Agreement}, qui représente un accord entre l'ENSEEIHT et une université partenaire (\texttt{PartnerUniversity}), qualifiée par un cadre (\texttt{Category}) et des niveaux d'études (\texttt{Level}).
+\hline
+\rowcolor{gray!20}
+\textbf{Sprint} & \textbf{Thème} & \textbf{User stories couvertes} \\
+\hline
+\endhead
 
-La structure des quotas est organisée sur deux niveaux : \texttt{AgreementYear} matérialise la déclinaison annuelle d'un accord avec le quota N7 global, et \texttt{AgreementYearDepartment} distribue ce quota par département. \texttt{AgreementDepartment} liste les départements autorisés par accord, indépendamment de l'année, et constitue la contrainte référentielle qui interdit d'allouer un quota à un département non autorisé.
+Sprint 1 & Fondations techniques &
+US-01 à US-03 — Référentiels de base (sync MoveON), année universitaire et FSM, accords et quotas (sync MoveON) \\
+\hline
 
-\texttt{AcademicYear} pilote le cycle de vie de la campagne via une machine à états à six phases. Toutes les classes portent les champs d'audit \texttt{created\_at}, \texttt{updated\_at}, \texttt{created\_by} et \texttt{updated\_by}.
+Sprint 2 & Données et traçabilité &
+US-04 à US-07 — Audit log, données étudiants (import Pégase), vœux étudiants (import MoveON), rapport d’import \\
+\hline
+
+Sprint 3 & Algorithme d’affectation &
+US-08 à US-10 — Algorithme Gale-Shapley, supervision et publication des résultats, consultation des résultats par l’étudiant \\
+\hline
+
+Sprint 4 & Sources complémentaires et mobilités &
+US-11 à US-16 — Répartition des quotas par département (Hamilton), stages internationaux (import Eudonet), mobilités entrantes (import Excel), réconciliation sans INE, déclaration et validation des mobilités complémentaires \\
+\hline
+
+Sprint 5 & CTI, espace étudiant et supervision &
+US-17 à US-27 — Calcul des durées CTI, indicateur étudiant, export CTI, catalogue des destinations, suivi de candidature, gestion mobilités entrantes, console de supervision, contrôle des prérequis FSM, SSO, tableaux de bord analytiques et exports CTI \\
+\hline
+
+% Fonctionnalités V2 commentées pour ajout ultérieur :
+% - Moteur de recommandation de destinations personnalisé
+% - Assistant virtuel (chatbot RAG)
+% Ces fonctionnalités restent des Could Have et ne sont pas engagées dans
+% la planification MVP. Elles ne pourront être ajoutées qu'après validation
+% du MVP, selon la capacité disponible.
+
+\end{longtable}
+
+\subsection{Diagramme de Gantt}
+
+La figure~\ref{tab:gantt} présente le calendrier de réalisation sur l'ensemble des sprints, en indiquant pour chaque tâche la semaine de début, la durée estimée et l'éventuel chevauchement avec les tâches adjacentes.
+
+\begin{landscape}
+\footnotesize
+\setlength{\tabcolsep}{2pt}
+\renewcommand{\arraystretch}{1.5}
+
+\newcommand{\gc}{\cellcolor{blue!40}}
+\newcommand{\gv}{\cellcolor{green!40}}
+\newcommand{\go}{\cellcolor{orange!40}}
+\newcommand{\gr}{\cellcolor{red!20}}
+\newcommand{\gy}{\cellcolor{yellow!40}}
+
+\begin{longtable}{|p{4.8cm}|*{24}{p{0.55cm}|}}
+
+\caption{Diagramme de Gantt}
+\label{tab:gantt} \\
+
+% ===== EN-TÊTE (1ère page) =====
+\hline
+\rowcolor{gray!30}
+\textbf{Activité} &
+\multicolumn{4}{c|}{\textbf{Mois 1}} &
+\multicolumn{4}{c|}{\textbf{Mois 2}} &
+\multicolumn{4}{c|}{\textbf{Mois 3}} &
+\multicolumn{4}{c|}{\textbf{Mois 4}} &
+\multicolumn{4}{c|}{\textbf{Mois 5}} &
+\multicolumn{4}{c|}{\textbf{Mois 6}} \\
+\hline
+\rowcolor{gray!15}
+ & S1 & S2 & S3 & S4 & S5 & S6 & S7 & S8 & S9 & S10 & S11 & S12 & S13 & S14 & S15 & S16 & S17 & S18 & S19 & S20 & S21 & S22 & S23 & S24 \\
+\hline
+\endfirsthead
+
+% ===== EN-TÊTE (pages suivantes) =====
+\hline
+\rowcolor{gray!30}
+\textbf{Activité} &
+\multicolumn{4}{c|}{\textbf{Mois 1}} &
+\multicolumn{4}{c|}{\textbf{Mois 2}} &
+\multicolumn{4}{c|}{\textbf{Mois 3}} &
+\multicolumn{4}{c|}{\textbf{Mois 4}} &
+\multicolumn{4}{c|}{\textbf{Mois 5}} &
+\multicolumn{4}{c|}{\textbf{Mois 6}} \\
+\hline
+\rowcolor{gray!15}
+ & S1 & S2 & S3 & S4 & S5 & S6 & S7 & S8 & S9 & S10 & S11 & S12 & S13 & S14 & S15 & S16 & S17 & S18 & S19 & S20 & S21 & S22 & S23 & S24 \\
+\hline
+\endhead
+
+% ===== CONTENU =====
+
+\multicolumn{25}{|l|}{\cellcolor{gray!20}\textbf{Phase 1 — Cadrage et analyse}} \\
+\hline
+Analyse des besoins & \gc & \gc & \gc & & & & & & & & & & & & & & & & & & & & & \\
+\hline
+Rédaction CDC / spécifications & & \gc & \gc & \gc & & & & & & & & & & & & & & & & & & & & \\
+\hline
+Modélisation des données & & & \gc & \gc & \gc & & & & & & & & & & & & & & & & & & & \\
+\hline
+Conception architecture & & & \gc & \gc & \gc & \gc & & & & & & & & & & & & & & & & & & \\
+\hline
+% Validation avec service RI & & & & \gc & & & & \gc & & & & & & & & & & & & \gc & & & \gc & \\
+% \hline
+
+\multicolumn{25}{|l|}{\cellcolor{gray!20}\textbf{Phase 2 — Environnement et DevOps}} \\
+\hline
+Setup Docker / environnement & & & & & \gv & \gv & \gv & & & & & & & & & & & & & & & & & \\
+\hline
+Pipeline CI/CD (GitLab/GitHub) & & & & & & \gv & \gv & \gv & & & & & & & & & & & & & & & & \\
+\hline
+Configuration PostgreSQL & & & & & & \gv & \gv & & & & & & & & & & & & & & & & & \\
+\hline
+Setup Django-Q2 / MinIO & & & & & & & \gv & \gv & & & & & & & & & & & & & & & & \\
+\hline
+Monitoring (Sentry / Grafana) & & & & & & & & & & & & & & & & & & & & & \gv & \gv & & \\
+\hline
+
+\multicolumn{25}{|l|}{\cellcolor{gray!20}\textbf{Phase 3 — Développement itératif}} \\
+\hline
+\textbf{Sprint 1}  & & & & & & & & & \go & \go & \go & & & & & & & & & & & & & \\
+\hline
+\textbf{Sprint 2}  & & & & & & & & & & & & \go & \go & \go & & & & & & & & & & \\
+\hline
+\textbf{Sprint 3}  & & & & & & & & & & & & & & & \go & \go & \go & & & & & & & \\
+\hline
+\textbf{Sprint 4}  & & & & & & & & & & & & & & & & & & \go & \go & \go & & & & \\
+\hline
+\textbf{Sprint 5}  & & & & & & & & & & & & & & & & & & & & & \go & \go & \go & \\
+\hline
+% \textbf{Sprint 6 / Réserve V2}  & & & & & & & & & & & & & & & & & & & & & & & \go & \go \\
+% \hline
+
+\multicolumn{25}{|l|}{\cellcolor{gray!20}\textbf{Phase 4 — Tests et qualité}} \\
+\hline
+Tests unitaires (continus) & & & & & & & & & \gr & \gr & \gr & \gr & \gr & \gr & \gr & \gr & \gr & \gr & \gr & \gr & \gr & \gr & \gr & \\
+\hline
+Tests d'intégration (continus) & & & & & & & & & & & \gr & \gr & \gr & \gr & \gr & \gr & \gr & \gr & \gr & \gr & \gr & \gr & \gr & \\
+\hline
+Tests de charge (Locust) & & & & & & & & & & & & & & & & & & & & & \gr & \gr & & \\
+\hline
+Audit sécurité (OWASP ZAP) & & & & & & & & & & & & & & & & & & & & & & & \gr & \\
+\hline
+UAT avec service RI & & & & & & & & & & & & & & & & & & & & & & & \gr & \gr \\
+\hline
+
+\multicolumn{25}{|l|}{\cellcolor{gray!20}\textbf{Phase 5 — Livraison}} \\
+\hline
+Documentation technique & & & & & & & & & & & & & & & & & & & & & \gy & \gy & \gy & \gy \\
+\hline
+Déploiement staging & & & & & & & & & & & & & & & & & & & & & & & \gy & \gy \\
+\hline
+Livraison finale & & & & & & & & & & & & & & & & & & & & & & & & \gy \\
+\hline
+
+\end{longtable}
+
+\vspace{4pt}
+
+\end{landscape}
+
+
+% ─────────────────────────────────────────────────────────────
+\section{Architecture logicielle}
+% ─────────────────────────────────────────────────────────────
+
+\subsection{Vue d'ensemble}
+
+La plateforme repose sur une architecture en cinq couches qui s'appuie sur le modèle 3-tiers classique tout en l'enrichissant d'une couche asynchrone dédiée aux traitements longs. Chaque couche a une frontière bien définie : aucun composant Next.js n'accède à la base de données directement, aucune tâche asynchrone ne peut bloquer une requête HTTP.
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\linewidth]{figures/conception/Sprint1/Diagramme_de_classe_sprint1.png}
-  \caption{Diagramme de classes — Sprint 1}
-  \label{fig:diag-class-sprint1}
+  \includegraphics[width=\linewidth]{figures/architecture/Architecture-Logicielle.png}
+  \caption{Architecture logicielle}
+  \label{fig:archi-logique}
 \end{figure}
 
-\subsection{Implémentation}
-\subsection{Tests}
+La figure~\ref{fig:archi-logique} donne une vue d'ensemble du système. Les flux sont unidirectionnels et bien délimités. Le frontend Next.js 14 s'adresse exclusivement à l'API Django Ninja via des appels REST sur HTTPS — jamais directement à la base de données. Django-Q2 s'exécute dans un processus séparé et partage le même PostgreSQL que l'applicatif, ce qui lui permet de fonctionner comme broker de messages sans service externe supplémentaire. PostgreSQL et MinIO sont des services internes non accessibles depuis l'extérieur du réseau Docker. Les adaptateurs ETL sont physiquement séparés des modules métier, précisément parce qu'ils dépendent de sources externes (MoveON, Pégase, Eudonet) dont la disponibilité n'est pas garantie. L'authentification passe par le CAS OIDC de Toulouse INP : à chaque requête, le token JWT est validé et le rôle (\texttt{ADMIN\_RI} ou \texttt{ETUDIANT}) est extrait pour contrôler les accès.
 
-% \subsection{Implémentation}
+\subsection{Couche présentation — Next.js 14}
 
-% Cette sous-section décrit les principaux choix d'implémentation du Sprint 1 : modèle de données, synchronisation MoveON, API REST et interface utilisateur.
+La couche présentation est développée en \textbf{Next.js 14} avec \textbf{TypeScript} et \textbf{Tailwind CSS}. Elle expose deux espaces fonctionnellement distincts, séparés dès le middleware de routage.
 
-% \subsubsection{Modèle de données}
+\textbf{Espace administrateur RI :} pilotage de campagne, gestion des quotas par accord et par département, supervision des affectations avant publication, instruction des demandes de mobilités complémentaires, tableaux de bord de conformité CTI.
 
-% Le Sprint 1 introduit onze entités persistantes réparties sur quatre modules Django — \texttt{reference}, \texttt{institutions}, \texttt{academic} et \texttt{mobility}. Toutes héritent du modèle abstrait \texttt{TimeStampedModel}, qui fournit automatiquement les champs d'audit \texttt{created\_at}, \texttt{updated\_at}, \texttt{created\_by} et \texttt{updated\_by}.
+\textbf{Espace étudiant :} consultation du catalogue de destinations, suivi de l'état de candidature, déclaration d'expériences complémentaires, indicateur personnel de durée CTI.
 
-% \renewcommand{\arraystretch}{1.4}
-% \begin{table}[H]
-% \centering
-% \footnotesize
-% \begin{tabular}{|p{3cm}|p{4.5cm}|p{7cm}|}
-% \hline
-% \rowcolor{gray!20}
-% \textbf{Module} & \textbf{Entité} & \textbf{Rôle} \\
-% \hline
-% \texttt{reference}    & \texttt{Country}                 & Pays (code ISO 3166-1 alpha-2, région CTI) \\
-% \hline
-%                       & \texttt{Department}              & Département pédagogique (code unique) \\
-% \hline
-%                       & \texttt{Level}                   & Niveau d'études (3A, 4A, M1, M2…) \\
-% \hline
-%                       & \texttt{Parcours}                & Spécialisation rattachée à un département \\
-% \hline
-% \texttt{institutions} & \texttt{PartnerUniversity}       & Université partenaire (id MoveON, code Erasmus) \\
-% \hline
-% \texttt{academic}     & \texttt{AcademicYear}            & Année universitaire avec FSM de cycle de vie \\
-% \hline
-% \texttt{mobility}     & \texttt{MobilityCategory}        & Cadre de mobilité (Erasmus+, hors-Erasmus…) \\
-% \hline
-%                       & \texttt{Agreement}               & Accord bilatéral (places INP, dates de validité) \\
-% \hline
-%                       & \texttt{AgreementDepartment}     & Restriction départementale d'un accord \\
-% \hline
-%                       & \texttt{AgreementYear}           & Instance annuelle d'un accord (quota N7) \\
-% \hline
-%                       & \texttt{AgreementYearDepartment} & Quota estimé par département et par année \\
-% \hline
-% \end{tabular}
-% \caption{Entités créées au Sprint 1}
-% \label{tab:sprint1-entities}
-% \end{table}
+Toutes les communications entre le frontend et le backend passent par l'API REST, en JSON sur HTTPS, avec un token JWT joint à chaque requête. 
+% Le rendu est hybride : les pages à données dynamiques utilisent le \textit{Server-Side Rendering} (SSR) pour le premier chargement, et le \textit{Client-Side Rendering} (CSR) pour les interactions ultérieures. Les middlewares Next.js gèrent la protection des routes selon le rôle.
 
-% Les contraintes d'intégrité métier sont exprimées via \texttt{UniqueConstraint} et la méthode \texttt{clean()}. La cohérence des quotas est vérifiée avant chaque sauvegarde d'\texttt{AgreementYear} : le quota N7 ne peut dépasser le quota INP global ni être négatif, garantissant la cohérence du modèle en amont de l'algorithme d'affectation. La séparation en deux niveaux — \texttt{AgreementYear} pour le quota global N7 et \texttt{AgreementYearDepartment} pour la répartition par département — modélise la contrainte duale de l'algorithme : chaque candidature est rejetée si elle dépasse l'un ou l'autre des plafonds.
+\subsection{Couche applicatif — Django 5 + Django Ninja}
 
-% \subsubsection{Synchronisation MoveON — pipeline ETL}
-
-% La synchronisation avec l'API MoveON suit un pipeline ETL en cinq étapes conçu pour être résilient aux pannes partielles. L'extraction interroge l'API via un client dédié avec mécanisme de retry exponentiel ; le payload brut est immédiatement persisté dans \texttt{RawImport} avant toute transformation, ce qui permet de rejouer l'import sans rappeler l'API. Les données sont ensuite converties en dataclasses typées, validées selon les règles métier, puis persistées par upsert atomique.
-
-% La résolution des universités partenaires applique une stratégie en cascade — \texttt{moveon\_id}, puis code Erasmus, puis nom normalisé. En cas d'échec de toutes les tentatives, l'enregistrement est marqué \texttt{FAILED} dans \texttt{RawImport} et reste disponible pour une correction manuelle via l'interface d'administration.
-
-% \subsubsection{API REST}
-
-% L'API REST est exposée via Django Ninja, qui génère automatiquement la documentation OpenAPI et valide les entrées/sorties via des schémas Pydantic. Le Sprint 1 produit une trentaine d'endpoints répartis en six groupes fonctionnels.
-
-% \renewcommand{\arraystretch}{1.4}
-% \begin{table}[H]
-% \centering
-% \footnotesize
-% \begin{tabular}{|p{4cm}|p{10.5cm}|}
-% \hline
-% \rowcolor{gray!20}
-% \textbf{Groupe} & \textbf{Fonctions exposées} \\
-% \hline
-% Référentiels        & CRUD pays, départements, niveaux, parcours ; synchronisation Pégase \\
-% \hline
-% Institutions        & CRUD universités partenaires \\
-% \hline
-% Accords             & CRUD accords, restrictions par département et par niveau \\
-% \hline
-% Instances annuelles & Activation, validation, redistribution automatique des quotas \\
-% \hline
-% Quotas département  & CRUD des places estimées par département \\
-% \hline
-% Synchronisation     & Déclenchement MoveON (tâche Django-Q2 asynchrone), gestion des erreurs \\
-% \hline
-% \end{tabular}
-% \caption{Groupes d'endpoints produits au Sprint 1}
-% \label{tab:sprint1-api}
-% \end{table}
-
-% Les endpoints de synchronisation retournent immédiatement un identifiant de tâche ; le traitement s'exécute en arrière-plan via Django-Q2, évitant de bloquer l'interface pendant les imports.
-
-% \subsubsection{Interface utilisateur}
-
-% Le frontend Next.js 14 délivre deux espaces de gestion : un espace \textbf{Référentiels} pour la gestion CRUD des pays, départements, niveaux et parcours avec panneau de correction des erreurs d'import, et un espace \textbf{Mobilité} couvrant les accords bilatéraux, catégories de mobilité, instances annuelles et quotas par département, avec validation en ligne et redistribution automatique des places.
-
-% \subsection{Tests}
-
-% Les tests du Sprint 1 s'organisent en deux niveaux : des \textbf{tests unitaires} qui vérifient les modèles et les fonctions de transformation de manière isolée, et des \textbf{tests d'intégration} qui exercent les services de synchronisation et les endpoints REST contre une base PostgreSQL réelle, sans mock ORM.
-
-% \subsubsection{Tests des modèles}
-
-% Les tests couvrent les contraintes et validations métier des entités principales : création nominale et rejet en cas d'incohérence de dates pour \texttt{Agreement} ; dépassement du quota N7 par rapport au quota INP global et quota négatif pour \texttt{AgreementYear} ; cohérence du département de rattachement pour \texttt{AgreementYearDepartment} ; validation du format ISO2 pour \texttt{Country} ; et unicité \texttt{(department, code)} pour \texttt{Parcours}.
-
-% \subsubsection{Tests de synchronisation}
-
-% Les tests de synchronisation MoveON couvrent les scénarios nominaux et les cas d'erreur représentatifs : import complet d'un accord avec ses entités associées, upsert sans doublon lors d'un ré-import, résolution par code Erasmus en l'absence de \texttt{moveon\_id}, traçabilité d'un accord avec université introuvable (\texttt{FAILED} dans \texttt{RawImport}), et mise à jour des quotas INP sans altération des quotas N7 saisis.
-
-% \subsubsection{Résultats}
-
-% L'ensemble des tests du Sprint 1 passe sans régression sur l'environnement d'intégration continue (GitHub Actions / PostgreSQL 16).
-
-
-% Quelques précisions sur le diagramme de classe ci-dessus, pour la correspondance exacte avec le code :
+Le backend concentre la logique métier du système. Il est découpé en modules Django autonomes, chacun responsable d'un domaine précis, selon les principes DDD décrits au chapitre précédent. Cette organisation garantit qu'une modification dans le domaine de l'affectation ne peut pas affecter le comportement du domaine CTI ou des imports.
 
 % \begin{itemize}
-%   \item Le champ \texttt{status} d'\texttt{AcademicYear} est typé comme \texttt{CampaignStatus} — une classe \texttt{TextChoices} Django qui joue le rôle d'énumération à six valeurs. Dans le diagramme UML, ce champ doit être annoté avec ce type plutôt qu'avec \texttt{String}.
-%   \item Les méthodes \texttt{is\_active()}, \texttt{is\_closed()} et \texttt{is\_wishes\_open()} sont des \textbf{propriétés calculées} (\texttt{@property} en Python) et non des méthodes ordinaires. Elles n'acceptent aucun argument et ne produisent aucun effet de bord — le résultat est recalculé à chaque accès à partir des champs \texttt{status} et des dates.
-%   \item Le modèle \texttt{RawImport} expose le champ \texttt{created\_at} (horodatage automatique \texttt{auto\_now\_add=True}), qui doit figurer explicitement dans le diagramme car il est utilisé pour la politique de purge des imports anciens (tâche Django-Q2 planifiée).
+%   \item \texttt{apps.reference} : référentiels stables (pays, départements) ;
+%   \item \texttt{apps.academic} : années universitaires et machines à états de campagne ;
+%   \item \texttt{apps.students} : étudiants, inscriptions annuelles, GPA ;
+%   \item \texttt{apps.institutions} : universités partenaires et organismes ;
+%   \item \texttt{apps.mobility} : accords, quotas, vœux, affectations ;
+%   \item \texttt{apps.outgoing} : mobilités sortantes ;
+%   \item \texttt{apps.internships} : stages internationaux (Eudonet) ;
+%   \item \texttt{apps.complementary} : mobilités complémentaires ;
+%   \item \texttt{apps.incoming} : mobilités entrantes ;
+%   \item \texttt{apps.cti} : consolidation des durées et conformité CTI ;
+%   \item \texttt{apps.imports} : adaptateurs et pipeline ETL ;
+%   \item \texttt{apps.rag} : chatbot RAG (LlamaIndex + ChromaDB).
 % \end{itemize}
 
-% \subsection{Implémentation}
+\textbf{Django Ninja} est utilisé pour exposer l’API REST. Chaque module définit ses propres schémas pour valider les données en entrée et structurer les réponses. L’authentification repose sur le middleware OIDC (CAS Toulouse INP), qui vérifie le token et associe l’utilisateur à chaque requête.
 
-% \subsubsection{Référentiels — module \texttt{app.reference}}
+\subsection{Couche traitement asynchrone — Django-Q2}
 
-% Les modèles \texttt{Country} et \texttt{Department} ont été implémentés dans le module \texttt{app.reference}. \texttt{Country} expose un champ \texttt{iso2} unique (ISO 3166-1 alpha-2 \cite{ISO3166}) et un champ \texttt{cti\_region} à choix fermés (\texttt{CTIRegion}) couvrant les sept zones géographiques reconnues par la CTI. La méthode \texttt{clean()} normalise le code en majuscules et lève une \texttt{ValidationError} si la valeur n'est pas exactement deux lettres alphabétiques. \texttt{Department} expose un champ \texttt{code} unique et un champ \texttt{pegase\_id} permettant la jointure future avec Pégase.
+Plutôt que de bloquer l'interface le temps qu'un calcul se termine, les traitements longs sont soumis à une file de tâches gérée par \textbf{Django-Q2}. Ce dernier utilise PostgreSQL comme broker, ce qui évite d'introduire Redis dans l'infrastructure. Deux familles de tâches y transitent :
 
-% \subsubsection{Universités partenaires — module \texttt{app.institutions}}
+\begin{itemize}
+  \item \textbf{Tâches déclenchées par événement} : lancement de l'algorithme d'affectation, recalcul des durées CTI après chaque transition FSM, génération des rapports d'import.
+  \item \textbf{Tâches planifiées (cron)} : synchronisation nocturne avec MoveON, Pégase et Eudonet ; purge des données brutes (\texttt{RawImport}) traitées depuis plus de 90 jours.
+\end{itemize}
 
-% Le modèle \texttt{PartnerUniversity} a été implémenté dans \texttt{app.institutions}. Il utilise \texttt{moveon\_id} (entier unique, nullable) comme clé de jointure avec la plateforme MoveON, et une clé étrangère vers \texttt{Country} protégée contre la suppression en cascade (\texttt{on\_delete=PROTECT}). Des index de base de données sont positionnés sur \texttt{moveon\_id} et \texttt{country} pour accélérer les recherches les plus fréquentes. La méthode \texttt{has\_active\_agreements()} permet de tester rapidement si une université dispose d'accords actifs.
+\subsection{Couche données — PostgreSQL 16}
 
-% \subsubsection{Année universitaire — module \texttt{app.academic}}
+Un seul service de données est utilisé dans l'infrastructure : \textbf{PostgreSQL 16}. Ce choix simplifie les sauvegardes et la supervision. PostgreSQL remplit ici trois fonctions différentes :
 
-% Le modèle \texttt{AcademicYear} a été implémenté dans \texttt{app.academic} en utilisant \texttt{django-fsm} \cite{DjangoFSM2024}. Le champ \texttt{status} est déclaré avec l'option \texttt{protected=True}, ce qui empêche toute modification directe du statut en dehors des méthodes de transition. Six états sont définis : \texttt{initialization}, \texttt{recommendation}, \texttt{consolidation}, \texttt{pre\_assignment}, \texttt{validation} et \texttt{closed}. Les transitions correspondantes — \texttt{open\_recommendation()}, \texttt{start\_consolidation()}, \texttt{launch\_pre\_assignment()}, \texttt{submit\_for\_validation()} et \texttt{close()} — ne sont disponibles que dans l'ordre séquentiel imposé par la FSM.
+\begin{itemize}
+  \item \textbf{Base de données relationnelle} : toutes les entités métier y sont stockées, avec des index composites sur \texttt{academic\_year\_id} pour les performances de filtrage par campagne.
+  \item \textbf{Broker de messages Django-Q2} : la table \texttt{django\_q\_task} stocke les tâches en attente.
+  % , éliminant le besoin de Redis.
+  \item \textbf{Stockage des données brutes (JSONB)} : la table \texttt{RawImport} conserve les réponses JSON brutes de chaque appel API avant transformation, garantissant la possibilité de relancer les imports.
+\end{itemize}
 
-% La méthode \texttt{clean()} garantit que \texttt{start\_date} précède \texttt{end\_date} et que \texttt{wishes\_open\_date} précède \texttt{wishes\_close\_date}. Les méthodes \texttt{is\_active()}, \texttt{is\_closed()} et \texttt{is\_wishes\_open()} sont calculées dynamiquement plutôt que stockées en base, évitant toute désynchronisation. Les méthodes de classe \texttt{get\_current()} et \texttt{detect\_by\_date()} permettent de récupérer l'année universitaire en cours depuis n'importe quel module du système.
+Le stockage des fichiers (justificatifs de mobilités complémentaires, templates Excel) est assuré par \textbf{MinIO}, un serveur de stockage objet compatible S3, déployé comme container Docker interne.
 
-% \subsubsection{Accords, quotas et imports bruts — module \texttt{app.mobility}}
+\subsection{Couche intégration — Adaptateurs ETL}
 
-% Le module \texttt{app.mobility} implémente les quatre modèles cœur du Sprint 1 :
+Chaque source externe est encapsulée dans un adaptateur dédié, isolé du reste du code métier. Quatre adaptateurs ont été développés :
 
-% \begin{itemize}
-%   \item \textbf{\texttt{Agreement}} : accord de mobilité rattaché à une \texttt{PartnerUniversity}. Le champ \texttt{moveon\_relation\_id} est unique et sert de clé de jointure MoveON. La méthode \texttt{clean()} vérifie la cohérence des dates. Le champ \texttt{is\_active} permet de filtrer les accords expirés.
+\begin{itemize}
+  \item \texttt{adapters/moveon.py} : extraction des accords bilatéraux, des quotas INP et des candidatures/vœux ;
+  \item \texttt{adapters/pegase.py} : extraction des données académiques étudiants (INE, GPA trimestriel, département d'inscription) ;
+  \item \texttt{adapters/eudonet.py} : extraction des conventions de stages à l'international ;
+  \item \texttt{adapters/excel.py} : traitement des fichiers Excel standardisés (mobilités entrantes, données sans API disponible).
+\end{itemize}
 
-%   \item \textbf{\texttt{AgreementQuota}} : quota par accord et par année universitaire. La hiérarchie INP → N7 estimé → N7 ajusté est matérialisée par les champs \texttt{source\_total\_places}, \texttt{estimated\_total\_places} et \texttt{total\_places}. La propriété calculée \texttt{allocated\_places} retourne la différence entre \texttt{total\_places} et \texttt{remaining\_places}. La méthode \texttt{clean()} interdit les valeurs négatives et garantit que \texttt{remaining\_places} $\leq$ \texttt{total\_places}. Une contrainte d'unicité porte sur le triplet (\texttt{agreement}, \texttt{academic\_year\_label}, \texttt{period}).
+Tous les adaptateurs suivent le même enchaînement : récupération des données depuis la source → stockage brut en JSONB (\texttt{RawImport}) → parsing et standardisation → validation métier → persistance en base → génération du rapport d'import. En cas d'indisponibilité de la source, un mécanisme de retry exponentiel (trois tentatives) est appliqué avant qu'une alerte soit émise via \textbf{Sentry}.
 
-%   \item \textbf{\texttt{DepartmentQuota}} : répartition du quota d'un accord par département pédagogique. Un quota de département ne peut pas exister sans un \texttt{AgreementQuota} parent (\texttt{on\_delete=CASCADE}). La contrainte \texttt{unique\_together} sur (\texttt{agreement\_quota}, \texttt{department}) empêche les doublons.
+\subsubsection{Stratégie d'upsert}
 
-%   \item \textbf{\texttt{RawImport}} : stockage brut JSON des données importées depuis MoveON ou Pégase. Chaque enregistrement porte un \texttt{status} parmi \texttt{pending}, \texttt{imported}, \texttt{failed} et \texttt{ignored}, ainsi qu'un \texttt{error\_message} et un horodatage \texttt{imported\_at}. L'énumération \texttt{RawImportEntity} identifie le type d'entité concerné.
-% \end{itemize}
+À la phase de persistance, chaque enregistrement est traité selon une logique d'upsert. La clé métier (généralement l'INE ou l'identifiant de l'accord) permet de déterminer si l'enregistrement est nouveau ou déjà connu. S'il est nouveau, il est inséré. S'il existe, ses champs sont comparés un à un avec la version en base : en l'absence de différence, l'enregistrement est ignoré ; si un champ a changé (par exemple un GPA révisé dans Pégase ou une date de fin de stage corrigée dans Eudonet), la mise à jour est appliquée et l'écart est consigné dans le journal d'audit. Cela permet au service RI de savoir exactement ce qui a changé d'une synchronisation à l'autre.
 
-% \subsubsection{API REST — Django Ninja}
+\subsubsection{Clé de jointure : l'INE}
 
-% Chaque module expose ses ressources via un routeur Django Ninja \cite{DjangoNinja2024}. Les schémas Pydantic (\texttt{*In} / \texttt{*Out}) valident automatiquement les données entrantes et typent les réponses, garantissant une documentation OpenAPI générée sans effort. Le tableau~\ref{tab:endpoints-sprint1} récapitule les principaux endpoints exposés.
+L'identifiant national étudiant (INE) est la clé partagée entre
+MoveON, Pégase, Eudonet et le CAS institutionnel. Toutes les données
+importées sont croisées via l'INE pour construire une vue unifiée
+du dossier étudiant.
 
-% \renewcommand{\arraystretch}{1.3}
-% \begin{table}[H]
-% \centering
-% \footnotesize
-% \begin{tabular}{|p{3cm}|p{5.5cm}|p{5cm}|}
-% \hline
-% \rowcolor{gray!20}
-% \textbf{Module} & \textbf{Endpoints} & \textbf{Opérations} \\
-% \hline
-% \texttt{app.reference} &
-% \texttt{GET/POST /api/v1/reference/countries/} \newline
-% \texttt{PUT/DELETE .../countries/\{id\}/} \newline
-% \texttt{GET/POST /api/v1/reference/departments/} \newline
-% \texttt{PUT/DELETE .../departments/\{id\}/} &
-% CRUD pays et départements \\
-% \hline
-% \texttt{app.institutions} &
-% \texttt{GET/POST /api/v1/institutions/universities/} \newline
-% \texttt{PUT/DELETE .../universities/\{id\}/} &
-% CRUD universités partenaires \\
-% \hline
-% \texttt{app.academic} &
-% \texttt{GET/POST /api/v1/academic/years/} \newline
-% \texttt{PUT/DELETE .../years/\{id\}/} \newline
-% \texttt{POST .../years/\{id\}/open-recommendation/} \newline
-% \texttt{POST .../years/\{id\}/close/} &
-% CRUD + transitions FSM \\
-% \hline
-% \texttt{app.mobility} &
-% \texttt{GET/POST /api/v1/mobility/agreements/} \newline
-% \texttt{GET/POST .../agreement-quotas/} \newline
-% \texttt{GET/POST .../department-quotas/} \newline
-% \texttt{GET .../raw-imports/} &
-% CRUD accords, quotas, imports \\
-% \hline
-% \end{tabular}
-% \caption{Principaux endpoints REST — Sprint 1}
-% \label{tab:endpoints-sprint1}
-% \end{table}
+Lorsque l'INE est absent d'une source (notamment Eudonet),
+une stratégie de réconciliation est appliquée : matching
+déterministe sur le triplet nom/prénom/date de naissance,
+avec détection des cas ambigus remontés pour validation manuelle
+par le service RI.
 
-% Les erreurs de validation (dates incohérentes, contraintes d'unicité violées, transitions FSM non autorisées) sont systématiquement converties en réponses HTTP 400 via la fonction utilitaire \texttt{save\_validated()}.
+\subsubsection{Stratégie de synchronisation}
 
-% \subsubsection{Interface utilisateur — Next.js 14}
+Le tableau~\ref{tab:sync-strategy} récapitule, pour chaque source externe, le déclencheur de synchronisation et les particularités de traitement associées.
 
-% Les trois pages de l'espace administrateur RI ont été implémentées avec Next.js 14 App Router \cite{Vercel2024} et Tailwind CSS \cite{Tailwind2024} :
-
-% \begin{itemize}
-%   \item \textbf{Page Référentiels} (\texttt{/references}) : affiche dans des onglets séparés les pays, départements et universités partenaires. Chaque onglet expose une table filtrée par nom avec boutons de création, modification et suppression.
-
-%   \item \textbf{Page Année universitaire} (\texttt{/academic-years}) : affiche l'état courant de la FSM, les boutons de transition disponibles (masqués si la transition n'est pas autorisée) et un formulaire de configuration des dates clés.
-
-%   \item \textbf{Page Mobilité} (\texttt{/mobility}) : liste les accords par université partenaire avec leurs quotas INP et N7 par période et par département. L'ajustement manuel du quota N7 est possible directement depuis l'interface.
-% \end{itemize}
-
-% \subsection{Tests}
-
-% \justifying
-
-% Les tests du Sprint 1 ont été écrits avec \textbf{pytest} \cite{pytest2024} et l'extension \texttt{pytest-django}. Ils sont organisés en deux niveaux : tests unitaires des modèles et tests d'intégration de l'API.
-
-% \subsubsection{Tests unitaires des modèles}
-
-% \paragraph{Référentiels (\texttt{app.reference}).}
-% La classe \texttt{TestCountry} couvre six cas de test :
-% \begin{itemize}
-%   \item \texttt{test\_create\_country} : vérifie la création d'un pays et la représentation \texttt{\_\_str\_\_} ;
-%   \item \texttt{test\_iso2\_unique} : vérifie qu'une \texttt{IntegrityError} est levée en cas de doublon sur \texttt{iso2} ;
-%   \item \texttt{test\_iso2\_uppercase\_on\_clean} : vérifie que \texttt{clean()} normalise le code en majuscules ;
-%   \item \texttt{test\_iso2\_invalid\_length\_raises} et \texttt{test\_iso2\_non\_alpha\_raises} : vérifient que \texttt{clean()} lève une \texttt{ValidationError} pour un code de longueur incorrecte ou contenant un chiffre ;
-%   \item \texttt{test\_cti\_region\_choices\_match\_reference\_data} : vérifie l'exhaustivité des sept régions CTI définies.
-% \end{itemize}
-% La classe \texttt{TestDepartment} vérifie la création d'un département et l'unicité de son \texttt{code}.
-
-% \paragraph{Universités partenaires (\texttt{app.institutions}).}
-% La classe \texttt{TestPartnerUniversity} couvre trois cas de test :
-% \begin{itemize}
-%   \item \texttt{test\_create\_partner\_university} : vérifie la création et la représentation \texttt{\_\_str\_\_} ;
-%   \item \texttt{test\_moveon\_id\_unique} : vérifie qu'une \texttt{IntegrityError} est levée en cas de doublon sur \texttt{moveon\_id} ;
-%   \item \texttt{test\_moveon\_id\_can\_be\_blank} : vérifie que plusieurs universités peuvent coexister sans \texttt{moveon\_id}.
-% \end{itemize}
-
-% \paragraph{Année universitaire (\texttt{app.academic}).}
-% La classe \texttt{TestAcademicYear} couvre huit cas de test :
-% \begin{itemize}
-%   \item \texttt{test\_create\_academic\_year} : vérifie la création et le statut initial \texttt{initialization} ;
-%   \item \texttt{test\_start\_date\_must\_be\_before\_end\_date} : vérifie que \texttt{full\_clean()} lève une \texttt{ValidationError} si \texttt{start\_date} $>$ \texttt{end\_date} ;
-%   \item \texttt{test\_wishes\_open\_date\_must\_be\_before\_close\_date} : vérifie la cohérence des dates de dépôt des vœux ;
-%   \item \texttt{test\_campaign\_workflow} : parcourt la séquence complète des cinq transitions (\texttt{initialization} $\to$ \texttt{recommendation} $\to$ \texttt{consolidation} $\to$ \texttt{pre\_assignment} $\to$ \texttt{validation} $\to$ \texttt{closed}) et vérifie l'état à chaque étape ;
-%   \item \texttt{test\_transition\_order\_is\_enforced} : tente la transition \texttt{close()} depuis \texttt{initialization} et vérifie que \texttt{TransitionNotAllowed} est levée ;
-%   \item \texttt{test\_is\_active}, \texttt{test\_is\_wishes\_open} : vérifient les méthodes de statut calculées ;
-%   \item \texttt{test\_get\_current} et \texttt{test\_detect\_by\_date} : vérifient les méthodes de recherche de l'année courante.
-% \end{itemize}
-
-% \paragraph{Accords et quotas (\texttt{app.mobility}).}
-% Les classes \texttt{TestAgreement}, \texttt{TestAgreementQuota} et \texttt{TestDepartmentQuota} couvrent au total huit cas de test :
-% \begin{itemize}
-%   \item \texttt{test\_create\_agreement} : vérifie la création d'un accord et sa représentation ;
-%   \item \texttt{test\_start\_date\_must\_be\_before\_end\_date} : vérifie la validation des dates de l'accord ;
-%   \item \texttt{test\_moveon\_relation\_id\_unique} : vérifie l'unicité de l'identifiant MoveON ;
-%   \item \texttt{test\_create\_agreement\_quota} : vérifie la propriété \texttt{allocated\_places} (total $-$ restant) ;
-%   \item \texttt{test\_remaining\_places\_cannot\_exceed\_total\_places} : vérifie que \texttt{full\_clean()} lève une \texttt{ValidationError} si \texttt{remaining\_places} $>$ \texttt{total\_places} ;
-%   \item \texttt{test\_unique\_quota\_period} : vérifie la contrainte d'unicité sur le triplet accord/année/période ;
-%   \item \texttt{test\_create\_department\_quota} et \texttt{test\_department\_quota\_unique\_per\_quota} : vérifient la création et l'unicité des quotas par département.
-% \end{itemize}
-
-% \subsubsection{Tests d'intégration de l'API}
-
-% Les tests d'API utilisent le client de test Django (\texttt{django.test.Client}) pour appeler les endpoints HTTP réels, sans bouchon. Chaque classe de test instancie les objets nécessaires dans \texttt{setup\_method} et vérifie les codes HTTP ainsi que le contenu des réponses JSON.
-
-% \paragraph{API Référentiels (\texttt{TestCountryAPI}, \texttt{TestDepartmentAPI}).}
-% Les tests couvrent les opérations CRUD complètes (\texttt{GET}, \texttt{POST}, \texttt{PUT}, \texttt{DELETE}), la normalisation du code ISO en majuscules lors de la création (\texttt{test\_create\_country} retourne \texttt{iso2="DE"} pour une entrée \texttt{"de"}), et le rejet HTTP 400 pour un code ISO de longueur incorrecte (\texttt{test\_create\_country\_invalid\_iso\_returns\_400}).
-
-% \paragraph{API Universités partenaires (\texttt{TestPartnerUniversityAPI}).}
-% Les tests couvrent le CRUD, le rejet HTTP 400 pour un \texttt{country\_id} inexistant, la gestion des erreurs d'import (\texttt{test\_list\_university\_import\_errors}) et le mécanisme de ré-essai avec correction de pays (\texttt{test\_retry\_university\_import\_with\_corrected\_country}).
-
-% \paragraph{API Année universitaire (\texttt{TestAcademicYearAPI}).}
-% Les tests couvrent le CRUD, la transition vers \texttt{recommendation} (\texttt{test\_transition\_to\_recommendation} retourne le nouveau statut), et le rejet HTTP 400 pour une transition non autorisée (\texttt{test\_transition\_order\_returns\_400} : tentative de \texttt{close} depuis \texttt{initialization}).
-
-% \paragraph{API Accords et quotas (\texttt{TestMobilityAgreementAPI}).}
-% Les tests couvrent la liste et la création des accords et quotas, la validation des données entrantes (HTTP 400 si \texttt{remaining\_places} $>$ \texttt{total\_places}), la gestion des erreurs d'import MoveON (\texttt{test\_list\_moveon\_import\_errors}), le ré-essai d'import avec correction de l'université partenaire, et l'ignoration manuelle d'une entrée en erreur (\texttt{test\_ignore\_raw\_import}).
-
-% \subsection{Matrice de traçabilité — Sprint 1}
-
-% Le tableau suivant relie chaque user story du Sprint 1 aux modules Django, aux endpoints API, aux classes de test et aux pages Next.js correspondants, permettant de vérifier que chaque exigence est couverte de bout en bout.
-
-% \renewcommand{\arraystretch}{1.4}
-% \begin{table}[H]
-% \centering
-% \footnotesize
-% \begin{tabular}{|p{0.9cm}|p{2.2cm}|p{2.4cm}|p{3.5cm}|p{2.4cm}|p{2.2cm}|}
-% \hline
-% \rowcolor{gray!20}
-% \textbf{US} & \textbf{Titre} & \textbf{Module Django} & \textbf{Endpoints API} & \textbf{Tests} & \textbf{Interface} \\
-% \hline
-% US-01 &
-% Référentiels de base &
-% \texttt{app.reference} \newline \texttt{app.institutions} &
-% \texttt{GET/POST /reference/countries/} \newline
-% \texttt{GET/POST /reference/departments/} \newline
-% \texttt{GET/POST /institutions/universities/} &
-% \texttt{TestCountry} \newline \texttt{TestDepartment} \newline \texttt{TestPartnerUniversity} \newline \texttt{TestCountryAPI} \newline \texttt{TestPartnerUniversityAPI} &
-% \texttt{/references} \\
-% \hline
-% US-02 &
-% Année universitaire et FSM &
-% \texttt{app.academic} &
-% \texttt{GET/POST /academic/years/} \newline
-% \texttt{PUT/DELETE .../years/\{id\}/} \newline
-% \texttt{POST .../open-recommendation/} \newline
-% \texttt{POST .../start-consolidation/} \newline
-% \texttt{POST .../close/} &
-% \texttt{TestAcademicYear} \newline \texttt{TestAcademicYearAPI} &
-% \texttt{/academic-years} \\
-% \hline
-% US-03 &
-% Accords et quotas &
-% \texttt{app.mobility} &
-% \texttt{GET/POST /mobility/agreements/} \newline
-% \texttt{GET/POST .../agreement-quotas/} \newline
-% \texttt{GET/POST .../department-quotas/} \newline
-% \texttt{GET .../raw-imports/} &
-% \texttt{TestAgreement} \newline \texttt{TestAgreementQuota} \newline \texttt{TestDepartmentQuota} \newline \texttt{TestMobilityAgreementAPI} &
-% \texttt{/mobility} \\
-% \hline
-% \end{tabular}
-% \caption{Matrice de traçabilité — Sprint 1 (US → module → endpoint → tests → interface)}
-% \label{tab:tracabilite-sprint1}
-% \end{table}
-
-% ─────────────────────────────────────────────────────────────
-\section{Sprint 2 — Données et traçabilité}
-% ─────────────────────────────────────────────────────────────
-
-Cette section présente la réalisation du Sprint 2, consacré à la gestion des étudiants, de leurs inscriptions annuelles et de leurs vœux de mobilité. Elle couvre successivement l'objectif du sprint, le backlog, la conception UML, l'implémentation et les tests.
-
-\subsection{Objectif du sprint}
-
-Le Sprint 2 a pour objectif de rendre le système opérationnel pour la collecte et la centralisation des données. Il couvre quatre user stories : la traçabilité des actions via l'audit log (US-04), l'import et la synchronisation des données académiques étudiants depuis Pégase (US-05), l'import des dossiers de candidature et vœux depuis MoveON (US-06), et la génération des rapports d'import (US-07). Ces quatre user stories sont le prérequis indispensable au Sprint 3 : sans données étudiants fiables issues de Pégase, le gel du GPA et l'algorithme Gale-Shapley ne peuvent pas s'exécuter.
-
-\textbf{Définition of Done.} À l'issue de ce sprint, les imports Pégase et MoveON s'exécutent sans erreur, les données sont persistées en base et rattachées à l'année universitaire courante, un rapport d'import est généré pour chaque synchronisation, et toute action d'un administrateur RI est tracée dans l'audit log avec l'auteur et l'horodatage.
-
-\setcounter{tasknum}{1}
-
-\subsection{Sprint Backlog — Sprint 2}
-
-\begingroup
+\renewcommand{\arraystretch}{1.4}
+\begin{table}[H]
+\centering
 \footnotesize
-\setlength{\tabcolsep}{3pt}
-\renewcommand{\arraystretch}{1.6}
-
-\begin{longtable}{|p{0.4cm}|p{3.3cm}|p{4.9cm}|p{3.7cm}|p{1.4cm}|p{0.4cm}|}
+\begin{tabular}{|p{2.5cm}|p{5cm}|p{5cm}|}
 \hline
 \rowcolor{gray!20}
-\textbf{\#} & \textbf{Tâche} & \textbf{Description} &
-\textbf{Critères d'acceptation} & \textbf{Prior.} & \textbf{SP} \\
+\textbf{Source} & \textbf{Déclencheur} & \textbf{Remarque} \\
+\hline
+MoveON &
+Tâche Django-Q2 planifiée (phases actives) + manuelle avant
+lancement de l'algorithme &
+Lecture seule — aucune écriture vers MoveON \\
+\hline
+Pégase &
+Initialisation de campagne + à la demande &
+GPA figé à la \texttt{gpa\_freeze\_date} définie par l'admin \\
+\hline
+Eudonet &
+Périodique (fin de période de stage) + à la demande &
+Réconciliation INE si absent \\
+\hline
+Excel &
+Upload manuel par l'administrateur &
+Fallback pour toutes les sources en cas d'indisponibilité API \\
+\hline
+\end{tabular}
+\caption{Stratégie de synchronisation par source}
+\label{tab:sync-strategy}
+\end{table}
+
+\subsection{Sécurité et contrôle d'accès}
+
+\subsubsection{Flux d'authentification OIDC}
+
+L'application délègue entièrement l'authentification au CAS institutionnel de Toulouse INP via OIDC. Aucun mot de passe n'est stocké côté applicatif. Le flux se déroule en quatre étapes :
+
+\begin{enumerate}
+  \item L'utilisateur accède à l'application et est redirigé vers le portail SSO institutionnel.
+  \item Après authentification CAS, un token OIDC (JWT) est émis et transmis à l'application.
+  \item Le backend décode le token, extrait l'INE et le groupe LDAP de l'utilisateur, et détermine automatiquement son rôle (\texttt{ADMIN\_RI} ou \texttt{ETUDIANT}).
+  \item Le frontend reçoit le rôle et affiche l'espace correspondant. Les tokens ont une durée de vie courte (15 minutes) et sont renouvelés silencieusement sans interrompre la navigation.
+\end{enumerate}
+
+\subsubsection{Contrôle d'accès (RBAC)}
+
+Les rôles sont déduits automatiquement depuis l'annuaire LDAP institutionnel, sans gestion manuelle dans l'application :
+
+\begin{itemize}
+  \item \textbf{ADMIN\_RI} : accès complet aux fonctions d'administration — imports, lancement de l'algorithme, validations, exports CTI. Toute action est enregistrée dans le journal d'audit.
+  \item \textbf{ETUDIANT} : accès strictement limité à son propre dossier. Un contrôle au niveau de l'objet (\textit{object-level permission}) est appliqué sur chaque endpoint exposant des données personnelles — un étudiant ne peut pas accéder au dossier d'un autre.
+\end{itemize}
+
+\subsubsection{Gestion du renouvellement des tokens JWT}
+
+Les tokens JWT ont une durée de vie de 15 minutes pour limiter l'exposition en cas d'interception. Côté Next.js, NextAuth gère le renouvellement silencieusement : quand le token approche de son expiration, un flux de rafraîchissement est initié via le endpoint OIDC du CAS sans interrompre la session. Côté Django, chaque requête est vérifiée par un middleware qui contrôle la signature et l'expiration du token ; un token expiré retourne un 401 et force le frontend à initier un nouveau cycle. Un token révoqué au niveau du CAS ne peut donc pas être utilisé pour accéder au backend, même si le frontend n'a pas encore détecté l'invalidation.
+
+\subsubsection{Journal d'audit}
+
+La traçabilité des actions administratives est assurée par \texttt{django-auditlog}, sans code supplémentaire dans les vues. Les événements enregistrés couvrent :
+
+\begin{itemize}
+  \item Authentifications réussies et tentatives échouées ;
+  \item Toutes les transitions FSM (changements d'état d'une année universitaire, d'un dossier, d'une affectation) ;
+  \item Modifications manuelles des affectations par le service RI (avec champ \textit{motif} obligatoire) ;
+  \item Lancements d'imports ETL et résultats (source, nombre d'enregistrements traités, erreurs) ;
+  \item Validations ou rejets de mobilités complémentaires ;
+  \item Exports de rapports CTI.
+\end{itemize}
+
+Chaque entrée contient l'identifiant de l'auteur, l'horodatage UTC, l'entité concernée (table et clé primaire), l'action effectuée, et les valeurs avant/après modification. Le journal est stocké dans une table PostgreSQL dédiée (\texttt{auditlog\_logentry}), accessible en lecture seule. La politique de rétention est de sept ans. Aucune entrée ne peut être modifiée ou supprimée depuis l'application — toute suppression nécessite un accès direct à la base, lui-même tracé au niveau opérateur.
+
+\subsubsection{Protection des données (RGPD)}
+
+La plateforme traite des données personnelles étudiantes (INE, email, date de naissance, résultats académiques) soumises au RGPD. Quatre mesures techniques ont été intégrées dès la conception :
+
+\begin{itemize}
+  \item \textbf{Chiffrement au repos} : les champs sensibles sont chiffrés en base via \texttt{pgcrypto} ; leur lecture requiert la clé de déchiffrement qui n'est jamais stockée dans le code.
+  \item \textbf{Chiffrement en transit} : TLS est obligatoire sur tous les endpoints ; les communications HTTP sont systématiquement redirigées vers HTTPS par Nginx.
+  \item \textbf{Stockage des justificatifs} : les fichiers uploadés (justificatifs de mobilités complémentaires) sont chiffrés côté serveur dans MinIO (SSE-S3) et supprimés automatiquement après validation et expiration du délai de conservation.
+  \item \textbf{Droit à l'oubli} : une procédure d'anonymisation est prévue après diplômation — les données nominatives sont effacées, les statistiques agrégées sont conservées pour les rapports CTI.
+\end{itemize}
+% ─────────────────────────────────────────────────────────────
+\section{Architecture physique et déploiement}
+% ─────────────────────────────────────────────────────────────
+
+\subsection{Vue d'ensemble}
+
+L'application s'exécute sur un serveur on-premise hébergé par Toulouse INP. Tous les services sont conteneurisés via \textbf{Docker Compose}, ce qui garantit que l'environnement de développement et l'environnement de production sont structurellement identiques — éliminer les surprises du déploiement était une contrainte dès le départ.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{figures/architecture/Architecture-Physique.png}
+  \caption{Architecture physique}
+  \label{fig:archi-physique}
+\end{figure}
+
+La figure~\ref{fig:archi-physique} détaille les flux réseau. Tout le trafic entrant passe par \textbf{Nginx}, le seul container exposé à l'extérieur (ports 80 et 443). Nginx redirige le HTTP vers HTTPS, sert les fichiers statiques Next.js et route les appels API vers \texttt{backend:8000}. PostgreSQL, MinIO et le worker Django-Q2 sont confinés dans le réseau Docker interne — aucune connexion directe depuis l'extérieur n'est possible. Les appels vers les APIs institutionnelles (MoveON, Pégase, Eudonet, CAS) partent exclusivement du container \texttt{backend} en HTTPS sortant. Sentry est externe à l'infrastructure et reçoit les rapports d'erreur du backend et du frontend. Prometheus (collecte de métriques) et Grafana (visualisation) tournent en interne, accessibles uniquement depuis le réseau institutionnel.
+
+\subsection{Containers Docker}
+
+Six containers composent l'infrastructure. Le tableau~\ref{tab:docker-containers} en donne le détail.
+
+\begin{table}[H]
+\centering
+\small
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{|p{3cm}|p{4cm}|p{6.5cm}|}
+\hline
+\rowcolor{gray!20}
+\textbf{Container} & \textbf{Image} & \textbf{Rôle} \\
+\hline
+\texttt{nginx} & \texttt{nginx:alpine} & Reverse proxy : SSL/TLS, fichiers statiques, routage vers Django et Next.js \\
+\hline
+\texttt{frontend} & \texttt{node:20-alpine} & Application Next.js (SSR + API routes) \\
+\hline
+\texttt{backend} & \texttt{python:3.12-slim} & Django 5 + Django Ninja \\
+\hline
+\texttt{worker} & \texttt{python:3.12-slim} & Django-Q2 cluster (tâches asynchrones et cron) \\
+\hline
+\texttt{db} & \texttt{postgres:16-alpine} & PostgreSQL — base de données et broker Django-Q2 \\
+\hline
+\texttt{minio} & \texttt{minio/minio} & Stockage objet S3 (justificatifs, fichiers Excel) \\
+\hline
+\end{tabular}
+\caption{Containers Docker et leurs rôles}
+\label{tab:docker-containers}
+\end{table}
+
+\subsection{Flux réseau}
+
+Nginx est le seul point d'entrée du système : les requêtes vers \texttt{/api/*} sont acheminées vers \texttt{backend:8000}, toutes les autres vers \texttt{frontend:3000}. Le container \texttt{backend} dialogue avec la base de données pour les opérations métier et avec MinIO pour la gestion des fichiers. Le \texttt{worker} Django-Q2 utilise le même PostgreSQL comme file de messages — aucun Redis ni RabbitMQ n'est nécessaire. Les appels sortants vers MoveON, Pégase, Eudonet et le CAS passent uniquement par le container \texttt{backend}.
+
+\subsection{Environnements}
+
+Trois environnements coexistent, avec une parité de configuration maximale entre eux :
+
+\begin{itemize}
+  \item \textbf{Développement} : Docker Compose local, données anonymisées, variables d'environnement dans \texttt{.env}. Chaque développeur dispose d'un environnement reproductible en une commande.
+  \item \textbf{Staging} : copie conforme de la production hébergée sur le serveur institutionnel, utilisée pour les tests d'acceptation (UAT) avec le service RI avant chaque mise en production.
+  \item \textbf{Production} : déploiement final sur le serveur on-premise, avec sauvegardes PostgreSQL quotidiennes, alertes via Sentry et métriques via Prometheus/Grafana.
+\end{itemize}
+
+\subsection{CI/CD}
+
+Le pipeline CI/CD sur \textbf{GitHub Actions} s'exécute à chaque push. Trois étapes s'enchaînent :
+
+\begin{itemize}
+  \item \textbf{Lint et tests} : le linter \texttt{ruff} vérifie la qualité du code Python, puis \texttt{pytest} exécute la suite de tests complète.
+  \item \textbf{Build} : construction des images Docker et vérification que l'ensemble des services démarre sans erreur.
+  \item \textbf{Déploiement staging} : déploiement automatique sur l'environnement de staging à chaque merge sur \texttt{main}, sans intervention manuelle.
+\end{itemize}
+
+\subsection{Stratégie de migration de schéma}
+
+Les migrations Django sont appliquées automatiquement avant le démarrage du serveur applicatif, ce qui garantit que le code et le schéma de base de données sont toujours cohérents. La stratégie retenue est celle des migrations additives en deux temps : on ajoute d'abord le nouveau champ (migration non destructive), et on supprime les éléments devenus inutiles dans une migration ultérieure, une fois que le code de production n'y fait plus référence. Cette approche permet de déployer sans fenêtre de maintenance et sans risque de rupture entre le code et le schéma. Chaque fichier de migration est versionné dans le dépôt git au même titre que le code, et relu avant intégration.
+
+\subsection{Stratégie de rollback}
+
+Si un incident survient après un déploiement, le rollback se déroule en deux temps. L'image Docker précédente est remise en service en ciblant son tag de version. Si la migration de schéma était irréversible (suppression de colonne par exemple), une restauration depuis la sauvegarde pré-déploiement est effectuée — c'est pourquoi une sauvegarde complète est systématiquement déclenchée juste avant tout déploiement en production. Pour les migrations réversibles, un retour en arrière via la commande Django est possible sans restauration complète.
+
+\subsection{Politique de sauvegarde}
+
+Deux niveaux de sauvegarde sont mis en place. Des sauvegardes logiques PostgreSQL sont générées chaque nuit et conservées 30 jours sur un volume distinct du volume de données. Des sauvegardes physiques hebdomadaires couvrent l'intégralité des données et sont archivées pendant six mois, permettant une restauration fine en combinaison avec les journaux transactionnels.
+
+Un test de restauration est effectué chaque mois sur l'environnement staging : on restaure la sauvegarde la plus récente et on vérifie l'intégrité des données via un script de contrôle (comptages par table, contraintes référentielles). Cette procédure mesure le \textit{Recovery Time Objective} réel et permet de détecter un problème avant qu'il ne se révèle en production.
+
+\subsection{Gestion des secrets}
+
+Aucun secret n'est présent dans le dépôt git. Les variables sensibles — \texttt{SECRET\_KEY}, mots de passe PostgreSQL, clés d'API MoveON, Pégase, Eudonet, tokens MinIO — sont injectées au runtime via un fichier \texttt{.env.prod} stocké uniquement sur le serveur de production. Le \texttt{.gitignore} exclut tous les fichiers \texttt{.env.*}, à l'exception d'un fichier de référence avec des valeurs fictives fourni pour le développement local.
+
+% ─────────────────────────────────────────────────────────────
+\section{Modèle de données}
+% ─────────────────────────────────────────────────────────────
+
+Le modèle de données traduit en structures relationnelles les entités métier identifiées dans l’analyse. Il est organisé en huit packages thématiques, chacun correspondant à un domaine métier distinct. Cette section en présente la logique d’ensemble ; les diagrammes de classes détaillés de chaque sprint sont présentés dans le chapitre de réalisation.
+
+\subsection{Organisation par packages}
+
+Le modèle s'articule autour de huit packages dont les responsabilités
+sont résumées dans le tableau suivant.
+
+\renewcommand{\arraystretch}{1.4}
+\begin{table}[H]
+\centering
+\footnotesize
+\begin{tabular}{|p{3.5cm}|p{11cm}|}
+\hline
+\rowcolor{gray!20}
+\textbf{Package} & \textbf{Responsabilité} \\
+\hline
+\textbf{Reference} &
+Référentiels stables partagés par l'ensemble du système :
+pays, régions CTI, départements N7. \\
+\hline
+\textbf{Academic Year} &
+Axe temporel central. Chaque campagne de mobilité est rattachée
+à une année universitaire dont le cycle de vie est piloté par
+une machine à états. \\
+\hline
+\textbf{Students} &
+Données académiques des étudiants importées depuis Pégase :
+\texttt{Student}, inscriptions annuelles (\texttt{AnnualEnrollment}),
+parcours pédagogique (\texttt{Parcours}), relevés de GPA gelés à date fixe. \\
+\hline
+\textbf{Institutions} &
+Universités partenaires (synchronisées depuis MoveON) et
+organismes d'accueil pour les stages. \\
+\hline
+\textbf{Agreements \& Quotas} &
+Accords de mobilité (\texttt{Agreement}) et leur hiérarchie de quotas :
+déclinaison annuelle par accord (\texttt{AgreementYear}),
+liste des départements autorisés par accord (\texttt{AgreementDepartment}),
+et répartition annuelle du quota N7 par département (\texttt{AgreementYearDepartment}). \\
+\hline
+\textbf{Applications} &
+Dossiers de candidature, vœux ordonnés et affectations
+produites par l'algorithme ou saisies manuellement. \\
+\hline
+\textbf{Mobilities} &
+Quatre types de mobilités : sortantes académiques,
+stages internationaux (Eudonet), complémentaires déclarées
+par l'étudiant, et entrantes (import Excel).
+La durée CTI consolidée est calculée automatiquement. \\
+\hline
+\textbf{Import} &
+Stockage brut (JSONB) des données reçues de chaque source
+avant transformation, garantissant la reprise sur erreur
+et la traçabilité des imports. \\
+\hline
+\end{tabular}
+\caption{Packages du modèle de données}
+\end{table}
+
+\subsection{Principes structurants}
+
+Trois décisions de conception traversent l'ensemble du modèle et méritent d'être explicitées.
+
+\subsubsection{L'année universitaire comme axe temporel}
+Toutes les entités opérationnelles — dossiers, vœux, affectations, mobilités, imports — sont rattachées à une \texttt{AcademicYear}. Cette clé de partitionnement logique garantit deux propriétés : l'historique des campagnes passées est complet et consultable, et dès qu'une année est clôturée, ses données basculent automatiquement en lecture seule.
+
+\subsubsection{L'INE comme identifiant pivot}
+L'identifiant national étudiant (INE) est le seul identifiant commun à toutes les sources — MoveON, Pégase, Eudonet et le CAS OIDC. Tous les imports sont croisés via l'INE pour construire une vue unifiée du dossier étudiant. Quand un enregistrement arrive sans INE valide (cas courant dans Eudonet), une réconciliation déterministe sur le triplet nom / prénom / date de naissance est appliquée, et les cas ambigus sont remontés pour validation manuelle par le service RI.
+
+\subsubsection{Hiérarchie quotas INP / quotas N7}
+MoveON ne connaît les quotas qu'à l'échelle de l'INP. Pour gérer la répartition interne à l'ENSEEIHT, le modèle introduit quatre niveaux : le quota INP importé depuis MoveON, l'estimation N7 calculée par l'administrateur, un éventuel ajustement manuel, et la répartition finale par département pédagogique. Ce découpage assure à la fois la conformité avec MoveON et la granularité nécessaire à l'algorithme d'affectation.
+
+% ─────────────────────────────────────────────────────────────
+\section{Machines à états finis (FSM)}
+% ─────────────────────────────────────────────────────────────
+
+\subsection{Principe et implémentation}
+
+Dans un système comme celui-ci, certaines entités ne peuvent pas changer d'état librement. Une campagne clôturée ne doit pas pouvoir être rouverte, une affectation validée ne doit pas être modifiable sans trace, et l'algorithme ne doit pas s'exécuter sur des données incomplètes. Ces contraintes sont encodées dans des machines à états finis, implémentées via \texttt{django-fsm}. Le champ de statut est déclaré avec l'option \texttt{protected=True} : toute tentative de modification directe du statut — sans passer par une méthode de transition nommée — lève immédiatement une exception. Il n'est donc pas possible de contourner ces règles, même par une opération en base de données effectuée manuellement.
+
+\subsection{FSM de l'année universitaire}
+
+C'est la machine à états centrale du système. Elle gouverne l'accès à toutes les fonctionnalités de la campagne. La figure~\ref{fig:fsm-academic-year} en présente les états et transitions.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  node distance=1.8cm,
+  state/.style={draw, rectangle, rounded corners, align=center, minimum width=2.8cm, minimum height=0.9cm, font=\small},
+  arrow/.style={->, thick, >=stealth}
+]
+\node[state] (init)   {initialization};
+\node[state] (reco)   [right=of init]   {recommendation};
+\node[state] (conso)  [right=of reco]   {consolidation};
+\node[state] (pre)    [below=of conso]  {pre\_assignment};
+\node[state] (valid)  [left=of pre]     {validation};
+\node[state] (closed) [left=of valid]   {closed};
+
+\draw[arrow] (init)   -- node[above,font=\tiny]{open\_recommendation} (reco);
+\draw[arrow] (reco)   -- node[above,font=\tiny]{start\_consolidation} (conso);
+\draw[arrow] (conso)  -- node[right,font=\tiny]{launch\_pre\_assignment} (pre);
+\draw[arrow] (pre)    -- node[below,font=\tiny]{submit\_for\_validation} (valid);
+\draw[arrow] (valid)  -- node[below,font=\tiny]{close} (closed);
+\end{tikzpicture}
+\caption{Machine à états — AcademicYear}
+\label{fig:fsm-academic-year}
+\end{figure}
+
+Chaque transition marque un cap dans le déroulement de la campagne.
+
+\begin{itemize}
+  \item \textbf{initialization} → \textbf{recommendation} (\texttt{open\_recommendation}) : les étudiants peuvent désormais consulter le catalogue de destinations et formuler leurs vœux.
+  \item \textbf{recommendation} → \textbf{consolidation} (\texttt{start\_consolidation}) : la fenêtre de saisie des vœux se ferme, le GPA est gelé à la date du jour, et la synchronisation finale avec MoveON est déclenchée.
+  \item \textbf{consolidation} → \textbf{pre\_assignment} (\texttt{launch\_pre\_assignment}) : l'algorithme Gale-Shapley est soumis à Django-Q2 pour exécution asynchrone.
+  \item \textbf{pre\_assignment} → \textbf{validation} (\texttt{submit\_for\_validation}) : les propositions d'affectation sont soumises à l'examen du service RI, qui peut les ajuster avant publication.
+  \item \textbf{validation} → \textbf{closed} (\texttt{close}) : les résultats sont publiés et toutes les données de la campagne passent en lecture seule.
+\end{itemize}
+
+Chaque transition est réservée aux utilisateurs \texttt{ADMIN\_RI}. Le tableau ci-dessous liste les conditions que le système vérifie avant d'autoriser chaque passage d'état, ainsi que le comportement en cas d'échec.
+
+\renewcommand{\arraystretch}{1.35}
+\begin{table}[H]
+\centering
+\footnotesize
+\begin{tabular}{|p{4cm}|p{4.5cm}|p{5.5cm}|}
+\hline
+\rowcolor{gray!20}
+\textbf{Transition} & \textbf{Préconditions (guard conditions)} & \textbf{Comportement en cas d'échec} \\
+\hline
+\texttt{open\_recommendation} & Accords importés depuis MoveON, quotas par département configurés & Exception levée, message d'erreur précis renvoyé au frontend \\
+\hline
+\texttt{start\_consolidation} & Au moins un vœu saisi par les étudiants, date limite de saisie atteinte ou dépassée & Exception levée si aucun vœu importé \\
+\hline
+\texttt{launch\_pre\_assignment} & GPA gelé (synchronisation Pégase terminée), vœux importés depuis MoveON & Exception levée, tâche Django-Q2 non déclenchée \\
+\hline
+\texttt{submit\_for\_validation} & Algorithme exécuté sans erreur, toutes les affectations en état \texttt{proposed} & Transition bloquée si des affectations sont en état intermédiaire \\
+\hline
+\texttt{close} & Validation manuelle explicite du service RI sur les propositions & Transition refusée tant que des affectations restent non validées \\
+\hline
+\end{tabular}
+\caption{Conditions préalables (guard conditions) des transitions FSM}
+\label{tab:fsm_guards}
+\end{table}
+
+\subsection{FSM des entités métier}
+
+La FSM de l'année universitaire n'est pas la seule : plusieurs entités métier disposent de leur propre cycle de vie, encodé de la même façon. Le tableau~\ref{tab:fsm-entities} en donne un aperçu synthétique.
+
+\begin{table}[H]
+\centering
+\small
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{|p{4cm}|p{9.5cm}|}
+\hline
+\rowcolor{gray!20}
+\textbf{Entité} & \textbf{États et transitions} \\
+\hline
+ApplicationFile & \texttt{open} → \texttt{submitted} → \texttt{processing} → \texttt{closed} \\
+\hline
+StudentWish & \texttt{candidate} → \texttt{selected} → \texttt{assigned} \textbar{} \texttt{rejected} \\
+\hline
+Assignment & \texttt{proposed} → \texttt{validated} → \texttt{published} \textbar{} \texttt{cancelled} \\
+\hline
+OutgoingMobility & \texttt{planned} → \texttt{ongoing} → \texttt{completed} \textbar{} \texttt{cancelled} \\
+\hline
+ComplementaryMobility & \texttt{submitted} → \texttt{under\_review} → \texttt{validated} \textbar{} \texttt{rejected} \\
+\hline
+IncomingMobility & \texttt{nominated} → \texttt{imported} → \texttt{registered} → \texttt{active} \\
+\hline
+\end{tabular}
+\caption{FSM des entités métier}
+\label{tab:fsm-entities}
+\end{table}
+
+Chaque transition sur \textbf{OutgoingMobility}, \textbf{InternationalInternship} ou \textbf{ComplementaryMobility} déclenche automatiquement une tâche Django-Q2 de recalcul de \textbf{MobilityDuration} pour l'étudiant concerné, garantissant que l'indicateur CTI est toujours à jour.
+
+% ─────────────────────────────────────────────────────────────
+\section{Flux de données : de la source au workflow}
+% ─────────────────────────────────────────────────────────────
+
+Chaque information importée dans le système suit un même parcours balisé, du fichier brut jusqu’à son intégration dans les entités métier. Ce parcours est délibérément découpé pour garantir qu’aucune donnée non validée ne peut déclencher un workflow, et que chaque étape est indépendamment traçable et rejouable.
+
+\begin{enumerate}
+  \item \textbf{Récupération :} la tâche Django-Q2 interroge la source (API MoveON, Pégase, Eudonet ou fichier Excel). La réponse brute est immédiatement sérialisée en JSONB dans \texttt{RawImport}. Aucune transformation n’a encore eu lieu à ce stade — ce qui signifie que si un traitement ultérieur échoue, l’import peut être rejoué sans rappeler la source.
+  \item \textbf{Nettoyage et validation :} un pipeline Python normalise les chaînes, croise les INE, détecte les doublons et vérifie les règles métier. Les enregistrements qui ne passent pas la validation sont consignés dans le rapport d’import avec le motif de rejet, sans interrompre le reste du traitement.
+  \item \textbf{Persistance :} les enregistrements validés sont intégrés en base par upsert atomique, rattachés à l’année universitaire en cours.
+  \item \textbf{Déclenchement des workflows :} chaque entité créée entre dans l’état initial de sa FSM. Un vœu importé commence en statut \texttt{candidate} ; une affectation créée par l’algorithme commence en \texttt{proposed}. Toute progression ultérieure passe obligatoirement par une transition FSM explicite.
+  \item \textbf{Supervision :} l’administrateur consulte le rapport d’import, traite les anomalies signalées et confirme le passage à la phase suivante de la campagne.
+\end{enumerate}
+
+La figure~\ref{fig:pipeline-global} illustre ces cinq étapes successives.
+
+\begin{figure}[H]
+ \centering \begin{tikzpicture}[ node distance=0.3cm, every node/.style={ draw, rectangle, rounded corners, align=center, minimum width=0.2cm, minimum height=0.2cm }, arrow/.style={->, thick} ] \node (input) {\textbf{Sources}\\MoveON \\ Pégase \\ Eudonet \\ Excel}; \node (json) [right=of input] {\textbf{Format JSON}\\+ JSONB}; \node (parsing) [right=of json] {\textbf{Parsing}\\Objets Python}; \node (cleaning) [right=of parsing] {\textbf{Nettoyage}\\Standardisation \\ Normalisation}; \node (validation) [right=of cleaning] {\textbf{Validation}\\Règles métier}; \node (output) [right=of validation] {\textbf{Output}\\Valide / Rejet}; \draw[arrow] (input) -- (json); \draw[arrow] (json) -- (parsing); \draw[arrow] (parsing) -- (cleaning); \draw[arrow] (cleaning) -- (validation); \draw[arrow] (validation) -- (output);
+\end{tikzpicture}
+\caption{Pipeline global de traitement des données}
+\label{fig:pipeline-global}
+\end{figure}
+
+\subsection{Détail de l’étape de nettoyage et validation}
+
+L’étape de nettoyage et validation est la plus délicate du pipeline : c’est là que les données brutes issues de sources hétérogènes deviennent exploitables par le système métier. Elle s’intercale entre la phase de récupération (stockage JSONB) et la persistance en base.
+\subsubsection{Description du processus de transformation}
+
+Les données importées arrivent sous des formats incompatibles : une API REST renvoie du JSON, Eudonet exporte du XML, les fichiers Excel du service RI utilisent des colonnes nommées différemment selon l’agent qui les a créés. Le pipeline de transformation commence donc par convertir toutes ces entrées dans une représentation intermédiaire commune, avant d’appliquer les mêmes règles de nettoyage quel que soit l’origine. Cette approche modulaire permet d’ajouter une nouvelle source sans modifier la logique de validation.
+
+\paragraph{Standardisation des formats}
+\begin{itemize}
+    \item Normalisation des chaînes de caractères : suppression des espaces en début/fin, homogénéisation de la casse pour les codes (INE, codes ISO pays).
+    
+    \item \textbf{Gestion des accents :}
+    \begin{itemize}
+        \item Les accents sont conservés pour les champs descriptifs (noms propres, universités, pays) afin de préserver l’intégrité sémantique des données.
+        
+        \item Lors des opérations de recherche, de comparaison ou de détection de similarité (\textit{matching}), les comparaisons sont effectuées de manière insensible aux accents afin d’éviter les divergences liées aux variations d’écriture.
+    \end{itemize}
+    
+    \item Uniformisation des formats de dates (ISO 8601).
+    
+    \item Conversion des types (ex : chaînes vers entiers pour les identifiants).
+\end{itemize}
+
+\paragraph{Normalisation sémantique}
+\begin{itemize}
+    \item Harmonisation des noms d’universités via une table de correspondance (\textit{lookup table}) :
+    \begin{itemize}
+        \item Les données sources peuvent contenir différentes variantes pour une même université (abréviations, différences de langue, fautes de frappe).
+        
+        \item Une table de correspondance permet d’associer ces variantes à une valeur unique de référence.
+        
+        \item Cette approche garantit la cohérence des données et évite les duplications logiques lors des traitements.
+    \end{itemize}
+    
+    \item Normalisation des pays selon un référentiel standard (ISO 3166).
+    
+    \item Mapping des valeurs hétérogènes vers des valeurs métier uniques (ex : “FR”, “France”, “france” $\rightarrow$ “France”).
+\end{itemize}
+
+\paragraph{Gestion des valeurs manquantes}
+\begin{itemize}
+    \item Identification des champs obligatoires (INE, université, type de mobilité).
+    
+    \item Si une valeur obligatoire est manquante, l’enregistrement est rejeté et consigné dans le rapport d’import avec la raison de l’erreur.
+    
+    \item Si les champs manquants ne sont pas critiques, l’enregistrement est conservé et peut être sauvegardé en base de données.
+\end{itemize}
+
+\paragraph{Détection et gestion des doublons}
+\begin{itemize}
+    \item Les doublons sont identifiés à partir d’une clé composite construite à partir de plusieurs attributs pertinents (par exemple : INE, entité concernée, période), permettant de représenter de manière unique un enregistrement métier.
+
+    \item La composition de cette clé peut varier selon le type de donnée traité (étudiant, souhait, accord, etc.), afin de s’adapter aux spécificités de chaque entité.
+
+    \item Chaque enregistrement est comparé aux données existantes afin de détecter les occurrences identiques.
+
+    \item En cas de doublon exact, l’enregistrement est ignoré afin d’éviter la duplication des données.
+
+    \item Les cas détectés sont tracés dans le rapport d’import pour assurer la traçabilité.
+\end{itemize}
+
+\paragraph{Validation métier}
+\begin{itemize}
+    \item Vérification de la cohérence avec les données Pégase (existence de l’étudiant via INE).
+    
+    \item Contrôle des règles métier (nombre maximum de vœux, compatibilité des destinations).
+\end{itemize}
+
+\paragraph{Traçabilité et gestion des erreurs}
+\begin{itemize}
+    \item Journalisation des erreurs dans un rapport d’import structuré.
+    
+    \item Stockage des données rejetées avec leur motif (audit et reprise).
+    
+    \item Attribution d’un identifiant de traitement pour chaque batch.
+\end{itemize}
+
+\subsubsection{Architecture du pipeline de nettoyage}
+
+Le pipeline de nettoyage est conçu comme un module autonome intégré dans le flux global. Il fonctionne par batch afin d’assurer l’isolation des traitements et la robustesse du système.
+
+\begin{itemize}
+    \item \textbf{Entrée :} données JSON issues du pipeline global.
+    \item \textbf{Parsing :} transformation en objets manipulables.
+    \item \textbf{Nettoyage :} standardisation et normalisation.
+    \item \textbf{Validation :} application des règles métier.
+    \item \textbf{Sortie :}
+    \begin{itemize}
+        \item Données valides → persistance.
+        \item Données invalides → rapport d’erreurs.
+    \end{itemize}
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+    node distance=0.3cm,
+    every node/.style={
+        draw,
+        rectangle,
+        rounded corners,
+        align=center,
+        minimum width=0.2cm,
+        minimum height=0.2cm
+    },
+    arrow/.style={->, thick}
+]
+
+\node (start) {\textbf{Entrée}\\Enregistrement brut};
+
+\node (standard) [below=of start] {
+\textbf{Standardisation}\\
+\small Formats, types, casse
+};
+
+\node (semantic) [below=of standard] {
+\textbf{Normalisation}\\
+\small Universités, pays, mapping
+};
+
+\node (missing) [below=of semantic] {
+\textbf{Valeurs manquantes}\\
+\small Champs obligatoires
+};
+
+\node (duplicate) [below=of missing] {
+\textbf{Doublons}\\
+\small Clé composite
+};
+
+\node (clean) [below=of duplicate] {\textbf{Donnée nettoyée}};
+
+\draw[arrow] (start) -- (standard);
+\draw[arrow] (standard) -- (semantic);
+\draw[arrow] (semantic) -- (missing);
+\draw[arrow] (missing) -- (duplicate);
+\draw[arrow] (duplicate) -- (clean);
+
+\end{tikzpicture}
+\caption{Pipeline détaillé de l’étape de nettoyage des données}
+\end{figure}
+
+
+
+\medskip
+
+Cette architecture garantit :
+\begin{itemize}
+    \item une \textbf{traçabilité complète} grâce au stockage JSONB,
+    \item une \textbf{robustesse} via le traitement isolé de chaque enregistrement,
+    \item une \textbf{reprise sur erreur} par batch,
+    \item une \textbf{maintenabilité} grâce à la modularité du pipeline.
+\end{itemize}
+
+\subsubsection{Technologies et outils utilisés}
+\begin{itemize}
+    \item \textbf{Python} : traitement et transformation des données.
+    \item \textbf{Pandas} : manipulation et nettoyage des datasets.
+    \item \textbf{Regex} : validation et transformation des formats.
+    \item \textbf{PostgreSQL (JSONB)} : stockage temporaire des données brutes.
+\end{itemize}
+
+\medskip
+Ce pipeline garantit qu'aucune donnée non validée n'atteint la couche métier. Chaque rejet est documenté dans le rapport d'import avec le motif exact, ce qui permet à l'administrateur de corriger la source ou de saisir manuellement les données manquantes.
+
+
+% ─────────────────────────────────────────────────────────────
+\section{Gestion des risques}
+% ─────────────────────────────────────────────────────────────
+
+Concevoir un système qui s'interface avec plusieurs sources institutionnelles implique d'accepter dès le départ que certaines choses ne se passeront pas comme prévu. Le tableau ci-dessous liste les risques les plus significatifs identifiés en phase de conception et les mesures retenues pour en limiter l'impact.
+
+\renewcommand{\arraystretch}{1.4}
+\begin{longtable}{|p{4cm}|p{1.5cm}|p{1.5cm}|p{6.5cm}|}
+\caption{Matrice des risques} \\
+\hline
+\rowcolor{gray!20}
+\textbf{Risque} & \textbf{Prob.} & \textbf{Impact} & \textbf{Mitigation} \\
 \hline
 \endfirsthead
 \hline
 \rowcolor{gray!20}
-\textbf{\#} & \textbf{Tâche} & \textbf{Description} &
-\textbf{Critères d'acceptation} & \textbf{Prior.} & \textbf{SP} \\
+\textbf{Risque} & \textbf{Prob.} & \textbf{Impact} & \textbf{Mitigation} \\
 \hline
 \endhead
-\hline
-\endfoot
 
-% ── US-04 ────────────────────────────────────────────────────────────────────
-\usheader{US-04 — Audit log et traçabilité}{%
-  En tant qu'\textbf{administrateur RI}, je veux que chaque action importante
-  (import, transition FSM, modification, validation) soit enregistrée avec
-  l'auteur et l'horodatage, afin de garantir la traçabilité complète des
-  décisions.}
-
-\nexttask &
-Définir \texttt{AuditLog} &
-Créer le modèle avec \texttt{user},
-\texttt{action}, \texttt{entity\_type},
-\texttt{entity\_id}, \texttt{payload}
-JSONB et \texttt{timestamp}.
-Connecter via signal Django
-\texttt{post\_save} sur les
-modèles critiques. &
-Le modèle migre sans erreur.
-Chaque transition FSM et
-chaque import créent une
-entrée \texttt{AuditLog} avec
-l'auteur. &
-Haute & 2 \\
+INE absent dans une source externe (Eudonet, MoveON) &
+Haute & Élevé &
+Réconciliation par matching nom / prénom / date de naissance.
+Cas ambigus remontés pour validation manuelle par le service RI. \\
 \hline
 
-\nexttask &
-Endpoint consultation audit &
-Exposer \texttt{GET /api/audit-logs}
-avec filtres par date, auteur
-et type d'entité via Django Ninja. &
-Les 20 dernières entrées
-s'affichent en moins de 200 ms.
-Les filtres date/auteur/type
-fonctionnent correctement. &
-Haute & 1 \\
+API externe indisponible pendant une campagne &
+Moyenne & Élevé &
+Import Excel de secours documenté pour chaque source.
+Cache local des données de la dernière synchronisation réussie. \\
 \hline
 
-% ── US-05 ────────────────────────────────────────────────────────────────────
-\usheader{US-05 — Données étudiants}{%
-  En tant qu'\textbf{administrateur RI}, je veux importer et synchroniser
-  les données académiques des étudiants (INE, GPA, département, niveau)
-  depuis Pégase, afin d'alimenter l'algorithme d'affectation avec des
-  données étudiants fiables et à jour.}
-
-\nexttask &
-Créer adaptateur \texttt{pegase.py} &
-Implémenter l'extraction des
-données académiques (INE, GPA,
-département, niveau) depuis
-l'API Pégase.
-Stocker la réponse brute en JSONB
-dans \texttt{RawImport}. &
-La réponse brute est stockée
-avec \texttt{source="pegase"}.
-Retry exponentiel (3 tentatives)
-en cas d'échec. &
-Haute & 2 \\
+Dérive du périmètre en cours de PFE &
+Haute & Moyen &
+Priorisation stricte MVP / V2. Les fonctionnalités V2
+(chatbot, recommandation) restent hors engagement initial et ne sont activées
+que dans une réserve conditionnelle, après validation du MVP et selon la capacité disponible. \\
 \hline
 
-\nexttask &
-Définir \texttt{Student} et
-\texttt{AnnualEnrollment} &
-Créer le modèle \texttt{Student}
-(INE comme clé unique, nom,
-prénom, email institutionnel)
-et \texttt{AnnualEnrollment}
-(inscription annuelle avec GPA,
-département, niveau, rattaché
-à \texttt{AcademicYear}). &
-Les modèles migrent sans erreur.
-Un étudiant peut avoir plusieurs
-inscriptions sur des années
-différentes.
-INE est unique sur \texttt{Student}. &
-Haute & 2 \\
+Résistance au changement du service RI &
+Moyenne & Moyen &
+Implication du service RI dans les tests d'acceptation (UAT).
+Interface proche des pratiques Excel actuelles. \\
 \hline
 
-\nexttask &
-Pipeline ETL Pégase &
-Transformer les données brutes
-en entités \texttt{Student} et
-\texttt{AnnualEnrollment}.
-Upsert sur INE.
-Le GPA est stocké tel quel
-(gel ultérieur en Sprint 3). &
-Les étudiants sont créés ou
-mis à jour.
-Les doublons sont ignorés.
-Un rapport d'import est généré
-avec les anomalies détectées. &
-Haute & 3 \\
+Fuite de données personnelles &
+Faible & Très élevé &
+Chiffrement des données sensibles (pgcrypto),
+cloisonnement strict par rôle (RBAC),
+audit log de toutes les actions. \\
 \hline
 
-\nexttask &
-Interface consultation étudiants &
-Créer une page Next.js listant
-les étudiants importés avec
-leur GPA, département et année
-d'inscription courante. &
-La liste s'affiche avec filtre
-par département et niveau.
-Les données proviennent
-de l'API. &
-Haute & 1 \\
+Démarrage à froid du moteur de recommandation &
+Haute & Faible &
+Les premières campagnes utiliseront des heuristiques simples (GPA + département). Le modèle s'affine progressivement à mesure que l'historique s'accumule (2-3 ans de données suffisent). \\
 \hline
 
-% ── US-06 ────────────────────────────────────────────────────────────────────
-\usheader{US-06 — Vœux étudiants}{%
-  En tant qu'\textbf{administrateur RI}, je veux importer les dossiers de
-  candidature et les vœux ordonnés des étudiants depuis MoveON, et les
-  consulter par étudiant, afin de les intégrer dans le système d'affectation.}
-
-\nexttask &
-Définir \texttt{ApplicationFile}
-et \texttt{Wish} &
-Créer le modèle \texttt{ApplicationFile}
-(dossier de candidature, FSM à 4 états :
-\texttt{open} → \texttt{submitted}
-→ \texttt{processing} → \texttt{closed})
-et \texttt{Wish} (rang, université
-cible, département préféré,
-rattaché à \texttt{AcademicYear}). &
-Les modèles migrent sans erreur.
-Les transitions FSM invalides
-lèvent \texttt{TransitionNotAllowed}.
-Un \texttt{Wish} ne peut exister
-sans \texttt{ApplicationFile}. &
-Haute & 2 \\
-\hline
-
-\nexttask &
-Pipeline ETL vœux MoveON &
-Importer les vœux depuis MoveON,
-croiser les INE avec la table
-\texttt{Student}, rejeter les
-entrées sans correspondance INE. &
-Les vœux sont persistés avec
-rang et université cible.
-Les INE introuvables sont
-consignés dans le rapport
-avec motif \texttt{INE\_NOT\_FOUND}. &
-Haute & 2 \\
-\hline
-
-\nexttask &
-Interface consultation vœux &
-Créer une page Next.js listant
-les dossiers de candidature par
-étudiant avec le détail des vœux
-et l'état FSM de chaque dossier. &
-La liste s'affiche avec filtre
-par étudiant et état.
-Les données sont chargées
-depuis l'API. &
-Haute & 1 \\
-\hline
-
-% ── US-07 ────────────────────────────────────────────────────────────────────
-\usheader{US-07 — Rapport d'import}{%
-  En tant qu'\textbf{administrateur RI}, je veux consulter un rapport détaillé
-  après chaque import (succès, erreurs, doublons) avec la raison précise
-  de chaque rejet, afin de corriger les anomalies rapidement.}
-
-\nexttask &
-Définir \texttt{ImportReport} &
-Créer le modèle avec
-\texttt{source}, \texttt{total},
-\texttt{success\_count},
-\texttt{error\_count},
-\texttt{duplicate\_count} et
-\texttt{errors} JSONB (motif et
-identifiant par entrée rejetée),
-rattaché à \texttt{RawImport}. &
-Chaque pipeline ETL crée
-automatiquement un rapport.
-Les erreurs contiennent motif
-et numéro de ligne ou
-identifiant source. &
-Haute & 1 \\
-\hline
-
-\nexttask &
-Page rapport d'import &
-Créer une interface Next.js
-listant les rapports par date
-et source avec les compteurs
-synthétiques et le détail
-des erreurs accessible par clic. &
-Les rapports s'affichent triés
-par date.
-Le détail des erreurs est
-accessible.
-Le filtre par source fonctionne. &
-Haute & 2 \\
+Performance de l'algorithme d'affectation sous contraintes multiples &
+Faible & Moyen &
+Gale-Shapley est en $O(n^2)$ : parfaitement adapté à quelques centaines d'étudiants. Un test de charge Locust sera réalisé avant la mise en production pour vérifier les temps de réponse. \\
 \hline
 
 \end{longtable}
-\endgroup
 
-\subsection{Conception détaillée}
+\section*{Conclusion}
+\justifying
+\phantomsection
+\addcontentsline{toc}{section}{Conclusion}
 
-Cette section présente la conception UML détaillée des entités métier du Sprint 2.
-
-\subsubsection{Diagramme de classes}
-
-Le diagramme de la figure~\ref{fig:diag-class-sprint2} modélise la gestion des étudiants et de leurs vœux de mobilité au sein du système de mobilité de l'ENSEEIHT.
-
-\texttt{AnnualEnrollment} est la classe d'association centrale du sprint : elle matérialise l'inscription d'un étudiant (\texttt{Student}) pour une année universitaire (\texttt{AcademicYear}) donnée, et porte le département et le niveau d'études. Le parcours est renseigné uniquement lorsque l'étudiant a intégré une filière spécialisée ; il reste absent pour les niveaux en tronc commun (première année). \texttt{StudentWish} matérialise à son tour un vœu de mobilité émis dans le cadre d'une inscription annuelle : chaque inscription peut générer au plus trois vœux, chacun pointant vers un accord différent et portant un rang et un statut.
-
-Une contrainte d'intégrité garantit que le parcours suivi par l'étudiant appartient au même département que son inscription annuelle, exprimée par la contrainte :\\
- \texttt{\{parcours.department = department\}} annotée sur l'association.
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\linewidth]{figures/conception/Sprint2/diagramme_de_classe_sprint2.png}
-  \caption{Diagramme de classes — Sprint 2}
-  \label{fig:diag-class-sprint2}
-\end{figure}
-
-
-\subsection{Implémentation}
-\subsection{Tests}
-
-% \subsection{Implémentation}
-
-% Cette sous-section décrit les principaux choix d'implémentation du Sprint 2 : modèle de données étudiant, pipelines ETL Pégase et MoveON, couche de traçabilité, API REST et interface utilisateur.
-
-% \subsubsection{Modèle de données}
-
-% Le Sprint 2 ajoute cinq entités réparties dans deux modules : trois entités métier dans \texttt{students} et deux entités de traçabilité dans \texttt{imports}.
-
-% \renewcommand{\arraystretch}{1.4}
-% \begin{table}[H]
-% \centering
-% \footnotesize
-% \begin{tabular}{|p{3cm}|p{4.5cm}|p{7cm}|}
-% \hline
-% \rowcolor{gray!20}
-% \textbf{Module} & \textbf{Entité} & \textbf{Rôle} \\
-% \hline
-% \texttt{students} & \texttt{Student}           & Étudiant identifié par son INE (clé universelle) \\
-% \hline
-%                   & \texttt{AnnualEnrollment}  & Inscription d'un étudiant pour une année universitaire \\
-% \hline
-%                   & \texttt{StudentWish}       & Vœu de mobilité ordonné (rang 1–3) \\
-% \hline
-% \texttt{imports}  & \texttt{ImportReport}      & Bilan agrégé d'une session d'import \\
-% \hline
-%                   & \texttt{RawImport}         & Enregistrement brut (payload JSONB) de chaque ligne importée \\
-% \hline
-% \end{tabular}
-% \caption{Entités créées au Sprint 2}
-% \label{tab:sprint2-entities}
-% \end{table}
-
-% \texttt{AnnualEnrollment} est la classe d'association entre \texttt{Student} et \texttt{AcademicYear} ; elle porte le GPA, le département, le niveau et le parcours de l'étudiant pour l'année considérée. Une contrainte d'unicité \texttt{(student, academic\_year)} garantit qu'un étudiant ne peut avoir qu'une inscription par année.
-
-% \texttt{StudentWish} est la classe d'association entre \texttt{AnnualEnrollment} et \texttt{Agreement}. Elle porte le rang du vœu et son statut. Deux contraintes d'unicité empêchent les doublons : \texttt{(annual\_enrollment, rank)} et \texttt{(annual\_enrollment, agreement)}.
-
-% \subsubsection{Pipeline ETL étudiant}
-
-% L'import des données étudiantes depuis Pégase et depuis un fichier Excel suit le même pipeline ETL en cinq étapes que le Sprint 1. Deux adaptateurs produisent une liste homogène de \texttt{StudentRow} : \texttt{adapters/pegase.py} appelle l'API Pégase et normalise le genre et la nationalité, tandis que \texttt{adapters/excel.py} parse un fichier \texttt{.xlsx} via \texttt{openpyxl} selon un modèle de colonnes standardisé. La fonction ETL centrale traite chaque ligne par upsert atomique sur \texttt{Student} et \texttt{AnnualEnrollment} ; les champs non renseignés dans la source ne remplacent jamais une valeur déjà présente en base.
-
-% \subsubsection{Synchronisation des vœux MoveON}
-
-% La synchronisation des vœux applique plusieurs mécanismes de robustesse. Un filtre sur la fenêtre temporelle \texttt{[start\_date - 12 mois, end\_date]} compense l'absence de l'année universitaire dans les données MoveON. La résolution des étudiants s'effectue prioritairement sur l'INE ; en son absence, un repli sur le champ \textit{Individu} au format « NOM Prénom » est tenté. Avant la création d'un vœu, le système vérifie qu'une \texttt{AnnualEnrollment} existe pour l'étudiant dans l'année cible — précondition qui garantit que le vœu dispose d'un département et d'un GPA de rattachement.
-
-% \subsubsection{Traçabilité des imports}
-
-% Le Sprint 2 formalise la couche d'audit commune à toutes les sources de données. Chaque session d'import crée un \texttt{ImportReport} (bilan agrégé : lignes créées, mises à jour, non résolues, ignorées) et autant de \texttt{RawImport} que de lignes traitées. Le payload JSON brut est conservé avant toute transformation, ce qui permet de rejouer un import défaillant sans rappeler l'API externe. L'interface d'administration expose les erreurs et permet de les ignorer ou de les corriger manuellement.
-
-% \subsubsection{API REST et interface utilisateur}
-
-% Le Sprint 2 ajoute une quinzaine d'endpoints sous \texttt{/api/students/} couvrant l'import Pégase, l'upload Excel, la consultation paginée des étudiants par année, les statistiques de promotion et la synchronisation des vœux MoveON. Deux espaces frontend sont délivrés : l'espace \textbf{Étudiants} (\texttt{/etudiants}) pour l'import, la consultation et la gestion des erreurs, et l'espace \textbf{Vœux} (\texttt{/voeux}) pour la synchronisation et la visualisation des vœux classés par rang.
-
-% \subsection{Tests}
-
-% Les tests du Sprint 2 suivent la même stratégie que le Sprint 1 — tests unitaires isolés et tests d'intégration sur PostgreSQL réel — étendus aux nouvelles entités et aux deux pipelines ETL ajoutés.
-
-% \subsubsection{Tests des modèles}
-
-% Les tests couvrent les invariants des trois entités métier : unicité de l'INE et représentation textuelle pour \texttt{Student} ; unicité \texttt{(student, academic\_year)} et cohérence du parcours avec le département d'inscription pour \texttt{AnnualEnrollment} ; unicité \texttt{(enrollment, rank)}, unicité \texttt{(enrollment, agreement)} et rang strictement positif pour \texttt{StudentWish}.
-
-% \subsubsection{Tests du pipeline ETL}
-
-% Les tests du pipeline \texttt{import\_students()} vérifient la création nominale, l'upsert sans doublon lors d'un ré-import, la non-écrasement des champs vides dans la source, et le traçage propre des lignes en erreur (département ou niveau inconnu) sans interruption du traitement.
-
-% \subsubsection{Tests de synchronisation des vœux}
-
-% Les tests de \texttt{sync\_moveon\_wishes()} couvrent la correspondance par INE, le repli sur le champ « NOM Prénom », la résolution de l'accord par \texttt{moveon\_id}, le filtrage par fenêtre temporelle, la gestion de l'\texttt{AnnualEnrollment} manquante et la capture des conflits de rang.
-
-% \subsubsection{Résultats}
-
-% Tous les tests du Sprint 2 passent sans régression. Les tests du Sprint 1 continuent de passer, confirmant l'absence d'effet de bord des nouvelles entités sur le socle existant.
-
-% % ─────────────────────────────────────────────────────────────
-% \section{Sprint 3 — Eudonet, mobilités complémentaires et entrantes}
-% % ─────────────────────────────────────────────────────────────
-
-% \subsection{Objectifs et périmètre du sprint}
-% \subsection{Conception détaillée}
-% \subsection{Implémentation}
-% \subsection{Tests}
-% \subsection{Revue de sprint}
-
-% % ─────────────────────────────────────────────────────────────
-% \section{Sprint 4 — Conformité CTI et espace étudiant}
-% % ─────────────────────────────────────────────────────────────
-
-% \subsection{Objectifs et périmètre du sprint}
-% \subsection{Conception détaillée}
-% \subsection{Implémentation}
-% \subsection{Tests}
-% \subsection{Revue de sprint}
-
-% % ─────────────────────────────────────────────────────────────
-% \section{Sprint 5 — Supervision et fonctionnalités V2}
-% % ─────────────────────────────────────────────────────────────
-
-% \subsection{Objectifs et périmètre du sprint}
-% \subsection{Conception détaillée}
-% \subsection{Implémentation}
-% \subsection{Tests}
-% \subsection{Revue de sprint}
-
-% % ─────────────────────────────────────────────────────────────
-% \section{Sprint 6 — Finalisation, tests et déploiement}
-% % ─────────────────────────────────────────────────────────────
-
-% \subsection{Objectifs et périmètre du sprint}
-% \subsection{Conception détaillée}
-% \subsection{Implémentation}
-
-% \subsection{Tests de charge}
-% [Résultats Locust sur l'algorithme d'affectation et les imports,
-%  temps de réponse, nombre d'utilisateurs simultanés supportés]
-
-% \subsection{Tests de non-régression}
-% % [Vérification que les résultats des campagnes passées sont inchangés
-% %  après chaque déploiement — description du mécanisme et des résultats]
-
-% \subsection{Audit de sécurité}
-% % [Résultats OWASP ZAP, vulnérabilités détectées et corrections appliquées]
-
-% \subsection{Tests d'acceptation (UAT)}
-% % [Résultats des tests avec le service RI, retours et corrections]
-
-% \subsection{Déploiement}
-% % [Procédure de déploiement sur staging puis production,
-% %  configuration Nginx, variables d'environnement, sauvegardes]
-
-% \subsection{Revue de sprint}
-
-% % ─────────────────────────────────────────────────────────────
-% \section{Bilan technique}
-% % ─────────────────────────────────────────────────────────────
-
-% \subsection{Métriques de qualité}
-% % [Couverture de tests globale, nombre de user stories livrées vs planifiées,
-% %  vélocité moyenne par sprint]
-
-% \subsection{Écarts par rapport au backlog initial}
-% % [User stories reportées ou abandonnées, justification]
-
-% \subsection{Perspectives d'évolution}
-% % [Ce qui reste à faire après le PFE :
-% %  moteur de recommandation avancé, chatbot RAG si non réalisé,
-% %  intégration directe dans l'interface MoveON, etc.]
-
-% \section*{Conclusion}
-% \justifying
-% \phantomsection
-% \addcontentsline{toc}{section}{Conclusion}
-
-% % [À rédiger en fin de projet]
+La conception du système est désormais complète : le backlog structure le développement en cinq sprints MVP, l'architecture définit les responsabilités de chaque couche et container, le modèle de données formalise les entités métier, et les machines à états garantissent l'intégrité des cycles de vie. Le chapitre suivant présente la réalisation sprint par sprint.

@@ -1,17 +1,17 @@
 [0] Config.pm:328> INFO - This is Biber 2.21
-[0] Config.pm:331> INFO - Logfile is 'main.blg'
-[143] biber-MSWIN64:342> INFO - === 
-[197] Biber.pm:421> INFO - Reading 'main.bcf'
-[359] Biber.pm:1002> INFO - Found 31 citekeys in bib section 0
-[382] Biber.pm:4487> INFO - Processing section 0
-[406] Biber.pm:4678> INFO - Looking for bibtex file 'bibliographie.bib' for section 0
-[515] bibtex.pm:1713> INFO - LaTeX decoding ...
-[545] bibtex.pm:1519> INFO - Found BibTeX data source 'bibliographie.bib'
-[665] UCollate.pm:68> INFO - Overriding locale 'fr-FR' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[665] UCollate.pm:68> INFO - Overriding locale 'fr-FR' defaults 'variable = shifted' with 'variable = non-ignorable'
-[665] Biber.pm:4307> INFO - Sorting list 'none/global//global/global/global' of type 'entry' with template 'none' and locale 'fr-FR'
-[666] Biber.pm:4313> INFO - No sort tailoring available for locale 'fr-FR'
-[689] bbl.pm:676> INFO - Writing 'main.bbl' with encoding 'UTF-8'
-[698] bbl.pm:779> INFO - Output to main.bbl
-[699] Biber.pm:132> WARN - I didn't find a database entry for 'GaleShapley1962' (section 0)
-[699] Biber.pm:134> INFO - WARNINGS: 1
+[1] Config.pm:331> INFO - Logfile is 'main.blg'
+[184] biber:342> INFO - === Fri Jun 19, 2026, 07:32:01
+[224] Biber.pm:421> INFO - Reading 'main.bcf'
+[342] Biber.pm:1002> INFO - Found 31 citekeys in bib section 0
+[366] Biber.pm:4487> INFO - Processing section 0
+[386] Biber.pm:4678> INFO - Looking for bibtex file 'bibliographie.bib' for section 0
+[397] bibtex.pm:1713> INFO - LaTeX decoding ...
+[424] bibtex.pm:1519> INFO - Found BibTeX data source 'bibliographie.bib'
+[533] UCollate.pm:68> INFO - Overriding locale 'fr-FR' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[534] UCollate.pm:68> INFO - Overriding locale 'fr-FR' defaults 'variable = shifted' with 'variable = non-ignorable'
+[535] Biber.pm:4307> INFO - Sorting list 'none/global//global/global/global' of type 'entry' with template 'none' and locale 'fr-FR'
+[536] Biber.pm:4313> INFO - No sort tailoring available for locale 'fr-FR'
+[566] bbl.pm:676> INFO - Writing 'main.bbl' with encoding 'UTF-8'
+[581] bbl.pm:779> INFO - Output to main.bbl
+[583] Biber.pm:132> WARN - I didn't find a database entry for 'GaleShapley1962' (section 0)
+[583] Biber.pm:134> INFO - WARNINGS: 1
