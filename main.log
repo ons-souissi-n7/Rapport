@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.6.14)  19 JUN 2026 07:50
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.6.14)  19 JUN 2026 09:12
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1452,10 +1452,10 @@ File: lstlang1.sty 2025/11/14 1.11b listings language file
 \c@subsubsubsubsection=\count539
 Package french3.ldf Info: Setting StandardItemizeEnv=true for
 (french3.ldf)             compatibility with enumitem package,
-(french3.ldf)             reported on input line 172.
+(french3.ldf)             reported on input line 173.
 Package french3.ldf Info: Setting StandardEnumerateEnv=true for
 (french3.ldf)             compatibility with enumitem package,
-(french3.ldf)             reported on input line 172.
+(french3.ldf)             reported on input line 173.
 Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... found 'babel' package.
 Package csquotes Info: Adjusting default style.
@@ -1467,28 +1467,28 @@ Package babel Info: 'french' activates 'french' shorthands.
 )
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 172.
-LaTeX Font Info:    ... okay on input line 172.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 172.
-LaTeX Font Info:    ... okay on input line 172.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 172.
-LaTeX Font Info:    ... okay on input line 172.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 172.
-LaTeX Font Info:    ... okay on input line 172.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 172.
-LaTeX Font Info:    ... okay on input line 172.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 172.
-LaTeX Font Info:    ... okay on input line 172.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 172.
-LaTeX Font Info:    ... okay on input line 172.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 172.
-LaTeX Font Info:    ... okay on input line 172.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 172.
-LaTeX Font Info:    ... okay on input line 172.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 173.
+LaTeX Font Info:    ... okay on input line 173.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 173.
+LaTeX Font Info:    ... okay on input line 173.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 173.
+LaTeX Font Info:    ... okay on input line 173.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 173.
+LaTeX Font Info:    ... okay on input line 173.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 173.
+LaTeX Font Info:    ... okay on input line 173.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 173.
+LaTeX Font Info:    ... okay on input line 173.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 173.
+LaTeX Font Info:    ... okay on input line 173.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 173.
+LaTeX Font Info:    ... okay on input line 173.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 173.
+LaTeX Font Info:    ... okay on input line 173.
 LaTeX Font Info:    Checking defaults for pmboxdraw/pmboxdraw/m/n on input line
- 172.
-LaTeX Font Info:    ... okay on input line 172.
-LaTeX Info: Redefining \degres on input line 172.
+ 173.
+LaTeX Font Info:    ... okay on input line 173.
+LaTeX Info: Redefining \degres on input line 173.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: changepage package is loaded.
 \caption@adjustwidth@hsize=\dimen348
@@ -1578,11 +1578,11 @@ Package biblatex Warning: The following entry could not be found
 (biblatex)                LaTeX afterwards.
 
 )
-Package biblatex Info: Reference section=0 on input line 172.
-Package biblatex Info: Reference segment=0 on input line 172.
+Package biblatex Info: Reference section=0 on input line 173.
+Package biblatex Info: Reference segment=0 on input line 173.
 \c@lstlisting=\count546
-Package tocbasic Info: setting babel extension for `lol' on input line 172.
-Package hyperref Info: Link coloring ON on input line 172.
+Package tocbasic Info: setting babel extension for `lol' on input line 173.
+Package hyperref Info: Link coloring ON on input line 173.
  (./main.out) (./main.out)
 \@outlinefile=\write5
 \openout5 = `main.out'.
@@ -1666,7 +1666,7 @@ Chapitre 1.
 
 
 ] [3] [4]
-<figures/systemes/systeme-existant.png, id=1408, 755.32187pt x 425.08812pt>
+<figures/systemes/systeme-existant.png, id=1430, 755.32187pt x 425.08812pt>
 File: figures/systemes/systeme-existant.png Graphic file (type png)
 <use figures/systemes/systeme-existant.png>
 Package pdftex.def Info: figures/systemes/systeme-existant.png  used on input l
@@ -1718,7 +1718,7 @@ Chapitre 4.
 (./main.ptc [21
 
 
-] [22]) [23] [24]
+]) [22] [23]
 Underfull \hbox (badness 10000) in paragraph at lines 155--155
 []|\T1/cmr/m/n/10 Rendu côté ser-veur
  []
@@ -1733,27 +1733,27 @@ Underfull \hbox (badness 10000) in paragraph at lines 163--163
 []|\T1/cmr/m/n/10 Intégration SSO
  []
 
-[25] [26] [27] [28] [29]
+[24] [25] [26] [27] [28]
 Underfull \hbox (badness 10000) in paragraph at lines 423--423
 []|\T1/cmr/m/n/10 Validation Py-dan-tic (ty-page
  []
 
-[30] [31] [32]
+[29] [30] [31]
 Underfull \hbox (badness 10000) in paragraph at lines 567--567
 []|\T1/cmr/m/n/10 Outils de sau-ve-garde
  []
 
-[33] [34]
+[32] [33]
 Underfull \hbox (badness 7468) in paragraph at lines 674--674
 []|\T1/cmr/m/n/10 Aucun ser-vice sup-plé-men-
  []
 
-[35] [36] [37] [38] [39] [40]
+[34] [35] [36] [37] [38] [39]
 Underfull \hbox (badness 10000) in paragraph at lines 1048--1049
 
  []
 
-[41]
+[40]
 Underfull \hbox (badness 10000) in paragraph at lines 1071--1072
 
  []
@@ -1764,148 +1764,113 @@ Overfull \hbox (17.03731pt too wide) in paragraph at lines 1088--1090
 ti-tu-tion-nel avec des contraintes
  []
 
-[42] [43]
-Underfull \hbox (badness 6396) in paragraph at lines 1212--1212
-[]|\T1/cmr/m/n/10 Compatible avec les mi-gra-tions
- []
-
-
-Underfull \hbox (badness 1028) in paragraph at lines 1216--1216
-[]|\T1/cmr/m/n/10 Aucune confi-gu-ra-tion Post-greSQL
- []
-
-[44]
-
-LaTeX Warning: Citation 'GaleShapley1962' on page 45 undefined on input line 12
-90.
-
-[45] [46] [47] [48] [49]
-Underfull \hbox (badness 10000) in paragraph at lines 1551--1552
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1569--1570
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1610--1610
-[]|\T1/cmr/m/n/10 Simplicité de main-te-
- []
-
-[50]
-Underfull \hbox (badness 3168) in paragraph at lines 1634--1634
-[]|\T1/cmr/m/n/10 Département pé-da-go-
- []
-
-[51] [52] [53]
-Underfull \hbox (badness 10000) in paragraph at lines 1821--1821
-[]|\T1/cmr/bx/n/12 Technologie
- []
-
-
-Overfull \hbox (20.52856pt too wide) in alignment at lines 1817--1823
- [] [] [] 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1827--1827
-[]|\T1/cmr/bx/n/12 Technologie
- []
-
-
-Overfull \hbox (20.52856pt too wide) in alignment at lines 1823--1829
- [] [] [] 
- []
-
-
-Underfull \hbox (badness 1924) in paragraph at lines 1837--1837
+[41]
+Underfull \hbox (badness 1924) in paragraph at lines 1158--1158
 []|\T1/cmr/m/n/12 Backend fra-me-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1846--1846
+Underfull \hbox (badness 10000) in paragraph at lines 1167--1167
 []|\T1/cmr/m/n/12 Gestionnaire
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1846--1846
-[]|\T1/cmr/m/n/12 Django-Q2 +
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1852--1852
-[]|\T1/cmr/m/n/12 Indexation
- []
-
-
-Underfull \hbox (badness 3118) in paragraph at lines 1858--1858
-[]|\T1/cmr/m/n/12 Répartition des
- []
-
-
-Underfull \hbox (badness 5119) in paragraph at lines 1861--1861
-[]|\T1/cmr/m/n/12 Moteur de re-
- []
-
-
-Underfull \hbox (badness 7451) in paragraph at lines 1861--1861
-[]|\T1/cmr/m/n/12 Régression lo-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1864--1864
-[]|\T1/cmr/m/n/12 Orchestration
- []
-
-
-Underfull \hbox (badness 2547) in paragraph at lines 1864--1864
-[]|\T1/cmr/m/n/12 LlamaIndex +
- []
-
-
-Underfull \hbox (badness 1215) in paragraph at lines 1867--1867
-[]|\T1/cmr/m/n/12 Modèle de lan-
- []
-
-
-Overfull \hbox (1.83154pt too wide) in paragraph at lines 1870--1870
-[]|\T1/cmr/m/n/12 Conteneurisation| 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1876--1876
-[]|\T1/cmr/m/n/12 Gestion des
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1879--1879
-[]|\T1/cmr/m/n/12 django-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1882--1882
+Underfull \hbox (badness 10000) in paragraph at lines 1170--1170
 []|\T1/cmr/m/n/12 MinIO (S3-
  []
 
 
-Underfull \hbox (badness 5893) in paragraph at lines 1882--1883
-[]|\T1/cmr/m/n/12 Stockage ob-jet auto-hébergé, chif-fre-ment SSE-S3,
+Overfull \hbox (1.83154pt too wide) in paragraph at lines 1176--1176
+[]|\T1/cmr/m/n/12 Conteneurisation| 
  []
 
 
-Overfull \hbox (20.52856pt too wide) in alignment at lines 1829--1888
- [] [] [] 
+Underfull \hbox (badness 2310) in paragraph at lines 1176--1176
+[]|\T1/cmr/m/n/12 Docker + Do-cker
  []
 
-[54] [55]) [56] (./Chapitres/chapitre5.tex
+
+Underfull \hbox (badness 10000) in paragraph at lines 1179--1179
+[]|\T1/cmr/m/n/12 Gestion des
+ []
+
+[42]) [43] (./Chapitres/chapitre5.tex
 Chapitre 5.
-(./main.ptc [57
+(./main.ptc [44
 
 
-]) [58]
-Overfull \hbox (11.99263pt too wide) in paragraph at lines 43--63
+]) [45] [46]
+Underfull \hbox (badness 6396) in paragraph at lines 99--99
+[]|\T1/cmr/m/n/10 Compatible avec les mi-gra-tions
+ []
+
+
+Underfull \hbox (badness 1028) in paragraph at lines 103--103
+[]|\T1/cmr/m/n/10 Aucune confi-gu-ra-tion Post-greSQL
+ []
+
+[47]
+
+LaTeX Warning: Citation 'GaleShapley1962' on page 48 undefined on input line 17
+7.
+
+[48] [49] [50] [51] [52]
+Underfull \hbox (badness 10000) in paragraph at lines 449--450
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 467--468
+
+ []
+
+[53]
+Underfull \hbox (badness 10000) in paragraph at lines 508--508
+[]|\T1/cmr/m/n/10 Simplicité de main-te-
+ []
+
+
+Underfull \hbox (badness 3168) in paragraph at lines 532--532
+[]|\T1/cmr/m/n/10 Département pé-da-go-
+ []
+
+[54] [55] [56] [57]
+Underfull \hbox (badness 3118) in paragraph at lines 735--735
+[]|\T1/cmr/m/n/12 Répartition des
+ []
+
+
+Underfull \hbox (badness 5119) in paragraph at lines 738--738
+[]|\T1/cmr/m/n/12 Moteur de re-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 738--738
+[]|\T1/cmr/m/n/12 Régression lo-gis-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 741--741
+[]|\T1/cmr/m/n/12 Orchestration
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 741--741
+[]|\T1/cmr/m/n/12 LlamaIndex +
+ []
+
+
+Underfull \hbox (badness 1215) in paragraph at lines 744--744
+[]|\T1/cmr/m/n/12 Modèle de lan-
+ []
+
+) [58] (./Chapitres/chapitre6.tex
+Chapitre 6.
+(./main.ptc [59
+
+
+]) [60]
+Overfull \hbox (13.59267pt too wide) in paragraph at lines 43--63
  [][] 
  []
 
@@ -1916,8 +1881,18 @@ Overfull \hbox (2.78963pt too wide) in paragraph at lines 85--86
  []
 
 
+Overfull \hbox (2.38492pt too wide) in alignment at lines 81--87
+ [] [] [] [] [] [] 
+ []
+
+
 Overfull \hbox (2.78963pt too wide) in paragraph at lines 90--91
 []|\T1/cmr/bx/n/10 Sprint| 
+ []
+
+
+Overfull \hbox (2.38492pt too wide) in alignment at lines 87--92
+ [] [] [] [] [] [] 
  []
 
 
@@ -1995,41 +1970,46 @@ Underfull \hbox (badness 1292) in paragraph at lines 315--315
 \T1/cmr/m/n/10 ana-ly-tiques et ex-
  []
 
-[59{/usr/local/texlive/2026/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.en
-c}] [60] [61] [62]
-Overfull \hbox (11.99265pt too wide) in alignment at lines 356--363
+
+Overfull \hbox (2.38492pt too wide) in alignment at lines 92--347
+ [] [] [] [] [] [] 
+ []
+
+[61{/usr/local/texlive/2026/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.en
+c}] [62] [63] [64]
+Overfull \hbox (13.59268pt too wide) in alignment at lines 356--363
  [] [] [] 
  []
 
 
-Overfull \hbox (11.99265pt too wide) in alignment at lines 363--369
+Overfull \hbox (13.59268pt too wide) in alignment at lines 363--369
  [] [] [] 
  []
 
 
-Overfull \hbox (11.99265pt too wide) in alignment at lines 369--398
+Overfull \hbox (13.59268pt too wide) in alignment at lines 369--398
  [] [] [] 
  []
 
-[63] [64]
+[65] [66]
 Underfull \hbox (badness 10000) in paragraph at lines 471--471
 []|\T1/cmr/m/n/10 Pipeline CI/CD (Git-
  []
 
-[65
+[67
 
-] [66]
-<figures/architecture/Architecture-Logicielle.png, id=1952, 998.9822pt x 749.04
+] [68]
+<figures/architecture/Architecture-Logicielle.png, id=1985, 998.9822pt x 749.04
 843pt>
 File: figures/architecture/Architecture-Logicielle.png Graphic file (type png)
 <use figures/architecture/Architecture-Logicielle.png>
 Package pdftex.def Info: figures/architecture/Architecture-Logicielle.png  used
  on input line 534.
 (pdftex.def)             Requested size: 466.62503pt x 349.8812pt.
- [67
+ [69
 
- <./figures/architecture/Architecture-Logicielle.png>] [68]
-[69]
+ <./figures/architecture/Architecture-Logicielle.png>] [70]
+[71]
 Underfull \hbox (badness 10000) in paragraph at lines 639--640
 []|\T1/cmr/m/n/10 Tâche Django-Q2 pla-ni-fiée
  []
@@ -2044,26 +2024,26 @@ Underfull \hbox (badness 1173) in paragraph at lines 648--648
 []|\T1/cmr/m/n/10 Périodique (fin de pé-riode de
  []
 
-[70] [71]
-<figures/architecture/Architecture-Physique.png, id=1982, 1219.55624pt x 730.98
+[72] [73]
+<figures/architecture/Architecture-Physique.png, id=2015, 1219.55624pt x 730.98
 094pt>
 File: figures/architecture/Architecture-Physique.png Graphic file (type png)
 <use figures/architecture/Architecture-Physique.png>
 Package pdftex.def Info: figures/architecture/Architecture-Physique.png  used o
 n input line 721.
 (pdftex.def)             Requested size: 466.62503pt x 279.68295pt.
- [72]
+ [74]
 Underfull \hbox (badness 6477) in paragraph at lines 743--744
 []|\T1/cmr/m/n/10.95 Application Next.js (SSR + API
  []
 
-[73 <./figures/architecture/Architecture-Physique.png>] [74] [75]
+[75 <./figures/architecture/Architecture-Physique.png>] [76] [77]
 Underfull \hbox (badness 4505) in paragraph at lines 830--833
 []|\T1/cmr/m/n/10 Données aca-dé-miques des étu-diants im-por-tées de-puis Pé-g
 ase :
  []
 
-[76] [77]
+[78] [79]
 Underfull \hbox (badness 10000) in paragraph at lines 931--931
 []|\T1/cmr/bx/n/10 Préconditions (guard
  []
@@ -2078,12 +2058,12 @@ Underfull \hbox (badness 4229) in paragraph at lines 937--937
 []|\T1/cmr/m/n/10 GPA gelé (syn-chro-ni-sa-tion
  []
 
-[78]
+[80]
 Overfull \hbox (2.0198pt too wide) in paragraph at lines 969--969
 []|\T1/cmr/m/n/10.95 ComplementaryMobility| 
  []
 
-[79]
+[81]
 Overfull \hbox (52.36812pt too wide) in paragraph at lines 998--999
  [][] 
  []
@@ -2093,7 +2073,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 1010--1012
 
  []
 
-[80]
+[82]
 Underfull \hbox (badness 10000) in paragraph at lines 1026--1028
 
  []
@@ -2108,7 +2088,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 1051--1053
 
  []
 
-[81]
+[83]
 Underfull \hbox (badness 10000) in paragraph at lines 1064--1066
 
  []
@@ -2118,7 +2098,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 1071--1073
 
  []
 
-[82]
+[84]
 Underfull \hbox (badness 10000) in paragraph at lines 1195--1195
 []|\T1/cmr/m/n/12 API ex-terne in-dis-
  []
@@ -2148,9 +2128,9 @@ Underfull \hbox (badness 1946) in paragraph at lines 1226--1226
 []|\T1/cmr/m/n/12 Performance de l'al-
  []
 
-[83] [84]) [85] (./Chapitres/chapitre6.tex
-Chapitre 6.
-(./main.ptc) [86
+[85] [86]) [87] (./Chapitres/chapitre7.tex
+Chapitre 7.
+(./main.ptc) [88
 
 
 ]
@@ -2162,6 +2142,21 @@ o-ckage brut des im-ports (\T1/cmtt/m/n/12 RawImport\T1/cmr/m/n/12 ).
 
 \c@tasknum=\count549
 \uswidth=\skip123
+
+Overfull \hbox (1.76633pt too wide) in alignment at lines 63--69
+ [] [] [] [] [] [] 
+ []
+
+
+Overfull \hbox (1.76633pt too wide) in alignment at lines 69--75
+ [] [] [] [] [] [] 
+ []
+
+
+Overfull \hbox (1.76633pt too wide) in alignment at lines 75--77
+ [] [] [] [] [] [] 
+ []
+
 
 Underfull \hbox (badness 10000) in paragraph at lines 86--86
 []|\T1/cmr/m/n/10 Définir \T1/cmtt/m/n/10 Country \T1/cmr/m/n/10 et
@@ -2337,8 +2332,13 @@ Underfull \hbox (badness 1831) in paragraph at lines 206--211
 \T1/cmr/m/n/10 suel-le-ment. L'ajus-te-ment
  []
 
-[87] [88]
-<figures/conception/Sprint1/Diagramme_de_classe_sprint1.png, id=2098, 753.5653p
+
+Overfull \hbox (1.76633pt too wide) in alignment at lines 77--215
+ [] [] [] [] [] [] 
+ []
+
+[89] [90]
+<figures/conception/Sprint1/Diagramme_de_classe_sprint1.png, id=2131, 753.5653p
 t x 477.28313pt>
 File: figures/conception/Sprint1/Diagramme_de_classe_sprint1.png Graphic file (
 type png)
@@ -2346,7 +2346,22 @@ type png)
 Package pdftex.def Info: figures/conception/Sprint1/Diagramme_de_classe_sprint1
 .png  used on input line 232.
 (pdftex.def)             Requested size: 466.62503pt x 295.54105pt.
- [89] [90 <./figures/conception/Sprint1/Diagramme_de_classe_sprint1.png>]
+ [91] [92 <./figures/conception/Sprint1/Diagramme_de_classe_sprint1.png>]
+Overfull \hbox (1.76633pt too wide) in alignment at lines 262--268
+ [] [] [] [] [] [] 
+ []
+
+
+Overfull \hbox (1.76633pt too wide) in alignment at lines 268--274
+ [] [] [] [] [] [] 
+ []
+
+
+Overfull \hbox (1.76633pt too wide) in alignment at lines 274--276
+ [] [] [] [] [] [] 
+ []
+
+
 Underfull \hbox (badness 4995) in paragraph at lines 287--293
 []|\T1/cmr/m/n/10 Créer le mo-dèle avec \T1/cmtt/m/n/10 user\T1/cmr/m/n/10 ,
  []
@@ -2635,8 +2650,13 @@ Underfull \hbox (badness 4765) in paragraph at lines 465--469
 []|\T1/cmr/m/n/10 Les rap-ports s'af-fichent
  []
 
-[91] [92]
-<figures/conception/Sprint2/diagramme_de_classe_sprint2.png, id=2118, 728.7225p
+
+Overfull \hbox (1.76633pt too wide) in alignment at lines 276--473
+ [] [] [] [] [] [] 
+ []
+
+[93] [94]
+<figures/conception/Sprint2/diagramme_de_classe_sprint2.png, id=2152, 728.7225p
 t x 479.54156pt>
 File: figures/conception/Sprint2/diagramme_de_classe_sprint2.png Graphic file (
 type png)
@@ -2644,7 +2664,22 @@ type png)
 Package pdftex.def Info: figures/conception/Sprint2/diagramme_de_classe_sprint2
 .png  used on input line 491.
 (pdftex.def)             Requested size: 466.62503pt x 307.06653pt.
- [93] [94 <./figures/conception/Sprint2/diagramme_de_classe_sprint2.png>]
+ [95] [96 <./figures/conception/Sprint2/diagramme_de_classe_sprint2.png>]
+Overfull \hbox (1.76633pt too wide) in alignment at lines 531--537
+ [] [] [] [] [] [] 
+ []
+
+
+Overfull \hbox (1.76633pt too wide) in alignment at lines 537--543
+ [] [] [] [] [] [] 
+ []
+
+
+Overfull \hbox (1.76633pt too wide) in alignment at lines 543--545
+ [] [] [] [] [] [] 
+ []
+
+
 Underfull \hbox (badness 10000) in paragraph at lines 555--555
 []|\T1/cmr/m/n/10 Créer le mo-dèle
  []
@@ -2938,38 +2973,43 @@ Underfull \hbox (badness 3302) in paragraph at lines 710--713
 \T1/cmr/m/n/10 ment après pu-bli-ca-tion.
  []
 
-[95] [96]) [97] (./Chapitres/conclusion.tex) [98
+
+Overfull \hbox (1.76633pt too wide) in alignment at lines 545--717
+ [] [] [] [] [] [] 
+ []
+
+[97] [98]) [99] (./Chapitres/conclusion.tex) [100
 
 
 ]
-Overfull \hbox (35.96822pt too wide) in paragraph at lines 272--272
+Overfull \hbox (35.96822pt too wide) in paragraph at lines 276--276
 []\T1/cmr/m/it/12 International -- Tou-louse INP-ENSEEIHT\T1/cmr/m/n/12 . [][]$
 \T1/cmtt/m/n/12 https : / / www . enseeiht . fr / fr / international .
  []
 
 
-Overfull \hbox (37.07637pt too wide) in paragraph at lines 272--272
+Overfull \hbox (37.07637pt too wide) in paragraph at lines 276--276
 []\T1/cmr/m/it/12 Django -- The web fra-me-work for per-fec-tio-nists with dead
 -lines\T1/cmr/m/n/12 . [][]$\T1/cmtt/m/n/12 https : / / www . djangoproject .
  []
 
-[99
+[101
 
 
 ]
-Overfull \hbox (22.56335pt too wide) in paragraph at lines 272--272
+Overfull \hbox (22.56335pt too wide) in paragraph at lines 276--276
 []\T1/cmr/m/it/12 Django Q2 -- A mul-ti-pro-ces-sing task queue for Django\T1/c
 mr/m/n/12 . [][]$\T1/cmtt/m/n/12 https : / / django -[] q2 . readthedocs .
  []
 
 
-Overfull \hbox (5.27025pt too wide) in paragraph at lines 272--272
+Overfull \hbox (5.27025pt too wide) in paragraph at lines 276--276
 []\T1/cmr/m/it/12 LangChain -- Build context-aware rea-so-ning ap-pli-ca-tions\
 T1/cmr/m/n/12 . [][]$\T1/cmtt/m/n/12 https : / / python . langchain .
  []
 
 
-Overfull \hbox (2.2904pt too wide) in paragraph at lines 272--272
+Overfull \hbox (2.2904pt too wide) in paragraph at lines 276--276
 []\T1/cmr/m/it/12 LlamaIndex -- Py-thon Fra-me-work Do-cu-men-ta-tion\T1/cmr/m/
 n/12 . [][]$\T1/cmtt/m/n/12 https : / / developers . llamaindex .
  []
@@ -2977,7 +3017,7 @@ n/12 . [][]$\T1/cmtt/m/n/12 https : / / developers . llamaindex .
 \tf@ptc=\write9
 \openout9 = `main.ptc'.
 
-[100] (./main.aux)
+[102] (./main.aux)
  ***********
 LaTeX2e <2026-06-01>
 L3 programming layer <2026-05-26>
@@ -2987,19 +3027,19 @@ L3 programming layer <2026-05-26>
 LaTeX Warning: There were undefined references.
 
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: FF416D074023CE90CA78772E414363B0;44608.
+(rerunfilecheck)             Checksum: 07ECDE5A9C7D7769D3D55041B2B3E3F6;45214.
 Package logreq Info: Writing requests to 'main.run.xml'.
 \openout1 = `main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 41611 strings out of 467167
- 791754 string characters out of 5409454
- 1834117 words of memory out of 5000000
- 69755 multiletter control sequences out of 15000+600000
+ 41633 strings out of 467167
+ 792050 string characters out of 5409454
+ 1834145 words of memory out of 5000000
+ 69765 multiletter control sequences out of 15000+600000
  651396 words of font info for 98 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 103i,12n,108p,1181b,2395s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 103i,12n,108p,1181b,2393s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb
 ></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb>
 </usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></
@@ -3024,10 +3064,10 @@ fonts/type1/public/cm-super/sftt1000.pfb></usr/local/texlive/2026/texmf-dist/fo
 nts/type1/public/cm-super/sftt1095.pfb></usr/local/texlive/2026/texmf-dist/font
 s/type1/public/cm-super/sftt1200.pfb></usr/local/texlive/2026/texmf-dist/fonts/
 type1/urw/zapfding/uzdr.pfb>
-Output written on main.pdf (110 pages, 2613328 bytes).
+Output written on main.pdf (112 pages, 2617623 bytes).
 PDF statistics:
- 2410 PDF objects out of 2487 (max. 8388607)
- 2214 compressed objects within 23 object streams
- 443 named destinations out of 1000 (max. 500000)
- 1982 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 2444 PDF objects out of 2487 (max. 8388607)
+ 2246 compressed objects within 23 object streams
+ 450 named destinations out of 1000 (max. 500000)
+ 2014 words of extra memory for PDF output out of 10000 (max. 10000000)
 

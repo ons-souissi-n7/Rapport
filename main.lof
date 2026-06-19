@@ -5,12 +5,13 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces Architecture logicielle}}{67}{figure.caption.36}%
-\contentsline {figure}{\numberline {5.2}{\ignorespaces Architecture physique}}{73}{figure.caption.38}%
-\contentsline {figure}{\numberline {5.3}{\ignorespaces Machine à états — AcademicYear}}{78}{figure.caption.41}%
-\contentsline {figure}{\numberline {5.4}{\ignorespaces Pipeline global de traitement des données}}{80}{figure.caption.44}%
-\contentsline {figure}{\numberline {5.5}{\ignorespaces Pipeline détaillé de l’étape de nettoyage des données}}{83}{figure.caption.45}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {6.1}{\ignorespaces Diagramme de classes — Sprint 1}}{90}{figure.caption.48}%
-\contentsline {figure}{\numberline {6.2}{\ignorespaces Diagramme de classes — Sprint 2}}{94}{figure.caption.49}%
+\contentsline {figure}{\numberline {6.1}{\ignorespaces Architecture logicielle}}{69}{figure.caption.38}%
+\contentsline {figure}{\numberline {6.2}{\ignorespaces Architecture physique}}{75}{figure.caption.40}%
+\contentsline {figure}{\numberline {6.3}{\ignorespaces Machine à états — AcademicYear}}{80}{figure.caption.43}%
+\contentsline {figure}{\numberline {6.4}{\ignorespaces Pipeline global de traitement des données}}{82}{figure.caption.46}%
+\contentsline {figure}{\numberline {6.5}{\ignorespaces Pipeline détaillé de l’étape de nettoyage des données}}{85}{figure.caption.47}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {7.1}{\ignorespaces Diagramme de classes — Sprint 1}}{92}{figure.caption.50}%
+\contentsline {figure}{\numberline {7.2}{\ignorespaces Diagramme de classes — Sprint 2}}{96}{figure.caption.51}%
 \contentsfinish 
