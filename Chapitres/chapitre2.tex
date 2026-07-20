@@ -1,6 +1,6 @@
 % !TEX root = ../main.tex
 % ══════════════════════════════════════════════════════════════
-\chapter{Analyse des solutions existantes et positionnement}
+\chapter{Positionnement par rapport aux solutions existantes}
 % ══════════════════════════════════════════════════════════════
 \begingroup
 \let\clearpage\relax
@@ -14,7 +14,7 @@
 \phantomsection
 \addcontentsline{toc}{section}{Introduction}
 
-Ce chapitre présente les solutions existantes afin d’évaluer leur capacité à répondre aux besoins identifiés. Il permet de déterminer leur pertinence dans le contexte du service RI avant d’envisager une nouvelle solution.
+Le chapitre précédent a mis en évidence les limites du système d'information du service RI et formulé la problématique du projet. Ce chapitre évalue les solutions existantes au regard des huit critères qui en découlent, afin de vérifier qu'aucune ne répond déjà à ces besoins avant d'engager le développement d'une solution sur mesure.
 
 % ─────────────────────────────────────────────────────────────
 \section{Grille d'évaluation}
@@ -22,7 +22,7 @@ Ce chapitre présente les solutions existantes afin d’évaluer leur capacité 
 
 Pour comparer les solutions de façon rigoureuse, une grille de huit critères a été définie
 à partir des problèmes concrets identifiés au chapitre précédent. Chaque critère traduit une
-lacune précise du système actuel.
+lacune précise du système actuel. Le tableau~\ref{tab:grille_eval} présente cette grille.
 
 \renewcommand{\arraystretch}{1.45}
 \begin{table}[H]
@@ -33,8 +33,8 @@ lacune précise du système actuel.
 \rowcolor{gray!20}
 \textbf{\#} & \textbf{Critère} & \textbf{Ce que cela signifie concrètement pour l'ENSEEIHT} \\
 \hline
-C1 & Centralisation des données de mobilité & Regrouper dans une seule plateforme 
-l'ensemble des données relatives aux mobilités sortantes, entrantes, complémentaires 
+C1 & Centralisation des données de mobilité & Regrouper dans une seule plateforme
+l'ensemble des données relatives aux mobilités sortantes, entrantes, complémentaires
 et aux stages internationaux, ainsi que les données académiques des étudiants \\
 \hline
 C2 & Quotas par école et par département & Gestion des places allouées d'abord à l'échelle de l'ENSEEIHT, puis par département pédagogique (SN, 3EA, MF2E), et non uniquement à l'échelle globale INP \\
@@ -49,7 +49,7 @@ C6 & Adaptabilité aux règles internes & Capacité du système à fonctionner s
 \hline
 C7 & Recommandation de destinations & Suggestion de destinations adaptées au profil de l'étudiant (département, GPA, langue, préférences) pour l'accompagner dans son choix \\
 \hline
-C8 & Reporting CTI & Production automatique des indicateurs clés (KPIs) exigés par la CTI : taux de mobilité par promotion, durées moyennes, répartition géographique \\
+C8 & Reporting CTI & Production automatique des indicateurs clés (KPIs) exigés par la CTI, notamment : taux de mobilité par promotion, durée moyenne de mobilité par étudiant, et répartition géographique des destinations \\
 \hline
 \end{tabular}
 \caption{Grille d'évaluation des solutions existantes}
@@ -60,7 +60,7 @@ C8 & Reporting CTI & Production automatique des indicateurs clés (KPIs) exigés
 \section{Analyse des solutions existantes}
 % ─────────────────────────────────────────────────────────────
 
-Trois solutions ont été examinées : QS MoveON, déjà utilisé par le service RI, ErasmusJET, développé dans le cadre du programme Erasmus+, et les travaux académiques d'Elahi et al. sur la recommandation de destinations.
+Quatre solutions ont été examinées : QS MoveON, déjà utilisé par le service RI, Mobility-Online, une plateforme européenne largement déployée dans les services de relations internationales, ErasmusJET, développé dans le cadre du programme Erasmus+, et les travaux académiques d'Elahi et al. sur la recommandation de destinations.
 
 \subsection{QS MoveON}
 
@@ -87,6 +87,23 @@ MoveON est l'outil central du service RI pour la gestion des accords bilatéraux
 MoveON reste un bon outil pour ce qu'il fait, mais sa conception ne prévoit pas de
 couvrir les besoins opérationnels internes d'un établissement.
 
+\subsection{Mobility-Online}
+
+Mobility-Online est une plateforme de gestion de la mobilité étudiante largement utilisée par des services de relations internationales en Europe, notamment pour la gestion administrative des échanges Erasmus+ et des accords bilatéraux.
+
+\textbf{Points forts :} un module de gestion documentaire complet (conventions, learning agreements, relevés de notes) et une bonne couverture du suivi administratif des mobilités entrantes et sortantes, sur un périmètre européen large.
+
+\textbf{Limites par rapport aux critères définis :}
+
+\begin{itemize}
+    \item La plateforme est conçue comme un outil de gestion administrative générique, sans granularité de quotas par département pédagogique propre à un établissement français comme l'ENSEEIHT.
+    \item Aucun mécanisme d'auto-affectation basé sur le classement académique n'est proposé : la sélection reste manuelle.
+    \item Le calcul de durée de mobilité selon les critères CTI, spécifiques aux écoles d'ingénieurs françaises, n'est pas pris en charge, la plateforme n'étant pas conçue pour ce cadre réglementaire.
+    \item Ni recommandation de destinations personnalisée, ni reporting structuré selon les indicateurs CTI.
+\end{itemize}
+
+Mobility-Online confirme qu'une plateforme généraliste, même mature et largement déployée, ne couvre pas les besoins spécifiques d'un établissement soumis aux exigences de la CTI.
+
 \subsection{ErasmusJET}
 
 ErasmusJET est une plateforme développée dans le cadre des initiatives de digitalisation du programme Erasmus+. Son objectif est de standardiser les échanges de données entre établissements partenaires du réseau européen.
@@ -111,7 +128,7 @@ ErasmusJET peut être utile pour la partie Erasmus+, mais il ne règle aucun des
 
 Les travaux d'Elahi et al. proposent un système qui combine recommandation de destinations et processus d'affectation étudiante. Les tests sont réalisés sur un jeu de données simulé~\cite{Elahi2022}.
 
-\textbf{Points forts :} c'est la seule des trois solutions qui aborde sérieusement le critère C7 — la recommandation personnalisée de destinations. L'article démontre la faisabilité technique de coupler un algorithme de suggestion avec un processus de sélection, ce qui en fait une référence directement pertinente pour la partie intelligence du projet.
+\textbf{Points forts :} c'est la seule des solutions analysées qui aborde sérieusement le critère C7 — la recommandation personnalisée de destinations. L'article démontre la faisabilité technique de coupler un algorithme de suggestion avec un processus de sélection, ce qui en fait une référence directement pertinente pour la partie intelligence du projet.
 
 \textbf{Limites par rapport aux critères définis :}
 
@@ -131,71 +148,43 @@ Ces travaux sont une référence utile pour la partie recommandation, mais ils n
 \section{Tableau comparatif de synthèse}
 % ─────────────────────────────────────────────────────────────
 
-Le tableau~\ref{tab:synthese_solutions} résume la couverture de chaque solution pour les huit critères de la grille d'évaluation.
+Le tableau~\ref{tab:synthese_solutions} résume la couverture de chaque solution pour les huit critères de la grille d'évaluation. La légende suivante s'applique : \cmark\ = critère satisfait, \xmark\ = critère non satisfait, \textit{Partiel} = critère partiellement couvert.
 
 \renewcommand{\arraystretch}{1.45}
 \begin{table}[H]
 \centering
 \footnotesize
-\begin{tabular}{|p{6.5cm}|>{\centering\arraybackslash}p{2.3cm}|>{\centering\arraybackslash}p{2.3cm}|>{\centering\arraybackslash}p{2.3cm}|}
+\begin{tabular}{|p{5.4cm}|>{\centering\arraybackslash}p{2cm}|>{\centering\arraybackslash}p{2.1cm}|>{\centering\arraybackslash}p{2cm}|>{\centering\arraybackslash}p{2.1cm}|}
 \hline
 \rowcolor{gray!20}
-\centering{\textbf{Critère}} & \textbf{QS MoveON} & \textbf{ErasmusJET} & \textbf{Elahi et al.} \\
+\centering{\textbf{Critère}} & \textbf{QS MoveON} & \textbf{Mobility-Online} & \textbf{ErasmusJET} & \textbf{Elahi et al.} \\
 \hline
-C1 – Centralisation des données & Mobilités sortantes uniquement & \xmark & \xmark \\
+C1 – Centralisation des données & Partiel & Partiel & \xmark & \xmark \\
 \hline
-C2 – Quotas par école et département & \xmark & \xmark & \xmark \\
+C2 – Quotas par école et département & \xmark & \xmark & \xmark & \xmark \\
 \hline
-C3 – Aide à la décision et auto-affectation & \xmark & \xmark & \xmark \\
+C3 – Aide à la décision et auto-affectation & \xmark & \xmark & \xmark & \xmark \\
 \hline
-C4 – Calcul durée de mobilité & \xmark & \xmark & \xmark \\
+C4 – Calcul durée de mobilité & \xmark & \xmark & \xmark & \xmark \\
 \hline
-C5 – Mobilités complémentaires & \xmark & \xmark & \xmark \\
+C5 – Mobilités complémentaires & \xmark & \xmark & \xmark & \xmark \\
 \hline
-C6 – Adaptabilité métier & Règles non adaptables à l'établissement & \xmark & \xmark \\
+C6 – Adaptabilité métier & Partiel & \xmark & \xmark & \xmark \\
 \hline
-C7 – Recommandation de destinations & \xmark & \xmark & Prototype sur données simulées \\
+C7 – Recommandation de destinations & \xmark & \xmark & \xmark & Partiel \\
 \hline
-C8 – Reporting CTI & \xmark & \xmark & \xmark \\
+C8 – Reporting CTI & \xmark & \xmark & \xmark & \xmark \\
 \hline
 \end{tabular}
 \caption{Synthèse comparative des solutions selon la grille d'évaluation}
 \label{tab:synthese_solutions}
 \end{table}
 
-Aucune des solutions étudiées ne répond à l'ensemble des besoins identifiés. Ce résultat confirme la nécessité de développer une solution propre au service RI.
-
-% ─────────────────────────────────────────────────────────────
-\section{Problématique et solution proposée}
-% ─────────────────────────────────────────────────────────────
-
-Cette section formule la problématique centrale du projet, puis présente la solution retenue.
-
-\subsection{Problématique}
-
-Le service RI utilise plusieurs outils qui ne communiquent pas entre eux. Chaque transfert de données se fait à la main, l'affectation des étudiants n'a pas de règle fixe, et il n'existe pas de moyen simple de calculer la durée de mobilité. Aucune des solutions analysées dans ce chapitre ne répond à ces besoins. Cinq problèmes restent sans solution :
-
-\begin{itemize}
-  \item Les données sont dispersées entre plusieurs systèmes et ne peuvent pas être consultées depuis un seul endroit.
-  \item Les quotas ne descendent pas jusqu'au niveau département, alors que c'est ce niveau qui détermine qui peut partir et où.
-  \item La sélection des candidats se fait à la main, sans règle définie à l'avance.
-  \item Le calcul de la durée de mobilité oblige à rassembler des données venant de plusieurs sources différentes.
-  \item Les étudiants n'ont pas d'aide pour choisir leurs destinations.
-\end{itemize}
-
-C'est à partir de ce constat que se formule la question centrale du projet :
-
-\begin{quote}
-\textit{Comment concevoir une plateforme intégrée qui automatise le processus de gestion des mobilités internationales à l'ENSEEIHT, depuis la centralisation des données multi-sources jusqu'à l'affectation algorithmique, tout en garantissant la conformité CTI et l'aide à la décision des étudiants ?}
-\end{quote}
-
-\subsection{Solution proposée}
-
-Ce constat conduit au développement d'une plateforme propre au service RI. Elle ne remplace pas les outils existants, mais se connecte à eux pour récupérer les données automatiquement. Elle permet de gérer les quotas par département, de classer et affecter les étudiants selon des règles définies à l'avance, de calculer la durée de mobilité de façon automatique, et d'aider les étudiants à choisir leurs destinations. L'objectif est de centraliser les données et de réduire le travail manuel.
+Aucune des quatre solutions étudiées — qu'il s'agisse d'outils commerciaux largement déployés (MoveON, Mobility-Online), d'une initiative institutionnelle européenne (ErasmusJET) ou d'un prototype de recherche (Elahi et al.) — ne répond à l'ensemble des besoins identifiés. Ce résultat, obtenu sur un panel volontairement diversifié, confirme la nécessité de développer une solution propre au service RI, conformément à la problématique et à la solution envisagées au chapitre précédent.
 
 \section*{Conclusion}
 \justifying
 \phantomsection
 \addcontentsline{toc}{section}{Conclusion}
 
-L’étude des solutions existantes montre qu’aucun des outils analysés ne répond pleinement aux besoins du service RI. Ce qui justifie le développement d’une solution sur mesure, dont les spécifications précises font l’objet du chapitre suivant.
+Ce chapitre a montré qu'aucune des solutions existantes — commerciales ou académiques — ne couvre les huit critères identifiés, en particulier la granularité des quotas par département et la conformité CTI, propres au contexte français. Ce constat valide la solution envisagée au chapitre précédent ; le chapitre suivant en détaille les choix technologiques et algorithmiques.

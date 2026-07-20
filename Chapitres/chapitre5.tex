@@ -1,6 +1,6 @@
 % !TEX root = ../main.tex
 % ══════════════════════════════════════════════════════════════
-\chapter{Choix algorithmiques et stratégies de performance}
+\chapter{Réalisation}
 % ══════════════════════════════════════════════════════════════
 \begingroup
 \let\clearpage\relax
@@ -14,741 +14,785 @@
 \phantomsection
 \addcontentsline{toc}{section}{Introduction}
 
-Ce chapitre présente les choix algorithmiques et les stratégies de performance qui structurent la logique métier de la plateforme. Pour chaque composant, les alternatives disponibles sont comparées sur la base de critères précis, puis la méthode retenue est justifiée.
+Le chapitre précédent a établi la conception complète du système : backlog, architecture et modèle de données. Ce chapitre couvre la phase de réalisation du projet, organisée en sprints successifs, où le backlog, la conception détaillée, l'implémentation et les tests de chaque sprint sont présentés conformément à la définition of done.
 
 % ─────────────────────────────────────────────────────────────
-\section{Stratégie de performance base de données}
+\section{{Sprint 1 — Socle technique et référentiels}}
 % ─────────────────────────────────────────────────────────────
 
-Cette section présente les enjeux de performance liés à la croissance
-des données, évalue les deux approches disponibles, puis justifie
-la stratégie retenue.
+Cette section présente la réalisation du Sprint 1, dédié à la mise en place du socle technique et des référentiels. Elle couvre successivement l'objectif du sprint, le backlog, la conception UML, l'implémentation et les tests.
 
-\subsection{Contexte et enjeux}
+\subsection{Objectif du sprint}
 
-Plusieurs tables du projet — mobilités, affectations, imports —
-grossissent d'une campagne à l'autre. Le système doit pouvoir les
-filtrer rapidement par année universitaire, que ce soit pour afficher
-le tableau de bord RI, calculer les durées CTI ou lancer l'algorithme
-d'affectation. Deux approches ont été évaluées pour répondre à cet
-enjeu.
+Le Sprint 1 a pour objectif d'implémenter les fondations irréversibles du système : référentiels stables (\texttt{Country}, \texttt{Department}), universités partenaires (\texttt{PartnerUniversity}), année universitaire avec sa machine à états à 6 phases (\texttt{AcademicYear}), accords et quotas (\texttt{Agreement}, \texttt{AgreementQuota}, \texttt{DepartmentQuota}) et stockage brut des imports (\texttt{RawImport}). Ces composants constituent la colonne vertébrale du système — toute fonctionnalité des sprints suivants en dépend directement.
 
-\subsection{Alternatives évaluées}
+\textbf{Définition of Done.} À l'issue de ce sprint, le système doit être exécutable via \texttt{docker compose up}, toutes les migrations Django doivent s'appliquer sans erreur, les tests unitaires doivent passer avec une couverture supérieure à 80\,\%, et le pipeline CI/CD doit être opérationnel sur GitHub Actions.
 
-\subsubsection{Partitionnement par année}
+\newcounter{tasknum}
+\setcounter{tasknum}{1}
+\newcommand{\nexttask}{%
+  \ifnum\value{tasknum}<10 0\fi\arabic{tasknum}%
+  \stepcounter{tasknum}%
+}
 
-Le partitionnement consiste à découper physiquement une table en
-sous-tables, une par valeur de la colonne de partition — ici, par
-année universitaire. PostgreSQL ne lit alors que la partition
-concernée lors d'une requête filtrée.
+\newlength{\uswidth}
+\setlength{\uswidth}{\dimexpr 15.0cm + 5\arrayrulewidth + 30pt\relax}
 
-\textit{Avantages :}
-\begin{itemize}
-  \item Réduction significative du volume scanné pour les requêtes
-        filtrées par année
-  \item Efficace lorsque les tables atteignent plusieurs millions
-        de lignes
-\end{itemize}
+\newcommand{\usheadergreen}[2]{%
+  \multicolumn{6}{|p{\uswidth}|}{%
+    \cellcolor{green!8}%
+    \textbf{#1} — \small\textit{#2}%
+  } \\ \hline
+}
+\newcommand{\usheader}[2]{%
+  \multicolumn{6}{|p{\uswidth}|}{%
+    \cellcolor{blue!8}%
+    \textbf{#1} — \small\textit{#2}%
+  } \\ \hline
+}
 
-\textit{Limites :}
-\begin{itemize}
-  \item La colonne de partitionnement doit être incluse dans toutes
-        les contraintes d'unicité, ce qui peut créer des conflits
-        avec les migrations Django au fil des sprints
-  \item Complexité supplémentaire du schéma pour un volume qui
-        ne le justifie pas
-\end{itemize}
+\subsection{Sprint Backlog — Sprint 1}
 
-\subsubsection{Indexation ciblée}
-
-L'indexation ciblée consiste à créer des index sur les colonnes
-les plus utilisées dans les filtres, sans modifier la structure
-physique des tables.
-
-\textit{Avantages :}
-\begin{itemize}
-  \item Aucune modification du schéma ni des migrations Django
-  \item Index déclarés directement dans les modèles, visibles
-        dans le code et versionnés avec lui
-  \item Transparent pour l'ORM, sans configuration PostgreSQL séparée
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item Moins efficace que le partitionnement pour des volumes
-        de plusieurs millions de lignes — sans incidence ici
-\end{itemize}
-
-\subsection{Synthèse comparative}
-
-Le tableau~\ref{tab:comparaison_perf_bdd} récapitule les critères évalués pour chacune des
-deux approches, afin de faciliter la comparaison et de justifier
-la stratégie retenue.
-
-\renewcommand{\arraystretch}{1.35}
-\begin{table}[H]
-\centering
+\begingroup
 \footnotesize
-\begin{tabular}{|p{5.5cm}|>{\centering\arraybackslash}p{3cm}|>{\centering\arraybackslash}p{3cm}|}
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.6}
+
+\begin{longtable}{|p{0.5cm}|p{3.5cm}|p{5cm}|p{4cm}|p{1.5cm}|p{0.5cm}|}
 \hline
 \rowcolor{gray!20}
-\textbf{Critère} & \textbf{Partitionnement} & \textbf{Indexation ciblée} \\
-\hline
-Adapté au volume du projet & \xmark & \cmark \\
-\hline
-Compatible avec les migrations Django & Contraintes d'unicité incompatibles avec certaines migrations & \cmark \\
-\hline
-Déclaration dans les modèles & \xmark & \cmark \\
-\hline
-Aucune configuration PostgreSQL séparée & \xmark & \cmark \\
-\hline
-Efficacité à très grande échelle & \cmark & Moins efficace pour plusieurs millions de lignes \\
-\hline
-\end{tabular}
-\caption{Comparaison des stratégies de performance base de données}
-\label{tab:comparaison_perf_bdd}
-\end{table}
-
-\subsection{Décision}
-
-\textbf{L'indexation ciblée} est retenue. L'ENSEEIHT traite quelques
-centaines d'étudiants en mobilité par an. Même en projetant ce volume
-sur dix ans, les tables restent très loin du seuil où le partitionnement
-apporterait un gain mesurable. Des index sont créés sur
-\texttt{academic\_year\_id} et sur la combinaison
-\texttt{(academic\_year\_id, student\_id)} pour les tables les plus
-sollicitées, directement dans les modèles Django concernés.
-
-% ─────────────────────────────────────────────────────────────
-\section{Choix de l'algorithme d'affectation}
-% ─────────────────────────────────────────────────────────────
-
-Cette section présente les contraintes auxquelles l'algorithme doit
-répondre, évalue les approches disponibles, puis justifie le choix retenu.
-
-\subsection{Besoins spécifiques}
-
-L'algorithme doit attribuer à chaque étudiant une destination parmi ses
-vœux, en respectant un ensemble de contraintes institutionnelles. Les
-résultats ont un impact réel sur les parcours : le service RI doit pouvoir
-justifier chaque affectation. L'équité entre candidats et la
-reproductibilité des résultats sont des exigences essentielles.
-
-Le classement des étudiants repose principalement sur le GPA, complété
-par des règles institutionnelles. Les affectations doivent respecter
-les quotas par accord de mobilité et par département, les contraintes
-de financement, ainsi que la situation des étudiants étrangers dans
-le classement global. Chaque étudiant exprime jusqu'à trois vœux
-ordonnés ; l'algorithme traite les vœux dans l'ordre et recherche
-une affectation alternative en cas d'indisponibilité.
-
-\subsection{Alternatives évaluées}
-
-Deux approches algorithmiques ont été évaluées pour répondre à ces besoins.
-
-\subsubsection{Algorithme glouton}
-
-L'algorithme glouton parcourt les candidats dans l'ordre de leur GPA
-et affecte chacun à son meilleur vœu encore disponible, sans jamais
-revenir sur une décision déjà prise.
-
-\textit{Avantages :}
-\begin{itemize}
-  \item Simple à implémenter et à expliquer
-  \item Résultat prévisible, complexité $O(n^2)$
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item Le résultat dépend de l'ordre de traitement : deux étudiants
-        avec des GPA très proches peuvent se retrouver dans des
-        situations très différentes selon leur position dans la liste
-  \item Une légère variation de l'ordre d'entrée peut produire des
-        résultats différents, ce qui est incompatible avec l'exigence
-        de reproductibilité
-\end{itemize}
-
-\subsubsection{Gale-Shapley}
-
-L'algorithme de Gale-Shapley est un algorithme
-d'affectation stable qui procède par rondes successives de propositions
-et de rejets différés jusqu'à convergence. Il garantit qu'aucune paire
-étudiant-destination ne peut former une meilleure association que celle
-retenue à l'issue du processus~\cite{GaleShapley1962}.
-
-\textit{Avantages :}
-\begin{itemize}
-  \item Résultat stable : il est mathématiquement impossible qu'un
-        étudiant et une destination forment une meilleure paire que
-        celle retenue, quelles que soient les données
-  \item Équitable : le résultat ne dépend pas de l'ordre de traitement,
-        deux exécutions avec les mêmes données donnent toujours le
-        même résultat
-  \item Optimal pour les étudiants dans la variante Student-Proposing :
-        chacun obtient la meilleure destination possible compte tenu
-        de son classement et de ses vœux
-  \item Complexité $O(n^2)$, tout à fait adaptée à quelques centaines
-        d'étudiants
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item Légèrement plus complexe à implémenter que l'algorithme glouton
-\end{itemize}
-
-\subsection{Synthèse comparative}
-
-Le tableau~\ref{tab:comparaison_algo} récapitule les critères évalués pour chacune des deux
-approches, afin de faciliter la comparaison et de justifier le choix retenu.
-
-\renewcommand{\arraystretch}{1.35}
-\begin{table}[H]
-\centering
-\footnotesize
-\begin{tabular}{|p{5.5cm}|>{\centering\arraybackslash}p{3cm}|>{\centering\arraybackslash}p{3cm}|}
-\hline
-\rowcolor{gray!20}
-\textbf{Critère} & \textbf{Algo. glouton} & \textbf{Gale-Shapley} \\
-\hline
-Stabilité des affectations & \xmark & \cmark \\
-\hline
-Reproductibilité & \xmark & \cmark \\
-\hline
-Indépendance à l'ordre de traitement & \xmark & \cmark \\
-\hline
-Optimalité pour les étudiants & Résultat non garanti selon l'ordre de traitement & \cmark \\
-\hline
-Explicabilité des résultats & Difficile à justifier si l'ordre a influencé le résultat & \cmark \\
-\hline
-Simplicité d'implémentation & \cmark & Plus complexe que l'algo glouton, bien documenté \\
-\hline
-\end{tabular}
-\caption{Comparaison des algorithmes d'affectation}
-\label{tab:comparaison_algo}
-\end{table}
-
-\subsection{Décision}
-
-\textbf{Gale-Shapley} est retenu, dans sa variante \textbf{Student-Proposing} :
-ce sont les étudiants qui font des propositions aux destinations, et non
-l'inverse. Cette variante garantit que chaque étudiant obtient la meilleure
-destination possible compte tenu de son classement et de ses vœux —
-propriété dite d'\textit{optimalité côté proposant}.
-
-Les contraintes de quota sont vérifiées à deux niveaux simultanément à
-chaque proposition : un quota global par accord bilatéral (capacité de
-l'université partenaire) et un quota local par département pédagogique
-(places allouées au sein de l'ENSEEIHT). Une destination est disponible
-seulement si les deux niveaux sont respectés ; sinon la proposition est
-rejetée et l'étudiant passe à son vœu suivant.
-
-L'algorithme glouton est écarté car il est sensible à l'ordre de traitement
-et ne garantit pas la reproductibilité. Gale-Shapley assure un résultat
-stable, équitable et reproductible dans ce cadre multi-contraint.
-
-
-% ─────────────────────────────────────────────────────────────
-\section{Choix de la méthode de répartition des quotas par département}
-% ─────────────────────────────────────────────────────────────
-
-Cette section présente les besoins liés à la répartition des quotas entre
-départements, évalue les méthodes disponibles, puis justifie le choix retenu.
-
-\subsection{Besoins spécifiques}
-
-Chaque accord bilatéral fixe un nombre total de places disponibles. Ce nombre
-doit ensuite être distribué entre les départements pédagogiques, ce qui soulève
-une question qui n'a pas de réponse évidente : sur quelle base décider combien
-de places revient à chaque département ?
-
-Une répartition basée uniquement sur les demandes de l'année en cours serait
-insuffisante : elle ne tient pas compte du fait qu'un département peut avoir été
-systématiquement défavorisé les années précédentes, ni du fait que certains
-accords voient leur nombre de places évoluer d'une campagne à l'autre. Sans
-intégrer cet historique, la répartition risque d'être perçue comme arbitraire
-et de creuser des déséquilibres entre départements au fil des années.
-
-Le besoin est donc de disposer d'une méthode qui distribue les places de façon
-proportionnelle à la demande réelle, tout en restant simple à comprendre,
-transparente et vérifiable par le service RI. La méthode retenue doit également
-garantir que la somme des places attribuées aux départements est exactement égale
-au nombre de places de l'accord, sans qu'aucune place ne soit perdue lors des
-arrondis.
-
-\subsection{Alternatives évaluées}
-
-Trois méthodes de répartition proportionnelle ont été comparées. Toutes
-partent du même principe : chaque département reçoit une quote-part
-proportionnelle à son nombre d'étudiants. La différence porte sur la
-manière de distribuer les places entières lorsque la division produit
-des résultats décimaux.
-
-\subsubsection{Méthode Hamilton (plus grands restes)}
-
-La méthode Hamilton attribue d'abord à chaque département la partie entière
-de sa quote-part. Les places restantes sont ensuite données, une par une,
-aux départements ayant les fractions les plus élevées, jusqu'à épuiser le
-total disponible.
-
-\textit{Avantages :}
-\begin{itemize}
-  \item Simple à comprendre et à expliquer à tous les acteurs
-  \item Résultat facile à vérifier manuellement
-  \item Respecte les proportions au plus près du total disponible
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item Un département dont la quote-part est inférieure à 1 ne reçoit
-        aucune place garantie, même si sa fraction est élevée
-\end{itemize}
-
-\subsubsection{Méthode Jefferson (plus grandes moyennes)}
-
-La méthode Jefferson procède de façon itérative : à chaque étape, la
-prochaine place est attribuée au département dont le rapport entre sa
-taille et le nombre de places déjà reçues est le plus élevé.
-
-\textit{Avantages :}
-\begin{itemize}
-  \item Aucun arrondi explicite nécessaire
-  \item Résultats stables et cohérents d'une campagne à l'autre
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item Avantage les grands départements et pénalise les petits
-  \item Calcul itératif moins intuitif à vérifier manuellement
-\end{itemize}
-
-\subsubsection{Méthode Webster}
-
-La méthode Webster est proche de Jefferson, mais elle utilise un arrondi
-standard (seuil à 0,5) pour décider si un département reçoit une place
-supplémentaire ou non.
-
-\textit{Avantages :}
-\begin{itemize}
-  \item Plus équilibrée que Jefferson pour les petits départements
-  \item Bien adaptée aux cas où peu de places sont à distribuer
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item Calcul moins intuitif qu'Hamilton, plus difficile à vérifier
-        sans outil
-  \item Résultats moins prévisibles dans les cas limites
-\end{itemize}
-
-\subsection{Synthèse comparative}
-
-Le tableau~\ref{tab:comparaison_quotas} récapitule les critères évalués pour chacune des
-trois méthodes, afin de faciliter la comparaison et de justifier le choix retenu.
-
-\renewcommand{\arraystretch}{1.35}
-\begin{table}[H]
-\centering
-\footnotesize
-\begin{tabular}{|p{5cm}|>{\centering\arraybackslash}p{2.8cm}|>{\centering\arraybackslash}p{2.8cm}|>{\centering\arraybackslash}p{2.8cm}|}
-\hline
-\rowcolor{gray!20}
-\textbf{Critère} & \textbf{Hamilton} & \textbf{Jefferson} & \textbf{Webster} \\
-\hline
-Simplicité de calcul & \cmark & \xmark & \xmark \\
-\hline
-Vérification manuelle possible & \cmark & Calcul itératif difficile à suivre & Moins prévisible dans les cas limites \\
-\hline
-Équité entre départements & \cmark & Favorise les grands départements & \cmark \\
-\hline
-Respect du total disponible & \cmark & \cmark & \cmark \\
-\hline
-Adapté à un petit nombre de places & \cmark & \xmark & \cmark \\
-\hline
-Transparence pour les acteurs & \cmark & \xmark & \xmark \\
-\hline
-\end{tabular}
-\caption{Comparaison des méthodes de répartition des quotas}
-\label{tab:comparaison_quotas}
-\end{table}
-
-\subsection{Décision}
-
-\textbf{La méthode Hamilton} est retenue. Elle offre le meilleur équilibre
-entre équité, simplicité et transparence dans ce contexte. Les résultats
-peuvent être vérifiés à la main par le service RI, ce qui est important
-pour un processus qui touche directement les chances de départ des étudiants.
-
-La méthode Jefferson est écartée car elle avantage systématiquement les
-grands départements, ce qui irait à l'encontre de l'équité visée. Webster
-est plus difficile à vérifier sans outil de calcul. Hamilton est donc la
-méthode la plus adaptée pour une répartition claire et justifiable.
-
-% ─────────────────────────────────────────────────────────────
-\section{Choix du moteur de recommandation}
-% ─────────────────────────────────────────────────────────────
-
-Cette section présente les besoins du module de recommandation,
-évalue les approches disponibles, puis justifie la méthode retenue.
-
-\subsection{Besoins spécifiques}
-
-Le moteur de recommandation a pour objectif d'aider les étudiants à
-choisir leurs destinations avant la saisie des vœux dans MoveON. Il
-ne prend pas de décision, mais propose un classement des destinations
-selon leur pertinence pour le profil de l'étudiant. Les recommandations
-doivent s'appuyer sur le profil académique et sur les données historiques
-disponibles, tout en restant interprétables pour l'étudiant.
-
-\subsection{Alternatives évaluées}
-
-Trois grandes familles d'approches ont été évaluées pour répondre à
-ce besoin.
-
-\subsubsection{Approche basée sur des règles (rule-based)}
-
-Cette approche repose sur des règles métier simples définies manuellement,
-telles que filtrer les destinations selon le département et classer par
-taux d'acceptation historique.
-
-\textit{Avantages :}
-\begin{itemize}
-  \item Simple à mettre en place, sans données d'apprentissage
-  \item Facile à comprendre et à expliquer
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item Peu flexible, ne s'adapte pas aux profils individuels
-  \item Résultats souvent trop génériques
-\end{itemize}
-
-\subsubsection{Approche par similarité (collaborative filtering)}
-
-Cette approche propose des destinations en se basant sur les choix
-d'étudiants ayant des profils similaires dans les promotions précédentes.
-
-\textit{Avantages :}
-\begin{itemize}
-  \item Prend en compte les expériences passées des promotions
-  \item Permet des recommandations plus personnalisées
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item Nécessite un volume important de données historiques
-  \item Moins efficace pour les nouvelles destinations
-  \item Mise en œuvre plus complexe
-\end{itemize}
-
-\subsubsection{Approche par apprentissage supervisé}
-
-Cette approche consiste à entraîner un modèle pour prédire une probabilité
-de compatibilité entre un étudiant et une destination. Deux modèles ont
-été comparés au sein de cette famille.
-
-\paragraph{Régression logistique}
-
-La régression logistique est un modèle statistique qui estime la
-probabilité d'un résultat à partir de variables d'entrée numériques.
-Elle est particulièrement adaptée aux volumes de données modérés~\cite{scikit_learn}.
-
-\textit{Avantages :}
-\begin{itemize}
-  \item Modèle simple et rapide à entraîner
-  \item Résultats faciles à interpréter et à expliquer
-  \item Adapté à des volumes de données modérés
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item Capture difficilement des relations complexes entre variables
-\end{itemize}
-
-\paragraph{XGBoost}
-
-XGBoost est un algorithme de gradient boosting qui construit un ensemble
-d'arbres de décision de façon séquentielle pour améliorer la précision
-prédictive~\cite{scikit_learn}.
-
-\textit{Avantages :}
-\begin{itemize}
-  \item Capable de modéliser des relations complexes entre variables
-  \item Très bonnes performances prédictives
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item Plus complexe à entraîner et à maintenir
-  \item Résultats moins interprétables
-  \item Risque de surapprentissage avec un volume de données limité
-\end{itemize}
-
-\subsection{Synthèse comparative}
-
-Le tableau~\ref{tab:comparaison_reco} récapitule les critères évalués pour chacune des
-approches, afin de faciliter la comparaison et de justifier le choix retenu.
-
-\renewcommand{\arraystretch}{1.35}
-\begin{table}[H]
-\centering
-\footnotesize
-\begin{tabular}{|p{3.8cm}|>{\centering\arraybackslash}p{2cm}|>{\centering\arraybackslash}p{2cm}|>{\centering\arraybackslash}p{2.5cm}|>{\centering\arraybackslash}p{2cm}|}
-\hline
-\rowcolor{gray!20}
-\textbf{Critère} & \textbf{Règles} & \textbf{Collab.} & \textbf{Régression log.} & \textbf{XGBoost} \\
-\hline
-Personnalisation & \xmark & \cmark & \cmark & \cmark \\
-\hline
-Volume de données requis & \cmark & \xmark & Efficace à partir de 500 observations & Risque de surapprentissage avec peu de données \\
-\hline
-Interprétabilité & \cmark & Difficile sans connaître les profils similaires & \cmark & \xmark \\
-\hline
-Risque de surapprentissage & \cmark & Dépend de la qualité des données historiques & \cmark & \xmark \\
-\hline
-Simplicité de maintenance & \cmark & \xmark & \cmark & \xmark \\
-\hline
-\end{tabular}
-\caption{Comparaison des approches de recommandation}
-\label{tab:comparaison_reco}
-\end{table}
-
-\subsection{Décision}
-
-\textbf{L'apprentissage supervisé par régression logistique} est retenu.
-Le modèle estime, pour chaque couple étudiant–destination, une probabilité
-de compatibilité à partir des variables suivantes :
-
-\renewcommand{\arraystretch}{1.3}
-\begin{table}[H]
-\centering
-\footnotesize
-\begin{tabular}{|p{3.5cm}|p{8cm}|}
-\hline
-\rowcolor{gray!20}
-\textbf{Variable} & \textbf{Description} \\
-\hline
-GPA de l'étudiant & Note académique normalisée, principal signal de classement \\
-\hline
-Département pédagogique & Filtrage sur les accords ouverts au département de l'étudiant \\
-\hline
-Destination & Identifiant de l'université partenaire \\
-\hline
-Historique des affectations & Taux de sélection par destination sur les trois dernières années \\
-\hline
-\end{tabular}
-\caption{Variables d'entrée du moteur de recommandation}
-\label{tab:features_reco}
-\end{table}
-
-Les destinations sont classées par ordre de probabilité décroissante
-afin de proposer une liste de recommandations personnalisées.
-
-La régression logistique est retenue car elle offre un bon compromis
-entre simplicité, interprétabilité et facilité de maintenance. Le volume
-de données — environ 900 observations sur trois ans — ne justifie pas
-XGBoost, dont les performances supplémentaires s'accompagnent d'un risque
-accru de surapprentissage.
-
-\textbf{Risque de démarrage à froid.} Certaines destinations rares ou
-récentes disposent de peu d'observations historiques. Pour ces cas, le
-modèle se rabat sur le GPA et le département comme seuls signaux, ce qui
-reste cohérent avec les règles de sélection. Le module sera activé à
-partir de la deuxième année de fonctionnement, une fois qu'un historique
-minimal d'une campagne complète aura été constitué.
-
-
-% ─────────────────────────────────────────────────────────────
-\section{Choix de l'orchestration RAG}
-% ─────────────────────────────────────────────────────────────
-
-Cette section présente les besoins du module RAG et le modèle de langage
-imposé, évalue les frameworks d'orchestration disponibles, puis justifie
-le choix retenu.
-
-\subsection{Besoins spécifiques}
-
-Le composant RAG du projet est un chatbot destiné aux étudiants, capable
-de répondre à des questions sur les procédures de mobilité à partir de
-la documentation institutionnelle de l'ENSEEIHT : guides, critères
-d'éligibilité, délais et démarches administratives. Le cas d'usage est
-relativement simple : une base documentaire stable, des questions en
-français ou en anglais, et des réponses ancrées dans les documents officiels.
-
-\subsection{Modèle de langage}
-
-Le modèle de langage retenu est \textbf{Mistral}~\cite{mistral_dev}
-(\texttt{mistral-small-latest}), conformément aux exigences de l'ENSEEIHT.
-Il est accessible via l'\textbf{API Mistral ILAS}, une infrastructure
-nationale dédiée aux établissements de l'enseignement supérieur français,
-hébergée sur des serveurs localisés en France.
-
-Ce mode d'accès institutionnel répond directement aux exigences RGPD :
-les données traitées restent dans l'infrastructure nationale et ne sont
-pas transmises à des tiers commerciaux. Il est néanmoins impératif que
-les données personnelles des étudiants ne soient jamais incluses dans
-les requêtes envoyées au modèle — les questions au chatbot sont
-transmises telles que saisies, sans enrichissement avec des données
-de dossier.
-
-
-\subsection{Alternatives évaluées}
-
-Quatre approches ont été évaluées pour orchestrer le pipeline RAG
-autour du modèle Mistral.
-
-\subsubsection{LangChain}
-
-LangChain est un framework d'orchestration IA généraliste, compatible
-avec un large éventail de modèles et de bases vectorielles~\cite{langchain_dev}.
-
-\textit{Avantages :}
-\begin{itemize}
-  \item Grande communauté et nombreuses ressources disponibles
-  \item Intégration simple avec Mistral et ChromaDB
-  \item Adapté aux pipelines IA complexes et multi-étapes
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item API qui évolue fréquemment, induisant des risques de rupture
-  \item Nombreuses dépendances, surcoût pour un chatbot documentaire simple
-\end{itemize}
-
-\subsubsection{LlamaIndex}
-
-LlamaIndex est un framework spécialisé dans la recherche et la génération
-à partir de documents structurés~\cite{LlamaIndex_dev}.
-
-\textit{Avantages :}
-\begin{itemize}
-  \item Conçu spécifiquement pour les applications RAG documentaires
-  \item Bonne intégration avec Mistral et les bases vectorielles
-  \item API plus stable, prise en main plus directe
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item Moins adapté aux architectures IA multi-agents très complexes
-\end{itemize}
-
-\subsubsection{Haystack}
-
-Haystack est un framework orienté production pour les systèmes de
-recherche et de génération augmentée~\cite{haystack_dev}.
-
-\textit{Avantages :}
-\begin{itemize}
-  \item Architecture modulaire adaptée aux déploiements en production
-  \item Compatible avec Mistral
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item Documentation moins accessible pour des cas d'usage simples
-  \item Intégration avec Mistral moins directe que LlamaIndex
-\end{itemize}
-
-\subsubsection{Approche directe (sans framework)}
-
-L'approche directe consiste à implémenter manuellement le pipeline RAG
-via des appels à l'API Mistral, sans couche d'abstraction intermédiaire.
-
-\textit{Avantages :}
-\begin{itemize}
-  \item Contrôle total sur chaque étape du pipeline
-  \item Peu de dépendances externes
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item Nécessite de développer manuellement toute la logique RAG
-        (chunking, indexation, retrieval, construction du prompt)
-  \item Maintenance plus complexe à long terme
-\end{itemize}
-
-\subsection{Synthèse comparative}
-
-Le tableau~\ref{tab:comparaison_rag} récapitule les critères évalués pour chacune des
-quatre approches, afin de faciliter la comparaison et de justifier
-le choix retenu.
-
-\renewcommand{\arraystretch}{1.35}
-\begin{table}[H]
-\centering
-\footnotesize
-\begin{tabular}{|p{4cm}|>{\centering\arraybackslash}p{2.2cm}|>{\centering\arraybackslash}p{2.2cm}|>{\centering\arraybackslash}p{2.2cm}|>{\centering\arraybackslash}p{2cm}|}
-\hline
-\rowcolor{gray!20}
-\textbf{Critère} & \textbf{LangChain} & \textbf{LlamaIndex} & \textbf{Haystack} & \textbf{Direct} \\
-\hline
-Spécialisé RAG & Généraliste, non optimisé pour le RAG & \cmark & Orienté pipelines complexes & \xmark \\
-\hline
-Intégration Mistral & \cmark & \cmark & Possible mais moins directe & \cmark \\
-\hline
-Stabilité de l'API & \xmark & \cmark & \cmark & \cmark \\
-\hline
-Adapté à un cas simple & Surcoût de dépendances pour un cas simple & \cmark & Trop complexe pour un chatbot documentaire & Logique RAG à développer entièrement \\
-\hline
-Maintenance à long terme & API instable, risque de rupture à chaque mise à jour & \cmark & \cmark & \xmark \\
-\hline
-\end{tabular}
-\caption{Comparaison des frameworks d'orchestration RAG}
-\label{tab:comparaison_rag}
-\end{table}
-
-\subsection{Décision}
-
-\textbf{LlamaIndex} est retenu comme framework d'orchestration RAG,
-avec \textbf{ChromaDB} comme base vectorielle et
-\textbf{Mistral} comme modèle de langage. Cette combinaison correspond
-directement au besoin du projet : construire un chatbot documentaire
-simple, basé sur une base de connaissances stable. LlamaIndex fournit
-les fonctionnalités nécessaires sans surcoût de complexité, avec une
-API stable et une intégration directe avec Mistral et ChromaDB.
-
-% ─────────────────────────────────────────────────────────────
-\section{Synthèse des choix}
-% ─────────────────────────────────────────────────────────────
-
-\renewcommand{\arraystretch}{1.4}
-
-\begin{longtable}{|p{3cm}|p{3.5cm}|p{8.5cm}|}
-\caption{Synthèse des choix algorithmiques et de performance} \\
-\hline
-\rowcolor{gray!20}
-\textbf{Composant} & \textbf{Méthode retenue} & \textbf{Justification principale} \\
+\textbf{\#} & \textbf{Tâche} & \textbf{Description} &
+\textbf{Critères d'acceptation} & \textbf{Prior.} & \textbf{SP} \\
 \hline
 \endfirsthead
-
 \hline
 \rowcolor{gray!20}
-\textbf{Composant} & \textbf{Méthode retenue} & \textbf{Justification principale} \\
+\textbf{\#} & \textbf{Tâche} & \textbf{Description} &
+\textbf{Critères d'acceptation} & \textbf{Prior.} & \textbf{SP} \\
 \hline
 \endhead
+\hline
+\endfoot
 
-Stratégie de performance BDD & Indexation ciblée & Solution simple et suffisante pour le volume de données du projet \\
+% ── US-01 ─────────────────────────────────────────────────────────────────────
+\usheadergreen{US-01 — Référentiels de base}{%
+  En tant qu'\textbf{administrateur RI}, je veux disposer d'un référentiel
+  stable des pays, départements et universités partenaires afin que toutes
+  les entités du système s'appuient sur des données de référence cohérentes.}
+
+\nexttask &
+Définir \texttt{Country} et \texttt{Department} &
+Créer les deux modèles de référentiel
+avec \texttt{iso2} unique, région CTI,
+\texttt{clean()} et \texttt{last\_sync\_moveon}. &
+Les modèles migrent sans erreur. &
+Haute & 2 \\
 \hline
 
-Algorithme d'affectation & Gale-Shapley & Stabilité, équité et reproductibilité des affectations \\
+\nexttask &
+Définir \texttt{PartnerUniversity} &
+Créer le modèle avec \texttt{moveon\_id}
+comme clé de jointure MoveON. &
+Le modèle migre sans erreur. &
+Haute & 1 \\
 \hline
 
-Répartition des quotas & Hamilton & Méthode proportionnelle simple, transparente et vérifiable manuellement \\
+\nexttask &
+Page d'administration des référentiels &
+Créer une interface Next.js permettant
+à l'administrateur RI de consulter et
+filtrer les pays, départements et universités
+partenaires enregistrés. &
+La liste s'affiche, le filtre par nom
+fonctionne, les données sont
+chargées depuis l'API. &
+Haute & 2 \\
 \hline
 
-Moteur de recommandation & Régression logistique & Modèle simple, interprétable et adapté à un volume de données limité \\
+% ── US-02 ─────────────────────────────────────────────────────────────────────
+\usheadergreen{US-02 — Année universitaire et cycle de vie}{%
+  En tant qu'\textbf{administrateur RI}, je veux que le système gère
+  le cycle de vie de l'année universitaire via une machine à états
+  afin de contrôler chaque phase de la campagne de manière sécurisée.}
+
+\nexttask &
+Définir \texttt{AcademicYear} avec FSM &
+Définir le modèle \texttt{AcademicYear}
+en utilisant une machine à états finis (FSM),
+implémentée avec \texttt{django-fsm},
+comprenant 6 états correspondant aux
+différentes phases de la campagne.
+Mettre en place des transitions sécurisées
+entre ces états, ainsi qu'une méthode
+\texttt{clean()} permettant de garantir
+la cohérence des dates. &
+Les transitions valides fonctionnent.
+Les invalides lèvent
+\texttt{TransitionNotAllowed}.
+\texttt{start\_date > end\_date}
+lève \texttt{ValidationError}. &
+Haute & 2 \\
 \hline
 
-Orchestration RAG & LlamaIndex + ChromaDB & Solution adaptée à un chatbot documentaire simple et stable \\
+\nexttask &
+Composant de gestion de l'année universitaire &
+Créer une interface Next.js affichant
+l'état courant de l'année universitaire
+avec les boutons de transition disponibles
+(selon la FSM) et les dates clés
+configurables par l'administrateur. &
+L'état affiché reflète la FSM.
+Les transitions non autorisées
+sont masquées.
+Les dates se sauvegardent
+via l'API. &
+Haute & 2 \\
 \hline
 
-Modèle de langage & Mistral & Compatible avec le besoin multilingue du chatbot étudiant \\
+% ── US-03 ─────────────────────────────────────────────────────────────────────
+\usheadergreen{US-03 — Accords et quotas — modèle de données}{%
+  En tant qu'\textbf{administrateur RI}, je veux disposer d'un modèle
+  de données complet pour les accords et leurs quotas afin d'avoir
+  une base fiable pour l'algorithme d'affectation.}
+
+\nexttask &
+Définir \texttt{Agreement} &
+Créer le modèle avec \texttt{moveon\_id},
+\texttt{code\_moveon} unique,
+\texttt{agreement\_type},
+\texttt{valid\_from/until},
+\texttt{is\_active} et
+\texttt{last\_sync\_moveon}. &
+Le modèle migre sans erreur.
+\texttt{is\_valid\_for\_year()} retourne
+\texttt{False} pour un accord expiré
+ou inactif. &
+Haute & 2 \\
+\hline
+
+\nexttask &
+Définir \texttt{AgreementQuota}
+et \texttt{DepartmentQuota} &
+Créer les modèles de quotas avec
+hiérarchie INP $\to$ N7 estimé
+$\to$ N7 ajusté. &
+\texttt{get\_effective\_quota()} retourne
+l'ajusté si renseigné, sinon l'estimé.
+\texttt{is\_eligible()} est fonctionnel. &
+Haute & 2 \\
+\hline
+
+\nexttask &
+Définir \texttt{RawImport} &
+Créer le modèle de stockage brut JSON
+avec \texttt{source}, \texttt{processed},
+\texttt{error\_message} et rattachement
+à \texttt{AcademicYear}. &
+Le modèle migre sans erreur.
+Les 4 sources sont disponibles.
+\texttt{processed=False} par défaut. &
+Haute & 1 \\
+\hline
+
+\nexttask &
+Page de consultation des accords et quotas &
+Créer une interface Next.js listant
+les accords par université partenaire,
+avec affichage des quotas INP, estimé N7
+et ajusté N7 par département, et un
+indicateur visuel de validité de l'accord. &
+Les accords s'affichent avec leurs
+quotas effectifs.
+Les accords expirés ou inactifs
+sont signalés visuellement.
+L'ajustement manuel du quota
+N7 est possible depuis l'interface. &
+Haute & 3 \\
 \hline
 
 \end{longtable}
+\endgroup
 
-\section*{Conclusion}
-\justifying
-\phantomsection
-\addcontentsline{toc}{section}{Conclusion}
+\subsection{Conception détaillée}
 
-Ce chapitre a présenté les choix algorithmiques et les stratégies de performance qui structurent la logique métier de la plateforme. Chaque méthode a été sélectionnée en fonction des besoins concrets du projet, en privilégiant l'équité, la reproductibilité et la simplicité d'exploitation. Ces choix définissent le comportement intelligent du système sur lequel repose le développement présenté dans les chapitres suivants.
+Cette section présente la conception UML détaillée des entités métier du Sprint 1.
+
+\subsubsection{Diagramme de classes}
+
+Le diagramme de la figure~\ref{fig:diag-class-sprint1} modélise le domaine de gestion des accords de mobilité internationale de l'ENSEEIHT. L'entité centrale est \texttt{Agreement}, qui représente un accord entre l'ENSEEIHT et une université partenaire (\texttt{PartnerUniversity}), qualifiée par un cadre (\texttt{Category}) et des niveaux d'études (\texttt{Level}).
+
+La structure des quotas est organisée sur deux niveaux : \texttt{AgreementYear} matérialise la déclinaison annuelle d'un accord avec le quota N7 global, et \texttt{AgreementYearDepartment} distribue ce quota par département. \texttt{AgreementDepartment} liste les départements autorisés par accord, indépendamment de l'année, et constitue la contrainte référentielle qui interdit d'allouer un quota à un département non autorisé.
+
+\texttt{AcademicYear} pilote le cycle de vie de la campagne via une machine à états à six phases. Toutes les classes portent les champs d'audit \texttt{created\_at}, \texttt{updated\_at}, \texttt{created\_by} et \texttt{updated\_by}.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{figures/conception/Sprint1/Diagramme_de_classe_sprint1.png}
+  \caption{Diagramme de classes — Sprint 1}
+  \label{fig:diag-class-sprint1}
+\end{figure}
+
+\subsection{Implémentation}
+\subsection{Tests}
+
+
+% ─────────────────────────────────────────────────────────────
+\section{Sprint 2 — Données et traçabilité}
+% ─────────────────────────────────────────────────────────────
+
+Cette section présente la réalisation du Sprint 2, consacré à la gestion des étudiants, de leurs inscriptions annuelles et de leurs vœux de mobilité. Elle couvre successivement l'objectif du sprint, le backlog, la conception UML, l'implémentation et les tests.
+
+\subsection{Objectif du sprint}
+
+Le Sprint 2 a pour objectif de rendre le système opérationnel pour la collecte et la centralisation des données. Il couvre quatre user stories : la traçabilité des actions via l'audit log (US-04), l'import et la synchronisation des données académiques étudiants depuis Pégase (US-05), l'import des dossiers de candidature et vœux depuis MoveON (US-06), et la génération des rapports d'import (US-07). Ces quatre user stories sont le prérequis indispensable au Sprint 3 : sans données étudiants fiables issues de Pégase, le gel du GPA et l'algorithme Gale-Shapley ne peuvent pas s'exécuter.
+
+\textbf{Définition of Done.} À l'issue de ce sprint, les imports Pégase et MoveON s'exécutent sans erreur, les données sont persistées en base et rattachées à l'année universitaire courante, un rapport d'import est généré pour chaque synchronisation, et toute action d'un administrateur RI est tracée dans l'audit log avec l'auteur et l'horodatage.
+
+\setcounter{tasknum}{1}
+
+\subsection{Sprint Backlog — Sprint 2}
+
+\begingroup
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.6}
+
+\begin{longtable}{|p{0.5cm}|p{3.5cm}|p{5cm}|p{4cm}|p{1.5cm}|p{0.5cm}|}
+\hline
+\rowcolor{gray!20}
+\textbf{\#} & \textbf{Tâche} & \textbf{Description} &
+\textbf{Critères d'acceptation} & \textbf{Prior.} & \textbf{SP} \\
+\hline
+\endfirsthead
+\hline
+\rowcolor{gray!20}
+\textbf{\#} & \textbf{Tâche} & \textbf{Description} &
+\textbf{Critères d'acceptation} & \textbf{Prior.} & \textbf{SP} \\
+\hline
+\endhead
+\hline
+\endfoot
+
+% ── US-04 ────────────────────────────────────────────────────────────────────
+\usheader{US-04 — Audit log et traçabilité}{%
+  En tant qu'\textbf{administrateur RI}, je veux que chaque action importante
+  (import, transition FSM, modification, validation) soit enregistrée avec
+  l'auteur et l'horodatage, afin de garantir la traçabilité complète des
+  décisions.}
+
+\nexttask &
+Définir \texttt{AuditLog} &
+Créer le modèle avec \texttt{user},
+\texttt{action}, \texttt{entity\_type},
+\texttt{entity\_id}, \texttt{payload}
+JSONB et \texttt{timestamp}.
+Connecter via signal Django
+\texttt{post\_save} sur les
+modèles critiques. &
+Le modèle migre sans erreur.
+Chaque transition FSM et
+chaque import créent une
+entrée \texttt{AuditLog} avec
+l'auteur. &
+Haute & 2 \\
+\hline
+
+\nexttask &
+Endpoint consultation audit &
+Exposer \texttt{GET /api/audit-logs}
+avec filtres par date, auteur
+et type d'entité via Django Ninja. &
+Les 20 dernières entrées
+s'affichent en moins de 200 ms.
+Les filtres date/auteur/type
+fonctionnent correctement. &
+Haute & 1 \\
+\hline
+
+% ── US-05 ────────────────────────────────────────────────────────────────────
+\usheader{US-05 — Données étudiants}{%
+  En tant qu'\textbf{administrateur RI}, je veux importer et synchroniser
+  les données académiques des étudiants (INE, GPA, département, niveau)
+  depuis Pégase, afin d'alimenter l'algorithme d'affectation avec des
+  données étudiants fiables et à jour.}
+
+\nexttask &
+Créer adaptateur \texttt{pegase.py} &
+Implémenter l'extraction des
+données académiques (INE, GPA,
+département, niveau) depuis
+l'API Pégase.
+Stocker la réponse brute en JSONB
+dans \texttt{RawImport}. &
+La réponse brute est stockée
+avec \texttt{source="pegase"}.
+Retry exponentiel (3 tentatives)
+en cas d'échec. &
+Haute & 2 \\
+\hline
+
+\nexttask &
+Définir \texttt{Student} et
+\texttt{AnnualEnrollment} &
+Créer le modèle \texttt{Student}
+(INE comme clé unique, nom,
+prénom, email institutionnel)
+et \texttt{AnnualEnrollment}
+(inscription annuelle avec GPA,
+département, niveau, rattaché
+à \texttt{AcademicYear}). &
+Les modèles migrent sans erreur.
+Un étudiant peut avoir plusieurs
+inscriptions sur des années
+différentes.
+INE est unique sur \texttt{Student}. &
+Haute & 2 \\
+\hline
+
+\nexttask &
+Pipeline ETL Pégase &
+Transformer les données brutes
+en entités \texttt{Student} et
+\texttt{AnnualEnrollment}.
+Upsert sur INE.
+Le GPA est stocké tel quel
+(gel ultérieur en Sprint 3). &
+Les étudiants sont créés ou
+mis à jour.
+Les doublons sont ignorés.
+Un rapport d'import est généré
+avec les anomalies détectées. &
+Haute & 3 \\
+\hline
+
+\nexttask &
+Interface consultation étudiants &
+Créer une page Next.js listant
+les étudiants importés avec
+leur GPA, département et année
+d'inscription courante. &
+La liste s'affiche avec filtre
+par département et niveau.
+Les données proviennent
+de l'API. &
+Haute & 1 \\
+\hline
+
+% ── US-06 ────────────────────────────────────────────────────────────────────
+\usheader{US-06 — Vœux étudiants}{%
+  En tant qu'\textbf{administrateur RI}, je veux importer les dossiers de
+  candidature et les vœux ordonnés des étudiants depuis MoveON, et les
+  consulter par étudiant, afin de les intégrer dans le système d'affectation.}
+
+\nexttask &
+Définir \texttt{ApplicationFile}
+et \texttt{Wish} &
+Créer le modèle \texttt{ApplicationFile}
+(dossier de candidature, FSM à 4 états :
+\texttt{open} → \texttt{submitted}
+→ \texttt{processing} → \texttt{closed})
+et \texttt{Wish} (rang, université
+cible, département préféré,
+rattaché à \texttt{AcademicYear}). &
+Les modèles migrent sans erreur.
+Les transitions FSM invalides
+lèvent \texttt{TransitionNotAllowed}.
+Un \texttt{Wish} ne peut exister
+sans \texttt{ApplicationFile}. &
+Haute & 2 \\
+\hline
+
+\nexttask &
+Pipeline ETL vœux MoveON &
+Importer les vœux depuis MoveON,
+croiser les INE avec la table
+\texttt{Student}, rejeter les
+entrées sans correspondance INE. &
+Les vœux sont persistés avec
+rang et université cible.
+Les INE introuvables sont
+consignés dans le rapport
+avec motif \texttt{INE\_NOT\_FOUND}. &
+Haute & 2 \\
+\hline
+
+\nexttask &
+Interface consultation vœux &
+Créer une page Next.js listant
+les dossiers de candidature par
+étudiant avec le détail des vœux
+et l'état FSM de chaque dossier. &
+La liste s'affiche avec filtre
+par étudiant et état.
+Les données sont chargées
+depuis l'API. &
+Haute & 1 \\
+\hline
+
+% ── US-07 ────────────────────────────────────────────────────────────────────
+\usheader{US-07 — Rapport d'import}{%
+  En tant qu'\textbf{administrateur RI}, je veux consulter un rapport détaillé
+  après chaque import (succès, erreurs, doublons) avec la raison précise
+  de chaque rejet, afin de corriger les anomalies rapidement.}
+
+\nexttask &
+Définir \texttt{ImportReport} &
+Créer le modèle avec
+\texttt{source}, \texttt{total},
+\texttt{success\_count},
+\texttt{error\_count},
+\texttt{duplicate\_count} et
+\texttt{errors} JSONB (motif et
+identifiant par entrée rejetée),
+rattaché à \texttt{RawImport}. &
+Chaque pipeline ETL crée
+automatiquement un rapport.
+Les erreurs contiennent motif
+et numéro de ligne ou
+identifiant source. &
+Haute & 1 \\
+\hline
+
+\nexttask &
+Page rapport d'import &
+Créer une interface Next.js
+listant les rapports par date
+et source avec les compteurs
+synthétiques et le détail
+des erreurs accessible par clic. &
+Les rapports s'affichent triés
+par date.
+Le détail des erreurs est
+accessible.
+Le filtre par source fonctionne. &
+Haute & 2 \\
+\hline
+
+\end{longtable}
+\endgroup
+
+\subsection{Conception détaillée}
+
+Cette section présente la conception UML détaillée des entités métier du Sprint 2.
+
+\subsubsection{Diagramme de classes}
+
+Le diagramme de la figure~\ref{fig:diag-class-sprint2} modélise la gestion des étudiants et de leurs vœux de mobilité au sein du système de mobilité de l'ENSEEIHT.
+
+\texttt{AnnualEnrollment} est la classe d'association centrale du sprint : elle matérialise l'inscription d'un étudiant (\texttt{Student}) pour une année universitaire (\texttt{AcademicYear}) donnée, et porte le département et le niveau d'études. Le parcours est renseigné uniquement lorsque l'étudiant a intégré une filière spécialisée ; il reste absent pour les niveaux en tronc commun (première année). \texttt{StudentWish} matérialise à son tour un vœu de mobilité émis dans le cadre d'une inscription annuelle : chaque inscription peut générer au plus trois vœux, chacun pointant vers un accord différent et portant un rang et un statut.
+
+Une contrainte d'intégrité garantit que le parcours suivi par l'étudiant appartient au même département que son inscription annuelle, exprimée par la contrainte :\\
+ \texttt{\{parcours.department = department\}} annotée sur l'association.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{figures/conception/Sprint2/Diagramme_de_classe_sprint2.png}
+  \caption{Diagramme de classes — Sprint 2}
+  \label{fig:diag-class-sprint2}
+\end{figure}
+
+
+\subsection{Implémentation}
+\subsection{Tests}
+
+
+% ─────────────────────────────────────────────────────────────
+\section{Sprint 3 — Algorithme d'affectation}
+% ─────────────────────────────────────────────────────────────
+
+Cette section présente la réalisation du Sprint 3, consacré à l'algorithme d'affectation et à la publication des résultats. Elle couvre successivement l'objectif du sprint, le backlog, la conception UML, l'implémentation et les tests.
+
+\subsection{Objectif du sprint}
+
+Le Sprint 3 a pour objectif de produire et de publier les propositions d'affectation. Il couvre trois user stories, réalisées dans l'ordre suivant : l'implémentation de l'algorithme Deferred Acceptance (Gale-Shapley) (US-08), la supervision manuelle des propositions par le service RI avant publication (US-09), et la consultation des résultats par les étudiants une fois les affectations publiées (US-10).
+
+Ce sprint constitue le cœur fonctionnel du système : toutes les données collectées dans les sprints précédents — GPA importés depuis Pégase et vœux synchronisés depuis MoveON — convergent ici pour produire un résultat actionnable.
+
+\textbf{Définition of Done.} À l'issue de ce sprint, l'algorithme Gale-Shapley doit s'exécuter sans erreur et produire des affectations stables respectant les quotas par accord et par département, les propositions doivent être consultables et modifiables par le service RI avant publication, et chaque étudiant doit pouvoir consulter son affectation après publication des résultats.
+
+\setcounter{tasknum}{1}
+
+\newcommand{\usheaderorange}[2]{%
+  \multicolumn{6}{|p{\uswidth}|}{%
+    \cellcolor{orange!8}%
+    \textbf{#1} — \small\textit{#2}%
+  } \\ \hline
+}
+
+\subsection{Sprint Backlog — Sprint 3}
+
+\begingroup
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.6}
+
+\begin{longtable}{|p{0.5cm}|p{3.5cm}|p{5cm}|p{4cm}|p{1.5cm}|p{0.5cm}|}
+\hline
+\rowcolor{gray!20}
+\textbf{\#} & \textbf{Tâche} & \textbf{Description} &
+\textbf{Critères d'acceptation} & \textbf{Prior.} & \textbf{SP} \\
+\hline
+\endfirsthead
+\hline
+\rowcolor{gray!20}
+\textbf{\#} & \textbf{Tâche} & \textbf{Description} &
+\textbf{Critères d'acceptation} & \textbf{Prior.} & \textbf{SP} \\
+\hline
+\endhead
+\hline
+\endfoot
+
+% ── US-08 ─────────────────────────────────────────────────────────────────────
+\usheaderorange{US-08 — Algorithme Gale-Shapley}{%
+  En tant qu'\textbf{administrateur RI}, je veux lancer l'algorithme d'affectation
+  (Deferred Acceptance) qui affecte chaque étudiant à son meilleur vœu
+  disponible en respectant les quotas par département, afin de produire
+  une proposition équitable et stable.}
+
+\nexttask &
+Créer le modèle \texttt{Assignment} &
+Définir \texttt{Assignment} avec
+\texttt{student}, \texttt{agreement},
+\texttt{rank}, \texttt{status}
+(FSM : \texttt{proposed} $\to$
+\texttt{validated} $\to$
+\texttt{published} $|$ \texttt{cancelled})
+et \texttt{override\_reason}.
+Générer et appliquer la migration. &
+Le modèle migre sans erreur.
+Contrainte unique sur
+\texttt{(student, academic\_year)}.
+Les transitions FSM invalides lèvent
+\texttt{TransitionNotAllowed}. &
+Haute & 2 \\
+\hline
+
+\nexttask &
+Implémenter l'algorithme
+Deferred Acceptance &
+Coder \texttt{gale\_shapley()} en
+Python pur.
+L'algorithme parcourt les vœux
+par rang et respecte les deux niveaux
+de quotas : quota N7 par accord
+et quota par département (issus
+de US-03 pour ce sprint).
+Les non-affectés reçoivent un motif
+(\texttt{NO\_QUOTA}, \texttt{NO\_WISH}).
+En post-traitement, les places non
+utilisées par les départements
+sous-demandés sont redistribuées. &
+Les affectations sont stables
+(aucune paire bloquante).
+Les quotas ne sont jamais dépassés.
+Exécution $<$ 30 s pour 500 étudiants.
+La redistribution du surplus est
+tracée dans l'audit log. &
+Haute & 5 \\
+\hline
+
+\nexttask &
+Encapsuler dans une tâche Django-Q2 &
+Créer la tâche asynchrone
+déclenchée par la transition FSM
+\texttt{launch\_pre\_assignment}.
+Retourner un identifiant de tâche
+(HTTP 202) immédiatement. &
+La transition FSM déclenche la tâche.
+Le résultat est lisible après
+complétion sans relancer l'algorithme. &
+Haute & 2 \\
+\hline
+
+\nexttask &
+Exposer les endpoints REST
+des affectations &
+Créer \texttt{GET /api/assignments/},
+\texttt{GET /api/assignments/\{id\}/}
+et \texttt{GET /api/assignments/stats/}
+avec filtres par département et statut. &
+Réponses paginées.
+Non-affectés retournés avec motif.
+Statistiques cohérentes avec la liste. &
+Haute & 2 \\
+\hline
+
+\nexttask &
+Page résultats d'affectation
+(admin RI) &
+Créer une page Next.js affichant
+le tableau des affectations, le taux
+de remplissage des quotas par accord
+et la liste des non-affectés avec motif. &
+Le tableau se charge depuis l'API.
+Le statut d'exécution (en cours /
+terminé / non lancé) est affiché. &
+Haute & 2 \\
+\hline
+
+% ── US-09 ─────────────────────────────────────────────────────────────────────
+\usheaderorange{US-09 — Supervision des affectations}{%
+  En tant qu'\textbf{administrateur RI}, je veux consulter les propositions
+  d'affectation, les ajuster manuellement pour les cas particuliers et tracer
+  chaque modification avec un motif, avant de valider et publier les résultats.}
+
+\nexttask &
+Page de supervision
+des affectations &
+Lister les propositions par département
+avec le rang du vœu retenu, l'université
+cible et le statut.
+Filtres par département, statut
+et nom d'étudiant. &
+Liste paginée chargée depuis l'API.
+Statuts \texttt{proposed}, \texttt{validated}
+et \texttt{published} visuellement distincts. &
+Haute & 3 \\
+\hline
+
+\nexttask &
+Modifier manuellement
+une affectation &
+Permettre à l'admin RI de changer
+l'université cible ou d'annuler
+une affectation.
+Motif (\texttt{override\_reason})
+obligatoire, tracé dans l'\texttt{AuditLog}. &
+Modification refusée sans motif.
+Entrée d'audit créée avec valeurs
+avant/après.
+Impossible si \texttt{published}. &
+Haute & 2 \\
+\hline
+
+\nexttask &
+Valider et publier
+les affectations &
+Exposer \texttt{POST /api/assignments/validate-all/}
+et \texttt{POST /api/assignments/publish/}.
+Déclencher \texttt{submit\_for\_validation}
+sur la FSM de l'année universitaire.
+Ajouter les boutons dans l'interface. &
+Publication déclenche la transition FSM.
+Affectations publiées en lecture seule.
+Bouton grisé si affectations incomplètes. &
+Haute & 3 \\
+\hline
+
+% ── US-10 ─────────────────────────────────────────────────────────────────────
+\usheaderorange{US-10 — Consultation des résultats}{%
+  En tant qu'\textbf{étudiant}, je veux consulter mon affectation une fois les
+  résultats publiés afin de connaître ma destination et les démarches à suivre.}
+
+\nexttask &
+Endpoint résultat de l'étudiant
+authentifié &
+Exposer \texttt{GET /api/students/me/assignment/}
+avec contrôle d'accès par objet :
+un étudiant ne consulte que
+sa propre affectation. &
+404 si résultats non publiés.
+403 si accès à l'affectation
+d'un autre étudiant. &
+Haute & 1 \\
+\hline
+
+\nexttask &
+Page consultation résultats
+(espace étudiant) &
+Créer une page Next.js affichant
+l'université cible, le département,
+la période et les démarches à suivre.
+Message de recours affiché
+si l'étudiant n'est pas affecté. &
+Page accessible uniquement
+après publication.
+Motif de rejet visible pour
+les non-affectés. &
+Haute & 2 \\
+\hline
+
+\end{longtable}
+\endgroup
+
+\subsection{Conception détaillée}
+
+\subsubsection{Diagramme de classes}
+
+
+\subsection{Implémentation}
+
+
+\subsection{Tests}
+
+
+% % ─────────────────────────────────────────────────────────────
+% \section{Sprint 4 — Conformité CTI et espace étudiant}
+% % ─────────────────────────────────────────────────────────────
+
+% \subsection{Objectifs et périmètre du sprint}
+% \subsection{Conception détaillée}
+% \subsection{Implémentation}
+% \subsection{Tests}
+% \subsection{Revue de sprint}
+
+% % ─────────────────────────────────────────────────────────────
+% \section{Sprint 5 — Supervision et fonctionnalités V2}
+% % ─────────────────────────────────────────────────────────────
+
+% \subsection{Objectifs et périmètre du sprint}
+% \subsection{Conception détaillée}
+% \subsection{Implémentation}
+% \subsection{Tests}
+% \subsection{Revue de sprint}
+
+% % ─────────────────────────────────────────────────────────────
+% \section{Sprint 6 — Finalisation, tests et déploiement}
+% % ─────────────────────────────────────────────────────────────
+
+% \subsection{Objectifs et périmètre du sprint}
+% \subsection{Conception détaillée}
+% \subsection{Implémentation}
+
+% \subsection{Tests de charge}
+% [Résultats Locust sur l'algorithme d'affectation et les imports,
+%  temps de réponse, nombre d'utilisateurs simultanés supportés]
+
+% \subsection{Tests de non-régression}
+% % [Vérification que les résultats des campagnes passées sont inchangés
+% %  après chaque déploiement — description du mécanisme et des résultats]
+
+% \subsection{Audit de sécurité}
+% % [Résultats OWASP ZAP, vulnérabilités détectées et corrections appliquées]
+
+% \subsection{Tests d'acceptation (UAT)}
+% % [Résultats des tests avec le service RI, retours et corrections]
+
+% \subsection{Déploiement}
+% % [Procédure de déploiement sur staging puis production,
+% %  configuration Nginx, variables d'environnement, sauvegardes]
+
+% \subsection{Revue de sprint}
+
+% % ─────────────────────────────────────────────────────────────
+% \section{Bilan technique}
+% % ─────────────────────────────────────────────────────────────
+
+% \subsection{Métriques de qualité}
+% % [Couverture de tests globale, nombre de user stories livrées vs planifiées,
+% %  vélocité moyenne par sprint]
+
+% \subsection{Écarts par rapport au backlog initial}
+% % [User stories reportées ou abandonnées, justification]
+
+% \subsection{Perspectives d'évolution}
+% % [Ce qui reste à faire après le PFE :
+% %  moteur de recommandation avancé, chatbot RAG si non réalisé,
+% %  intégration directe dans l'interface MoveON, etc.]
+
+% \section*{Conclusion}
+% \justifying
+% \phantomsection
+% \addcontentsline{toc}{section}{Conclusion}
+
+% % [À rédiger en fin de projet]

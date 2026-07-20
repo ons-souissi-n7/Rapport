@@ -1,17 +1,15 @@
 \babel@toc {french}{}\relax 
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {1.1}{\ignorespaces Système d'information existant du service RI}}{5}{figure.caption.7}%
+\contentsline {figure}{\numberline {1.1}{\ignorespaces Système d'information existant du service RI}}{6}{figure.caption.7}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Architecture logicielle}}{72}{figure.caption.36}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Architecture physique}}{78}{figure.caption.38}%
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Machine à états — AcademicYear}}{83}{figure.caption.41}%
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Pipeline global de traitement des données}}{85}{figure.caption.44}%
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Pipeline détaillé de l’étape de nettoyage des données}}{88}{figure.caption.45}%
 \addvspace {10\p@ }
-\addvspace {10\p@ }
-\contentsline {figure}{\numberline {6.1}{\ignorespaces Architecture logicielle}}{69}{figure.caption.38}%
-\contentsline {figure}{\numberline {6.2}{\ignorespaces Architecture physique}}{75}{figure.caption.40}%
-\contentsline {figure}{\numberline {6.3}{\ignorespaces Machine à états — AcademicYear}}{80}{figure.caption.43}%
-\contentsline {figure}{\numberline {6.4}{\ignorespaces Pipeline global de traitement des données}}{82}{figure.caption.46}%
-\contentsline {figure}{\numberline {6.5}{\ignorespaces Pipeline détaillé de l’étape de nettoyage des données}}{85}{figure.caption.47}%
-\addvspace {10\p@ }
-\contentsline {figure}{\numberline {7.1}{\ignorespaces Diagramme de classes — Sprint 1}}{92}{figure.caption.50}%
-\contentsline {figure}{\numberline {7.2}{\ignorespaces Diagramme de classes — Sprint 2}}{96}{figure.caption.51}%
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Diagramme de classes — Sprint 1}}{95}{figure.caption.48}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Diagramme de classes — Sprint 2}}{99}{figure.caption.49}%
 \contentsfinish 

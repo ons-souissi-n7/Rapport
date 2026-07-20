@@ -11,13 +11,31 @@
 \providecommand\HyField@AuxAddToCoFields[2]{}
 \AC@reset@newl@bel
 \babel@aux{french}{}
+\newacro{ACID}[\AC@hyperlink{ACID}{ACID}]{Atomicity, Consistency, Isolation, Durability}
+\newacro{API}[\AC@hyperlink{API}{API}]{Application Programming Interface}
+\newacro{BPMN}[\AC@hyperlink{BPMN}{BPMN}]{Business Process Model and Notation}
 \newacro{CAS}[\AC@hyperlink{CAS}{CAS}]{Central Authentication Service}
 \newacro{CTI}[\AC@hyperlink{CTI}{CTI}]{Commission des Titres d'Ingénieur}
+\newacro{DDD}[\AC@hyperlink{DDD}{DDD}]{Domain-Driven Design}
+\newacro{ETL}[\AC@hyperlink{ETL}{ETL}]{Extract, Transform, Load}
+\newacro{FSM}[\AC@hyperlink{FSM}{FSM}]{Finite State Machine}
 \newacro{GPA}[\AC@hyperlink{GPA}{GPA}]{Grade Point Average}
 \newacro{INP}[\AC@hyperlink{INP}{INP}]{Institut National Polytechnique}
+\newacro{JWT}[\AC@hyperlink{JWT}{JWT}]{JSON Web Token}
+\newacro{KPI}[\AC@hyperlink{KPI}{KPI}]{Key Performance Indicator}
+\newacro{MVP}[\AC@hyperlink{MVP}{MVP}]{Minimum Viable Product}
+\newacro{OIDC}[\AC@hyperlink{OIDC}{OIDC}]{OpenID Connect}
+\newacro{ORM}[\AC@hyperlink{ORM}{ORM}]{Object-Relational Mapping}
+\newacro{OWASP}[\AC@hyperlink{OWASP}{OWASP}]{Open Worldwide Application Security Project}
+\newacro{RAG}[\AC@hyperlink{RAG}{RAG}]{Retrieval-Augmented Generation}
+\newacro{RBAC}[\AC@hyperlink{RBAC}{RBAC}]{Role-Based Access Control}
+\newacro{RGPD}[\AC@hyperlink{RGPD}{RGPD}]{Règlement Général sur la Protection des Données}
 \newacro{RI}[\AC@hyperlink{RI}{RI}]{Relations Internationales}
+\newacro{RTO}[\AC@hyperlink{RTO}{RTO}]{Recovery Time Objective}
+\newacro{SSO}[\AC@hyperlink{SSO}{SSO}]{Single Sign-On}
+\newacro{UAT}[\AC@hyperlink{UAT}{UAT}]{User Acceptance Testing}
 \@writefile{toc}{\contentsline {chapter}{Introduction générale}{1}{chapter*.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {1}Organisme d’accueil et système d’information}{2}{chapter.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {1}Contexte, problématique et cadrage du projet}{2}{chapter.1}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \ttl@writefile{ptc}{\ttl@starttoc{chapters@1}}
@@ -29,305 +47,295 @@
 \abx@aux@segm{0}{0}{enseeiht_sortante}
 \abx@aux@cite{0}{enseeiht_entrante}
 \abx@aux@segm{0}{0}{enseeiht_entrante}
-\@writefile{toc}{\contentsline {section}{Introduction}{3}{section*.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {1.1}Présentation de l'organisme d'accueil}{3}{section.1.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.1.1}Présentation de Toulouse INP-ENSEEIHT}{3}{subsection.1.1.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.1.2}Le service des relations internationales}{3}{subsection.1.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{Introduction}{4}{section*.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {1.1}Présentation de l'organisme d'accueil}{4}{section.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.1.1}Présentation de Toulouse INP-ENSEEIHT}{4}{subsection.1.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.1.2}Le service des relations internationales}{4}{subsection.1.1.2}\protected@file@percent }
 \abx@aux@cite{0}{enseeiht_programmes_courts}
 \abx@aux@segm{0}{0}{enseeiht_programmes_courts}
 \abx@aux@cite{0}{qs_moveon}
 \abx@aux@segm{0}{0}{qs_moveon}
 \abx@aux@cite{0}{eudonet_crm}
 \abx@aux@segm{0}{0}{eudonet_crm}
-\@writefile{toc}{\contentsline {section}{\numberline {1.2}Analyse du système d’information interne}{4}{section.1.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.2.1}Les outils en place}{4}{subsection.1.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.2.1.1}QS MoveON}{4}{subsubsection.1.2.1.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.2.1.2}Pégase}{4}{subsubsection.1.2.1.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.2.1.3}Eudonet}{4}{subsubsection.1.2.1.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.2.1.4}Les fichiers Excel}{5}{subsubsection.1.2.1.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.2.2}Limites structurelles}{5}{subsection.1.2.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {1.1}{\ignorespaces Système d'information existant du service RI}}{5}{figure.caption.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {1.2}Analyse du système d'information interne}{5}{section.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.2.1}Les outils en place}{5}{subsection.1.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.2.1.1}QS MoveON}{5}{subsubsection.1.2.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.2.1.2}Pégase}{5}{subsubsection.1.2.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.2.1.3}Eudonet}{5}{subsubsection.1.2.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.2.1.4}Les fichiers Excel}{6}{subsubsection.1.2.1.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.2.2}Limites structurelles}{6}{subsection.1.2.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1.1}{\ignorespaces Système d'information existant du service RI}}{6}{figure.caption.7}\protected@file@percent }
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
-\newlabel{fig:systeme_existant}{{1.1}{5}{Système d'information existant du service RI}{figure.caption.7}{}}
-\@writefile{toc}{\contentsline {section}{Conclusion}{6}{section*.8}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {2}Analyse des solutions existantes et positionnement}{7}{chapter.2}\protected@file@percent }
+\newlabel{fig:systeme_existant}{{1.1}{6}{Système d'information existant du service RI}{figure.caption.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {1.3}Problématique et solution envisagée}{7}{section.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.3.1}Problématique}{7}{subsection.1.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.3.2}Solution envisagée}{8}{subsection.1.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {1.4}Besoins du système}{8}{section.1.4}\protected@file@percent }
+\newlabel{sec:besoins-systeme}{{1.4}{8}{Besoins du système}{section.1.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.4.1}Besoins fonctionnels}{8}{subsection.1.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.4.1.1}Fonctionnalités opérationnelles}{8}{subsubsection.1.4.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.4.1.2}Fonctionnalités intelligentes}{9}{subsubsection.1.4.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.4.2}Besoins non fonctionnels}{9}{subsection.1.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.4.3}Profils utilisateurs et périmètre de réalisation}{10}{subsection.1.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.4.3.1}Profils utilisateurs}{10}{subsubsection.1.4.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.4.3.2}Périmètre de réalisation}{11}{subsubsection.1.4.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {1.5}Organisation et cadrage du projet}{11}{section.1.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.5.1}Méthodologie de gestion de projet}{11}{subsection.1.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.5.1.1}Méthode en cascade}{11}{subsubsection.1.5.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.5.1.2}Kanban}{12}{subsubsection.1.5.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.5.1.3}Scrum}{12}{subsubsection.1.5.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.5.1.4}Comparaison et choix retenu}{12}{subsubsection.1.5.1.4}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1.1}{\ignorespaces Comparaison des approches de gestion de projet}}{12}{table.caption.8}\protected@file@percent }
+\newlabel{tab:methodo_comparaison}{{1.1}{12}{Comparaison des approches de gestion de projet}{table.caption.8}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.5.1.5}Les rôles Scrum}{13}{subsubsection.1.5.1.5}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1.2}{\ignorespaces Rôles Scrum et responsables associés}}{13}{table.caption.9}\protected@file@percent }
+\newlabel{tab:roles-scrum}{{1.2}{13}{Rôles Scrum et responsables associés}{table.caption.9}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.5.1.6}Les artefacts Scrum}{13}{subsubsection.1.5.1.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.5.1.7}Les événements Scrum}{13}{subsubsection.1.5.1.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.5.2}Planification générale}{14}{subsection.1.5.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1.3}{\ignorespaces Planification générale du projet}}{14}{table.caption.10}\protected@file@percent }
+\newlabel{tab:planning-general}{{1.3}{14}{Planification générale du projet}{table.caption.10}{}}
+\@writefile{toc}{\contentsline {section}{Conclusion}{15}{section*.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {2}Positionnement par rapport aux solutions existantes}{16}{chapter.2}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \ttl@writefile{ptc}{\ttl@stoptoc{chapters@1}}
 \ttl@writefile{ptc}{\ttl@starttoc{chapters@2}}
+\@writefile{toc}{\contentsline {section}{Introduction}{17}{section*.12}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.1}Grille d'évaluation}{17}{section.2.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {2.1}{\ignorespaces Grille d'évaluation des solutions existantes}}{17}{table.caption.13}\protected@file@percent }
+\newlabel{tab:grille_eval}{{2.1}{17}{Grille d'évaluation des solutions existantes}{table.caption.13}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.2}Analyse des solutions existantes}{17}{section.2.2}\protected@file@percent }
 \abx@aux@cite{0}{qs_moveon}
 \abx@aux@segm{0}{0}{qs_moveon}
-\@writefile{toc}{\contentsline {section}{Introduction}{8}{section*.9}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.1}Grille d'évaluation}{8}{section.2.1}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {2.1}{\ignorespaces Grille d'évaluation des solutions existantes}}{8}{table.caption.10}\protected@file@percent }
-\newlabel{tab:grille_eval}{{2.1}{8}{Grille d'évaluation des solutions existantes}{table.caption.10}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {2.2}Analyse des solutions existantes}{8}{section.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.1}QS MoveON}{9}{subsection.2.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.2}ErasmusJET}{9}{subsection.2.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.1}QS MoveON}{18}{subsection.2.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.2}Mobility-Online}{18}{subsection.2.2.2}\protected@file@percent }
 \abx@aux@cite{0}{Elahi2022}
 \abx@aux@segm{0}{0}{Elahi2022}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.3}Travaux académiques : Elahi et al. (2022)}{10}{subsection.2.2.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.3}Tableau comparatif de synthèse}{10}{section.2.3}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {2.2}{\ignorespaces Synthèse comparative des solutions selon la grille d'évaluation}}{11}{table.caption.11}\protected@file@percent }
-\newlabel{tab:synthese_solutions}{{2.2}{11}{Synthèse comparative des solutions selon la grille d'évaluation}{table.caption.11}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {2.4}Problématique et solution proposée}{11}{section.2.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.4.1}Problématique}{11}{subsection.2.4.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.4.2}Solution proposée}{12}{subsection.2.4.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{Conclusion}{12}{section*.12}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {3}Analyse et spécification du système}{13}{chapter.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.3}ErasmusJET}{19}{subsection.2.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.4}Travaux académiques : Elahi et al. (2022)}{20}{subsection.2.2.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.3}Tableau comparatif de synthèse}{20}{section.2.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {2.2}{\ignorespaces Synthèse comparative des solutions selon la grille d'évaluation}}{21}{table.caption.14}\protected@file@percent }
+\newlabel{tab:synthese_solutions}{{2.2}{21}{Synthèse comparative des solutions selon la grille d'évaluation}{table.caption.14}{}}
+\@writefile{toc}{\contentsline {section}{Conclusion}{21}{section*.15}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {3}Choix technologiques et algorithmiques}{22}{chapter.3}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \ttl@writefile{ptc}{\ttl@stoptoc{chapters@2}}
 \ttl@writefile{ptc}{\ttl@starttoc{chapters@3}}
-\@writefile{toc}{\contentsline {section}{Introduction}{14}{section*.13}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.1}Besoins fonctionnels}{14}{section.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.1}Fonctionnalités opérationnelles}{14}{subsection.3.1.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.2}Fonctionnalités intelligentes}{14}{subsection.3.1.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.2}Besoins non fonctionnels}{15}{section.3.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.3}Profils utilisateurs et périmètre de réalisation}{16}{section.3.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.1}Profils utilisateurs}{16}{subsection.3.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.2}Périmètre de réalisation}{16}{subsection.3.3.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.4}Cadre méthodologique et approches de développement}{17}{section.3.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.1}Méthodologie de gestion de projet}{17}{subsection.3.4.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.1.1}Méthode en cascade}{17}{subsubsection.3.4.1.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.1.2}Kanban}{17}{subsubsection.3.4.1.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.1.3}Scrum}{17}{subsubsection.3.4.1.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.1.4}Comparaison et choix retenu}{18}{subsubsection.3.4.1.4}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {3.1}{\ignorespaces Comparaison des approches de gestion de projet}}{18}{table.caption.14}\protected@file@percent }
-\newlabel{tab:methodo_comparaison}{{3.1}{18}{Comparaison des approches de gestion de projet}{table.caption.14}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.2}Organisation du code : Domain-Driven Design allégé}{18}{subsection.3.4.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.2.1}Découpage en domaines métier}{18}{subsubsection.3.4.2.1}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {3.2}{\ignorespaces Découpage en domaines métier du système}}{19}{table.caption.15}\protected@file@percent }
-\newlabel{tab:ddd_domaines}{{3.2}{19}{Découpage en domaines métier du système}{table.caption.15}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.2.2}Langage commun}{19}{subsubsection.3.4.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.2.3}Encapsulation des règles métier}{19}{subsubsection.3.4.2.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.3}Style architectural : architecture en couches}{19}{subsection.3.4.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{Conclusion}{20}{section*.16}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {4}Choix des technologies}{21}{chapter.4}\protected@file@percent }
-\@writefile{lof}{\addvspace {10\p@ }}
-\@writefile{lot}{\addvspace {10\p@ }}
-\ttl@writefile{ptc}{\ttl@stoptoc{chapters@3}}
-\ttl@writefile{ptc}{\ttl@starttoc{chapters@4}}
 \abx@aux@cite{0}{react_dev}
 \abx@aux@segm{0}{0}{react_dev}
+\@writefile{toc}{\contentsline {section}{Introduction}{26}{section*.16}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.1}Choix du frontend}{26}{section.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.1}Besoins spécifiques}{26}{subsection.3.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.2}Alternatives évaluées}{26}{subsection.3.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.2.1}Applications monopage — React + Vite}{26}{subsubsection.3.1.2.1}\protected@file@percent }
 \abx@aux@cite{0}{angular_dev}
 \abx@aux@segm{0}{0}{angular_dev}
-\@writefile{toc}{\contentsline {section}{Introduction}{23}{section*.17}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.1}Choix du frontend}{23}{section.4.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.1}Besoins spécifiques}{23}{subsection.4.1.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.2}Alternatives évaluées}{23}{subsection.4.1.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.2.1}Applications monopage — React + Vite}{23}{subsubsection.4.1.2.1}\protected@file@percent }
 \abx@aux@cite{0}{nextjs_dev}
 \abx@aux@segm{0}{0}{nextjs_dev}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.2.2}Angular}{24}{subsubsection.4.1.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.2.3}Next.js 14}{24}{subsubsection.4.1.2.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.3}Synthèse comparative}{25}{subsection.4.1.3}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {4.1}{\ignorespaces Comparaison des frameworks frontend}}{25}{table.caption.18}\protected@file@percent }
-\newlabel{tab:comparaison_frontend}{{4.1}{25}{Comparaison des frameworks frontend}{table.caption.18}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.4}Décision}{25}{subsection.4.1.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.2}Choix du backend}{25}{section.4.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.1}Besoins spécifiques}{25}{subsection.4.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.2.2}Angular}{27}{subsubsection.3.1.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.2.3}Next.js 14}{27}{subsubsection.3.1.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.3}Synthèse comparative}{28}{subsection.3.1.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3.1}{\ignorespaces Comparaison des frameworks frontend}}{28}{table.caption.17}\protected@file@percent }
+\newlabel{tab:comparaison_frontend}{{3.1}{28}{Comparaison des frameworks frontend}{table.caption.17}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.4}Décision}{28}{subsection.3.1.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.2}Choix du backend}{28}{section.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.1}Besoins spécifiques}{28}{subsection.3.2.1}\protected@file@percent }
 \abx@aux@cite{0}{nodejs_dev}
 \abx@aux@segm{0}{0}{nodejs_dev}
 \abx@aux@cite{0}{fastapi_dev}
 \abx@aux@segm{0}{0}{fastapi_dev}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.2}Choix du framework backend}{26}{subsection.4.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.2.1}Alternatives évaluées}{26}{subsubsection.4.2.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{\numberline {4.2.2.1.1}Node.js}{26}{paragraph.4.2.2.1.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{\numberline {4.2.2.1.2}FastAPI}{26}{paragraph.4.2.2.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.2}Choix du framework backend}{29}{subsection.3.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2.1}Alternatives évaluées}{29}{subsubsection.3.2.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {3.2.2.1.1}Node.js}{29}{paragraph.3.2.2.1.1}\protected@file@percent }
 \abx@aux@cite{0}{django_dev}
 \abx@aux@segm{0}{0}{django_dev}
-\@writefile{toc}{\contentsline {paragraph}{\numberline {4.2.2.1.3}Django}{27}{paragraph.4.2.2.1.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.2.2}Synthèse comparative}{27}{subsubsection.4.2.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {3.2.2.1.2}FastAPI}{30}{paragraph.3.2.2.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {3.2.2.1.3}Django}{30}{paragraph.3.2.2.1.3}\protected@file@percent }
 \abx@aux@cite{0}{drf_dev}
 \abx@aux@segm{0}{0}{drf_dev}
-\@writefile{lot}{\contentsline {table}{\numberline {4.2}{\ignorespaces Comparaison des frameworks backend}}{28}{table.caption.19}\protected@file@percent }
-\newlabel{tab:comparaison_backend}{{4.2}{28}{Comparaison des frameworks backend}{table.caption.19}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.2.3}Décision}{28}{subsubsection.4.2.2.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.3}Choix de la couche API}{28}{subsection.4.2.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.3.1}Besoins spécifiques}{28}{subsubsection.4.2.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.3.2}Alternatives évaluées}{28}{subsubsection.4.2.3.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{\numberline {4.2.3.2.1}Django REST Framework (DRF)}{28}{paragraph.4.2.3.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2.2}Synthèse comparative}{31}{subsubsection.3.2.2.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3.2}{\ignorespaces Comparaison des frameworks backend}}{31}{table.caption.18}\protected@file@percent }
+\newlabel{tab:comparaison_backend}{{3.2}{31}{Comparaison des frameworks backend}{table.caption.18}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2.3}Décision}{31}{subsubsection.3.2.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.3}Choix de la couche API}{31}{subsection.3.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3.1}Besoins spécifiques}{31}{subsubsection.3.2.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3.2}Alternatives évaluées}{31}{subsubsection.3.2.3.2}\protected@file@percent }
 \abx@aux@cite{0}{djangoninja_dev}
 \abx@aux@segm{0}{0}{djangoninja_dev}
-\@writefile{toc}{\contentsline {paragraph}{\numberline {4.2.3.2.2}Django Ninja}{29}{paragraph.4.2.3.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.3.3}Synthèse comparative}{29}{subsubsection.4.2.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {3.2.3.2.1}Django REST Framework (DRF)}{32}{paragraph.3.2.3.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {3.2.3.2.2}Django Ninja}{32}{paragraph.3.2.3.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3.3}Synthèse comparative}{32}{subsubsection.3.2.3.3}\protected@file@percent }
 \abx@aux@cite{0}{mysql_dev}
 \abx@aux@segm{0}{0}{mysql_dev}
-\@writefile{lot}{\contentsline {table}{\numberline {4.3}{\ignorespaces Comparaison DRF et Django Ninja}}{30}{table.caption.20}\protected@file@percent }
-\newlabel{tab:comparaison_api}{{4.3}{30}{Comparaison DRF et Django Ninja}{table.caption.20}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.3.4}Décision}{30}{subsubsection.4.2.3.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.3}Choix de la base de données}{30}{section.4.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.1}Besoins spécifiques}{30}{subsection.4.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.2}Alternatives évaluées}{30}{subsection.4.3.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.2.1}MySQL}{30}{subsubsection.4.3.2.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3.3}{\ignorespaces Comparaison DRF et Django Ninja}}{33}{table.caption.19}\protected@file@percent }
+\newlabel{tab:comparaison_api}{{3.3}{33}{Comparaison DRF et Django Ninja}{table.caption.19}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3.4}Décision}{33}{subsubsection.3.2.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.3}Choix de la base de données}{33}{section.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.1}Besoins spécifiques}{33}{subsection.3.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.2}Alternatives évaluées}{33}{subsection.3.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.2.1}MySQL}{33}{subsubsection.3.3.2.1}\protected@file@percent }
 \abx@aux@cite{0}{mongodb_dev}
 \abx@aux@segm{0}{0}{mongodb_dev}
 \abx@aux@cite{0}{postgresql_dev}
 \abx@aux@segm{0}{0}{postgresql_dev}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.2.2}MongoDB}{31}{subsubsection.4.3.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.2.3}PostgreSQL 16}{31}{subsubsection.4.3.2.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.3}Synthèse comparative}{32}{subsection.4.3.3}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {4.4}{\ignorespaces Comparaison des systèmes de gestion de base de données}}{32}{table.caption.21}\protected@file@percent }
-\newlabel{tab:comparaison_bdd}{{4.4}{32}{Comparaison des systèmes de gestion de base de données}{table.caption.21}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.4}Décision}{32}{subsection.4.3.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.4}Choix du format de stockage des imports bruts}{33}{section.4.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.1}Besoins spécifiques}{33}{subsection.4.4.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.2}Alternatives évaluées}{33}{subsection.4.4.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.4.2.1}Fichiers plats (JSON sur le système de fichiers)}{33}{subsubsection.4.4.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.4.2.2}Base NoSQL dédiée (MongoDB)}{33}{subsubsection.4.4.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.4.2.3}Type JSONB dans PostgreSQL}{34}{subsubsection.4.4.2.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.3}Synthèse comparative}{34}{subsection.4.4.3}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {4.5}{\ignorespaces Comparaison des formats de stockage pour \texttt  {RawImport}}}{34}{table.caption.22}\protected@file@percent }
-\newlabel{tab:comparaison_rawimport}{{4.5}{34}{Comparaison des formats de stockage pour \texttt {RawImport}}{table.caption.22}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.4}Décision}{34}{subsection.4.4.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.2.2}MongoDB}{34}{subsubsection.3.3.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.2.3}PostgreSQL 16}{34}{subsubsection.3.3.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.3}Synthèse comparative}{35}{subsection.3.3.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3.4}{\ignorespaces Comparaison des systèmes de gestion de base de données}}{35}{table.caption.20}\protected@file@percent }
+\newlabel{tab:comparaison_bdd}{{3.4}{35}{Comparaison des systèmes de gestion de base de données}{table.caption.20}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.4}Décision}{35}{subsection.3.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.4}Choix du format de stockage des imports bruts}{36}{section.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.1}Besoins spécifiques}{36}{subsection.3.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.2}Alternatives évaluées}{36}{subsection.3.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.2.1}Fichiers plats (JSON sur le système de fichiers)}{36}{subsubsection.3.4.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.2.2}Base NoSQL dédiée (MongoDB)}{36}{subsubsection.3.4.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.2.3}Type JSONB dans PostgreSQL}{37}{subsubsection.3.4.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.3}Synthèse comparative}{37}{subsection.3.4.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3.5}{\ignorespaces Comparaison des formats de stockage pour \texttt  {RawImport}}}{37}{table.caption.21}\protected@file@percent }
+\newlabel{tab:comparaison_rawimport}{{3.5}{37}{Comparaison des formats de stockage pour \texttt {RawImport}}{table.caption.21}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.4}Décision}{37}{subsection.3.4.4}\protected@file@percent }
 \abx@aux@cite{0}{celery_dev}
 \abx@aux@segm{0}{0}{celery_dev}
 \abx@aux@cite{0}{redis_dev}
 \abx@aux@segm{0}{0}{redis_dev}
 \abx@aux@cite{0}{djangoq2_dev}
 \abx@aux@segm{0}{0}{djangoq2_dev}
-\@writefile{toc}{\contentsline {section}{\numberline {4.5}Choix du gestionnaire de tâches asynchrones}{35}{section.4.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.1}Besoins spécifiques}{35}{subsection.4.5.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.2}Alternatives évaluées}{35}{subsection.4.5.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.5.2.1}Celery + Redis}{35}{subsubsection.4.5.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.5.2.2}Django-Q2 + PostgreSQL}{36}{subsubsection.4.5.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.3}Synthèse comparative}{36}{subsection.4.5.3}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {4.6}{\ignorespaces Comparaison des gestionnaires de tâches asynchrones}}{36}{table.caption.23}\protected@file@percent }
-\newlabel{tab:comparaison_async}{{4.6}{36}{Comparaison des gestionnaires de tâches asynchrones}{table.caption.23}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.5}Choix du gestionnaire de tâches asynchrones}{38}{section.3.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.1}Besoins spécifiques}{38}{subsection.3.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.2}Alternatives évaluées}{38}{subsection.3.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.5.2.1}Celery + Redis}{38}{subsubsection.3.5.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.5.2.2}Django-Q2 + PostgreSQL}{39}{subsubsection.3.5.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.3}Synthèse comparative}{39}{subsection.3.5.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3.6}{\ignorespaces Comparaison des gestionnaires de tâches asynchrones}}{39}{table.caption.22}\protected@file@percent }
+\newlabel{tab:comparaison_async}{{3.6}{39}{Comparaison des gestionnaires de tâches asynchrones}{table.caption.22}{}}
 \abx@aux@cite{0}{minio_dev}
 \abx@aux@segm{0}{0}{minio_dev}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.4}Décision}{37}{subsection.4.5.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.6}Choix du stockage de fichiers}{37}{section.4.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.6.1}Besoins spécifiques}{37}{subsection.4.6.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.6.2}Alternatives évaluées}{37}{subsection.4.6.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.6.2.1}Système de fichiers local}{37}{subsubsection.4.6.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.6.2.2}MinIO (stockage objet S3-compatible)}{37}{subsubsection.4.6.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.6.3}Synthèse comparative}{38}{subsection.4.6.3}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {4.7}{\ignorespaces Comparaison des solutions de stockage de fichiers}}{38}{table.caption.24}\protected@file@percent }
-\newlabel{tab:comparaison_stockage}{{4.7}{38}{Comparaison des solutions de stockage de fichiers}{table.caption.24}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.6.4}Décision}{38}{subsection.4.6.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.7}Couche de routage des requêtes}{39}{section.4.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.7.1}Besoins spécifiques}{39}{subsection.4.7.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.7.2}Alternatives évaluées}{39}{subsection.4.7.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.7.2.1}Reverse proxy}{39}{subsubsection.4.7.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.7.2.2}API Gateway}{39}{subsubsection.4.7.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.4}Décision}{40}{subsection.3.5.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.6}Choix du stockage de fichiers}{40}{section.3.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.1}Besoins spécifiques}{40}{subsection.3.6.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.2}Alternatives évaluées}{40}{subsection.3.6.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.6.2.1}Système de fichiers local}{40}{subsubsection.3.6.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.6.2.2}MinIO (stockage objet S3-compatible)}{40}{subsubsection.3.6.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.3}Synthèse comparative}{41}{subsection.3.6.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3.7}{\ignorespaces Comparaison des solutions de stockage de fichiers}}{41}{table.caption.23}\protected@file@percent }
+\newlabel{tab:comparaison_stockage}{{3.7}{41}{Comparaison des solutions de stockage de fichiers}{table.caption.23}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.4}Décision}{41}{subsection.3.6.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.7}Couche de routage des requêtes}{42}{section.3.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.7.1}Besoins spécifiques}{42}{subsection.3.7.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.7.2}Alternatives évaluées}{42}{subsection.3.7.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.7.2.1}Reverse proxy}{42}{subsubsection.3.7.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.7.2.2}API Gateway}{42}{subsubsection.3.7.2.2}\protected@file@percent }
 \abx@aux@cite{0}{nginx_dev}
 \abx@aux@segm{0}{0}{nginx_dev}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.7.3}Synthèse comparative}{40}{subsection.4.7.3}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {4.8}{\ignorespaces Comparaison des approches de routage des requêtes}}{40}{table.caption.25}\protected@file@percent }
-\newlabel{tab:comparaison_proxy}{{4.8}{40}{Comparaison des approches de routage des requêtes}{table.caption.25}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.7.4}Décision}{40}{subsection.4.7.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.7.5}Choix de l'implémentation : Nginx vs Traefik}{40}{subsection.4.7.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.7.5.1}Besoins spécifiques}{40}{subsubsection.4.7.5.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.7.5.2}Alternatives évaluées}{40}{subsubsection.4.7.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.7.3}Synthèse comparative}{43}{subsection.3.7.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3.8}{\ignorespaces Comparaison des approches de routage des requêtes}}{43}{table.caption.24}\protected@file@percent }
+\newlabel{tab:comparaison_proxy}{{3.8}{43}{Comparaison des approches de routage des requêtes}{table.caption.24}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.7.4}Décision}{43}{subsection.3.7.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.7.5}Choix de l'implémentation : Nginx vs Traefik}{43}{subsection.3.7.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.7.5.1}Besoins spécifiques}{43}{subsubsection.3.7.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.7.5.2}Alternatives évaluées}{43}{subsubsection.3.7.5.2}\protected@file@percent }
 \abx@aux@cite{0}{traefik_dev}
 \abx@aux@segm{0}{0}{traefik_dev}
-\@writefile{toc}{\contentsline {paragraph}{\numberline {4.7.5.2.1}Nginx}{41}{paragraph.4.7.5.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{\numberline {4.7.5.2.2}Traefik}{41}{paragraph.4.7.5.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.7.5.3}Synthèse comparative}{41}{subsubsection.4.7.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {3.7.5.2.1}Nginx}{44}{paragraph.3.7.5.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {3.7.5.2.2}Traefik}{44}{paragraph.3.7.5.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.7.5.3}Synthèse comparative}{44}{subsubsection.3.7.5.3}\protected@file@percent }
 \gdef \LT@i {\LT@entry 
     {1}{98.95827pt}\LT@entry 
     {1}{112.38464pt}\LT@entry 
     {1}{254.64842pt}}
-\@writefile{lot}{\contentsline {table}{\numberline {4.9}{\ignorespaces Comparaison des outils de reverse proxy}}{42}{table.caption.26}\protected@file@percent }
-\newlabel{tab:comparaison_proxy_outil}{{4.9}{42}{Comparaison des outils de reverse proxy}{table.caption.26}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.7.5.4}Décision}{42}{subsubsection.4.7.5.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.8}Synthèse des choix technologiques}{42}{section.4.8}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {4.10}{\ignorespaces Synthèse des choix technologiques}}{42}{table.4.10}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{Conclusion}{43}{section*.27}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {5}Choix algorithmiques et stratégies de performance}{44}{chapter.5}\protected@file@percent }
-\@writefile{lof}{\addvspace {10\p@ }}
-\@writefile{lot}{\addvspace {10\p@ }}
-\ttl@writefile{ptc}{\ttl@stoptoc{chapters@4}}
-\ttl@writefile{ptc}{\ttl@starttoc{chapters@5}}
-\@writefile{toc}{\contentsline {section}{Introduction}{46}{section*.28}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5.1}Stratégie de performance base de données}{46}{section.5.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.1}Contexte et enjeux}{46}{subsection.5.1.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.2}Alternatives évaluées}{46}{subsection.5.1.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.2.1}Partitionnement par année}{46}{subsubsection.5.1.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.2.2}Indexation ciblée}{46}{subsubsection.5.1.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.3}Synthèse comparative}{47}{subsection.5.1.3}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {5.1}{\ignorespaces Comparaison des stratégies de performance base de données}}{47}{table.caption.29}\protected@file@percent }
-\newlabel{tab:comparaison_perf_bdd}{{5.1}{47}{Comparaison des stratégies de performance base de données}{table.caption.29}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.4}Décision}{47}{subsection.5.1.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5.2}Choix de l'algorithme d'affectation}{47}{section.5.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3.9}{\ignorespaces Comparaison des outils de reverse proxy}}{45}{table.caption.25}\protected@file@percent }
+\newlabel{tab:comparaison_proxy_outil}{{3.9}{45}{Comparaison des outils de reverse proxy}{table.caption.25}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.7.5.4}Décision}{45}{subsubsection.3.7.5.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.8}Synthèse des choix technologiques}{45}{section.3.8}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3.10}{\ignorespaces Synthèse des choix technologiques}}{45}{table.3.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.9}Stratégie de performance base de données}{46}{section.3.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.9.1}Contexte et enjeux}{46}{subsection.3.9.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.9.2}Alternatives évaluées}{47}{subsection.3.9.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.9.2.1}Partitionnement par année}{47}{subsubsection.3.9.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.9.2.2}Indexation ciblée}{47}{subsubsection.3.9.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.9.3}Synthèse comparative}{47}{subsection.3.9.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3.11}{\ignorespaces Comparaison des stratégies de performance base de données}}{48}{table.caption.26}\protected@file@percent }
+\newlabel{tab:comparaison_perf_bdd}{{3.11}{48}{Comparaison des stratégies de performance base de données}{table.caption.26}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.9.4}Décision}{48}{subsection.3.9.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.10}Choix de l'algorithme d'affectation}{48}{section.3.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.10.1}Besoins spécifiques}{48}{subsection.3.10.1}\protected@file@percent }
 \abx@aux@cite{0}{GaleShapley1962}
 \abx@aux@segm{0}{0}{GaleShapley1962}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.1}Besoins spécifiques}{48}{subsection.5.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.2}Alternatives évaluées}{48}{subsection.5.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.2.1}Algorithme glouton}{48}{subsubsection.5.2.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.2.2}Gale-Shapley}{48}{subsubsection.5.2.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.3}Synthèse comparative}{49}{subsection.5.2.3}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {5.2}{\ignorespaces Comparaison des algorithmes d'affectation}}{49}{table.caption.30}\protected@file@percent }
-\newlabel{tab:comparaison_algo}{{5.2}{49}{Comparaison des algorithmes d'affectation}{table.caption.30}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.4}Décision}{49}{subsection.5.2.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5.3}Choix de la méthode de répartition des quotas par département}{50}{section.5.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.1}Besoins spécifiques}{50}{subsection.5.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.2}Alternatives évaluées}{50}{subsection.5.3.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.3.2.1}Méthode Hamilton (plus grands restes)}{50}{subsubsection.5.3.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.3.2.2}Méthode Jefferson (plus grandes moyennes)}{51}{subsubsection.5.3.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.3.2.3}Méthode Webster}{51}{subsubsection.5.3.2.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.3}Synthèse comparative}{51}{subsection.5.3.3}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {5.3}{\ignorespaces Comparaison des méthodes de répartition des quotas}}{52}{table.caption.31}\protected@file@percent }
-\newlabel{tab:comparaison_quotas}{{5.3}{52}{Comparaison des méthodes de répartition des quotas}{table.caption.31}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.4}Décision}{52}{subsection.5.3.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5.4}Choix du moteur de recommandation}{52}{section.5.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.1}Besoins spécifiques}{52}{subsection.5.4.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.2}Alternatives évaluées}{52}{subsection.5.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.10.2}Alternatives évaluées}{49}{subsection.3.10.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.10.2.1}Algorithme glouton}{49}{subsubsection.3.10.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.10.2.2}Gale-Shapley}{49}{subsubsection.3.10.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.10.3}Synthèse comparative}{49}{subsection.3.10.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3.12}{\ignorespaces Comparaison des algorithmes d'affectation}}{50}{table.caption.27}\protected@file@percent }
+\newlabel{tab:comparaison_algo}{{3.12}{50}{Comparaison des algorithmes d'affectation}{table.caption.27}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.10.4}Décision}{50}{subsection.3.10.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.11}Choix de la méthode de répartition des quotas par département}{50}{section.3.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.11.1}Besoins spécifiques}{50}{subsection.3.11.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.11.2}Alternatives évaluées}{51}{subsection.3.11.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.11.2.1}Méthode Hamilton (plus grands restes)}{51}{subsubsection.3.11.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.11.2.2}Méthode Jefferson (plus grandes moyennes)}{51}{subsubsection.3.11.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.11.2.3}Méthode Webster}{52}{subsubsection.3.11.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.11.3}Synthèse comparative}{52}{subsection.3.11.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3.13}{\ignorespaces Comparaison des méthodes de répartition des quotas}}{52}{table.caption.28}\protected@file@percent }
+\newlabel{tab:comparaison_quotas}{{3.13}{52}{Comparaison des méthodes de répartition des quotas}{table.caption.28}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.11.4}Décision}{52}{subsection.3.11.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.12}Choix du moteur de recommandation}{53}{section.3.12}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.12.1}Besoins spécifiques}{53}{subsection.3.12.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.12.2}Alternatives évaluées}{53}{subsection.3.12.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.12.2.1}Approche basée sur des règles (rule-based)}{53}{subsubsection.3.12.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.12.2.2}Approche par similarité (collaborative filtering)}{53}{subsubsection.3.12.2.2}\protected@file@percent }
 \abx@aux@cite{0}{scikit_learn}
 \abx@aux@segm{0}{0}{scikit_learn}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.4.2.1}Approche basée sur des règles (rule-based)}{53}{subsubsection.5.4.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.4.2.2}Approche par similarité (collaborative filtering)}{53}{subsubsection.5.4.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.4.2.3}Approche par apprentissage supervisé}{53}{subsubsection.5.4.2.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{\numberline {5.4.2.3.1}Régression logistique}{53}{paragraph.5.4.2.3.1}\protected@file@percent }
 \abx@aux@cite{0}{scikit_learn}
 \abx@aux@segm{0}{0}{scikit_learn}
-\@writefile{toc}{\contentsline {paragraph}{\numberline {5.4.2.3.2}XGBoost}{54}{paragraph.5.4.2.3.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.3}Synthèse comparative}{54}{subsection.5.4.3}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {5.4}{\ignorespaces Comparaison des approches de recommandation}}{54}{table.caption.32}\protected@file@percent }
-\newlabel{tab:comparaison_reco}{{5.4}{54}{Comparaison des approches de recommandation}{table.caption.32}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.4}Décision}{54}{subsection.5.4.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.12.2.3}Approche par apprentissage supervisé}{54}{subsubsection.3.12.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {3.12.2.3.1}Régression logistique}{54}{paragraph.3.12.2.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {3.12.2.3.2}XGBoost}{54}{paragraph.3.12.2.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.12.3}Synthèse comparative}{55}{subsection.3.12.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3.14}{\ignorespaces Comparaison des approches de recommandation}}{55}{table.caption.29}\protected@file@percent }
+\newlabel{tab:comparaison_reco}{{3.14}{55}{Comparaison des approches de recommandation}{table.caption.29}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.12.4}Décision}{55}{subsection.3.12.4}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3.15}{\ignorespaces Variables d'entrée du moteur de recommandation}}{55}{table.caption.30}\protected@file@percent }
+\newlabel{tab:features_reco}{{3.15}{55}{Variables d'entrée du moteur de recommandation}{table.caption.30}{}}
 \abx@aux@cite{0}{mistral_dev}
 \abx@aux@segm{0}{0}{mistral_dev}
-\@writefile{lot}{\contentsline {table}{\numberline {5.5}{\ignorespaces Variables d'entrée du moteur de recommandation}}{55}{table.caption.33}\protected@file@percent }
-\newlabel{tab:features_reco}{{5.5}{55}{Variables d'entrée du moteur de recommandation}{table.caption.33}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.5}Choix de l'orchestration RAG}{55}{section.5.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.1}Besoins spécifiques}{55}{subsection.5.5.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.2}Modèle de langage}{55}{subsection.5.5.2}\protected@file@percent }
 \abx@aux@cite{0}{langchain_dev}
 \abx@aux@segm{0}{0}{langchain_dev}
+\@writefile{toc}{\contentsline {section}{\numberline {3.13}Choix de l'orchestration RAG}{56}{section.3.13}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.13.1}Besoins spécifiques}{56}{subsection.3.13.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.13.2}Modèle de langage}{56}{subsection.3.13.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.13.3}Alternatives évaluées}{56}{subsection.3.13.3}\protected@file@percent }
 \abx@aux@cite{0}{LlamaIndex_dev}
 \abx@aux@segm{0}{0}{LlamaIndex_dev}
 \abx@aux@cite{0}{haystack_dev}
 \abx@aux@segm{0}{0}{haystack_dev}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.3}Alternatives évaluées}{56}{subsection.5.5.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.5.3.1}LangChain}{56}{subsubsection.5.5.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.5.3.2}LlamaIndex}{56}{subsubsection.5.5.3.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.5.3.3}Haystack}{56}{subsubsection.5.5.3.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.5.3.4}Approche directe (sans framework)}{57}{subsubsection.5.5.3.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.4}Synthèse comparative}{57}{subsection.5.5.4}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {5.6}{\ignorespaces Comparaison des frameworks d'orchestration RAG}}{57}{table.caption.34}\protected@file@percent }
-\newlabel{tab:comparaison_rag}{{5.6}{57}{Comparaison des frameworks d'orchestration RAG}{table.caption.34}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.13.3.1}LangChain}{57}{subsubsection.3.13.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.13.3.2}LlamaIndex}{57}{subsubsection.3.13.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.13.3.3}Haystack}{57}{subsubsection.3.13.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.13.3.4}Approche directe (sans framework)}{57}{subsubsection.3.13.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.13.4}Synthèse comparative}{58}{subsection.3.13.4}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3.16}{\ignorespaces Comparaison des frameworks d'orchestration RAG}}{58}{table.caption.31}\protected@file@percent }
+\newlabel{tab:comparaison_rag}{{3.16}{58}{Comparaison des frameworks d'orchestration RAG}{table.caption.31}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.13.5}Décision}{58}{subsection.3.13.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.14}Synthèse des choix algorithmiques et de performance}{58}{section.3.14}\protected@file@percent }
 \gdef \LT@ii {\LT@entry 
     {1}{98.95827pt}\LT@entry 
     {1}{112.38464pt}\LT@entry 
     {1}{254.64842pt}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.5}Décision}{58}{subsection.5.5.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5.6}Synthèse des choix}{58}{section.5.6}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {5.7}{\ignorespaces Synthèse des choix algorithmiques et de performance}}{58}{table.5.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{Conclusion}{58}{section*.35}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {6}Conception du système}{59}{chapter.6}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3.17}{\ignorespaces Synthèse des choix algorithmiques et de performance}}{59}{table.3.17}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{Conclusion}{59}{section*.32}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}Conception du système}{60}{chapter.4}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\ttl@writefile{ptc}{\ttl@stoptoc{chapters@5}}
-\ttl@writefile{ptc}{\ttl@starttoc{chapters@6}}
-\@writefile{toc}{\contentsline {section}{Introduction}{61}{section*.36}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {6.1}Product Backlog}{61}{section.6.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.1.1}Priorités MoSCoW}{61}{subsection.6.1.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.1.2}Story points}{61}{subsection.6.1.2}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {6.1}{\ignorespaces Échelle des story points}}{61}{table.caption.37}\protected@file@percent }
-\newlabel{tab:story-points}{{6.1}{61}{Échelle des story points}{table.caption.37}{}}
+\ttl@writefile{ptc}{\ttl@stoptoc{chapters@3}}
+\ttl@writefile{ptc}{\ttl@starttoc{chapters@4}}
+\@writefile{toc}{\contentsline {section}{Introduction}{62}{section*.33}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}Product Backlog}{62}{section.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.1}Priorités MoSCoW}{62}{subsection.4.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.2}Story points}{62}{subsection.4.1.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4.1}{\ignorespaces Échelle des story points}}{62}{table.caption.34}\protected@file@percent }
+\newlabel{tab:story-points}{{4.1}{62}{Échelle des story points}{table.caption.34}{}}
 \gdef \LT@iii {\LT@entry 
     {1}{38.05275pt}\LT@entry 
     {1}{94.15826pt}\LT@entry 
@@ -335,16 +343,16 @@
     {1}{42.94322pt}\LT@entry 
     {1}{34.4073pt}\LT@entry 
     {1}{37.25275pt}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.1.3}Tableau du Product Backlog}{62}{subsection.6.1.3}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {6.2}{\ignorespaces Product Backlog}}{62}{table.6.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {6.2}Planification des sprints}{65}{section.6.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.3}Tableau du Product Backlog}{63}{subsection.4.1.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4.2}{\ignorespaces Product Backlog}}{63}{table.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}Planification des sprints}{66}{section.4.2}\protected@file@percent }
 \gdef \LT@iv {\LT@entry 
     {1}{56.27913pt}\LT@entry 
     {1}{140.8374pt}\LT@entry 
     {1}{283.10118pt}}
-\@writefile{lot}{\contentsline {table}{\numberline {6.3}{\ignorespaces Planification des sprints}}{66}{table.6.3}\protected@file@percent }
-\newlabel{tab:planif-sprints}{{6.3}{66}{Planification des sprints}{table.6.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.2.1}Diagramme de Gantt}{66}{subsection.6.2.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4.3}{\ignorespaces Planification des sprints}}{67}{table.4.3}\protected@file@percent }
+\newlabel{tab:planif-sprints}{{4.3}{67}{Planification des sprints}{table.4.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.1}Diagramme de Gantt}{67}{subsection.4.2.1}\protected@file@percent }
 \gdef \LT@v {\LT@entry 
     {1}{142.17331pt}\LT@entry 
     {1}{20.4491pt}\LT@entry 
@@ -371,86 +379,95 @@
     {1}{20.4491pt}\LT@entry 
     {1}{20.4491pt}\LT@entry 
     {1}{20.4491pt}}
-\@writefile{lot}{\contentsline {table}{\numberline {6.4}{\ignorespaces Diagramme de Gantt}}{67}{table.6.4}\protected@file@percent }
-\newlabel{tab:gantt}{{6.4}{67}{Diagramme de Gantt}{table.6.4}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.3}Architecture logicielle}{69}{section.6.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.1}Vue d'ensemble}{69}{subsection.6.3.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {6.1}{\ignorespaces Architecture logicielle}}{69}{figure.caption.38}\protected@file@percent }
-\newlabel{fig:archi-logique}{{6.1}{69}{Architecture logicielle}{figure.caption.38}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.2}Couche présentation — Next.js 14}{70}{subsection.6.3.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.3}Couche applicatif — Django 5 + Django Ninja}{70}{subsection.6.3.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.4}Couche traitement asynchrone — Django-Q2}{70}{subsection.6.3.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.5}Couche données — PostgreSQL 16}{70}{subsection.6.3.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.6}Couche intégration — Adaptateurs ETL}{71}{subsection.6.3.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.3.6.1}Stratégie d'upsert}{71}{subsubsection.6.3.6.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.3.6.2}Clé de jointure : l'INE}{72}{subsubsection.6.3.6.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.3.6.3}Stratégie de synchronisation}{72}{subsubsection.6.3.6.3}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {6.5}{\ignorespaces Stratégie de synchronisation par source}}{72}{table.caption.39}\protected@file@percent }
-\newlabel{tab:sync-strategy}{{6.5}{72}{Stratégie de synchronisation par source}{table.caption.39}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.7}Sécurité et contrôle d'accès}{72}{subsection.6.3.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.3.7.1}Flux d'authentification OIDC}{72}{subsubsection.6.3.7.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.3.7.2}Contrôle d'accès (RBAC)}{73}{subsubsection.6.3.7.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.3.7.3}Gestion du renouvellement des tokens JWT}{73}{subsubsection.6.3.7.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.3.7.4}Journal d'audit}{73}{subsubsection.6.3.7.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.3.7.5}Protection des données (RGPD)}{74}{subsubsection.6.3.7.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {6.4}Architecture physique et déploiement}{74}{section.6.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.1}Vue d'ensemble}{74}{subsection.6.4.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {6.2}{\ignorespaces Architecture physique}}{75}{figure.caption.40}\protected@file@percent }
-\newlabel{fig:archi-physique}{{6.2}{75}{Architecture physique}{figure.caption.40}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.2}Containers Docker}{75}{subsection.6.4.2}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {6.6}{\ignorespaces Containers Docker et leurs rôles}}{76}{table.caption.41}\protected@file@percent }
-\newlabel{tab:docker-containers}{{6.6}{76}{Containers Docker et leurs rôles}{table.caption.41}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.3}Flux réseau}{76}{subsection.6.4.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.4}Environnements}{76}{subsection.6.4.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.5}CI/CD}{76}{subsection.6.4.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.6}Stratégie de migration de schéma}{77}{subsection.6.4.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.7}Stratégie de rollback}{77}{subsection.6.4.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.8}Politique de sauvegarde}{77}{subsection.6.4.8}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.4.9}Gestion des secrets}{78}{subsection.6.4.9}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {6.5}Modèle de données}{78}{section.6.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.5.1}Organisation par packages}{78}{subsection.6.5.1}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {6.7}{\ignorespaces Packages du modèle de données}}{78}{table.caption.42}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.5.2}Principes structurants}{79}{subsection.6.5.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.5.2.1}L'année universitaire comme axe temporel}{79}{subsubsection.6.5.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.5.2.2}L'INE comme identifiant pivot}{79}{subsubsection.6.5.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.5.2.3}Hiérarchie quotas INP / quotas N7}{79}{subsubsection.6.5.2.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {6.6}Machines à états finis (FSM)}{79}{section.6.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.6.1}Principe et implémentation}{79}{subsection.6.6.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.6.2}FSM de l'année universitaire}{80}{subsection.6.6.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {6.3}{\ignorespaces Machine à états — AcademicYear}}{80}{figure.caption.43}\protected@file@percent }
-\newlabel{fig:fsm-academic-year}{{6.3}{80}{Machine à états — AcademicYear}{figure.caption.43}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {6.8}{\ignorespaces Conditions préalables (guard conditions) des transitions FSM}}{81}{table.caption.44}\protected@file@percent }
-\newlabel{tab:fsm_guards}{{6.8}{81}{Conditions préalables (guard conditions) des transitions FSM}{table.caption.44}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.6.3}FSM des entités métier}{81}{subsection.6.6.3}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {6.9}{\ignorespaces FSM des entités métier}}{81}{table.caption.45}\protected@file@percent }
-\newlabel{tab:fsm-entities}{{6.9}{81}{FSM des entités métier}{table.caption.45}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.7}Flux de données : de la source au workflow}{81}{section.6.7}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {6.4}{\ignorespaces Pipeline global de traitement des données}}{82}{figure.caption.46}\protected@file@percent }
-\newlabel{fig:pipeline-global}{{6.4}{82}{Pipeline global de traitement des données}{figure.caption.46}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.7.1}Détail de l’étape de nettoyage et validation}{82}{subsection.6.7.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.7.1.1}Description du processus de transformation}{82}{subsubsection.6.7.1.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{\numberline {6.7.1.1.1}Standardisation des formats}{83}{paragraph.6.7.1.1.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{\numberline {6.7.1.1.2}Normalisation sémantique}{83}{paragraph.6.7.1.1.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{\numberline {6.7.1.1.3}Gestion des valeurs manquantes}{83}{paragraph.6.7.1.1.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{\numberline {6.7.1.1.4}Détection et gestion des doublons}{83}{paragraph.6.7.1.1.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{\numberline {6.7.1.1.5}Validation métier}{84}{paragraph.6.7.1.1.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{\numberline {6.7.1.1.6}Traçabilité et gestion des erreurs}{84}{paragraph.6.7.1.1.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.7.1.2}Architecture du pipeline de nettoyage}{84}{subsubsection.6.7.1.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {6.5}{\ignorespaces Pipeline détaillé de l’étape de nettoyage des données}}{85}{figure.caption.47}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.7.1.3}Technologies et outils utilisés}{85}{subsubsection.6.7.1.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {6.8}Gestion des risques}{85}{section.6.8}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4.4}{\ignorespaces Diagramme de Gantt}}{68}{table.4.4}\protected@file@percent }
+\newlabel{tab:gantt}{{4.4}{68}{Diagramme de Gantt}{table.4.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.3}Approches de conception : organisation du code et style architectural}{70}{section.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.1}Organisation du code : Domain-Driven Design allégé}{70}{subsection.4.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.1.1}Découpage en domaines métier}{70}{subsubsection.4.3.1.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4.5}{\ignorespaces Découpage en domaines métier du système}}{70}{table.caption.35}\protected@file@percent }
+\newlabel{tab:ddd_domaines}{{4.5}{70}{Découpage en domaines métier du système}{table.caption.35}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.1.2}Langage commun}{71}{subsubsection.4.3.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.1.3}Encapsulation des règles métier}{71}{subsubsection.4.3.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3.2}Style architectural : architecture en couches}{71}{subsection.4.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.4}Architecture logicielle}{72}{section.4.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.1}Vue d'ensemble}{72}{subsection.4.4.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Architecture logicielle}}{72}{figure.caption.36}\protected@file@percent }
+\newlabel{fig:archi-logique}{{4.1}{72}{Architecture logicielle}{figure.caption.36}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.2}Couche présentation — Next.js 14}{73}{subsection.4.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.3}Couche applicatif — Django 5 + Django Ninja}{73}{subsection.4.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.4}Couche traitement asynchrone — Django-Q2}{73}{subsection.4.4.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.5}Couche données — PostgreSQL 16}{73}{subsection.4.4.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.6}Couche intégration — Adaptateurs ETL}{74}{subsection.4.4.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.4.6.1}Stratégie d'upsert}{74}{subsubsection.4.4.6.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.4.6.2}Clé de jointure : l'INE}{75}{subsubsection.4.4.6.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.4.6.3}Stratégie de synchronisation}{75}{subsubsection.4.4.6.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4.6}{\ignorespaces Stratégie de synchronisation par source}}{75}{table.caption.37}\protected@file@percent }
+\newlabel{tab:sync-strategy}{{4.6}{75}{Stratégie de synchronisation par source}{table.caption.37}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.7}Sécurité et contrôle d'accès}{75}{subsection.4.4.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.4.7.1}Flux d'authentification OIDC}{75}{subsubsection.4.4.7.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.4.7.2}Contrôle d'accès (RBAC)}{76}{subsubsection.4.4.7.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.4.7.3}Gestion du renouvellement des tokens JWT}{76}{subsubsection.4.4.7.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.4.7.4}Journal d'audit}{76}{subsubsection.4.4.7.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.4.7.5}Protection des données (RGPD)}{77}{subsubsection.4.4.7.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.5}Architecture physique et déploiement}{77}{section.4.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.1}Vue d'ensemble}{77}{subsection.4.5.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces Architecture physique}}{78}{figure.caption.38}\protected@file@percent }
+\newlabel{fig:archi-physique}{{4.2}{78}{Architecture physique}{figure.caption.38}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.2}Containers Docker}{78}{subsection.4.5.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4.7}{\ignorespaces Containers Docker et leurs rôles}}{79}{table.caption.39}\protected@file@percent }
+\newlabel{tab:docker-containers}{{4.7}{79}{Containers Docker et leurs rôles}{table.caption.39}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.3}Flux réseau}{79}{subsection.4.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.4}Environnements}{79}{subsection.4.5.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.5}CI/CD}{79}{subsection.4.5.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.6}Stratégie de migration de schéma}{80}{subsection.4.5.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.7}Stratégie de rollback}{80}{subsection.4.5.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.8}Politique de sauvegarde}{80}{subsection.4.5.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.9}Gestion des secrets}{81}{subsection.4.5.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.6}Modèle de données}{81}{section.4.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.6.1}Organisation par packages}{81}{subsection.4.6.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4.8}{\ignorespaces Packages du modèle de données}}{81}{table.caption.40}\protected@file@percent }
+\newlabel{tab:packages_modele}{{4.8}{81}{Packages du modèle de données}{table.caption.40}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.6.2}Principes structurants}{82}{subsection.4.6.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.6.2.1}L'année universitaire comme axe temporel}{82}{subsubsection.4.6.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.6.2.2}L'INE comme identifiant pivot}{82}{subsubsection.4.6.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.6.2.3}Hiérarchie quotas INP / quotas N7}{82}{subsubsection.4.6.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.7}Machines à états finis (FSM)}{82}{section.4.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.7.1}Principe et implémentation}{82}{subsection.4.7.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.7.2}FSM de l'année universitaire}{83}{subsection.4.7.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces Machine à états — AcademicYear}}{83}{figure.caption.41}\protected@file@percent }
+\newlabel{fig:fsm-academic-year}{{4.3}{83}{Machine à états — AcademicYear}{figure.caption.41}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.9}{\ignorespaces Conditions préalables (guard conditions) des transitions FSM}}{84}{table.caption.42}\protected@file@percent }
+\newlabel{tab:fsm_guards}{{4.9}{84}{Conditions préalables (guard conditions) des transitions FSM}{table.caption.42}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.7.3}FSM des entités métier}{84}{subsection.4.7.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4.10}{\ignorespaces FSM des entités métier}}{84}{table.caption.43}\protected@file@percent }
+\newlabel{tab:fsm-entities}{{4.10}{84}{FSM des entités métier}{table.caption.43}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.8}Flux de données : de la source au workflow}{84}{section.4.8}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces Pipeline global de traitement des données}}{85}{figure.caption.44}\protected@file@percent }
+\newlabel{fig:pipeline-global}{{4.4}{85}{Pipeline global de traitement des données}{figure.caption.44}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.8.1}Détail de l’étape de nettoyage et validation}{85}{subsection.4.8.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.8.1.1}Description du processus de transformation}{85}{subsubsection.4.8.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {4.8.1.1.1}Standardisation des formats}{86}{paragraph.4.8.1.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {4.8.1.1.2}Normalisation sémantique}{86}{paragraph.4.8.1.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {4.8.1.1.3}Gestion des valeurs manquantes}{86}{paragraph.4.8.1.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {4.8.1.1.4}Détection et gestion des doublons}{86}{paragraph.4.8.1.1.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {4.8.1.1.5}Validation métier}{87}{paragraph.4.8.1.1.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {4.8.1.1.6}Traçabilité et gestion des erreurs}{87}{paragraph.4.8.1.1.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.8.1.2}Architecture du pipeline de nettoyage}{87}{subsubsection.4.8.1.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces Pipeline détaillé de l’étape de nettoyage des données}}{88}{figure.caption.45}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.8.1.3}Technologies et outils utilisés}{88}{subsubsection.4.8.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.9}Gestion des risques}{88}{section.4.9}\protected@file@percent }
 \gdef \LT@vi {\LT@entry 
     {1}{127.41103pt}\LT@entry 
     {1}{55.47913pt}\LT@entry 
     {1}{55.47913pt}\LT@entry 
     {1}{197.7429pt}}
-\@writefile{lot}{\contentsline {table}{\numberline {6.10}{\ignorespaces Matrice des risques}}{86}{table.6.10}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{Conclusion}{87}{section*.48}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {7}Réalisation}{88}{chapter.7}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4.11}{\ignorespaces Matrice des risques}}{89}{table.4.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{Conclusion}{90}{section*.46}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}Réalisation}{91}{chapter.5}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\ttl@writefile{ptc}{\ttl@stoptoc{chapters@6}}
-\ttl@writefile{ptc}{\ttl@starttoc{chapters@7}}
+\ttl@writefile{ptc}{\ttl@stoptoc{chapters@4}}
+\ttl@writefile{ptc}{\ttl@starttoc{chapters@5}}
 \gdef \LT@vii {\LT@entry 
     {1}{21.82637pt}\LT@entry 
     {1}{106.38464pt}\LT@entry 
@@ -458,18 +475,18 @@
     {1}{120.61102pt}\LT@entry 
     {1}{49.47913pt}\LT@entry 
     {4}{21.02641pt}}
-\@writefile{toc}{\contentsline {section}{Introduction}{89}{section*.49}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {7.1}{Sprint 1 — Socle technique et référentiels}}{89}{section.7.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.1.1}Objectif du sprint}{89}{subsection.7.1.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.1.2}Sprint Backlog — Sprint 1}{89}{subsection.7.1.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.1.3}Conception détaillée}{91}{subsection.7.1.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.1.3.1}Diagramme de classes}{91}{subsubsection.7.1.3.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {7.1}{\ignorespaces Diagramme de classes — Sprint 1}}{92}{figure.caption.50}\protected@file@percent }
-\newlabel{fig:diag-class-sprint1}{{7.1}{92}{Diagramme de classes — Sprint 1}{figure.caption.50}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.1.4}Implémentation}{92}{subsection.7.1.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.1.5}Tests}{92}{subsection.7.1.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {7.2}Sprint 2 — Données et traçabilité}{92}{section.7.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.2.1}Objectif du sprint}{92}{subsection.7.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{Introduction}{92}{section*.47}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.1}{Sprint 1 — Socle technique et référentiels}}{92}{section.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.1}Objectif du sprint}{92}{subsection.5.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.2}Sprint Backlog — Sprint 1}{92}{subsection.5.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.3}Conception détaillée}{94}{subsection.5.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.3.1}Diagramme de classes}{94}{subsubsection.5.1.3.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces Diagramme de classes — Sprint 1}}{95}{figure.caption.48}\protected@file@percent }
+\newlabel{fig:diag-class-sprint1}{{5.1}{95}{Diagramme de classes — Sprint 1}{figure.caption.48}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.4}Implémentation}{95}{subsection.5.1.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.5}Tests}{95}{subsection.5.1.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.2}Sprint 2 — Données et traçabilité}{95}{section.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.1}Objectif du sprint}{95}{subsection.5.2.1}\protected@file@percent }
 \gdef \LT@viii {\LT@entry 
     {1}{21.82637pt}\LT@entry 
     {1}{106.38464pt}\LT@entry 
@@ -477,15 +494,15 @@
     {1}{120.61102pt}\LT@entry 
     {1}{49.47913pt}\LT@entry 
     {4}{21.02641pt}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.2.2}Sprint Backlog — Sprint 2}{93}{subsection.7.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.2.3}Conception détaillée}{95}{subsection.7.2.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.2.3.1}Diagramme de classes}{95}{subsubsection.7.2.3.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {7.2}{\ignorespaces Diagramme de classes — Sprint 2}}{96}{figure.caption.51}\protected@file@percent }
-\newlabel{fig:diag-class-sprint2}{{7.2}{96}{Diagramme de classes — Sprint 2}{figure.caption.51}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.2.4}Implémentation}{96}{subsection.7.2.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.2.5}Tests}{96}{subsection.7.2.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {7.3}Sprint 3 — Algorithme d'affectation}{96}{section.7.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.3.1}Objectif du sprint}{96}{subsection.7.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.2}Sprint Backlog — Sprint 2}{96}{subsection.5.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.3}Conception détaillée}{98}{subsection.5.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.3.1}Diagramme de classes}{98}{subsubsection.5.2.3.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces Diagramme de classes — Sprint 2}}{99}{figure.caption.49}\protected@file@percent }
+\newlabel{fig:diag-class-sprint2}{{5.2}{99}{Diagramme de classes — Sprint 2}{figure.caption.49}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.4}Implémentation}{99}{subsection.5.2.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.5}Tests}{99}{subsection.5.2.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.3}Sprint 3 — Algorithme d'affectation}{99}{section.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.1}Objectif du sprint}{99}{subsection.5.3.1}\protected@file@percent }
 \gdef \LT@ix {\LT@entry 
     {1}{21.82637pt}\LT@entry 
     {1}{106.38464pt}\LT@entry 
@@ -493,15 +510,15 @@
     {1}{120.61102pt}\LT@entry 
     {1}{49.47913pt}\LT@entry 
     {4}{21.02641pt}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.3.2}Sprint Backlog — Sprint 3}{97}{subsection.7.3.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.3.3}Conception détaillée}{99}{subsection.7.3.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.3.3.1}Diagramme de classes}{99}{subsubsection.7.3.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.3.4}Implémentation}{99}{subsection.7.3.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.3.5}Tests}{99}{subsection.7.3.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{Conclusion générale}{100}{chapter*.52}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{Bibliographie}{101}{chapter*.53}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.2}Sprint Backlog — Sprint 3}{100}{subsection.5.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.3}Conception détaillée}{102}{subsection.5.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.3.3.1}Diagramme de classes}{102}{subsubsection.5.3.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.4}Implémentation}{102}{subsection.5.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.5}Tests}{102}{subsection.5.3.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{Conclusion générale}{103}{chapter*.50}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{Bibliographie}{104}{chapter*.51}\protected@file@percent }
 \ttl@finishall
-\abx@aux@read@bbl@mdfivesum{15A17B0293D4C740BF616B9314AC45DA}
+\abx@aux@read@bbl@mdfivesum{81B15D3ADC6144870B7700644DA9AB3F}
 \abx@aux@defaultrefcontext{0}{enseeiht_presentation}{none/global//global/global/global}
 \abx@aux@defaultrefcontext{0}{enseeiht_international}{none/global//global/global/global}
 \abx@aux@defaultrefcontext{0}{enseeiht_sortante}{none/global//global/global/global}
@@ -527,9 +544,10 @@
 \abx@aux@defaultrefcontext{0}{minio_dev}{none/global//global/global/global}
 \abx@aux@defaultrefcontext{0}{nginx_dev}{none/global//global/global/global}
 \abx@aux@defaultrefcontext{0}{traefik_dev}{none/global//global/global/global}
+\abx@aux@defaultrefcontext{0}{GaleShapley1962}{none/global//global/global/global}
 \abx@aux@defaultrefcontext{0}{scikit_learn}{none/global//global/global/global}
 \abx@aux@defaultrefcontext{0}{mistral_dev}{none/global//global/global/global}
 \abx@aux@defaultrefcontext{0}{langchain_dev}{none/global//global/global/global}
 \abx@aux@defaultrefcontext{0}{LlamaIndex_dev}{none/global//global/global/global}
 \abx@aux@defaultrefcontext{0}{haystack_dev}{none/global//global/global/global}
-\gdef \@abspage@last{112}
+\gdef \@abspage@last{115}

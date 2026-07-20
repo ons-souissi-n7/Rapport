@@ -258,6 +258,43 @@
       \field{note}{Consulté le 2026-03-27}
       \field{title}{Traefik -- The Cloud Native Application Proxy}
     \endentry
+    \entry{GaleShapley1962}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=8921ac40fd1635d7d5bcf2cc6307b6f7}{%
+           family={Gale},
+           familyi={G\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod}}}%
+        {{hash=aa2b96ffd25f090ad898c0022f7efa12}{%
+           family={Shapley},
+           familyi={S\bibinitperiod},
+           given={Lloyd\bibnamedelima S.},
+           giveni={L\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+      }
+      \strng{namehash}{d01877860e3e471a138c0ecd3caa571c}
+      \strng{fullhash}{d01877860e3e471a138c0ecd3caa571c}
+      \strng{fullhashraw}{d01877860e3e471a138c0ecd3caa571c}
+      \strng{bibnamehash}{d01877860e3e471a138c0ecd3caa571c}
+      \strng{authorbibnamehash}{d01877860e3e471a138c0ecd3caa571c}
+      \strng{authornamehash}{d01877860e3e471a138c0ecd3caa571c}
+      \strng{authorfullhash}{d01877860e3e471a138c0ecd3caa571c}
+      \strng{authorfullhashraw}{d01877860e3e471a138c0ecd3caa571c}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{The American Mathematical Monthly}
+      \field{langid}{english}
+      \field{number}{1}
+      \field{title}{College Admissions and the Stability of Marriage}
+      \field{volume}{69}
+      \field{year}{1962}
+      \field{pages}{9\bibrangedash 15}
+      \range{pages}{7}
+      \verb{doi}
+      \verb 10.2307/2312726
+      \endverb
+    \endentry
     \entry{scikit_learn}{misc}{}{}
       \field{sortinit}{2}
       \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
@@ -299,7 +336,6 @@
       \field{title}{Haystack -- The open-source AI framework}
     \endentry
   \enddatalist
-  \missing{GaleShapley1962}
 \endrefsection
 \endinput
 
