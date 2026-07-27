@@ -1,6 +1,7 @@
 % !TEX root = ../main.tex
 % ══════════════════════════════════════════════════════════════
 \chapter{Conception du système}
+\label{cha:conception}
 % ══════════════════════════════════════════════════════════════
 \begingroup
 \let\clearpage\relax
@@ -38,6 +39,8 @@ L'effort de chaque story est estimé en story points selon l'échelle de Fibonac
 
 \begin{table}[H]
 \centering
+\caption{Échelle des story points}
+\label{tab:story-points}
 \footnotesize
 \renewcommand{\arraystretch}{1.4}
 \begin{tabular}{|p{1cm}|p{6cm}|p{8.5cm}|}
@@ -60,8 +63,6 @@ L'effort de chaque story est estimé en story points selon l'échelle de Fibonac
 21 & Exceptionnel — plus d'une semaine & Chatbot RAG complet \\
 \hline
 \end{tabular}
-\caption{Échelle des story points}
-\label{tab:story-points}
 \end{table}
 
 \subsection{Tableau du Product Backlog}
@@ -107,8 +108,8 @@ M & 5 & S1 \\
 \nextus & Année universitaire et FSM &
 En tant qu’\textbf{administrateur RI}, je veux que le cycle de vie de l’année
 universitaire soit géré par une machine à états (initialisation → recommandation
-→ consolidation → pré-affectation → validation → clôturée) afin de contrôler
-chaque phase de la campagne de manière sécurisée. &
+→ candidature → import → pré-affectation → validation → publiée → clôturée) afin de
+contrôler chaque phase de la campagne de manière sécurisée. &
 M & 4 & S1 \\
 \hline
 
@@ -385,7 +386,7 @@ US-11 à US-16 — Répartition des quotas par département (Hamilton), stages i
 \hline
 
 Sprint 5 & CTI, espace étudiant et supervision &
-US-17 à US-27 — Calcul des durées CTI, indicateur étudiant, export CTI, catalogue des destinations, suivi de candidature, gestion mobilités entrantes, console de supervision, contrôle des prérequis FSM, SSO, tableaux de bord analytiques et exports CTI \\
+US-17 à US-26 — Calcul des durées CTI, indicateur étudiant, export CTI, catalogue des destinations, suivi de candidature, gestion des mobilités entrantes, console de supervision, contrôle des prérequis FSM, SSO, tableaux de bord analytiques et exports CTI \\
 \hline
 
 % Fonctionnalités V2 commentées pour ajout ultérieur :
@@ -540,6 +541,8 @@ modification dans un domaine n'affecte pas les autres.
 
 \begin{table}[H]
 \centering
+\caption{Découpage en domaines métier du système}
+\label{tab:ddd_domaines}
 \footnotesize
 \renewcommand{\arraystretch}{1.4}
 \begin{tabular}{|p{3.5cm}|p{9cm}|}
@@ -570,11 +573,9 @@ modification dans un domaine n'affecte pas les autres.
 \texttt{audit} & Traçabilité des actions \\
 \hline
 \end{tabular}
-\caption{Découpage en domaines métier du système}
-\label{tab:ddd_domaines}
 \end{table}
 
-Ce découpage conceptuel en onze domaines a servi de point de départ à la conception. Il a ensuite été consolidé, lors de la modélisation détaillée des données (voir tableau~\ref{tab:packages_modele}), en huit packages effectivement implémentés : les quatre domaines liés aux mobilités (\texttt{incoming}, \texttt{outgoing}, \texttt{internships}, \texttt{complementary}) ont été regroupés dans un package unique \texttt{Mobilities}, qui porte également le calcul de la durée CTI consolidée — ce qui a permis d'absorber le domaine \texttt{cti} sans package dédié. Le domaine \texttt{audit}, quant à lui, est traité de façon transversale par \texttt{django-auditlog} plutôt que comme un package métier autonome, puisqu'il s'applique automatiquement à toutes les entités sans logique propre à encapsuler. Le package \texttt{Applications} (dossiers de candidature, vœux, affectations) a été introduit à ce stade pour isoler une logique qui n'était pas encore individualisée dans le découpage initial.
+Ce découpage conceptuel en onze domaines a servi de point de départ à la conception. Il a ensuite été consolidé, lors de la modélisation détaillée des données (voir tableau~\ref{tab:packages_modele}), en huit packages effectivement implémentés : les quatre domaines liés aux mobilités (\texttt{incoming}, \texttt{outgoing}, \texttt{internships}, \texttt{complementary}) ont été regroupés dans un package unique \texttt{Mobilities}, qui porte également le calcul de la durée CTI consolidée, ce qui a permis d'absorber le domaine \texttt{cti} sans package dédié. Le domaine \texttt{audit}, quant à lui, est traité de façon transversale par \texttt{django-auditlog} plutôt que comme un package métier autonome, puisqu'il s'applique automatiquement à toutes les entités sans logique propre à encapsuler. Le package \texttt{Applications} (dossiers de candidature, vœux, affectations) a été introduit à ce stade pour isoler une logique qui n'était pas encore individualisée dans le découpage initial.
 
 \subsubsection{Langage commun}
 
@@ -585,8 +586,8 @@ Le DDD préconise l'adoption d'un vocabulaire métier commun, partagé entre la 
 Chaque domaine encapsule ses propres règles métier, ce qui permet de les faire
 évoluer indépendamment du reste du système.
 Cette séparation rend le système plus robuste face aux évolutions de besoins,
-inévitables dans un contexte de développement itératif où certaines règles —
-comme les critères de priorité dans l'affectation — se précisent au fil des
+inévitables dans un contexte de développement itératif où certaines règles,
+comme les critères de priorité dans l'affectation, se précisent au fil des
 sprints.
 
 \subsection{Style architectural : architecture en couches}
@@ -626,7 +627,7 @@ La plateforme repose sur une architecture en cinq couches qui s'appuie sur le mo
   \label{fig:archi-logique}
 \end{figure}
 
-La figure~\ref{fig:archi-logique} donne une vue d'ensemble du système. Les flux sont unidirectionnels et bien délimités. Le frontend Next.js 14 s'adresse exclusivement à l'API Django Ninja via des appels REST sur HTTPS — jamais directement à la base de données. Django-Q2 s'exécute dans un processus séparé et partage le même PostgreSQL que l'applicatif, ce qui lui permet de fonctionner comme broker de messages sans service externe supplémentaire. PostgreSQL et MinIO sont des services internes non accessibles depuis l'extérieur du réseau Docker. Les adaptateurs ETL sont physiquement séparés des modules métier, précisément parce qu'ils dépendent de sources externes (MoveON, Pégase, Eudonet) dont la disponibilité n'est pas garantie. L'authentification passe par le CAS OIDC de Toulouse INP : à chaque requête, le token JWT est validé et le rôle (\texttt{ADMIN\_RI} ou \texttt{ETUDIANT}) est extrait pour contrôler les accès.
+La figure~\ref{fig:archi-logique} donne une vue d'ensemble du système. Les flux sont unidirectionnels et bien délimités. Le frontend Next.js 14 s'adresse exclusivement à l'API Django Ninja via des appels REST sur HTTPS, jamais directement à la base de données. Django-Q2 s'exécute dans un processus séparé et partage le même PostgreSQL que l'applicatif, ce qui lui permet de fonctionner comme broker de messages sans service externe supplémentaire. PostgreSQL et MinIO sont des services internes non accessibles depuis l'extérieur du réseau Docker. Les adaptateurs ETL sont physiquement séparés des modules métier, précisément parce qu'ils dépendent de sources externes (MoveON, Pégase, Eudonet) dont la disponibilité n'est pas garantie. L'authentification passe par le CAS OIDC de Toulouse INP : à chaque requête, le token JWT est validé et le rôle (\texttt{ADMIN\_RI} ou \texttt{ETUDIANT}) est extrait pour contrôler les accès.
 
 \subsection{Couche présentation — Next.js 14}
 
@@ -719,6 +720,8 @@ Le tableau~\ref{tab:sync-strategy} récapitule, pour chaque source externe, le d
 \renewcommand{\arraystretch}{1.4}
 \begin{table}[H]
 \centering
+\caption{Stratégie de synchronisation par source}
+\label{tab:sync-strategy}
 \footnotesize
 \begin{tabular}{|p{2.5cm}|p{5cm}|p{5cm}|}
 \hline
@@ -728,7 +731,7 @@ Le tableau~\ref{tab:sync-strategy} récapitule, pour chaque source externe, le d
 MoveON &
 Tâche Django-Q2 planifiée (phases actives) + manuelle avant
 lancement de l'algorithme &
-Lecture seule — aucune écriture vers MoveON \\
+Lecture seule : aucune écriture vers MoveON \\
 \hline
 Pégase &
 Initialisation de campagne + à la demande &
@@ -743,8 +746,6 @@ Upload manuel par l'administrateur &
 Fallback pour toutes les sources en cas d'indisponibilité API \\
 \hline
 \end{tabular}
-\caption{Stratégie de synchronisation par source}
-\label{tab:sync-strategy}
 \end{table}
 
 \subsection{Sécurité et contrôle d'accès}
@@ -765,8 +766,8 @@ L'application délègue entièrement l'authentification au CAS institutionnel de
 Les rôles sont déduits automatiquement depuis l'annuaire LDAP institutionnel, sans gestion manuelle dans l'application :
 
 \begin{itemize}
-  \item \textbf{ADMIN\_RI} : accès complet aux fonctions d'administration — imports, lancement de l'algorithme, validations, exports CTI. Toute action est enregistrée dans le journal d'audit.
-  \item \textbf{ETUDIANT} : accès strictement limité à son propre dossier. Un contrôle au niveau de l'objet (\textit{object-level permission}) est appliqué sur chaque endpoint exposant des données personnelles — un étudiant ne peut pas accéder au dossier d'un autre.
+  \item \textbf{ADMIN\_RI} : accès complet aux fonctions d'administration, à savoir les imports, le lancement de l'algorithme, les validations et les exports CTI. Toute action est enregistrée dans le journal d'audit.
+  \item \textbf{ETUDIANT} : accès strictement limité à son propre dossier. Un contrôle au niveau de l'objet (\textit{object-level permission}) est appliqué sur chaque endpoint exposant des données personnelles, de sorte qu'un étudiant ne puisse pas accéder au dossier d'un autre.
 \end{itemize}
 
 \subsubsection{Gestion du renouvellement des tokens JWT}
@@ -786,7 +787,7 @@ La traçabilité des actions administratives est assurée par \texttt{django-aud
   \item Exports de rapports CTI.
 \end{itemize}
 
-Chaque entrée contient l'identifiant de l'auteur, l'horodatage UTC, l'entité concernée (table et clé primaire), l'action effectuée, et les valeurs avant/après modification. Le journal est stocké dans une table PostgreSQL dédiée (\texttt{auditlog\_logentry}), accessible en lecture seule. La politique de rétention est de sept ans. Aucune entrée ne peut être modifiée ou supprimée depuis l'application — toute suppression nécessite un accès direct à la base, lui-même tracé au niveau opérateur.
+Chaque entrée contient l'identifiant de l'auteur, l'horodatage UTC, l'entité concernée (table et clé primaire), l'action effectuée, et les valeurs avant/après modification. Le journal est stocké dans une table PostgreSQL dédiée (\texttt{auditlog\_logentry}), accessible en lecture seule. La politique de rétention est de sept ans. Aucune entrée ne peut être modifiée ou supprimée depuis l'application ; toute suppression nécessite un accès direct à la base, lui-même tracé au niveau opérateur.
 
 \subsubsection{Protection des données (RGPD)}
 
@@ -796,7 +797,7 @@ La plateforme traite des données personnelles étudiantes (INE, email, date de 
   \item \textbf{Chiffrement au repos} : les champs sensibles sont chiffrés en base via \texttt{pgcrypto} ; leur lecture requiert la clé de déchiffrement qui n'est jamais stockée dans le code.
   \item \textbf{Chiffrement en transit} : TLS est obligatoire sur tous les endpoints ; les communications HTTP sont systématiquement redirigées vers HTTPS par Nginx.
   \item \textbf{Stockage des justificatifs} : les fichiers uploadés (justificatifs de mobilités complémentaires) sont chiffrés côté serveur dans MinIO (SSE-S3) et supprimés automatiquement après validation et expiration du délai de conservation.
-  \item \textbf{Droit à l'oubli} : une procédure d'anonymisation est prévue après diplômation — les données nominatives sont effacées, les statistiques agrégées sont conservées pour les rapports CTI.
+  \item \textbf{Droit à l'oubli} : une procédure d'anonymisation est prévue après diplômation : les données nominatives sont effacées, les statistiques agrégées étant conservées pour les rapports CTI.
 \end{itemize}
 % ─────────────────────────────────────────────────────────────
 \section{Architecture physique et déploiement}
@@ -804,7 +805,7 @@ La plateforme traite des données personnelles étudiantes (INE, email, date de 
 
 \subsection{Vue d'ensemble}
 
-L'application s'exécute sur un serveur on-premise hébergé par Toulouse INP. Tous les services sont conteneurisés via \textbf{Docker Compose}, ce qui garantit que l'environnement de développement et l'environnement de production sont structurellement identiques — éliminer les surprises du déploiement était une contrainte dès le départ.
+L'application s'exécute sur un serveur on-premise hébergé par Toulouse INP. Tous les services sont conteneurisés via \textbf{Docker Compose}, ce qui garantit que l'environnement de développement et l'environnement de production sont structurellement identiques ; éliminer les surprises du déploiement était une contrainte dès le départ.
 
 \begin{figure}[H]
   \centering
@@ -813,7 +814,7 @@ L'application s'exécute sur un serveur on-premise hébergé par Toulouse INP. T
   \label{fig:archi-physique}
 \end{figure}
 
-La figure~\ref{fig:archi-physique} détaille les flux réseau. Tout le trafic entrant passe par \textbf{Nginx}, le seul container exposé à l'extérieur (ports 80 et 443). Nginx redirige le HTTP vers HTTPS, sert les fichiers statiques Next.js et route les appels API vers \texttt{backend:8000}. PostgreSQL, MinIO et le worker Django-Q2 sont confinés dans le réseau Docker interne — aucune connexion directe depuis l'extérieur n'est possible. Les appels vers les APIs institutionnelles (MoveON, Pégase, Eudonet, CAS) partent exclusivement du container \texttt{backend} en HTTPS sortant. Sentry est externe à l'infrastructure et reçoit les rapports d'erreur du backend et du frontend. Prometheus (collecte de métriques) et Grafana (visualisation) tournent en interne, accessibles uniquement depuis le réseau institutionnel.
+La figure~\ref{fig:archi-physique} détaille les flux réseau. Tout le trafic entrant passe par \textbf{Nginx}, le seul container exposé à l'extérieur (ports 80 et 443). Nginx redirige le HTTP vers HTTPS, sert les fichiers statiques Next.js et route les appels API vers \texttt{backend:8000}. PostgreSQL, MinIO et le worker Django-Q2 sont confinés dans le réseau Docker interne ; aucune connexion directe depuis l'extérieur n'est possible. Les appels vers les APIs institutionnelles (MoveON, Pégase, Eudonet, CAS) partent exclusivement du container \texttt{backend} en HTTPS sortant. Sentry est externe à l'infrastructure et reçoit les rapports d'erreur du backend et du frontend. Prometheus (collecte de métriques) et Grafana (visualisation) tournent en interne, accessibles uniquement depuis le réseau institutionnel.
 
 \subsection{Containers Docker}
 
@@ -821,6 +822,8 @@ Six containers composent l'infrastructure. Le tableau~\ref{tab:docker-containers
 
 \begin{table}[H]
 \centering
+\caption{Containers Docker et leurs rôles}
+\label{tab:docker-containers}
 \small
 \renewcommand{\arraystretch}{1.4}
 \begin{tabular}{|p{3cm}|p{4cm}|p{6.5cm}|}
@@ -836,18 +839,16 @@ Six containers composent l'infrastructure. Le tableau~\ref{tab:docker-containers
 \hline
 \texttt{worker} & \texttt{python:3.12-slim} & Django-Q2 cluster (tâches asynchrones et cron) \\
 \hline
-\texttt{db} & \texttt{postgres:16-alpine} & PostgreSQL — base de données et broker Django-Q2 \\
+\texttt{db} & \texttt{postgres:16-alpine} & PostgreSQL, base de données et broker Django-Q2 \\
 \hline
 \texttt{minio} & \texttt{minio/minio} & Stockage objet S3 (justificatifs, fichiers Excel) \\
 \hline
 \end{tabular}
-\caption{Containers Docker et leurs rôles}
-\label{tab:docker-containers}
 \end{table}
 
 \subsection{Flux réseau}
 
-Nginx est le seul point d'entrée du système : les requêtes vers \texttt{/api/*} sont acheminées vers \texttt{backend:8000}, toutes les autres vers \texttt{frontend:3000}. Le container \texttt{backend} dialogue avec la base de données pour les opérations métier et avec MinIO pour la gestion des fichiers. Le \texttt{worker} Django-Q2 utilise le même PostgreSQL comme file de messages — aucun Redis ni RabbitMQ n'est nécessaire. Les appels sortants vers MoveON, Pégase, Eudonet et le CAS passent uniquement par le container \texttt{backend}.
+Nginx est le seul point d'entrée du système : les requêtes vers \texttt{/api/*} sont acheminées vers \texttt{backend:8000}, toutes les autres vers \texttt{frontend:3000}. Le container \texttt{backend} dialogue avec la base de données pour les opérations métier et avec MinIO pour la gestion des fichiers. Le \texttt{worker} Django-Q2 utilise le même PostgreSQL comme file de messages ; aucun Redis ni RabbitMQ n'est nécessaire. Les appels sortants vers MoveON, Pégase, Eudonet et le CAS passent uniquement par le container \texttt{backend}.
 
 \subsection{Environnements}
 
@@ -875,7 +876,7 @@ Les migrations Django sont appliquées automatiquement avant le démarrage du se
 
 \subsection{Stratégie de rollback}
 
-Si un incident survient après un déploiement, le rollback se déroule en deux temps. L'image Docker précédente est remise en service en ciblant son tag de version. Si la migration de schéma était irréversible (suppression de colonne par exemple), une restauration depuis la sauvegarde pré-déploiement est effectuée — c'est pourquoi une sauvegarde complète est systématiquement déclenchée juste avant tout déploiement en production. Pour les migrations réversibles, un retour en arrière via la commande Django est possible sans restauration complète.
+Si un incident survient après un déploiement, le rollback se déroule en deux temps. L'image Docker précédente est remise en service en ciblant son tag de version. Si la migration de schéma était irréversible (suppression de colonne par exemple), une restauration depuis la sauvegarde pré-déploiement est effectuée ; c'est pourquoi une sauvegarde complète est systématiquement déclenchée juste avant tout déploiement en production. Pour les migrations réversibles, un retour en arrière via la commande Django est possible sans restauration complète.
 
 \subsection{Politique de sauvegarde}
 
@@ -885,7 +886,7 @@ Un test de restauration est effectué chaque mois sur l'environnement staging : 
 
 \subsection{Gestion des secrets}
 
-Aucun secret n'est présent dans le dépôt git. Les variables sensibles — \texttt{SECRET\_KEY}, mots de passe PostgreSQL, clés d'API MoveON, Pégase, Eudonet, tokens MinIO — sont injectées au runtime via un fichier \texttt{.env.prod} stocké uniquement sur le serveur de production. Le \texttt{.gitignore} exclut tous les fichiers \texttt{.env.*}, à l'exception d'un fichier de référence avec des valeurs fictives fourni pour le développement local.
+Aucun secret n'est présent dans le dépôt git. Les variables sensibles, telles que \texttt{SECRET\_KEY}, les mots de passe PostgreSQL, les clés d'API MoveON, Pégase, Eudonet ou les tokens MinIO, sont injectées au runtime via un fichier \texttt{.env.prod} stocké uniquement sur le serveur de production. Le \texttt{.gitignore} exclut tous les fichiers \texttt{.env.*}, à l'exception d'un fichier de référence avec des valeurs fictives fourni pour le développement local.
 
 % ─────────────────────────────────────────────────────────────
 \section{Modèle de données}
@@ -901,6 +902,8 @@ sont résumées dans le tableau suivant.
 \renewcommand{\arraystretch}{1.4}
 \begin{table}[H]
 \centering
+\caption{Packages du modèle de données}
+\label{tab:packages_modele}
 \footnotesize
 \begin{tabular}{|p{3.5cm}|p{11cm}|}
 \hline
@@ -932,8 +935,9 @@ liste des départements autorisés par accord (\texttt{AgreementDepartment}),
 et répartition annuelle du quota N7 par département (\texttt{AgreementYearDepartment}). \\
 \hline
 \textbf{Applications} &
-Dossiers de candidature, vœux ordonnés et affectations
-produites par l'algorithme ou saisies manuellement. \\
+Vœux ordonnés saisis par l'étudiant (\texttt{StudentWish}) et affectations
+produites par l'algorithme ou ajustées manuellement
+(\texttt{Assignment}, \texttt{AssignmentResult}). \\
 \hline
 \textbf{Mobilities} &
 Quatre types de mobilités : sortantes académiques,
@@ -947,8 +951,6 @@ avant transformation, garantissant la reprise sur erreur
 et la traçabilité des imports. \\
 \hline
 \end{tabular}
-\caption{Packages du modèle de données}
-\label{tab:packages_modele}
 \end{table}
 
 \subsection{Principes structurants}
@@ -956,13 +958,13 @@ et la traçabilité des imports. \\
 Trois décisions de conception traversent l'ensemble du modèle et méritent d'être explicitées.
 
 \subsubsection{L'année universitaire comme axe temporel}
-Toutes les entités opérationnelles — dossiers, vœux, affectations, mobilités, imports — sont rattachées à une \texttt{AcademicYear}. Cette clé de partitionnement logique garantit deux propriétés : l'historique des campagnes passées est complet et consultable, et dès qu'une année est clôturée, ses données basculent automatiquement en lecture seule.
+Toutes les entités opérationnelles, telles que les dossiers, vœux, affectations, mobilités et imports, sont rattachées à une \texttt{AcademicYear}. Cette clé de partitionnement logique garantit deux propriétés : l'historique des campagnes passées est complet et consultable, et dès qu'une année est clôturée, ses données basculent automatiquement en lecture seule.
 
 \subsubsection{L'INE comme identifiant pivot}
-L'identifiant national étudiant (INE) est le seul identifiant commun à toutes les sources — MoveON, Pégase, Eudonet et le CAS OIDC. Tous les imports sont croisés via l'INE pour construire une vue unifiée du dossier étudiant. Quand un enregistrement arrive sans INE valide (cas courant dans Eudonet), une réconciliation déterministe sur le triplet nom / prénom / date de naissance est appliquée, et les cas ambigus sont remontés pour validation manuelle par le service RI.
+L'identifiant national étudiant (INE) est le seul identifiant commun à toutes les sources : MoveON, Pégase, Eudonet et le CAS OIDC. Tous les imports sont croisés via l'INE pour construire une vue unifiée du dossier étudiant. Quand un enregistrement arrive sans INE valide (cas courant dans Eudonet), une réconciliation par similarité est appliquée sur le nom et le prénom (distance d'édition), pondérée par la correspondance exacte de l'e-mail ; chaque candidat est classé par un score de confiance (élevé, moyen, faible), et les cas ambigus sont remontés pour validation manuelle par le service RI.
 
 \subsubsection{Hiérarchie quotas INP / quotas N7}
-MoveON ne connaît les quotas qu'à l'échelle de l'INP. Pour gérer la répartition interne à l'ENSEEIHT, le modèle introduit quatre niveaux : le quota INP importé depuis MoveON, l'estimation N7 calculée par l'administrateur, un éventuel ajustement manuel, et la répartition finale par département pédagogique. Ce découpage assure à la fois la conformité avec MoveON et la granularité nécessaire à l'algorithme d'affectation.
+MoveON ne connaît les quotas qu'à l'échelle de l'INP, au niveau global de l'accord — indépendamment de l'année universitaire. Pour piloter une campagne à la fois et permettre au quota d'un même accord d'évoluer d'une année sur l'autre, la hiérarchie de quotas n'est pas ancrée sur \texttt{Agreement} mais sur sa déclinaison annuelle \texttt{AgreementYear} : celle-ci fige, lors de sa validation, un instantané du quota INP de l'année (\texttt{inp\_total\_places}) et porte le quota N7 qui en est déduit (\texttt{n7\_places}). Ce quota N7 est ensuite réparti par département via \texttt{AgreementYearDepartment}, sur deux niveaux : une valeur estimée automatiquement selon la méthode Hamilton (cf. chapitre~\ref{cha:choix-technologiques} et Sprint 4 — US-11), et un ajustement manuel optionnel qui, dès qu'il est renseigné, prévaut sur l'estimation (\texttt{get\_effective\_quota()}). Ce découpage assure à la fois la conformité avec MoveON, la capacité à faire évoluer un accord d'une campagne à l'autre, et la granularité nécessaire à l'algorithme d'affectation.
 
 % ─────────────────────────────────────────────────────────────
 \section{Machines à états finis (FSM)}
@@ -970,31 +972,35 @@ MoveON ne connaît les quotas qu'à l'échelle de l'INP. Pour gérer la réparti
 
 \subsection{Principe et implémentation}
 
-Dans un système comme celui-ci, certaines entités ne peuvent pas changer d'état librement. Une campagne clôturée ne doit pas pouvoir être rouverte, une affectation validée ne doit pas être modifiable sans trace, et l'algorithme ne doit pas s'exécuter sur des données incomplètes. Ces contraintes sont encodées dans des machines à états finis, implémentées via \texttt{django-fsm}. Le champ de statut est déclaré avec l'option \texttt{protected=True} : toute tentative de modification directe du statut — sans passer par une méthode de transition nommée — lève immédiatement une exception. Il n'est donc pas possible de contourner ces règles, même par une opération en base de données effectuée manuellement.
+Dans un système comme celui-ci, certaines entités ne peuvent pas changer d'état librement. Une campagne clôturée ne doit pas pouvoir être rouverte, une affectation validée ne doit pas être modifiable sans trace, et l'algorithme ne doit pas s'exécuter sur des données incomplètes. Ces contraintes sont encodées dans des machines à états finis, implémentées via \texttt{django-fsm}. Le champ de statut est déclaré avec l'option \texttt{protected=True} : toute tentative de modification directe du statut, sans passer par une méthode de transition nommée, lève immédiatement une exception. Il n'est donc pas possible de contourner ces règles, même par une opération en base de données effectuée manuellement.
 
 \subsection{FSM de l'année universitaire}
 
-C'est la machine à états centrale du système. Elle gouverne l'accès à toutes les fonctionnalités de la campagne. La figure~\ref{fig:fsm-academic-year} en présente les états et transitions.
+C'est la machine à états centrale du système. Elle gouverne l'accès à toutes les fonctionnalités de la campagne et compte huit états. La figure~\ref{fig:fsm-academic-year} en présente les états et transitions.
 
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}[
-  node distance=1.8cm,
+  node distance=1.0cm,
   state/.style={draw, rectangle, rounded corners, align=center, minimum width=2.8cm, minimum height=0.9cm, font=\small},
   arrow/.style={->, thick, >=stealth}
 ]
 \node[state] (init)   {initialization};
 \node[state] (reco)   [right=of init]   {recommendation};
-\node[state] (conso)  [right=of reco]   {consolidation};
-\node[state] (pre)    [below=of conso]  {pre\_assignment};
+\node[state] (cand)   [right=of reco]   {candidature};
+\node[state] (imp)    [right=of cand]   {import};
+\node[state] (pre)    [below=of imp]    {pre\_assignment};
 \node[state] (valid)  [left=of pre]     {validation};
-\node[state] (closed) [left=of valid]   {closed};
+\node[state] (pub)    [left=of valid]   {published};
+\node[state] (closed) [left=of pub]     {closed};
 
-\draw[arrow] (init)   -- node[above,font=\tiny]{open\_recommendation} (reco);
-\draw[arrow] (reco)   -- node[above,font=\tiny]{start\_consolidation} (conso);
-\draw[arrow] (conso)  -- node[right,font=\tiny]{launch\_pre\_assignment} (pre);
-\draw[arrow] (pre)    -- node[below,font=\tiny]{submit\_for\_validation} (valid);
-\draw[arrow] (valid)  -- node[below,font=\tiny]{close} (closed);
+\draw[arrow] (init)  -- node[above,font=\tiny]{open\_recommendation} (reco);
+\draw[arrow] (reco)  -- node[above,font=\tiny]{start\_candidature} (cand);
+\draw[arrow] (cand)  -- node[above,font=\tiny]{close\_wishes} (imp);
+\draw[arrow] (imp)   -- node[right,font=\tiny]{launch\_assignment} (pre);
+\draw[arrow] (pre)   -- node[below,font=\tiny]{complete\_assignment} (valid);
+\draw[arrow] (valid) -- node[below,font=\tiny]{publish\_results} (pub);
+\draw[arrow] (pub)   -- node[below,font=\tiny]{close} (closed);
 \end{tikzpicture}
 \caption{Machine à états — AcademicYear}
 \label{fig:fsm-academic-year}
@@ -1003,45 +1009,53 @@ C'est la machine à états centrale du système. Elle gouverne l'accès à toute
 Chaque transition marque un cap dans le déroulement de la campagne.
 
 \begin{itemize}
-  \item \textbf{initialization} → \textbf{recommendation} (\texttt{open\_recommendation}) : les étudiants peuvent désormais consulter le catalogue de destinations et formuler leurs vœux.
-  \item \textbf{recommendation} → \textbf{consolidation} (\texttt{start\_consolidation}) : la fenêtre de saisie des vœux se ferme, le GPA est gelé à la date du jour, et la synchronisation finale avec MoveON est déclenchée.
-  \item \textbf{consolidation} → \textbf{pre\_assignment} (\texttt{launch\_pre\_assignment}) : l'algorithme Gale-Shapley est soumis à Django-Q2 pour exécution asynchrone.
-  \item \textbf{pre\_assignment} → \textbf{validation} (\texttt{submit\_for\_validation}) : les propositions d'affectation sont soumises à l'examen du service RI, qui peut les ajuster avant publication.
-  \item \textbf{validation} → \textbf{closed} (\texttt{close}) : les résultats sont publiés et toutes les données de la campagne passent en lecture seule.
+  \item \textbf{initialization} → \textbf{recommendation} (\texttt{open\_recommendation}) : les vœux et le catalogue de destinations s'ouvrent aux étudiants ; les quotas par département sont validés (et redistribués selon la méthode Hamilton si nécessaire, cf. US-11).
+  \item \textbf{recommendation} → \textbf{candidature} (\texttt{start\_candidature}) : la période de saisie des vœux ordonnés dans MoveON démarre.
+  \item \textbf{candidature} → \textbf{import} (\texttt{close\_wishes}) : la fenêtre de saisie se ferme ; l'administrateur importe et consolide les données finales (GPA Pégase, vœux MoveON) avant affectation.
+  \item \textbf{import} → \textbf{pre\_assignment} (\texttt{launch\_assignment}) : l'algorithme Gale-Shapley est soumis à Django-Q2 pour exécution asynchrone.
+  \item \textbf{pre\_assignment} → \textbf{validation} (\texttt{complete\_assignment}) : déclenchée automatiquement à la fin du calcul asynchrone (un point de reprise manuel existe pour les incidents) ; les propositions sont soumises à l'examen du service RI.
+  \item \textbf{validation} → \textbf{published} (\texttt{publish\_results}) : les résultats sont publiés aux étudiants ; l'\texttt{Assignment} associé est lui-même transitionné vers \texttt{published}.
+  \item \textbf{published} → \textbf{closed} (\texttt{close}) : la campagne est définitivement clôturée (\texttt{closed\_at} horodaté) et l'ensemble de ses données bascule en lecture seule.
 \end{itemize}
 
-Chaque transition est réservée aux utilisateurs \texttt{ADMIN\_RI}. Le tableau ci-dessous liste les conditions que le système vérifie avant d'autoriser chaque passage d'état, ainsi que le comportement en cas d'échec.
+Le tableau ci-dessous liste les préconditions effectivement vérifiées par le système avant chaque transition, ainsi que le comportement en cas d'échec.
 
 \renewcommand{\arraystretch}{1.35}
 \begin{table}[H]
 \centering
+\caption{Conditions préalables (guard conditions) des transitions FSM}
+\label{tab:fsm_guards}
 \footnotesize
 \begin{tabular}{|p{4cm}|p{4.5cm}|p{5.5cm}|}
 \hline
 \rowcolor{gray!20}
 \textbf{Transition} & \textbf{Préconditions (guard conditions)} & \textbf{Comportement en cas d'échec} \\
 \hline
-\texttt{open\_recommendation} & Accords importés depuis MoveON, quotas par département configurés & Exception levée, message d'erreur précis renvoyé au frontend \\
+\texttt{open\_recommendation} & Dates d'ouverture/clôture des vœux renseignées (condition FSM), au moins un GPA importé pour l'année, au moins un quota de département actif configuré & HTTP 400 avec message explicite, transition non exécutée \\
 \hline
-\texttt{start\_consolidation} & Au moins un vœu saisi par les étudiants, date limite de saisie atteinte ou dépassée & Exception levée si aucun vœu importé \\
+\texttt{start\_candidature} & Aucune précondition applicative au-delà de l'état source & \texttt{TransitionNotAllowed} si l'année n'est pas en \texttt{recommendation} \\
 \hline
-\texttt{launch\_pre\_assignment} & GPA gelé (synchronisation Pégase terminée), vœux importés depuis MoveON & Exception levée, tâche Django-Q2 non déclenchée \\
+\texttt{close\_wishes} & Aucune précondition applicative au-delà de l'état source & \texttt{TransitionNotAllowed} si l'année n'est pas en \texttt{candidature} \\
 \hline
-\texttt{submit\_for\_validation} & Algorithme exécuté sans erreur, toutes les affectations en état \texttt{proposed} & Transition bloquée si des affectations sont en état intermédiaire \\
+\texttt{launch\_assignment} & Aucune précondition bloquante ; si aucun vœu n'est enregistré, une alerte système est créée mais l'algorithme est tout de même exécuté (tous les étudiants ressortent non affectés) & \texttt{TransitionNotAllowed}, tâche Django-Q2 non déclenchée \\
 \hline
-\texttt{close} & Validation manuelle explicite du service RI sur les propositions & Transition refusée tant que des affectations restent non validées \\
+\texttt{complete\_assignment} & Déclenchée automatiquement en fin de tâche Gale-Shapley ; le point de reprise manuel est réservé aux années en \texttt{pre\_assignment} en cas d'incident & Transition refusée hors de l'état \texttt{pre\_assignment} \\
+\hline
+\texttt{publish\_results} & Aucune précondition applicative au-delà de l'état source & \texttt{TransitionNotAllowed} si l'année n'est pas en \texttt{validation} \\
+\hline
+\texttt{close} & Aucune précondition applicative au-delà de l'état source & \texttt{TransitionNotAllowed} si l'année n'est pas en \texttt{published} \\
 \hline
 \end{tabular}
-\caption{Conditions préalables (guard conditions) des transitions FSM}
-\label{tab:fsm_guards}
 \end{table}
 
 \subsection{FSM des entités métier}
 
-La FSM de l'année universitaire n'est pas la seule : plusieurs entités métier disposent de leur propre cycle de vie, encodé de la même façon. Le tableau~\ref{tab:fsm-entities} en donne un aperçu synthétique.
+La FSM de l'année universitaire n'est pas la seule, mais elle reste de loin la plus riche : à ce stade du projet, seules deux autres entités disposent de leur propre machine à états, protégée de la même façon par \texttt{django-fsm}. Le tableau~\ref{tab:fsm-entities} en donne la liste exhaustive.
 
 \begin{table}[H]
 \centering
+\caption{FSM des entités métier}
+\label{tab:fsm-entities}
 \small
 \renewcommand{\arraystretch}{1.4}
 \begin{tabular}{|p{4cm}|p{9.5cm}|}
@@ -1049,24 +1063,14 @@ La FSM de l'année universitaire n'est pas la seule : plusieurs entités métier
 \rowcolor{gray!20}
 \textbf{Entité} & \textbf{États et transitions} \\
 \hline
-ApplicationFile & \texttt{open} → \texttt{submitted} → \texttt{processing} → \texttt{closed} \\
+Assignment & \texttt{proposed} → \texttt{validated} → \texttt{published} (transition \texttt{cancel} accessible depuis \texttt{proposed} ou \texttt{validated} vers \texttt{cancelled}) \\
 \hline
-StudentWish & \texttt{candidate} → \texttt{selected} → \texttt{assigned} \textbar{} \texttt{rejected} \\
-\hline
-Assignment & \texttt{proposed} → \texttt{validated} → \texttt{published} \textbar{} \texttt{cancelled} \\
-\hline
-OutgoingMobility & \texttt{planned} → \texttt{ongoing} → \texttt{completed} \textbar{} \texttt{cancelled} \\
-\hline
-ComplementaryMobility & \texttt{submitted} → \texttt{under\_review} → \texttt{validated} \textbar{} \texttt{rejected} \\
-\hline
-IncomingMobility & \texttt{nominated} → \texttt{imported} → \texttt{registered} → \texttt{active} \\
+ComplementaryMobility & \texttt{pending} → \texttt{validated} \textbar{} \texttt{rejected} \\
 \hline
 \end{tabular}
-\caption{FSM des entités métier}
-\label{tab:fsm-entities}
 \end{table}
 
-Chaque transition sur \textbf{OutgoingMobility}, \textbf{InternationalInternship} ou \textbf{ComplementaryMobility} déclenche automatiquement une tâche Django-Q2 de recalcul de \textbf{MobilityDuration} pour l'étudiant concerné, garantissant que l'indicateur CTI est toujours à jour.
+La transition \texttt{cancel} d'\texttt{Assignment} n'est, à ce stade, exposée par aucun endpoint ni aucune interface d'administration : elle existe dans le modèle pour un usage futur d'annulation, mais n'est pas encore atteignable en pratique. Les autres entités du système (\texttt{StudentWish}, \texttt{IncomingStudent}, \texttt{Internship}) n'ont volontairement pas de cycle de vie propre : leur statut se déduit de leurs relations (à un \texttt{Assignment} publié, à une année universitaire) plutôt que d'être piloté par une FSM dédiée. Le calcul consolidé de la durée de mobilité CTI, qui agrégera automatiquement les mobilités sortantes publiées, les stages internationaux et les mobilités complémentaires validées, est prévu pour le Sprint 5 (US-17) et n'est pas encore implémenté.
 
 % ─────────────────────────────────────────────────────────────
 \section{Flux de données : de la source au workflow}
@@ -1075,7 +1079,7 @@ Chaque transition sur \textbf{OutgoingMobility}, \textbf{InternationalInternship
 Chaque information importée dans le système suit un même parcours balisé, du fichier brut jusqu’à son intégration dans les entités métier. Ce parcours est délibérément découpé pour garantir qu’aucune donnée non validée ne peut déclencher un workflow, et que chaque étape est indépendamment traçable et rejouable.
 
 \begin{enumerate}
-  \item \textbf{Récupération :} la tâche Django-Q2 interroge la source (API MoveON, Pégase, Eudonet ou fichier Excel). La réponse brute est immédiatement sérialisée en JSONB dans \texttt{RawImport}. Aucune transformation n’a encore eu lieu à ce stade — ce qui signifie que si un traitement ultérieur échoue, l’import peut être rejoué sans rappeler la source.
+  \item \textbf{Récupération :} la tâche Django-Q2 interroge la source (API MoveON, Pégase, Eudonet ou fichier Excel). La réponse brute est immédiatement sérialisée en JSONB dans \texttt{RawImport}. Aucune transformation n’a encore eu lieu à ce stade, ce qui signifie que si un traitement ultérieur échoue, l’import peut être rejoué sans rappeler la source.
   \item \textbf{Nettoyage et validation :} un pipeline Python normalise les chaînes, croise les INE, détecte les doublons et vérifie les règles métier. Les enregistrements qui ne passent pas la validation sont consignés dans le rapport d’import avec le motif de rejet, sans interrompre le reste du traitement.
   \item \textbf{Persistance :} les enregistrements validés sont intégrés en base par upsert atomique, rattachés à l’année universitaire en cours.
   \item \textbf{Déclenchement des workflows :} chaque entité créée entre dans l’état initial de sa FSM. Un vœu importé commence en statut \texttt{candidate} ; une affectation créée par l’algorithme commence en \texttt{proposed}. Toute progression ultérieure passe obligatoirement par une transition FSM explicite.

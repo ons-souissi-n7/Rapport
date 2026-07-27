@@ -1,6 +1,7 @@
 % !TEX root = ../main.tex
 % ══════════════════════════════════════════════════════════════
 \chapter{Réalisation}
+\label{cha:realisation}
 % ══════════════════════════════════════════════════════════════
 \begingroup
 \let\clearpage\relax
@@ -24,7 +25,7 @@ Cette section présente la réalisation du Sprint 1, dédié à la mise en place
 
 \subsection{Objectif du sprint}
 
-Le Sprint 1 a pour objectif d'implémenter les fondations irréversibles du système : référentiels stables (\texttt{Country}, \texttt{Department}), universités partenaires (\texttt{PartnerUniversity}), année universitaire avec sa machine à états à 6 phases (\texttt{AcademicYear}), accords et quotas (\texttt{Agreement}, \texttt{AgreementQuota}, \texttt{DepartmentQuota}) et stockage brut des imports (\texttt{RawImport}). Ces composants constituent la colonne vertébrale du système — toute fonctionnalité des sprints suivants en dépend directement.
+Le Sprint 1 a pour objectif d'implémenter les fondations irréversibles du système : référentiels stables (\texttt{Country}, \texttt{Department}), universités partenaires (\texttt{PartnerUniversity}), année universitaire avec sa machine à états à 8 phases (\texttt{AcademicYear}), accords et quotas (\texttt{Agreement}, \texttt{AgreementYear}, \texttt{AgreementYearDepartment}) et stockage brut des imports (\texttt{RawImport}). Ces composants constituent la colonne vertébrale du système ; toute fonctionnalité des sprints suivants en dépend directement.
 
 \textbf{Définition of Done.} À l'issue de ce sprint, le système doit être exécutable via \texttt{docker compose up}, toutes les migrations Django doivent s'appliquer sans erreur, les tests unitaires doivent passer avec une couverture supérieure à 80\,\%, et le pipeline CI/CD doit être opérationnel sur GitHub Actions.
 
@@ -120,7 +121,7 @@ Définir \texttt{AcademicYear} avec FSM &
 Définir le modèle \texttt{AcademicYear}
 en utilisant une machine à états finis (FSM),
 implémentée avec \texttt{django-fsm},
-comprenant 6 états correspondant aux
+comprenant 8 états correspondant aux
 différentes phases de la campagne.
 Mettre en place des transitions sécurisées
 entre ces états, ainsi qu'une méthode
@@ -129,7 +130,7 @@ la cohérence des dates. &
 Les transitions valides fonctionnent.
 Les invalides lèvent
 \texttt{TransitionNotAllowed}.
-\texttt{start\_date > end\_date}
+\texttt{start\_\allowbreak date > end\_\allowbreak date}
 lève \texttt{ValidationError}. &
 Haute & 2 \\
 \hline
@@ -157,26 +158,28 @@ Haute & 2 \\
 
 \nexttask &
 Définir \texttt{Agreement} &
-Créer le modèle avec \texttt{moveon\_id},
-\texttt{code\_moveon} unique,
-\texttt{agreement\_type},
-\texttt{valid\_from/until},
-\texttt{is\_active} et
-\texttt{last\_sync\_moveon}. &
+Créer le modèle avec \texttt{moveon\_id}
+unique, université partenaire,
+cadre (\texttt{category}), sens
+(\texttt{direction}), \texttt{valid\_from}
+/\texttt{valid\_until}, \texttt{inp\_total\_places}
+et \texttt{last\_sync\_moveon}. &
 Le modèle migre sans erreur.
-\texttt{is\_valid\_for\_year()} retourne
+\texttt{is\_\allowbreak valid\_\allowbreak for\_\allowbreak year()} retourne
 \texttt{False} pour un accord expiré
-ou inactif. &
+par rapport à l'année donnée. &
 Haute & 2 \\
 \hline
 
 \nexttask &
-Définir \texttt{AgreementQuota}
-et \texttt{DepartmentQuota} &
+Définir \texttt{AgreementDepartment},
+\texttt{AgreementYear} et
+\texttt{AgreementYearDepartment} &
 Créer les modèles de quotas avec
-hiérarchie INP $\to$ N7 estimé
-$\to$ N7 ajusté. &
-\texttt{get\_effective\_quota()} retourne
+hiérarchie INP $\to$ déclinaison
+annuelle (N7 global) $\to$ répartition
+par département (estimé $\to$ ajusté). &
+\texttt{get\_\allowbreak effective\_\allowbreak quota()} retourne
 l'ajusté si renseigné, sinon l'estimé.
 \texttt{is\_eligible()} est fonctionnel. &
 Haute & 2 \\
@@ -219,21 +222,28 @@ Cette section présente la conception UML détaillée des entités métier du Sp
 
 \subsubsection{Diagramme de classes}
 
-Le diagramme de la figure~\ref{fig:diag-class-sprint1} modélise le domaine de gestion des accords de mobilité internationale de l'ENSEEIHT. L'entité centrale est \texttt{Agreement}, qui représente un accord entre l'ENSEEIHT et une université partenaire (\texttt{PartnerUniversity}), qualifiée par un cadre (\texttt{Category}) et des niveaux d'études (\texttt{Level}).
+Le diagramme de la figure~\ref{fig:diag-class-sprint1} modélise le domaine de gestion des accords de mobilité internationale de l'ENSEEIHT. L'entité centrale est \texttt{Agreement}, qui représente un accord entre l'ENSEEIHT et une université partenaire (\texttt{PartnerUniversity}), qualifiée par un cadre de mobilité (\texttt{MobilityCategory}) et des niveaux d'études (\texttt{Level}).
 
-La structure des quotas est organisée sur deux niveaux : \texttt{AgreementYear} matérialise la déclinaison annuelle d'un accord avec le quota N7 global, et \texttt{AgreementYearDepartment} distribue ce quota par département. \texttt{AgreementDepartment} liste les départements autorisés par accord, indépendamment de l'année, et constitue la contrainte référentielle qui interdit d'allouer un quota à un département non autorisé.
+La hiérarchie des quotas — INP $\to$ N7 $\to$ département — est portée par trois classes. \texttt{AgreementDepartment} liste les départements autorisés par accord, indépendamment de l'année, et constitue la contrainte référentielle qui interdit d'allouer un quota à un département non autorisé. \texttt{AgreementYear} matérialise la déclinaison annuelle d'un accord : elle fige un instantané du quota INP (\texttt{inp\_total\_places}) au moment de la validation et porte le quota N7 global (\texttt{n7\_places}) qui en est déduit. \texttt{AgreementYearDepartment} distribue enfin ce quota N7 par département autorisé, avec deux niveaux de valeur : \texttt{estimated\_places}, calculé automatiquement (méthode Hamilton, cf. Sprint 4 — US-11), et \texttt{adjusted\_places}, un ajustement manuel optionnel qui prévaut dès qu'il est renseigné (\texttt{get\_\allowbreak effective\_\allowbreak quota()}).
 
-\texttt{AcademicYear} pilote le cycle de vie de la campagne via une machine à états à six phases. Toutes les classes portent les champs d'audit \texttt{created\_at}, \texttt{updated\_at}, \texttt{created\_by} et \texttt{updated\_by}.
+\texttt{AcademicYear} pilote le cycle de vie de la campagne via une machine à états à huit phases (cf. chapitre~\ref{cha:conception}, section FSM). Toutes les classes portent les champs d'audit \texttt{created\_at}, \texttt{updated\_at}, \texttt{created\_by} et \texttt{updated\_by}, hérités de \texttt{TimeStampedModel} et omis de la figure par souci de lisibilité.
 
+\begin{landscape}
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\linewidth]{figures/conception/Sprint1/Diagramme_de_classe_sprint1.png}
+  \includegraphics[width=\linewidth,height=0.9\textheight,keepaspectratio]{figures/conception/Sprint1/Diagramme_de_classe_sprint1.png}
   \caption{Diagramme de classes — Sprint 1}
   \label{fig:diag-class-sprint1}
 \end{figure}
+\end{landscape}
 
 \subsection{Implémentation}
+
+Le modèle de données est implémenté dans trois apps Django : \texttt{reference} (\texttt{Country}, \texttt{Department}, \texttt{Level}, \texttt{Parcours}), \texttt{institutions} (\texttt{PartnerUniversity}) et \texttt{mobility} (\texttt{MobilityCategory}, \texttt{Agreement}, \texttt{AgreementDepartment}, \texttt{AgreementYear}, \texttt{AgreementYearDepartment}), tandis que \texttt{AcademicYear} vit dans l'app \texttt{academic}. La FSM de \texttt{AcademicYear} est protégée (\texttt{protected=True}) et expose sept transitions (\texttt{open\_\allowbreak recommendation}, \texttt{start\_candidature}, \texttt{close\_wishes}, \texttt{launch\_assignment}, \texttt{complete\_\allowbreak assignment}, \texttt{publish\_results}, \texttt{close}), routées par l'API \texttt{academic/\allowbreak api.py}. Les référentiels et les accords sont synchronisés depuis Pégase et MoveON par des adaptateurs dédiés (\texttt{integrations/\allowbreak pegase.py}, \texttt{integrations/\allowbreak moveon.py}), et les pages Next.js correspondantes (\texttt{admin/\allowbreak references}, \texttt{admin/\allowbreak academic-years}, \texttt{admin/\allowbreak mobility}) consomment ces données via l'API Django Ninja.
+
 \subsection{Tests}
+
+Chaque app dispose d'une suite de tests dédiée (\texttt{academic/tests}, \texttt{mobility/tests}, \texttt{institutions/tests}, \texttt{reference/tests}), couvrant en particulier les transitions FSM valides et invalides de \texttt{AcademicYear} (\texttt{TransitionNotAllowed} attendu hors séquence), la validation des dates (\texttt{clean()}), et le calcul de \texttt{get\_\allowbreak effective\_\allowbreak quota()} sur les différentes combinaisons de quota estimé et ajusté.
 
 
 % ─────────────────────────────────────────────────────────────
@@ -299,7 +309,7 @@ Haute & 2 \\
 
 \nexttask &
 Endpoint consultation audit &
-Exposer \texttt{GET /api/audit-logs}
+Exposer \texttt{GET /\allowbreak api/\allowbreak audit-logs}
 avec filtres par date, auteur
 et type d'entité via Django Ninja. &
 Les 20 dernières entrées
@@ -380,25 +390,24 @@ Haute & 1 \\
 
 % ── US-06 ────────────────────────────────────────────────────────────────────
 \usheader{US-06 — Vœux étudiants}{%
-  En tant qu'\textbf{administrateur RI}, je veux importer les dossiers de
-  candidature et les vœux ordonnés des étudiants depuis MoveON, et les
-  consulter par étudiant, afin de les intégrer dans le système d'affectation.}
+  En tant qu'\textbf{administrateur RI}, je veux importer les vœux ordonnés
+  des étudiants depuis MoveON, et les consulter par étudiant, afin de les
+  intégrer dans le système d'affectation.}
 
 \nexttask &
-Définir \texttt{ApplicationFile}
-et \texttt{Wish} &
-Créer le modèle \texttt{ApplicationFile}
-(dossier de candidature, FSM à 4 états :
-\texttt{open} → \texttt{submitted}
-→ \texttt{processing} → \texttt{closed})
-et \texttt{Wish} (rang, université
-cible, département préféré,
-rattaché à \texttt{AcademicYear}). &
-Les modèles migrent sans erreur.
-Les transitions FSM invalides
-lèvent \texttt{TransitionNotAllowed}.
-Un \texttt{Wish} ne peut exister
-sans \texttt{ApplicationFile}. &
+Définir \texttt{StudentWish} &
+Créer le modèle \texttt{StudentWish}
+(rang, accord visé via
+\texttt{AgreementYear}), rattaché à
+l'inscription annuelle de l'étudiant
+(\texttt{AnnualEnrollment}), avec une
+contrainte d'unicité sur le couple
+(inscription, rang). &
+Le modèle migre sans erreur.
+Un \texttt{StudentWish} ne peut exister
+sans \texttt{AnnualEnrollment}.
+La contrainte unique
+(inscription, rang) est respectée. &
 Haute & 2 \\
 \hline
 
@@ -409,7 +418,7 @@ croiser les INE avec la table
 \texttt{Student}, rejeter les
 entrées sans correspondance INE. &
 Les vœux sont persistés avec
-rang et université cible.
+rang et accord visé.
 Les INE introuvables sont
 consignés dans le rapport
 avec motif \texttt{INE\_NOT\_FOUND}. &
@@ -419,11 +428,10 @@ Haute & 2 \\
 \nexttask &
 Interface consultation vœux &
 Créer une page Next.js listant
-les dossiers de candidature par
-étudiant avec le détail des vœux
-et l'état FSM de chaque dossier. &
+les vœux par étudiant, avec le
+rang et l'accord visé de chacun. &
 La liste s'affiche avec filtre
-par étudiant et état.
+par étudiant.
 Les données sont chargées
 depuis l'API. &
 Haute & 1 \\
@@ -479,7 +487,7 @@ Cette section présente la conception UML détaillée des entités métier du Sp
 
 Le diagramme de la figure~\ref{fig:diag-class-sprint2} modélise la gestion des étudiants et de leurs vœux de mobilité au sein du système de mobilité de l'ENSEEIHT.
 
-\texttt{AnnualEnrollment} est la classe d'association centrale du sprint : elle matérialise l'inscription d'un étudiant (\texttt{Student}) pour une année universitaire (\texttt{AcademicYear}) donnée, et porte le département et le niveau d'études. Le parcours est renseigné uniquement lorsque l'étudiant a intégré une filière spécialisée ; il reste absent pour les niveaux en tronc commun (première année). \texttt{StudentWish} matérialise à son tour un vœu de mobilité émis dans le cadre d'une inscription annuelle : chaque inscription peut générer au plus trois vœux, chacun pointant vers un accord différent et portant un rang et un statut.
+\texttt{AnnualEnrollment} est la classe d'association centrale du sprint : elle matérialise l'inscription d'un étudiant (\texttt{Student}) pour une année universitaire (\texttt{AcademicYear}) donnée, et porte le département et le niveau d'études. Le parcours est renseigné uniquement lorsque l'étudiant a intégré une filière spécialisée ; il reste absent pour les niveaux en tronc commun (première année). \texttt{StudentWish} matérialise à son tour un vœu de mobilité émis dans le cadre d'une inscription annuelle : chaque inscription peut générer au plus trois vœux, chacun pointant vers un accord différent et portant un rang.
 
 Une contrainte d'intégrité garantit que le parcours suivi par l'étudiant appartient au même département que son inscription annuelle, exprimée par la contrainte :\\
  \texttt{\{parcours.department = department\}} annotée sur l'association.
@@ -493,7 +501,12 @@ Une contrainte d'intégrité garantit que le parcours suivi par l'étudiant appa
 
 
 \subsection{Implémentation}
+
+L'audit log s'appuie sur le paquet tiers \texttt{django-auditlog} plutôt que sur un modèle métier développé en interne : il journalise automatiquement les créations, modifications et suppressions des modèles enregistrés, avec l'auteur et l'horodatage, et un utilitaire \texttt{audit/\allowbreak logger.py} permet de tracer explicitement les actions qui ne correspondent pas à une sauvegarde de modèle (synchronisations, imports par lot). Les pipelines d'import (\texttt{students/\allowbreak services/\allowbreak student\_\allowbreak importer.py} pour Pégase, \texttt{students/\allowbreak services/\allowbreak sync\_\allowbreak moveon.py} pour les vœux) upsertent sur l'INE et produisent systématiquement un \texttt{ImportReport} détaillant succès, erreurs et doublons.
+
 \subsection{Tests}
+
+Les suites \texttt{students/tests} et \texttt{audit/tests} couvrent l'upsert sur INE, le rejet des vœux sans correspondance INE (motif \texttt{INE\_NOT\_FOUND}), la contrainte d'unicité \texttt{(annual\_\allowbreak enrollment, rank)} sur \texttt{StudentWish}, et la présence d'une entrée d'audit après chaque import.
 
 
 % ─────────────────────────────────────────────────────────────
@@ -506,7 +519,7 @@ Cette section présente la réalisation du Sprint 3, consacré à l'algorithme d
 
 Le Sprint 3 a pour objectif de produire et de publier les propositions d'affectation. Il couvre trois user stories, réalisées dans l'ordre suivant : l'implémentation de l'algorithme Deferred Acceptance (Gale-Shapley) (US-08), la supervision manuelle des propositions par le service RI avant publication (US-09), et la consultation des résultats par les étudiants une fois les affectations publiées (US-10).
 
-Ce sprint constitue le cœur fonctionnel du système : toutes les données collectées dans les sprints précédents — GPA importés depuis Pégase et vœux synchronisés depuis MoveON — convergent ici pour produire un résultat actionnable.
+Ce sprint constitue le cœur fonctionnel du système : toutes les données collectées dans les sprints précédents, à savoir les GPA importés depuis Pégase et les vœux synchronisés depuis MoveON, convergent ici pour produire un résultat actionnable.
 
 \textbf{Définition of Done.} À l'issue de ce sprint, l'algorithme Gale-Shapley doit s'exécuter sans erreur et produire des affectations stables respectant les quotas par accord et par département, les propositions doivent être consultables et modifiables par le service RI avant publication, et chaque étudiant doit pouvoir consulter son affectation après publication des résultats.
 
@@ -550,18 +563,25 @@ Ce sprint constitue le cœur fonctionnel du système : toutes les données colle
   une proposition équitable et stable.}
 
 \nexttask &
-Créer le modèle \texttt{Assignment} &
-Définir \texttt{Assignment} avec
-\texttt{student}, \texttt{agreement},
-\texttt{rank}, \texttt{status}
-(FSM : \texttt{proposed} $\to$
+Créer les modèles \texttt{Assignment}
+et \texttt{AssignmentResult} &
+Définir \texttt{Assignment} — un run
+d'affectation par année universitaire,
+avec \texttt{status} (FSM :
+\texttt{proposed} $\to$
 \texttt{validated} $\to$
-\texttt{published} $|$ \texttt{cancelled})
-et \texttt{override\_reason}.
-Générer et appliquer la migration. &
-Le modèle migre sans erreur.
+\texttt{published}, \texttt{cancel}
+depuis \texttt{proposed} ou
+\texttt{validated} vers \texttt{cancelled})
+et \texttt{override\_reason} — et
+\texttt{AssignmentResult}, le résultat
+individuel par étudiant (inscription
+annuelle, accord retenu, rang,
+type de slot). Générer et appliquer
+la migration. &
+Les modèles migrent sans erreur.
 Contrainte unique sur
-\texttt{(student, academic\_year)}.
+\texttt{(assignment, annual\_\allowbreak enrollment)}.
 Les transitions FSM invalides lèvent
 \texttt{TransitionNotAllowed}. &
 Haute & 2 \\
@@ -595,9 +615,13 @@ Haute & 5 \\
 Encapsuler dans une tâche Django-Q2 &
 Créer la tâche asynchrone
 déclenchée par la transition FSM
-\texttt{launch\_pre\_assignment}.
+\texttt{launch\_assignment}
+de l'année universitaire.
 Retourner un identifiant de tâche
-(HTTP 202) immédiatement. &
+(HTTP 202) immédiatement ; à la
+complétion, la tâche déclenche
+automatiquement la transition
+\texttt{complete\_\allowbreak assignment}. &
 La transition FSM déclenche la tâche.
 Le résultat est lisible après
 complétion sans relancer l'algorithme. &
@@ -607,9 +631,10 @@ Haute & 2 \\
 \nexttask &
 Exposer les endpoints REST
 des affectations &
-Créer \texttt{GET /api/assignments/},
-\texttt{GET /api/assignments/\{id\}/}
-et \texttt{GET /api/assignments/stats/}
+Créer \texttt{GET /\allowbreak api/\allowbreak outgoing/\allowbreak assignments/\allowbreak },
+\texttt{GET /\allowbreak api/\allowbreak outgoing/\allowbreak assignments/\allowbreak \{id\}/\allowbreak },
+\texttt{GET /\allowbreak api/\allowbreak outgoing/\allowbreak assignments/\allowbreak \{id\}/\allowbreak results/\allowbreak }
+et \texttt{GET /\allowbreak api/\allowbreak outgoing/\allowbreak assignments/\allowbreak \{id\}/\allowbreak stats/\allowbreak }
 avec filtres par département et statut. &
 Réponses paginées.
 Non-affectés retournés avec motif.
@@ -668,9 +693,9 @@ Haute & 2 \\
 \nexttask &
 Valider et publier
 les affectations &
-Exposer \texttt{POST /api/assignments/validate-all/}
-et \texttt{POST /api/assignments/publish/}.
-Déclencher \texttt{submit\_for\_validation}
+Exposer \texttt{POST /\allowbreak api/\allowbreak assignments/\allowbreak validate-all/\allowbreak }
+et \texttt{POST /\allowbreak api/\allowbreak assignments/\allowbreak publish/\allowbreak }.
+Déclencher \texttt{submit\_\allowbreak for\_\allowbreak validation}
 sur la FSM de l'année universitaire.
 Ajouter les boutons dans l'interface. &
 Publication déclenche la transition FSM.
@@ -687,7 +712,7 @@ Haute & 3 \\
 \nexttask &
 Endpoint résultat de l'étudiant
 authentifié &
-Exposer \texttt{GET /api/students/me/assignment/}
+Exposer \texttt{GET /\allowbreak api/\allowbreak students/\allowbreak me/\allowbreak assignment/\allowbreak }
 avec contrôle d'accès par objet :
 un étudiant ne consulte que
 sa propre affectation. &
@@ -719,32 +744,760 @@ Haute & 2 \\
 
 \subsubsection{Diagramme de classes}
 
+Le diagramme de la figure~\ref{fig:diag-class-sprint3} modélise le résultat de l'algorithme d'affectation. \texttt{Assignment} représente un run d'affectation pour une année universitaire donnée : elle porte l'état de supervision (proposé, validé, publié ou annulé) et des compteurs agrégés (\texttt{total\_students}, \texttt{assigned\_count}, \texttt{unassigned\_count}). Le détail par étudiant est porté par \texttt{AssignmentResult}, une classe d'association entre \texttt{Assignment} et \texttt{AnnualEnrollment} (contrainte unique sur ce couple), qui indique le type de créneau obtenu (\texttt{slot\_type} : quota département, surplus redistribué, destination alternative ou non affecté), le rang du vœu retenu, ainsi qu'un jeu de champs \texttt{override\_*} pour la correction manuelle du service RI et un champ \texttt{source} distinguant une affectation automatique d'une correction.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{figures/conception/Sprint3/Diagramme_de_classe_sprint3.png}
+  \caption{Diagramme de classes — Sprint 3}
+  \label{fig:diag-class-sprint3}
+\end{figure}
 
 \subsection{Implémentation}
 
+L'algorithme Deferred Acceptance est implémenté en Python pur dans \texttt{outgoing/\allowbreak services/\allowbreak gale\_\allowbreak shapley.py}, encapsulé dans une tâche Django-Q2 (\texttt{outgoing/\allowbreak services/\allowbreak task\_\allowbreak runners.py}) qui persiste les résultats et déclenche automatiquement la transition FSM \texttt{complete\_\allowbreak assignment} de l'année universitaire à la fin du calcul. Les endpoints de \texttt{outgoing/\allowbreak api.py} exposent la liste des affectations, les statistiques par département, la validation et la publication (\texttt{/assignments/\allowbreak\{id\}/\allowbreak validate/}, \texttt{/assignments/\allowbreak\{id\}/\allowbreak publish/}), ainsi que la correction manuelle d'un résultat individuel (\texttt{PATCH /\allowbreak assignments/\allowbreak\{id\}/\allowbreak results/\allowbreak \{id\}/\allowbreak }), bloquée dès que l'affectation quitte l'état \texttt{proposed}.
 
 \subsection{Tests}
 
+La suite \texttt{outgoing/\allowbreak tests/\allowbreak test\_\allowbreak gale\_\allowbreak shapley.py} vérifie la stabilité des affectations produites (absence de paire bloquante) et le respect des quotas par département sur des jeux de données synthétiques. La suite \texttt{outgoing/\allowbreak tests/\allowbreak test\_\allowbreak api.py}, la plus fournie du projet, couvre les transitions FSM valides et invalides, la correction manuelle avec et sans motif, et la cohérence des statistiques exposées par l'API.
 
-% % ─────────────────────────────────────────────────────────────
-% \section{Sprint 4 — Conformité CTI et espace étudiant}
-% % ─────────────────────────────────────────────────────────────
 
-% \subsection{Objectifs et périmètre du sprint}
-% \subsection{Conception détaillée}
-% \subsection{Implémentation}
-% \subsection{Tests}
-% \subsection{Revue de sprint}
+% ─────────────────────────────────────────────────────────────
+\section{Sprint 4 — Sources complémentaires et mobilités}
+% ─────────────────────────────────────────────────────────────
 
-% % ─────────────────────────────────────────────────────────────
-% \section{Sprint 5 — Supervision et fonctionnalités V2}
-% % ─────────────────────────────────────────────────────────────
+Cette section présente la réalisation du Sprint 4, consacré à l'intégration des sources de données complémentaires (Eudonet, Excel) et à la déclaration des mobilités hors cursus. Elle couvre successivement l'objectif du sprint, le backlog, la conception UML, l'implémentation et les tests.
 
-% \subsection{Objectifs et périmètre du sprint}
-% \subsection{Conception détaillée}
-% \subsection{Implémentation}
-% \subsection{Tests}
-% \subsection{Revue de sprint}
+\subsection{Objectif du sprint}
+
+Le Sprint 4 a pour objectif d'élargir le système au-delà des mobilités sortantes académiques : répartition automatique des quotas par département selon la méthode Hamilton (US-11), import des stages internationaux depuis Eudonet (US-12), import des mobilités entrantes via un gabarit Excel (US-13), réconciliation des enregistrements sans INE valide (US-14), et déclaration puis validation des expériences complémentaires hors cursus par les étudiants (US-15, US-16). Ces cinq sources alimentent, à terme, le calcul consolidé de la durée de mobilité CTI (Sprint 5, US-17).
+
+\textbf{Définition of Done.} À l'issue de ce sprint, les imports Eudonet et Excel s'exécutent sans erreur et produisent un rapport détaillé, les quotas par département sont recalculés automatiquement à l'ouverture de la phase de recommandation, les enregistrements sans INE valide sont proposés à la réconciliation manuelle plutôt que rejetés silencieusement, et un étudiant peut déclarer une expérience complémentaire avec justificatif depuis son espace personnel.
+
+\setcounter{tasknum}{1}
+
+\newcommand{\usheaderteal}[2]{%
+  \multicolumn{6}{|p{\uswidth}|}{%
+    \cellcolor{teal!8}%
+    \textbf{#1} — \small\textit{#2}%
+  } \\ \hline
+}
+
+\subsection{Sprint Backlog — Sprint 4}
+
+\begingroup
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.6}
+
+\begin{longtable}{|p{0.5cm}|p{3.5cm}|p{5cm}|p{4cm}|p{1.5cm}|p{0.5cm}|}
+\hline
+\rowcolor{gray!20}
+\textbf{\#} & \textbf{Tâche} & \textbf{Description} &
+\textbf{Critères d'acceptation} & \textbf{Prior.} & \textbf{SP} \\
+\hline
+\endfirsthead
+\hline
+\rowcolor{gray!20}
+\textbf{\#} & \textbf{Tâche} & \textbf{Description} &
+\textbf{Critères d'acceptation} & \textbf{Prior.} & \textbf{SP} \\
+\hline
+\endhead
+\hline
+\endfoot
+
+% ── US-11 ─────────────────────────────────────────────────────────────────────
+\usheaderteal{US-11 — Répartition des quotas par département}{%
+  En tant qu'\textbf{administrateur RI}, je veux que le système calcule
+  automatiquement la répartition des places de chaque accord entre les
+  départements pédagogiques selon la méthode Hamilton (plus grands restes),
+  afin que l'algorithme d'affectation dispose de quotas par département
+  précis, équitables et vérifiables.}
+
+\nexttask &
+Implémenter la méthode Hamilton &
+Coder \texttt{redistribute\_\allowbreak department\_\allowbreak quotas()} et \texttt{\_hamilton()}
+dans \texttt{mobility/\allowbreak services/\allowbreak quota\_\allowbreak estimator.py} : distribution
+au plus fort reste, pondérée par l'historique des vœux et affectations
+sur 5 ans, repli sur un partage égal si l'historique est vide. &
+La somme des quotas de département
+égale le quota N7 de l'accord.
+Le partage égal s'applique en
+l'absence d'historique. &
+Haute & 2 \\
+\hline
+
+\nexttask &
+Exposer l'endpoint de recalcul &
+Créer \texttt{POST /\allowbreak api/\allowbreak mobility/\allowbreak agreement-years/\allowbreak \{id\}/\allowbreak redistribute/\allowbreak }
+pour déclencher le recalcul manuellement sur un accord-année donné. &
+Le recalcul s'applique et retourne
+les nouveaux quotas par département. &
+Haute & 1 \\
+\hline
+
+\nexttask &
+Déclencher le recalcul automatique &
+Appeler \texttt{redistribute\_\allowbreak department\_\allowbreak quotas()} lors de la
+validation automatique des accords-années à la transition
+\texttt{open\_\allowbreak recommendation} de l'année universitaire. &
+Les accords-années actifs non
+encore validés sont recalculés
+avant l'ouverture de la campagne. &
+Haute & 1 \\
+\hline
+
+\nexttask &
+Afficher les quotas calculés &
+Dans la page de gestion des accords, afficher le détail des quotas
+par département avec une vérification visuelle que le total
+correspond aux places N7. &
+Les quotas s'affichent par
+département.
+Un écart avec le total N7
+est signalé visuellement. &
+Haute & 1 \\
+\hline
+
+% ── US-12 ─────────────────────────────────────────────────────────────────────
+\usheaderteal{US-12 — Stages internationaux (Eudonet)}{%
+  En tant qu'\textbf{administrateur RI}, je veux importer et synchroniser
+  les conventions de stages internationaux depuis Eudonet afin de les
+  comptabiliser dans le calcul CTI de chaque étudiant.}
+
+\nexttask &
+Créer l'adaptateur \texttt{eudonet.py} &
+Implémenter le client HTTP Eudonet dans \texttt{integrations/\allowbreak eudonet.py}
+avec retry exponentiel (3 tentatives) et repli sur des points
+d'entrée alternatifs. &
+Les stages sont extraits
+sous forme d'objets \texttt{EudonetInternship}.
+Les échecs déclenchent
+le retry. &
+Haute & 2 \\
+\hline
+
+\nexttask &
+Définir le modèle \texttt{Internship} &
+Créer le modèle avec étudiant, entreprise, pays, dates, type de
+stage, tuteurs pédagogique et entreprise, statut Eudonet et
+\texttt{last\_sync\_eudonet}. &
+Le modèle migre sans erreur.
+Contrainte unique
+\texttt{(student, company\_\allowbreak name, start\_\allowbreak date)}. &
+Haute & 2 \\
+\hline
+
+\nexttask &
+Pipeline de synchronisation &
+Exposer \texttt{POST /\allowbreak api/\allowbreak internships/\allowbreak sync/\allowbreak } déclenchant une tâche
+Django-Q2 avec génération d'un \texttt{ImportReport} ; ajouter en
+complément un import Excel de secours (\texttt{POST /\allowbreak api/\allowbreak internships/\allowbreak import/\allowbreak }). &
+La synchronisation s'exécute
+en tâche de fond.
+Le rapport détaille succès,
+erreurs et doublons. &
+Haute & 2 \\
+\hline
+
+\nexttask &
+Page admin des stages &
+Créer une interface Next.js listant les stages importés avec
+filtres par étudiant, période et statut, et un lien vers les
+entrées d'audit correspondantes. &
+La liste s'affiche avec les
+filtres fonctionnels.
+Les données proviennent
+de l'API. &
+Haute & 2 \\
+\hline
+
+% ── US-13 ─────────────────────────────────────────────────────────────────────
+\usheaderteal{US-13 — Mobilités entrantes (Excel)}{%
+  En tant qu'\textbf{administrateur RI}, je veux importer les mobilités
+  entrantes via un gabarit Excel standardisé afin de centraliser le
+  suivi des étudiants internationaux accueillis à l'ENSEEIHT.}
+
+\nexttask &
+Générer le gabarit Excel &
+Exposer \texttt{GET /\allowbreak api/\allowbreak incoming/\allowbreak template/\allowbreak } produisant un gabarit
+avec les colonnes attendues (université d'origine, identité,
+période, département d'accueil). &
+Le gabarit se télécharge et
+correspond au format attendu
+par l'import. &
+Haute & 1 \\
+\hline
+
+\nexttask &
+Créer l'adaptateur Excel &
+Implémenter \texttt{incoming/\allowbreak services/\allowbreak excel\_\allowbreak importer.py} : lecture
+ligne par ligne avec validation et consignation des anomalies. &
+Les lignes invalides sont
+rejetées avec motif.
+Les lignes valides sont
+transformées en objets. &
+Haute & 2 \\
+\hline
+
+\nexttask &
+Définir le modèle \texttt{IncomingStudent} &
+Créer le modèle dans l'app \texttt{incoming}, avec référentiels
+(pays, université d'origine, département, niveau, parcours,
+cadre de mobilité) et champs libres (durée, remarques). &
+Le modèle migre sans erreur.
+Contrainte unique
+\texttt{(academic\_\allowbreak year, nom, prénom, date de naissance)}. &
+Haute & 2 \\
+\hline
+
+\nexttask &
+Endpoint d'import multipart &
+Exposer \texttt{POST /\allowbreak api/\allowbreak incoming/\allowbreak import/\allowbreak } avec upload du fichier
+et génération d'un rapport d'import ligne par ligne. &
+L'import retourne un
+identifiant de rapport.
+Les erreurs sont consultables
+par ligne. &
+Haute & 2 \\
+\hline
+
+\nexttask &
+Page admin des mobilités entrantes &
+Créer une interface Next.js avec upload du gabarit, tableau
+paginé des mobilités entrantes et export Excel
+(\texttt{GET /\allowbreak api/\allowbreak incoming/\allowbreak export/\allowbreak }). &
+L'upload déclenche l'import.
+Le tableau se charge depuis
+l'API avec pagination. &
+Haute & 1 \\
+\hline
+
+% ── US-14 ─────────────────────────────────────────────────────────────────────
+\usheaderteal{US-14 — Réconciliation sans INE}{%
+  En tant qu'\textbf{administrateur RI}, je veux que le système me
+  propose des correspondances pour les enregistrements sans INE valide
+  (via nom et prénom) afin de résoudre manuellement les cas ambigus.}
+
+\nexttask &
+Isoler les imports sans INE valide &
+S'appuyer sur le statut \texttt{FAILED} existant de \texttt{RawImport}
+pour repérer les enregistrements étudiants et vœux dont le
+rapprochement par INE a échoué. &
+Les imports en échec de
+rapprochement INE sont
+consultables via
+\texttt{GET /\allowbreak api/\allowbreak students/\allowbreak import-errors/\allowbreak }. &
+Haute & 1 \\
+\hline
+
+\nexttask &
+Implémenter \texttt{find\_\allowbreak reconciliation\_\allowbreak candidates()} &
+Coder le matching par similarité dans
+\texttt{students/\allowbreak services/\allowbreak reconciliation.py} : score pondéré
+sur le nom (50\,\%), le prénom (30\,\%) et la correspondance
+exacte de l'email (20\,\%), avec un niveau de confiance
+(élevé, moyen, faible). &
+Les candidats sont triés
+par score décroissant.
+Le score respecte la
+pondération définie. &
+Haute & 2 \\
+\hline
+
+\nexttask &
+Exposer l'endpoint de suggestions &
+Créer \texttt{GET /\allowbreak api/\allowbreak students/\allowbreak import-errors/\allowbreak \{id\}/\allowbreak candidates/\allowbreak }
+retournant les correspondances proposées pour un import en échec. &
+Les candidats retournés
+incluent INE, nom, prénom
+et score de confiance. &
+Haute & 1 \\
+\hline
+
+\nexttask &
+Résolution manuelle depuis l'interface &
+Réutiliser le panneau de résolution des erreurs d'import
+(\texttt{PUT .../\allowbreak ignore/\allowbreak }, ré-import corrigé) en y intégrant
+l'affichage côte à côte de l'enregistrement source et des
+candidats proposés. &
+Les candidats s'affichent
+à côté de l'enregistrement
+source.
+La résolution est tracée
+dans l'audit log. &
+Moyenne & 1 \\
+\hline
+
+% ── US-15 ─────────────────────────────────────────────────────────────────────
+\usheaderteal{US-15 — Déclaration mobilité complémentaire}{%
+  En tant qu'\textbf{étudiant}, je veux déclarer une expérience
+  internationale hors cursus (summer school, séjour linguistique,
+  programme court) avec dépôt de justificatif, afin qu'elle soit prise
+  en compte dans mon calcul de durée CTI.}
+
+\nexttask &
+Définir \texttt{ComplementaryMobility} &
+Créer le modèle avec type d'expérience, pays et établissement
+de destination, dates, justificatif (\texttt{document\_key}), et
+FSM à 3 états : \texttt{pending} $\to$ \texttt{validated}
+\textbar{} \texttt{rejected}. &
+Le modèle migre sans erreur.
+Les transitions FSM invalides
+lèvent \texttt{TransitionNotAllowed}. &
+Haute & 2 \\
+\hline
+
+\nexttask &
+Stockage sécurisé du justificatif &
+Implémenter \texttt{complementary/\allowbreak services/\allowbreak minio\_\allowbreak service.py} :
+dépôt chiffré (SSE-S3) sur MinIO et génération d'URL présignée
+pour la consultation. Limiter le format (PDF, JPEG, PNG, WEBP)
+et la taille (10 Mo). &
+Le fichier est stocké chiffré.
+Les formats et tailles hors
+limites sont rejetés. &
+Haute & 2 \\
+\hline
+
+\nexttask &
+Endpoints espace étudiant &
+Exposer \texttt{POST /\allowbreak api/\allowbreak complementary/\allowbreak student/\allowbreak \{ine\}/\allowbreak } (déclaration
+avec upload) et \texttt{GET /\allowbreak api/\allowbreak complementary/\allowbreak student/\allowbreak \{ine\}/\allowbreak }
+(liste des déclarations de l'étudiant). &
+La déclaration crée une
+entrée en statut \texttt{pending}.
+Une \texttt{SystemAlert} est créée
+pour le service RI. &
+Haute & 2 \\
+\hline
+
+\nexttask &
+Page de déclaration (espace étudiant) &
+Créer une page Next.js avec sélecteur d'année, formulaire de
+déclaration et liste des soumissions avec badge de statut. &
+Le formulaire valide les
+dates et le fichier.
+Les soumissions s'affichent
+avec leur statut. &
+Haute & 2 \\
+\hline
+
+% ── US-16 ─────────────────────────────────────────────────────────────────────
+\usheaderteal{US-16 — Validation des mobilités complémentaires}{%
+  En tant qu'\textbf{administrateur RI}, je veux consulter les
+  justificatifs soumis, valider ou rejeter chaque demande avec un
+  motif, afin de maintenir la qualité des données comptabilisées dans
+  le calcul CTI.}
+
+\nexttask &
+Endpoint de consultation admin &
+Exposer \texttt{GET /\allowbreak api/\allowbreak complementary/\allowbreak } listant les demandes,
+filtrable par statut, avec URL présignée de téléchargement du
+justificatif. &
+La liste s'affiche avec
+filtre par statut. &
+Haute & 1 \\
+\hline
+
+\nexttask &
+Endpoints de décision &
+Exposer \texttt{POST /\allowbreak api/\allowbreak complementary/\allowbreak \{id\}/\allowbreak validate/\allowbreak } et
+\texttt{POST /\allowbreak api/\allowbreak complementary/\allowbreak \{id\}/\allowbreak reject/\allowbreak } (motif obligatoire),
+tracés dans l'\texttt{AuditLog}. &
+Le rejet sans motif est
+refusé.
+La transition FSM s'applique
+et est journalisée. &
+Haute & 2 \\
+\hline
+
+\nexttask &
+Page admin de validation &
+Créer un tableau de bord des demandes en attente avec
+prévisualisation du justificatif et actions valider/rejeter. &
+Les actions déclenchent les
+endpoints correspondants.
+Le justificatif est prévisualisable. &
+Haute & 2 \\
+\hline
+
+\end{longtable}
+\endgroup
+
+\subsection{Conception détaillée}
+
+Cette section présente la conception UML détaillée des entités métier du Sprint 4.
+
+\subsubsection{Diagramme de classes}
+
+Le diagramme de la figure~\ref{fig:diag-class-sprint4} regroupe les trois nouvelles entités métier du sprint autour des classes de référence déjà établies. \texttt{Internship} et \texttt{IncomingStudent} sont deux entités d'import, sans machine à états, rattachées à l'étudiant ou à l'année universitaire selon le sens de la mobilité (sortante pour un stage, entrante pour un étudiant accueilli) ; \texttt{IncomingStudent} référence en outre plusieurs référentiels du Sprint 1 (département, niveau, parcours, cadre de mobilité, université d'origine), omis de la figure par souci de lisibilité. \texttt{ComplementaryMobility} est la seule des trois à porter un cycle de vie propre, avec sa FSM à trois états \texttt{pending} $\to$ \texttt{validated} \textbar{} \texttt{rejected} — la troisième machine à états du système avec celles d'\texttt{AcademicYear} et d'\texttt{Assignment} (chapitre~\ref{cha:conception}, section FSM). La répartition Hamilton des quotas (US-11), pour sa part, n'introduit aucune nouvelle classe : elle recalcule les valeurs de \texttt{AgreementYearDepartment.estimated\_\allowbreak places}, déjà modélisée au Sprint 1.
+
+\begin{landscape}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth,height=0.9\textheight,keepaspectratio]{figures/conception/Sprint4/Diagramme_de_classe_sprint4.png}
+  \caption{Diagramme de classes — Sprint 4}
+  \label{fig:diag-class-sprint4}
+\end{figure}
+\end{landscape}
+
+\subsection{Implémentation}
+
+Les US-11 à US-15 sont implémentées et mergées sur la branche de développement ; l'US-16 est en cours de finalisation (les endpoints de validation/rejet existent déjà côté API, l'interface d'administration reste à livrer). La méthode Hamilton est isolée dans un service pur (\texttt{\_hamilton()}), testable indépendamment de l'ORM, et pondérée par l'historique des cinq dernières années de vœux et d'affectations par département. Les intégrations Eudonet et Excel suivent le même pipeline en cinq étapes que Pégase et MoveON (récupération, nettoyage, persistance, déclenchement, supervision — cf. chapitre~\ref{cha:conception}). La réconciliation sans INE réutilise le statut \texttt{FAILED} du modèle \texttt{RawImport} existant plutôt que d'introduire un nouveau statut dédié, et s'appuie sur \texttt{difflib.SequenceMatcher} pour le score de similarité. Le dépôt de justificatifs (US-15) s'appuie sur MinIO avec chiffrement côté serveur (SSE-S3) et URLs présignées à durée limitée pour la consultation.
+
+\subsection{Tests}
+
+Les suites \texttt{mobility/\allowbreak tests/\allowbreak test\_\allowbreak mobility\_\allowbreak services.py} (répartition Hamilton, y compris le cas sans historique), \texttt{internships/tests}, \texttt{incoming/tests} et \texttt{students/\allowbreak tests/\allowbreak test\_\allowbreak reconciliation.py} couvrent respectivement l'algorithme de répartition, les pipelines d'import Eudonet et Excel, et le scoring de réconciliation sur des cas d'homonymie. Les tests de \texttt{ComplementaryMobility} (transitions FSM, contrôle de format et de taille du justificatif) sont en cours de complétion en cohérence avec l'avancement de l'US-16.
+
+
+% ─────────────────────────────────────────────────────────────
+\section{Sprint 5 — CTI, espace étudiant et supervision}
+% ─────────────────────────────────────────────────────────────
+
+Le Sprint 5 n'a pas encore débuté à la date de rédaction de ce rapport ; le backlog ci-dessous constitue donc une planification, présentée selon le même niveau de détail que les sprints précédents, et non un compte rendu de réalisation. Sa conception détaillée, son implémentation et ses tests seront documentés à l'issue du sprint.
+
+\subsection{Objectif du sprint}
+
+Le Sprint 5 a pour objectif de fermer la boucle réglementaire (conformité CTI) et d'ouvrir le système aux étudiants et à l'équipe RI au-delà des seuls flux de données : calcul consolidé de la durée de mobilité CTI à partir des mobilités sortantes publiées, des stages et des expériences complémentaires validées (US-17 à US-19) ; espace étudiant pour explorer les destinations et suivre sa candidature (US-20 à US-22) ; et outils de pilotage pour le service RI, incluant l'authentification institutionnelle (US-23 à US-26).
+
+\textbf{Définition of Done.} À l'issue de ce sprint, la durée CTI de chaque étudiant est calculée automatiquement et exportable pour audit, l'étudiant authentifié via SSO peut consulter le catalogue des destinations et le statut de sa candidature, le service RI dispose d'une console de supervision de campagne et d'un contrôle bloquant sur les prérequis avant consolidation, et les tableaux de bord analytiques sont alimentés par les données réelles des sprints précédents.
+
+\setcounter{tasknum}{1}
+
+\newcommand{\usheaderyellow}[2]{%
+  \multicolumn{6}{|p{\uswidth}|}{%
+    \cellcolor{yellow!15}%
+    \textbf{#1} — \small\textit{#2}%
+  } \\ \hline
+}
+\newcommand{\usheadercyan}[2]{%
+  \multicolumn{6}{|p{\uswidth}|}{%
+    \cellcolor{cyan!10}%
+    \textbf{#1} — \small\textit{#2}%
+  } \\ \hline
+}
+\newcommand{\usheaderred}[2]{%
+  \multicolumn{6}{|p{\uswidth}|}{%
+    \cellcolor{red!8}%
+    \textbf{#1} — \small\textit{#2}%
+  } \\ \hline
+}
+
+\subsection{Sprint Backlog — Sprint 5 (planifié)}
+
+\begingroup
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.6}
+
+\begin{longtable}{|p{0.5cm}|p{3.5cm}|p{5cm}|p{4cm}|p{1.5cm}|p{0.5cm}|}
+\hline
+\rowcolor{gray!20}
+\textbf{\#} & \textbf{Tâche} & \textbf{Description} &
+\textbf{Critères d'acceptation} & \textbf{Prior.} & \textbf{SP} \\
+\hline
+\endfirsthead
+\hline
+\rowcolor{gray!20}
+\textbf{\#} & \textbf{Tâche} & \textbf{Description} &
+\textbf{Critères d'acceptation} & \textbf{Prior.} & \textbf{SP} \\
+\hline
+\endhead
+\hline
+\endfoot
+
+% ── US-17 ─────────────────────────────────────────────────────────────────────
+\usheaderyellow{US-17 — Calcul automatique des durées CTI}{%
+  En tant qu'\textbf{administrateur RI}, je veux que le système calcule
+  automatiquement la durée totale de mobilité de chaque étudiant (séjours
+  académiques, stages, expériences complémentaires validées) afin de
+  vérifier la conformité CTI sans intervention manuelle.}
+
+\nexttask &
+Définir \texttt{MobilityDuration} &
+Créer le modèle agrégeant, par étudiant, la durée cumulée issue des
+\texttt{AssignmentResult} publiés, des \texttt{Internship} et des
+\texttt{ComplementaryMobility} validées. &
+Le modèle migre sans erreur.
+La durée totale est la somme
+des trois sources. &
+Haute & 3 \\
+\hline
+
+\nexttask &
+Recalcul déclenché par événement &
+Recalculer \texttt{MobilityDuration} via une tâche Django-Q2 à chaque
+publication d'affectation, synchronisation de stage ou validation de
+mobilité complémentaire. &
+Le recalcul s'exécute après
+chaque transition concernée.
+Le résultat est cohérent avec
+les trois sources. &
+Haute & 3 \\
+\hline
+
+\nexttask &
+Endpoint de consultation &
+Exposer \texttt{GET /\allowbreak api/\allowbreak students/\allowbreak \{ine\}/\allowbreak mobility-duration/\allowbreak }
+retournant la durée cumulée et le détail par source. &
+La réponse détaille chaque
+source et le total. &
+Haute & 2 \\
+\hline
+
+% ── US-18 ─────────────────────────────────────────────────────────────────────
+\usheaderyellow{US-18 — Indicateur CTI pour l'étudiant}{%
+  En tant qu'\textbf{étudiant}, je veux visualiser ma durée cumulée de
+  mobilité et sa comparaison avec le seuil CTI requis afin de savoir si
+  je suis en règle pour l'obtention de mon diplôme.}
+
+\nexttask &
+Endpoint indicateur étudiant &
+Exposer \texttt{GET /\allowbreak api/\allowbreak student/\allowbreak \{ine\}/\allowbreak cti-status/\allowbreak } retournant la
+durée cumulée, le seuil requis et l'écart. &
+La réponse reflète le seuil
+CTI en vigueur. &
+Haute & 1 \\
+\hline
+
+\nexttask &
+Page indicateur (espace étudiant) &
+Créer une page Next.js affichant la durée cumulée, le seuil requis et
+un indicateur visuel de conformité. &
+L'indicateur reflète le statut
+retourné par l'API. &
+Haute & 2 \\
+\hline
+
+% ── US-19 ─────────────────────────────────────────────────────────────────────
+\usheaderyellow{US-19 — Export rapport CTI}{%
+  En tant qu'\textbf{administrateur RI}, je veux exporter un rapport de
+  conformité CTI pour l'ensemble des étudiants de la promotion afin de
+  le soumettre lors des audits.}
+
+\nexttask &
+Endpoint d'export &
+Exposer \texttt{GET /\allowbreak api/\allowbreak students/\allowbreak cti-export/\allowbreak \{year\_\allowbreak id\}/\allowbreak } générant
+un export Excel de la durée CTI de chaque étudiant inscrit. &
+Le fichier contient un
+étudiant par ligne avec
+durée et statut. &
+Moyenne & 3 \\
+\hline
+
+\nexttask &
+Déclenchement depuis l'interface &
+Ajouter un bouton d'export dans la page de gestion des étudiants,
+filtrable par année universitaire. &
+L'export se télécharge
+depuis l'interface admin. &
+Moyenne & 2 \\
+\hline
+
+% ── US-20 ─────────────────────────────────────────────────────────────────────
+\usheadercyan{US-20 — Catalogue des destinations}{%
+  En tant qu'\textbf{étudiant}, je veux consulter les universités
+  partenaires avec les places disponibles estimées, les conditions
+  d'éligibilité (GPA minimum, département) et les informations
+  pratiques, afin d'explorer les options avant de saisir mes vœux dans
+  MoveON.}
+
+\nexttask &
+Endpoint catalogue &
+Exposer \texttt{GET /\allowbreak api/\allowbreak student/\allowbreak catalogue/\allowbreak } listant les accords actifs
+de l'année en cours avec quota effectif par département et
+département(s) autorisé(s). &
+La liste reflète les accords
+actifs et leurs quotas
+effectifs. &
+Haute & 2 \\
+\hline
+
+\nexttask &
+Page catalogue (espace étudiant) &
+Créer une page Next.js avec filtre par département, pays et cadre de
+mobilité. &
+Le filtre fonctionne.
+Les places disponibles
+estimées s'affichent. &
+Haute & 3 \\
+\hline
+
+% ── US-21 ─────────────────────────────────────────────────────────────────────
+\usheadercyan{US-21 — Suivi de candidature}{%
+  En tant qu'\textbf{étudiant}, je veux suivre le statut de ma
+  candidature en temps réel (soumis, en traitement, affecté, rejeté)
+  afin d'être informé de l'avancement sans solliciter le service RI.}
+
+\nexttask &
+Endpoint statut de candidature &
+Exposer \texttt{GET /\allowbreak api/\allowbreak student/\allowbreak \{ine\}/\allowbreak candidature-status/\allowbreak } dérivant
+le statut affiché de la phase FSM de l'année universitaire et de
+l'\texttt{AssignmentResult} de l'étudiant. &
+Le statut retourné est
+cohérent avec la phase FSM
+et l'affectation éventuelle. &
+Haute & 2 \\
+\hline
+
+\nexttask &
+Page de suivi (espace étudiant) &
+Créer une page Next.js affichant une frise de statut (soumis $\to$ en
+traitement $\to$ affecté/rejeté). &
+La frise reflète le statut
+retourné par l'API. &
+Haute & 1 \\
+\hline
+
+% ── US-22 ─────────────────────────────────────────────────────────────────────
+\usheadercyan{US-22 — Gestion des mobilités entrantes}{%
+  En tant qu'\textbf{administrateur RI}, je veux gérer le suivi
+  administratif des étudiants internationaux accueillis (procédure
+  envoyée, candidature Moodle, lettre d'acceptation, inscription) afin
+  de centraliser le suivi dans un seul outil.}
+
+\nexttask &
+Étendre \texttt{IncomingStudent} &
+Ajouter les champs de suivi administratif (procédure envoyée,
+candidature Moodle, lettre d'acceptation, inscription) au modèle
+existant (US-13). &
+Le modèle migre sans erreur
+et reste rétrocompatible avec
+l'import Excel existant. &
+Moyenne & 2 \\
+\hline
+
+\nexttask &
+Interface de suivi administratif &
+Étendre la page admin des mobilités entrantes avec des cases à cocher
+de suivi et un filtre par étape administrative. &
+Les étapes se mettent à jour
+individuellement.
+Le filtre par étape
+fonctionne. &
+Moyenne & 3 \\
+\hline
+
+% ── US-23 ─────────────────────────────────────────────────────────────────────
+\usheaderred{US-23 — Console de supervision de campagne}{%
+  En tant qu'\textbf{administrateur RI}, je veux un tableau de bord
+  affichant l'état en temps réel de la campagne (candidatures reçues,
+  imports réalisés, anomalies en attente, avancement par phase) afin de
+  piloter efficacement la campagne.}
+
+\nexttask &
+Endpoint agrégé de supervision &
+Exposer \texttt{GET /\allowbreak api/\allowbreak academic/\allowbreak years/\allowbreak \{id\}/\allowbreak dashboard/\allowbreak } agrégeant
+phase FSM courante, décompte des imports par source, anomalies en
+attente de réconciliation et de validation. &
+La réponse agrège les
+indicateurs des sprints
+précédents sans recalcul
+redondant. &
+Moyenne & 3 \\
+\hline
+
+\nexttask &
+Page console de supervision &
+Créer une page Next.js présentant ces indicateurs sous forme de
+tableau de bord synthétique, avec liens directs vers les écrans de
+traitement des anomalies. &
+Le tableau de bord se charge
+depuis l'API agrégée. &
+Moyenne & 5 \\
+\hline
+
+% ── US-24 ─────────────────────────────────────────────────────────────────────
+\usheaderred{US-24 — Contrôle des prérequis FSM}{%
+  En tant qu'\textbf{administrateur RI}, je veux que le système
+  m'empêche de passer à la phase de consolidation tant que tous les GPA
+  étudiants ne sont pas renseignés et que les vœux ne sont pas
+  importés, afin de garantir que l'algorithme d'affectation dispose de
+  données complètes et fiables.}
+
+\nexttask &
+Étendre les guard conditions &
+Ajouter aux préconditions applicatives de \texttt{close\_wishes} et
+\texttt{launch\_assignment} (\texttt{academic/\allowbreak api.py}) une vérification
+d'exhaustivité des GPA et des vœux, au-delà des contrôles déjà en
+place sur \texttt{open\_\allowbreak recommendation}. &
+La transition est refusée
+avec un message précis si
+des GPA ou des vœux manquent. &
+Haute & 2 \\
+\hline
+
+\nexttask &
+Affichage des blocages &
+Afficher dans la page de gestion de l'année universitaire le détail
+des prérequis manquants lorsqu'une transition est indisponible. &
+Le détail des manques
+s'affiche avant tentative
+de transition. &
+Haute & 1 \\
+\hline
+
+% ── US-25 ─────────────────────────────────────────────────────────────────────
+\usheaderred{US-25 — Authentification SSO}{%
+  En tant qu'\textbf{utilisateur}, je veux m'authentifier via le SSO
+  institutionnel (CAS/OIDC) afin d'accéder à mon espace personnalisé
+  (étudiant ou administrateur) sans créer de compte séparé.}
+
+\nexttask &
+Intégrer le client CAS/OIDC &
+Configurer l'authentification institutionnelle côté Django (middleware
+OIDC) et exposer un flux de connexion pour le frontend Next.js. &
+La connexion SSO redirige
+vers l'espace approprié selon
+le rôle de l'utilisateur. &
+Haute & 5 \\
+\hline
+
+\nexttask &
+Protéger les endpoints existants &
+Ajouter le contrôle d'accès (authentification et permissions par rôle)
+aux endpoints actuellement ouverts, notamment l'espace étudiant
+(\texttt{student\_api.py}). &
+Les endpoints protégés
+rejettent les requêtes non
+authentifiées ou hors
+périmètre (403/401). &
+Haute & 3 \\
+\hline
+
+% ── US-26 ─────────────────────────────────────────────────────────────────────
+\usheaderred{US-26 — Tableaux de bord analytiques et exports CTI}{%
+  En tant qu'\textbf{administrateur RI}, je veux disposer de tableaux de
+  bord analytiques et d'exports CTI (taux d'affectation par département,
+  évolution des flux entrants/sortants, destinations les plus demandées,
+  indicateurs CTI) afin d'alimenter le pilotage opérationnel et la
+  réflexion stratégique sur les partenariats.}
+
+\nexttask &
+Endpoints statistiques &
+Étendre \texttt{GET /\allowbreak api/\allowbreak mobility/\allowbreak dashboard/\allowbreak } et créer les agrégations
+manquantes (flux entrants/sortants par année, destinations les plus
+demandées). &
+Les statistiques sont
+cohérentes avec les données
+sources. &
+Moyenne & 3 \\
+\hline
+
+\nexttask &
+Page tableaux de bord analytiques &
+Créer une page Next.js avec graphiques (taux d'affectation par
+département, évolution pluriannuelle des flux, indicateurs CTI
+agrégés). &
+Les graphiques se chargent
+depuis les endpoints
+statistiques. &
+Moyenne & 5 \\
+\hline
+
+\end{longtable}
+\endgroup
 
 % % ─────────────────────────────────────────────────────────────
 % \section{Sprint 6 — Finalisation, tests et déploiement}

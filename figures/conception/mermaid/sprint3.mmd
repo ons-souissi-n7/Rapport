@@ -1,0 +1,58 @@
+classDiagram
+    direction LR
+
+    class AcademicYear {
+        +id: int
+        +label: String «unique»
+        +status: FSMField
+    }
+
+    class AnnualEnrollment {
+        +id: int
+        +gpa: Decimal
+        +is_alternant: Boolean
+    }
+
+    class AgreementYear {
+        +id: int
+        +is_active: Boolean
+        +n7_places: int
+    }
+
+    class StudentWish {
+        +id: int
+        +rank: int
+    }
+
+    class Assignment {
+        +id: int
+        +status: FSMField
+        +run_by: String
+        +override_reason: String
+        +total_students: int
+        +assigned_count: int
+        +unassigned_count: int
+        +validate()
+        +publish()
+        +cancel()
+    }
+
+    class AssignmentResult {
+        +id: int
+        +slot_type: String
+        +assigned_rank: int
+        +source: String
+        +override_reason: String
+        +override_slot_type: String
+        +override_rank: int
+        +system_note: String
+    }
+
+    AcademicYear "1" -- "0..*" Assignment : produces
+    Assignment "1" -- "0..*" AssignmentResult : contains
+    AnnualEnrollment "1" -- "0..1" AssignmentResult : results_in
+    AgreementYear "0..1" -- "0..*" AssignmentResult : assigned_to
+    AnnualEnrollment "1" -- "0..3" StudentWish : expresses
+    AgreementYear "1" -- "0..*" StudentWish : is_targeted_by
+
+    note for AssignmentResult "Contrainte unique : (assignment, annual_enrollment)<br/>slot_type in {dept, surplus, alternative, unassigned}<br/>source in {auto, override}"

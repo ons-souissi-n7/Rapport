@@ -1,0 +1,83 @@
+classDiagram
+    direction LR
+
+    class Country {
+        +id: int
+        +iso2: String «unique»
+        +name_fr: String
+        +name_en: String
+        +cti_region: String
+    }
+
+    class Department {
+        +id: int
+        +code: String «unique»
+        +name: String
+        +pegase_id: String «unique»
+        +last_sync_pegase: Date
+    }
+
+    class Level {
+        +id: int
+        +code: String «unique»
+        +name: String
+        +pegase_id: String «unique»
+        +last_sync_pegase: Date
+    }
+
+    class Parcours {
+        +id: int
+        +code: String
+        +label: String
+    }
+
+    class AcademicYear {
+        +id: int
+        +label: String «unique»
+        +start_date: Date
+        +end_date: Date
+        +status: FSMField
+    }
+
+    class AgreementYear {
+        +id: int
+        +is_active: Boolean
+        +n7_places: int
+    }
+
+    class Student {
+        +id: int
+        +ine: String «unique»
+        +first_name: String
+        +last_name: String
+        +email: String
+        +gender: String
+        +pegase_id: String
+        +last_sync_pegase: Date
+    }
+
+    class AnnualEnrollment {
+        +id: int
+        +gpa: Decimal
+        +is_alternant: Boolean
+        +is_scholarship: Boolean
+        +last_sync_pegase: Date
+    }
+
+    class StudentWish {
+        +id: int
+        +rank: int
+        +last_sync_moveon: Date
+    }
+
+    Student "0..*" -- "0..1" Country : has_nationality
+    Student "1" -- "0..*" AnnualEnrollment : is_enrolled_in
+    AcademicYear "1" -- "0..*" AnnualEnrollment : for
+    Department "1" -- "0..*" AnnualEnrollment : at
+    Level "1" -- "0..*" AnnualEnrollment : follows_level
+    Parcours "0..1" -- "0..*" AnnualEnrollment : follows_parcours
+    Department "1" -- "0..*" Parcours : has
+    AnnualEnrollment "1" -- "0..3" StudentWish : expresses
+    AgreementYear "1" -- "0..*" StudentWish : is_targeted_by
+
+    note for AnnualEnrollment "Contrainte : parcours.department = department"

@@ -1,0 +1,78 @@
+classDiagram
+    direction LR
+
+    class Student {
+        +id: int
+        +ine: String «unique»
+        +first_name: String
+        +last_name: String
+    }
+
+    class AcademicYear {
+        +id: int
+        +label: String «unique»
+        +status: FSMField
+    }
+
+    class Country {
+        +id: int
+        +iso2: String «unique»
+        +name_fr: String
+    }
+
+    class Internship {
+        +id: int
+        +company_name: String
+        +city: String
+        +title: String
+        +internship_type: String
+        +status_code: String
+        +status_label: String
+        +start_date: Date
+        +end_date: Date
+        +weeks_in_company: int
+        +school_tutor: String
+        +company_tutor: String
+        +eudonet_label: String
+        +last_sync_eudonet: Date
+    }
+
+    class IncomingStudent {
+        +id: int
+        +civility: String
+        +last_name: String
+        +first_name: String
+        +birth_date: Date
+        +origin_university_name: String
+        +personal_email: String
+        +n7_email: String
+        +duration: String
+        +remarks: String
+    }
+
+    class ComplementaryMobility {
+        +id: int
+        +experience_type: String
+        +destination_institution: String
+        +start_date: Date
+        +end_date: Date
+        +document_key: String
+        +document_name: String
+        +status: FSMField
+        +rejection_reason: String
+        +validate()
+        +reject(reason)
+    }
+
+    Student "1" -- "0..*" Internship : performs
+    AcademicYear "0..1" -- "0..*" Internship : during
+    Country "0..1" -- "0..*" Internship : in
+
+    AcademicYear "1" -- "0..*" IncomingStudent : hosts
+    Country "0..1" -- "0..*" IncomingStudent : from
+
+    Student "1" -- "0..*" ComplementaryMobility : declares
+    AcademicYear "1" -- "0..*" ComplementaryMobility : for
+    Country "1" -- "0..*" ComplementaryMobility : destination
+
+    note for IncomingStudent "Réfère aussi Department, Level, Parcours,<br/>MobilityCategory et PartnerUniversity<br/>(référentiels, non représentés ici)"

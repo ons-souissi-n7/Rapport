@@ -1,0 +1,13 @@
+{
+  "theme": "neutral",
+  "themeVariables": {
+    "mainBkg": "#ffffff",
+    "nodeBorder": "#000000",
+    "primaryBorderColor": "#000000",
+    "primaryTextColor": "#000000",
+    "lineColor": "#000000",
+    "classText": "#000000",
+    "edgeLabelBackground": "#ffffff",
+    "fontFamily": "Segoe UI, Helvetica, Arial, sans-serif"
+  }
+}

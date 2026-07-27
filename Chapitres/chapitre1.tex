@@ -1,6 +1,6 @@
 % !TEX root = ../main.tex
 % ══════════════════════════════════════════════════════════════
-\chapter{Contexte, problématique et cadrage du projet}
+\chapter{Contexte, problématique et positionnement du projet}
 % ══════════════════════════════════════════════════════════════
 \begingroup
 \let\clearpage\relax
@@ -14,7 +14,7 @@
 \phantomsection
 \addcontentsline{toc}{section}{Introduction}
 
-Ce chapitre présente l'organisme d'accueil et analyse le système d'information utilisé pour la gestion des mobilités internationales. Il en dégage la problématique et la solution envisagée, précise les besoins du système, puis présente le cadrage retenu pour conduire le projet.
+Ce chapitre présente l'organisme d'accueil et analyse le système d'information utilisé pour la gestion des mobilités internationales. Il en dégage la problématique, positionne le projet par rapport aux solutions existantes, précise les besoins du système et présente la solution envisagée, puis pose le cadrage retenu pour conduire le projet.
 
 % ─────────────────────────────────────────────────────────────
 \section{Présentation de l'organisme d'accueil}
@@ -29,6 +29,7 @@ Toulouse INP-ENSEEIHT est une école publique d'ingénieurs, située à Toulouse
 L'école collabore avec plusieurs laboratoires de recherche, notamment IMFT, IRIT, LAAS et LAPLACE, et entretient des liens avec de nombreux partenaires industriels. Le développement à l'international fait partie de ses priorités : elle agrandit régulièrement son réseau d'universités partenaires et favorise les séjours à l'étranger pour ses étudiants~\cite{enseeiht_presentation}.
 
 \subsection{Le service des relations internationales}
+\label{sec:accueil-ri}
 
 Le service des Relations Internationales (RI) gère les échanges entre l'ENSEEIHT et ses partenaires à l'étranger. Son rôle est à la fois stratégique et opérationnel : il s'occupe des accords de partenariat, mais aussi du suivi quotidien des mobilités étudiantes. Ses activités se répartissent en six domaines~\cite{enseeiht_international}.
 
@@ -62,7 +63,7 @@ MoveON est l'outil principal du service RI. Il permet de gérer les accords bila
 
 \subsubsection{Pégase}
 
-Pégase est le système d'information académique de Toulouse INP. Il regroupe les données des étudiants : inscription, département, niveau, parcours pédagogique et notes — en particulier le GPA trimestriel, qui sert à classer les candidatures. Ces informations sont essentielles pour la gestion des mobilités. Les données sont accessibles via une API, mais il n'existe aucun lien direct avec MoveON.
+Pégase est le système d'information académique de Toulouse INP. Il regroupe les données des étudiants : inscription, département, niveau, parcours pédagogique et notes, en particulier le GPA trimestriel, qui sert à classer les candidatures. Ces informations sont essentielles pour la gestion des mobilités. Les données sont accessibles via une API, mais il n'existe aucun lien direct avec MoveON.
 
 \subsubsection{Eudonet}
 
@@ -70,7 +71,7 @@ Eudonet est l'outil utilisé pour gérer les conventions de stage. Il contient l
 
 \subsubsection{Les fichiers Excel}
 
-Pour pallier les manques des trois outils précédents, le service RI utilise des fichiers Excel qu'il gère lui-même : suivi des quotas par département, gestion des mobilités entrantes, calcul des durées et suivi des programmes courts. Même avec une personne rigoureuse, cette méthode reste risquée : erreurs de saisie, oublis de mise à jour, fautes de frappe, incohérences entre fichiers — ces problèmes sont difficiles à repérer et peuvent avoir des conséquences directes sur le déroulement de la campagne.
+Pour pallier les manques des trois outils précédents, le service RI utilise des fichiers Excel qu'il gère lui-même : suivi des quotas par département, gestion des mobilités entrantes, calcul des durées et suivi des programmes courts. Même avec une personne rigoureuse, cette méthode reste risquée : erreurs de saisie, oublis de mise à jour, fautes de frappe, incohérences entre fichiers ; ces problèmes sont difficiles à repérer et peuvent avoir des conséquences directes sur le déroulement de la campagne.
 
 \subsection{Limites structurelles}
 
@@ -92,18 +93,30 @@ Cette absence de communication entre les outils crée plusieurs problèmes qui r
 
     \item \textbf{Des quotas insuffisamment détaillés.} MoveON ne gère les places qu'à l'échelle de l'INP global, sans distinguer les établissements qui le composent. La répartition par établissement (dont l'ENSEEIHT), puis par département pédagogique, est faite manuellement dans Excel, sans vérification de cohérence.
 
-    \item \textbf{Des mobilités complémentaires non suivies.} Les summer schools, séjours linguistiques et programmes courts n'ont pas de place dans les outils existants. Pour les inclure dans le calcul de la durée de mobilité, l'agent doit s'en souvenir lui-même — ce qui n'est pas fiable.
+    \item \textbf{Des mobilités complémentaires non suivies.} Les summer schools, séjours linguistiques et programmes courts n'ont pas de place dans les outils existants. Pour les inclure dans le calcul de la durée de mobilité, l'agent doit s'en souvenir lui-même, ce qui n'est pas fiable.
 
-    \item \textbf{Un calcul de durée de mobilité entièrement manuel et coûteux en temps.} Pour calculer la durée de mobilité d'un étudiant, il faut rassembler des données réparties dans trois systèmes différents (MoveON, Pégase, Eudonet) et les recouper à la main dans Excel. Selon les échanges avec le service RI, cette consolidation représente de l'ordre d'une dizaine de minutes par dossier, soit plusieurs journées de traitement cumulées à l'échelle d'une promotion de 300 étudiants — sans compter le risque d'oubli d'une période de mobilité à chaque manipulation. Cette opération ne peut pas être automatisée tant qu'il n'existe pas de source de données unifiée.
+    \item \textbf{Un calcul de durée de mobilité entièrement manuel et coûteux en temps.} Pour calculer la durée de mobilité d'un étudiant, il faut rassembler des données réparties dans trois systèmes différents (MoveON, Pégase, Eudonet) et les recouper à la main dans Excel. Selon les échanges avec le service RI, cette consolidation représente de l'ordre d'une dizaine de minutes par dossier, soit plusieurs journées de traitement cumulées à l'échelle d'une promotion de 300 étudiants, sans compter le risque d'oubli d'une période de mobilité à chaque manipulation. Cette opération ne peut pas être automatisée tant qu'il n'existe pas de source de données unifiée (figure~\ref{fig:bpmn_duree_mobilite}).
 \end{itemize}
 
-% ─────────────────────────────────────────────────────────────
-\section{Problématique et solution envisagée}
-% ─────────────────────────────────────────────────────────────
+Deux processus concrets illustrent particulièrement cette fragmentation : le calcul de la durée de mobilité, présenté précédemment, et la préparation de l'enquête annuelle CTI. Les figures~\ref{fig:bpmn_duree_mobilite} et~\ref{fig:bpmn_enquete_cti} en proposent une modélisation selon la notation BPMN 2.0.
 
-Cette section formule la problématique centrale du projet à partir du constat précédent, puis présente la solution envisagée dans ses grandes lignes. 
+\begin{figure}[H]
+\centering
+\includegraphics[width=1\textwidth]{figures/systemes/bpmn-as-is-duree-mobilite.png}
+\caption{Processus AS-IS du calcul de la durée de mobilité}
+\label{fig:bpmn_duree_mobilite}
+\end{figure}
 
-\subsection{Problématique}
+\begin{figure}[H]
+\centering
+\includegraphics[width=1\textwidth]{figures/systemes/bpmn-as-is-enquete-cti.png}
+\caption{Processus AS-IS de préparation de l'enquête CTI}
+\label{fig:bpmn_enquete_cti}
+\end{figure}
+
+% ─────────────────────────────────────────────────────────────
+\section{Problématique}
+% ─────────────────────────────────────────────────────────────
 
 Le service RI utilise plusieurs outils qui ne communiquent pas entre eux. Chaque transfert de données se fait à la main, l'affectation des étudiants n'a pas de règle fixe, et il n'existe pas de moyen simple de calculer la durée de mobilité. Cinq problèmes restent sans solution :
 
@@ -121,16 +134,184 @@ C'est à partir de ce constat que se formule la question centrale du projet :
 \textit{Comment concevoir une plateforme intégrée qui automatise le processus de gestion des mobilités internationales à l'ENSEEIHT, depuis la centralisation des données multi-sources jusqu'à l'affectation algorithmique, tout en garantissant la conformité CTI et l'aide à la décision des étudiants ?}
 \end{quote}
 
-\subsection{Solution envisagée}
+Avant de proposer une solution, il reste à vérifier qu'aucun outil du marché ne répond déjà à ce constat.
 
-La réponse envisagée est le développement d'une plateforme propre au service RI. Elle ne remplace pas les outils existants, mais se connecte à eux pour récupérer les données automatiquement. Elle doit permettre de gérer les quotas par département, de classer et affecter les étudiants selon des règles définies à l'avance, de calculer la durée de mobilité de façon automatique, et d'aider les étudiants à choisir leurs destinations. L'objectif est de centraliser les données et de réduire le travail manuel.
+% ─────────────────────────────────────────────────────────────
+\section{Positionnement par rapport aux solutions existantes}
+% ─────────────────────────────────────────────────────────────
+
+Cette section évalue les solutions existantes au regard des besoins et de la problématique formulés ci-dessus, afin de vérifier qu'aucune n'y répond déjà avant d'engager le développement d'une solution sur mesure.
+
+\subsection{Grille d'évaluation}
+
+Pour comparer les solutions de façon rigoureuse, une grille de neuf critères a été définie
+à partir des problèmes concrets identifiés ci-dessus. Chaque critère traduit une
+lacune précise du système actuel. Le tableau~\ref{tab:grille_eval} présente cette grille.
+
+\renewcommand{\arraystretch}{1.45}
+\begin{table}[H]
+\centering
+\caption{Grille d'évaluation des solutions existantes}
+\label{tab:grille_eval}
+\footnotesize
+\begin{tabular}{|p{0.6cm}|p{3.8cm}|p{9.2cm}|}
+\hline
+\rowcolor{gray!20}
+\textbf{\#} & \textbf{Critère} & \textbf{Ce que cela signifie concrètement pour l'ENSEEIHT} \\
+\hline
+C1 & Centralisation des données de mobilité & Regrouper dans une seule plateforme
+l'ensemble des données relatives aux mobilités sortantes, entrantes, complémentaires
+et aux stages internationaux, ainsi que les données académiques des étudiants \\
+\hline
+C2 & Quotas par école et par département & Gestion des places allouées d'abord à l'échelle de l'ENSEEIHT, puis par département pédagogique, et non uniquement à l'échelle globale INP \\
+\hline
+C3 & Aide à la décision et auto-affectation & Présence d'un mécanisme automatique de classement et de pré-affectation des candidats. \\
+\hline
+C4 & Calcul de la durée de mobilité & Agrégation automatique de toutes les périodes de mobilité d'un étudiant (académique, stage, complémentaire) pour produire la durée réglementaire \\
+\hline
+C5 & Mobilités complémentaires & Prise en charge des expériences hors accord bilatéral (summer schools, séjours linguistiques, programmes courts) avec dépôt et validation de justificatifs \\
+\hline
+C6 & Adaptabilité aux règles internes & Capacité du système à fonctionner selon les règles propres à l'établissement : priorités d'affectation, seuils de sélection, critères locaux \\
+\hline
+C7 & Recommandation de destinations & Suggestion de destinations adaptées au profil de l'étudiant (département, GPA, préférences) pour l'accompagner dans son choix \\
+\hline
+C8 & Reporting CTI & Production automatique des indicateurs clés (KPIs) exigés par la CTI, notamment : taux de mobilité par promotion, durée moyenne de mobilité par étudiant, et répartition géographique des destinations \\
+\hline
+C9 & Réponse aux questions des étudiants & Capacité du système à répondre directement aux questions procédurales des étudiants, sans passer par le service RI \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Analyse des solutions existantes}
+
+Quatre solutions ont été examinées : QS MoveON, déjà utilisé par le service RI, Mobility-Online, une plateforme européenne largement déployée dans les services de relations internationales, ErasmusJET, développé dans le cadre du programme Erasmus+, et les travaux académiques d'Elahi et al. sur la recommandation de destinations.
+
+\subsubsection{QS MoveON}
+
+MoveON est l'outil central du service RI pour la gestion des accords bilatéraux et des candidatures. Il est examiné ici non pas pour le remplacer, mais pour identifier précisément ce qu'il ne couvre pas~\cite{qs_moveon}.
+
+\textbf{Points forts  :} le référentiel des accords bilatéraux, le suivi des candidatures post-sélection et l'administration des dossiers étudiants. Son API REST est un point d'appui utile pour extraire les données.
+
+\textbf{Limites par rapport aux critères définis :}
+
+\begin{itemize}
+    \item MoveON se limite aux mobilités sortantes et aux accords. Les données académiques (GPA, département, parcours), les stages internationaux et les mobilités complémentaires en sont totalement absents. Le service RI est donc contraint d'exporter depuis MoveON, de compléter à la main dans Excel, puis de travailler sur ce fichier hybride; c'est exactement ce que ce projet cherche à éliminer.
+
+    \item Les quotas ne sont gérés qu'à l'échelle INP. La répartition par école (ENSEEIHT) puis par département pédagogique, qui conditionne l'affectation interne, est entièrement tenue dans des fichiers Excel sans aucune contrainte de cohérence.
+
+    \item Aucun classement automatique n'existe. La sélection est intégralement manuelle, ce qui signifie que les règles appliquées varient selon l'agent et la campagne.
+
+    \item Sans les stages ni les expériences complémentaires, le calcul de la durée de mobilité est impossible à automatiser depuis MoveON seul.
+
+    \item Aucune suggestion de destinations adaptée au profil de l'étudiant.
+
+    \item Les exports MoveON ne produisent pas les indicateurs CTI structurés (taux de mobilité par promotion, durées moyennes, répartition géographique) dans un format directement exploitable pour les audits.
+\end{itemize}
+
+MoveON reste un bon outil pour ce qu'il fait, mais sa conception ne prévoit pas de
+couvrir les besoins opérationnels internes d'un établissement.
+
+\subsubsection{Mobility-Online}
+
+Mobility-Online est une plateforme de gestion de la mobilité étudiante largement utilisée par des services de relations internationales en Europe, notamment pour la gestion administrative des échanges Erasmus+ et des accords bilatéraux.
+
+\textbf{Points forts :} un module de gestion documentaire complet (conventions, learning agreements, relevés de notes) et une bonne couverture du suivi administratif des mobilités entrantes et sortantes, sur un périmètre européen large.
+
+\textbf{Limites par rapport aux critères définis :}
+
+\begin{itemize}
+    \item La plateforme est conçue comme un outil de gestion administrative générique, sans granularité de quotas par département pédagogique propre à un établissement français comme l'ENSEEIHT.
+    \item Aucun mécanisme d'auto-affectation basé sur le classement académique n'est proposé : la sélection reste manuelle.
+    \item Le calcul de durée de mobilité selon les critères CTI, spécifiques aux écoles d'ingénieurs françaises, n'est pas pris en charge, la plateforme n'étant pas conçue pour ce cadre réglementaire.
+    \item Ni recommandation de destinations personnalisée, ni reporting structuré selon les indicateurs CTI.
+\end{itemize}
+
+Mobility-Online confirme qu'une plateforme généraliste, même mature et largement déployée, ne couvre pas les besoins spécifiques d'un établissement soumis aux exigences de la CTI.
+
+\subsubsection{ErasmusJET}
+
+ErasmusJET est une plateforme développée dans le cadre des initiatives de digitalisation du programme Erasmus+. Son objectif est de standardiser les échanges de données entre établissements partenaires du réseau européen.
+
+\textbf{Points forts :} la gestion complète du cycle Erasmus : dépôt de candidatures en ligne, génération et signature des conventions, échange de relevés de notes entre institutions. Pour un établissement dont toutes les mobilités relèvent du programme Erasmus, c'est une solution adaptée.
+
+\textbf{Limites par rapport aux critères définis :}
+
+\begin{itemize}
+    \item ErasmusJET ne fonctionne que pour Erasmus+. Les accords hors Europe, qui représentent une grande partie des mobilités de l'ENSEEIHT, restent en dehors de son périmètre, tout comme les données académiques, les stages et les mobilités complémentaires.
+
+    \item Les quotas par département, l'auto-affectation et le calcul de durée CTI ne sont pas prévus dans la plateforme.
+
+    \item Son format est standardisé pour les échanges européens, ce qui ne laisse pas de place pour les règles propres à chaque établissement.
+
+    \item Ni recommandation de destinations, ni reporting CTI.
+\end{itemize}
+
+ErasmusJET peut être utile pour la partie Erasmus+, mais il ne règle aucun des problèmes identifiés.
+
+\subsubsection{Travaux académiques : Elahi et al. (2022)}
+
+Les travaux d'Elahi et al. proposent un système qui combine recommandation de destinations et processus d'affectation étudiante. Les tests sont réalisés sur un jeu de données simulé~\cite{Elahi2022}.
+
+\textbf{Points forts :} c'est la seule des solutions analysées qui aborde sérieusement le critère C7 : la recommandation personnalisée de destinations. L'article démontre la faisabilité technique de coupler un algorithme de suggestion avec un processus de sélection, ce qui en fait une référence directement pertinente pour la partie intelligence du projet.
+
+\textbf{Limites par rapport aux critères définis :}
+
+\begin{itemize}
+    \item Le modèle repose sur un dataset simulé et uniforme, sans connexion avec des systèmes institutionnels réels. Il ne propose aucune intégration avec MoveON, Pégase ou Eudonet.
+
+    \item La gestion des quotas par département, l'affectation sous contraintes, le calcul de durée de mobilité et les expériences complémentaires sont entièrement hors du périmètre ; le modèle ne traite que la recommandation.
+
+    \item C'est un prototype de recherche : il n'y a aucun moyen de configurer des règles propres à un établissement.
+
+    \item Le reporting CTI n'est pas abordé.
+\end{itemize}
+
+Ces travaux sont une référence utile pour la partie recommandation, mais ils ne forment pas une solution prête à être utilisée à l'ENSEEIHT.
+
+\subsection{Tableau comparatif de synthèse}
+
+Le tableau~\ref{tab:synthese_solutions} résume la couverture de chaque solution pour les neuf critères de la grille d'évaluation. La légende suivante s'applique : \cmark\ = critère satisfait, \xmark\ = critère non satisfait, \textit{Partiel} = critère partiellement couvert.
+
+\renewcommand{\arraystretch}{1.45}
+\begin{table}[H]
+\centering
+\caption{Synthèse comparative des solutions selon la grille d'évaluation}
+\label{tab:synthese_solutions}
+\footnotesize
+\begin{tabular}{|p{5.4cm}|>{\centering\arraybackslash}p{2cm}|>{\centering\arraybackslash}p{2.1cm}|>{\centering\arraybackslash}p{2cm}|>{\centering\arraybackslash}p{2.1cm}|}
+\hline
+\rowcolor{gray!20}
+\centering{\textbf{Critère}} & \textbf{QS MoveON} & \textbf{Mobility-Online} & \textbf{ErasmusJET} & \textbf{Elahi et al.} \\
+\hline
+C1 – Centralisation des données & Partiel & Partiel & \xmark & \xmark \\
+\hline
+C2 – Quotas par école et département & \xmark & \xmark & \xmark & \xmark \\
+\hline
+C3 – Aide à la décision et auto-affectation & \xmark & \xmark & \xmark & \xmark \\
+\hline
+C4 – Calcul durée de mobilité & \xmark & \xmark & \xmark & \xmark \\
+\hline
+C5 – Mobilités complémentaires & \xmark & \xmark & \xmark & \xmark \\
+\hline
+C6 – Adaptabilité métier & Partiel & \xmark & \xmark & \xmark \\
+\hline
+C7 – Recommandation de destinations & \xmark & \xmark & \xmark & Partiel \\
+\hline
+C8 – Reporting CTI & \xmark & \xmark & \xmark & \xmark \\
+\hline
+C9 – Réponse aux questions des étudiants & \xmark & \xmark & \xmark & \xmark \\
+\hline
+\end{tabular}
+\end{table}
+
+Aucune des quatre solutions étudiées ne répond à l'ensemble des neuf critères retenus, en particulier la granularité des quotas par département et la conformité CTI. Ce constat, obtenu sur un panel volontairement diversifié, confirme la nécessité d'une solution propre au service RI, dont les besoins sont précisés dans la section suivante.
 
 % ─────────────────────────────────────────────────────────────
 \section{Besoins du système}
 \label{sec:besoins-systeme}
 % ─────────────────────────────────────────────────────────────
 
-Cette section décrit les principales fonctionnalités attendues du système, les exigences non fonctionnelles associées, ainsi que les profils utilisateurs et le périmètre de réalisation retenu pour ce projet.
+Le constat précédent conduit à formuler des exigences précises. Cette section décrit les principales fonctionnalités attendues du système, les exigences non fonctionnelles associées, ainsi que les profils utilisateurs et le périmètre de réalisation retenu pour ce projet.
 
 \subsection{Besoins fonctionnels}
 
@@ -148,7 +329,7 @@ Le système prend en charge les opérations suivantes, qui couvrent l'ensemble d
     \item \textbf{BF05 --- Mobilités complémentaires} : les étudiants déclarent leurs expériences et déposent les justificatifs nécessaires, puis le service RI se charge de la validation des dossiers.
     \item \textbf{BF06 --- Mobilités entrantes} : import via template Excel et suivi administratif granulaire.
     \item \textbf{BF07 --- Historisation} : les données d'une campagne clôturée passent en lecture seule. Aucune exécution ultérieure ne peut modifier les résultats d'une année passée.
-    \item \textbf{BF08 --- Reporting et enquêtes CTI} : calcul automatique des indicateurs requis pour les enquêtes annuelles de la Commission des Titres d'Ingénieur — nombre et pourcentage d'étudiants mobiles, durée moyenne de mobilité, répartition des destinations — ainsi qu'export des rapports de conformité correspondants.
+    \item \textbf{BF08 --- Reporting et enquêtes CTI} : calcul automatique des indicateurs requis pour les enquêtes annuelles de la Commission des Titres d'Ingénieur, à savoir le nombre et le pourcentage d'étudiants mobiles, la durée moyenne de mobilité et la répartition des destinations, ainsi que l'export des rapports de conformité correspondants.
 \end{itemize}
 
 \subsubsection{Fonctionnalités intelligentes}
@@ -167,11 +348,11 @@ Au-delà des fonctionnalités métier, le système doit également répondre à 
 \begin{itemize}
     \item \textbf{BNF01 --- Interopérabilité} : le système doit s'intégrer sans rupture dans l'écosystème existant via des adaptateurs REST dédiés à chaque source. En cas d'indisponibilité d'une API, un fallback par import Excel garantit la continuité opérationnelle.
 
-    \item \textbf{BNF02 --- Intégrité des données} : les données provenant de sources hétérogènes peuvent être incohérentes ou dupliquées. Une validation stricte est appliquée à chaque import — contrôle de format, détection de doublons, cohérence inter-sources. Toute donnée rejetée est tracée dans un rapport d'import avec la raison précise, pour correction ciblée.
+    \item \textbf{BNF02 --- Intégrité des données} : les données provenant de sources hétérogènes peuvent être incohérentes ou dupliquées. Une validation stricte est appliquée à chaque import : contrôle de format, détection de doublons, cohérence inter-sources. Toute donnée rejetée est tracée dans un rapport d'import avec la raison précise, pour correction ciblée.
 
     \item \textbf{BNF03 --- Sécurité et RGPD} : authentification via le SSO institutionnel, gestion stricte des rôles (étudiant vs administrateur), chiffrement des données sensibles. Un étudiant n'accède qu'à son propre dossier.
 
-    \item \textbf{BNF04 --- Performance} : le temps de réponse de l'API pour les endpoints courants doit être inférieur à 200~ms sous une charge de 50 utilisateurs simultanés. L'algorithme d'affectation doit s'exécuter en moins de 30 secondes pour une promotion de 300 étudiants. Les traitements lourds — algorithme d'affectation, calculs CTI — sont exécutés de façon asynchrone en arrière-plan pour ne pas bloquer l'interface.
+    \item \textbf{BNF04 --- Performance} : le temps de réponse de l'API pour les endpoints courants doit être inférieur à 200~ms sous une charge de 50 utilisateurs simultanés. L'algorithme d'affectation doit s'exécuter en moins de 30 secondes pour une promotion de 300 étudiants. Les traitements lourds, tels que l'algorithme d'affectation ou les calculs CTI, sont exécutés de façon asynchrone en arrière-plan pour ne pas bloquer l'interface.
 
     \item \textbf{BNF05 --- Disponibilité} : s'agissant d'un système institutionnel sollicité lors de périodes de campagne critiques (ouverture des vœux, publication des résultats), une disponibilité cible de 99~\% hors fenêtres de maintenance planifiées est visée, appuyée par une politique de sauvegarde permettant une reprise rapide en cas d'incident.
 
@@ -179,7 +360,7 @@ Au-delà des fonctionnalités métier, le système doit également répondre à 
 
     \item \textbf{BNF07 --- Ergonomie} : l'interface adapte sa navigation et ses fonctionnalités au rôle de l'utilisateur connecté, réduisant les erreurs de manipulation.
 
-    \item \textbf{BNF08 --- Traçabilité} : toute action importante — import, modification d'affectation, validation, transition de phase — est enregistrée avec l'identité de l'auteur et l'horodatage dans un journal d'audit persistant en écriture seule.
+    \item \textbf{BNF08 --- Traçabilité} : toute action importante, telle qu'un import, une modification d'affectation, une validation ou une transition de phase, est enregistrée avec l'identité de l'auteur et l'horodatage dans un journal d'audit persistant en écriture seule.
 \end{itemize}
 
 \subsection{Profils utilisateurs et périmètre de réalisation}
@@ -190,7 +371,7 @@ Cette sous-section présente les profils d'utilisateurs du système, puis défin
 
 Deux profils utilisent le système, avec des besoins très différents.
 
-\textbf{L'administrateur} — c'est-à-dire le service RI — pilote la campagne de bout en bout. Il supervise les imports, configure les quotas, ajuste les propositions d'affectation, instruit les demandes de mobilités complémentaires et produit les rapports CTI. Le système prend en charge les tâches répétitives, mais toute décision finale reste sous sa responsabilité, et chaque intervention manuelle est tracée.
+\textbf{L'administrateur}, c'est-à-dire le service RI, pilote la campagne de bout en bout. Il supervise les imports, configure les quotas, ajuste les propositions d'affectation, instruit les demandes de mobilités complémentaires et produit les rapports CTI. Le système prend en charge les tâches répétitives, mais toute décision finale reste sous sa responsabilité, et chaque intervention manuelle est tracée.
 
 \textbf{L'étudiant} consulte les destinations disponibles, reçoit des recommandations personnalisées avant de saisir ses vœux dans MoveON, suit l'état de sa candidature, déclare ses expériences complémentaires et vérifie à tout moment si sa durée totale de mobilité atteint le seuil requis pour l'obtention du diplôme. L'assistant virtuel répond à ses questions procédurales sans solliciter le service RI.
 
@@ -198,7 +379,7 @@ Deux profils utilisent le système, avec des besoins très différents.
 
 Le développement est organisé en deux niveaux de priorité.
 
-\textbf{MVP — fonctionnalités prioritaires (BF01 à BF08, BNF01 à BNF08)} :
+\textbf{MVP : fonctionnalités prioritaires (BF01 à BF08, BNF01 à BNF08)} :
 \begin{itemize}
   \item Intégration des données multi-sources (MoveON, Pégase, Eudonet, Excel)
   \item Gestion des accords et quotas par département
@@ -210,17 +391,69 @@ Le développement est organisé en deux niveaux de priorité.
   \item Sécurité : SSO, contrôle d'accès, audit log
 \end{itemize}
 
-\textbf{V2 — fonctionnalités secondaires (BF09, BF10)} :
+\textbf{V2 : fonctionnalités secondaires (BF09, BF10)} :
 \begin{itemize}
   \item Moteur de recommandation de destinations personnalisé
   \item Assistant virtuel (chatbot RAG)
 \end{itemize}
 
 % ─────────────────────────────────────────────────────────────
+\section{Solution envisagée}
+% ─────────────────────────────────────────────────────────────
+
+La réponse envisagée est le développement d'une plateforme propre au service RI, qui se connecte aux outils existants pour en récupérer les données plutôt que de les remplacer. Le tableau~\ref{tab:couverture_criteres} reprend chacun des neuf critères de la grille d'évaluation et indique la fonctionnalité, parmi celles qui viennent d'être présentées, qui le couvre.
+
+\renewcommand{\arraystretch}{1.4}
+\begin{table}[H]
+\centering
+\caption{Couverture prévue des critères d'évaluation}
+\label{tab:couverture_criteres}
+\footnotesize
+\begin{tabular}{|p{5cm}|p{5.5cm}|p{2.7cm}|}
+\hline
+\rowcolor{gray!20}
+\textbf{Critère} & \textbf{Fonctionnalité prévue} & \textbf{Périmètre} \\
+\hline
+C1 -- Centralisation des données & BF01 : intégration des données multi-sources & MVP garanti \\
+\hline
+C2 -- Quotas par école et département & BF02 : gestion des accords et quotas & MVP garanti \\
+\hline
+C3 -- Aide à la décision et auto-affectation & BF03 : algorithme d'affectation & MVP garanti \\
+\hline
+C4 -- Calcul de la durée de mobilité & BF04 : suivi de la durée de mobilité & MVP garanti \\
+\hline
+C5 -- Mobilités complémentaires & BF05 : mobilités complémentaires & MVP garanti \\
+\hline
+C6 -- Adaptabilité aux règles internes & Configuration transverse des quotas, seuils et priorités (BF02, BF03) & MVP garanti \\
+\hline
+C7 -- Recommandation de destinations & BF09 : moteur de recommandation & V2 conditionnel \\
+\hline
+C8 -- Reporting CTI & BF08 : reporting et enquêtes CTI & MVP garanti \\
+\hline
+C9 -- Réponse aux questions des étudiants & BF10 : assistant virtuel (chatbot RAG) & V2 conditionnel \\
+\hline
+\end{tabular}
+\end{table}
+
+Donc, sept critères sur neuf sont couverts dès la première version (MVP). Les deux critères restants, la recommandation de destinations (C7) et la réponse aux questions des étudiants (C9), sont repoussés en V2, si le temps le permet, car ils n'ont pas d'impact sur la conformité CTI.
+
+Côté architecture, la plateforme est organisée en couches : présentation, API, logique métier et données, avec une couche dédiée à l'intégration des imports MoveON, Pégase, Eudonet et Excel. Le choix des technologies pour chaque couche, ainsi que les algorithmes de sélection, d'affectation et de recommandation, sont expliqués au chapitre~\ref{cha:choix-technologiques}. Leur mise en œuvre concrète (organisation du code, modèle de données, machines à états) est détaillée au chapitre~\ref{cha:conception}.
+
+% ─────────────────────────────────────────────────────────────
 \section{Organisation et cadrage du projet}
 % ─────────────────────────────────────────────────────────────
 
-Cette section regroupe les éléments qui cadrent la conduite du projet : la méthodologie de gestion de projet retenue, la planification générale et l'environnement de travail utilisé.
+Cette section regroupe les éléments qui cadrent la conduite du projet : les contraintes qui l'encadrent, la méthodologie de gestion de projet retenue, la planification générale et l'environnement de travail utilisé.
+
+\subsection{Contraintes du projet}
+
+Trois types de contraintes ont encadré la conduite du projet.
+
+\textbf{Contraintes techniques.} La plateforme ne remplace aucun des outils existants : elle doit s'intégrer à MoveON, Pégase et Eudonet via leurs API respectives, avec un mécanisme de repli par fichier Excel lorsque l'une d'elles est indisponible.
+
+\textbf{Contraintes réglementaires.} Le système doit respecter le RGPD dans le traitement des données étudiantes et produire des indicateurs conformes aux exigences de la Commission des Titres d'Ingénieur en matière de durée de mobilité.
+
+\textbf{Contraintes organisationnelles.} Le développement est assuré par une seule personne sur une durée fixe de six mois, ce qui limite le temps disponible aux fonctionnalités non prioritaires. Certaines règles métier, notamment la hiérarchie des quotas, n'étaient pas encore stabilisées au démarrage du projet, et la disponibilité du service RI pour les validations reste limitée aux points d'avancement de fin de sprint.
 
 \subsection{Méthodologie de gestion de projet}
 
@@ -238,8 +471,8 @@ doit être complètement terminée avant de passer à la suivante.
 exhaustive dès le départ, ce qui facilite le suivi et la traçabilité des décisions.
 
 \textbf{Limites dans notre contexte :} Elle impose de geler un cahier des charges
-complet avant tout développement. Or, certaines règles métier — notamment la
-hiérarchie des quotas et les critères de priorité dans l'affectation — n'étaient
+complet avant tout développement. Or, certaines règles métier, notamment la
+hiérarchie des quotas et les critères de priorité dans l'affectation, n'étaient
 pas entièrement définies au démarrage du projet, rendant cette approche inadaptée.
 
 \subsubsection{Kanban}
@@ -278,6 +511,8 @@ Le tableau~\ref{tab:methodo_comparaison} compare les trois approches sur des cri
 \renewcommand{\arraystretch}{1.4}
 \begin{table}[H]
 \centering
+\caption{Comparaison des approches de gestion de projet}
+\label{tab:methodo_comparaison}
 \footnotesize
 \begin{tabular}{|p{3cm}|p{3cm}|p{3cm}|p{3cm}|}
 \hline
@@ -291,8 +526,6 @@ Adaptation aux changements & Difficile & Bonne, mais sans rythme structuré & Bo
 Visibilité client & Faible en cours de projet & Modérée & Élevée (Sprint Review) \\
 \hline
 \end{tabular}
-\caption{Comparaison des approches de gestion de projet}
-\label{tab:methodo_comparaison}
 \end{table}
 
 Au regard de ces trois critères, Scrum est le seul à combiner une planification structurée et une capacité d'adaptation intégrée à chaque itération, tout en offrant la meilleure visibilité pour le service RI. C'est pourquoi \textbf{Scrum} est retenu, pour son équilibre entre structure (sprints de durée
@@ -305,7 +538,7 @@ remplacés par des pratiques équivalentes, comme précisé ci-dessous.
 Scrum s'appuie sur des rôles, des artefacts et des événements, présentés
 ci-dessous et adaptés au contexte d'un stage individuel.
 
-\subsubsection{Les rôles Scrum}
+\textbf{Les rôles Scrum.}
 
 \begin{itemize}[label=•]
     \item \textit{\textbf{Le Product Owner}} : responsable de la priorisation du backlog et de la validation des livraisons.
@@ -318,6 +551,8 @@ Le tableau~\ref{tab:roles-scrum} précise, pour ce projet, la personne assurant 
 \renewcommand{\arraystretch}{1.5}
 \begin{table}[H]
 \centering
+\caption{Rôles Scrum et responsables associés}
+\label{tab:roles-scrum}
 \begin{tabular}{|p{5cm}|p{7cm}|}
 \hline
 \rowcolor{gray!20}
@@ -330,19 +565,17 @@ Scrum Master & Madame Myriam FOURATI  \\
 Development Team & Ons SOUISSI \\
 \hline
 \end{tabular}
-\caption{Rôles Scrum et responsables associés}
-\label{tab:roles-scrum}
 \end{table}
 
-\subsubsection{Les artefacts Scrum}
+\textbf{Les artefacts Scrum.}
 
 \begin{itemize}[label=•]
-    \item \textit{\textbf{Le backlog du produit}} : liste des fonctionnalités du système, priorisées selon la méthode MoSCoW et estimées en story points ; détaillé au chapitre~4 (Product Backlog).
-    \item \textit{\textbf{Le backlog de sprint}} : sous-ensemble du backlog produit retenu pour un sprint donné ; présenté pour chaque sprint réalisé au chapitre~5.
+    \item \textit{\textbf{Le backlog du produit}} : liste des fonctionnalités du système, priorisées selon la méthode MoSCoW et estimées en story points ; détaillé au chapitre~\ref{cha:conception} (Product Backlog).
+    \item \textit{\textbf{Le backlog de sprint}} : sous-ensemble du backlog produit retenu pour un sprint donné ; présenté pour chaque sprint réalisé au chapitre~\ref{cha:realisation}.
     \item \textit{\textbf{L'incrément}} : ensemble des fonctionnalités terminées à l'issue d'un sprint, qui s'ajoute aux incréments précédents.
 \end{itemize}
 
-\subsubsection{Les événements Scrum}
+\textbf{Les événements Scrum.}
 
 \begin{itemize}[label=•]
     \item \textit{\textbf{Le Sprint}} : période de développement à durée fixe (deux à trois semaines dans ce projet), à l'issue de laquelle un incrément fonctionnel est livré.
@@ -357,30 +590,58 @@ correspondant à une issue liée aux pull requests qui l'implémentent.
 
 \subsection{Planification générale}
 
-Le projet s'est déroulé sur six mois, organisés en cinq grandes phases dont l'enchaînement est résumé dans le tableau~\ref{tab:planning-general}. La planification détaillée sprint par sprint, sous forme de product backlog et de diagramme de Gantt, ne pouvait être établie qu'une fois le périmètre fonctionnel et les choix technologiques stabilisés ; elle est donc présentée au chapitre~4 (Conception du système).
+Le projet s'est déroulé sur six mois, organisés en cinq grandes phases dont l'enchaînement est résumé dans le tableau~\ref{tab:planning-general}. La planification détaillée sprint par sprint, sous forme de product backlog et de diagramme de Gantt, ne pouvait être établie qu'une fois le périmètre fonctionnel et les choix technologiques stabilisés ; elle est donc présentée au chapitre~\ref{cha:conception} (Conception du système).
 
 \renewcommand{\arraystretch}{1.4}
 \begin{table}[H]
 \centering
+\caption{Planification générale du projet}
+\label{tab:planning-general}
 \footnotesize
 \begin{tabular}{|p{1cm}|p{7.5cm}|p{4.5cm}|}
 \hline
 \rowcolor{gray!20}
 \textbf{Phase} & \textbf{Contenu} & \textbf{Durée indicative} \\
 \hline
-1 & Cadrage, analyse de l'existant et positionnement par rapport aux solutions existantes (chapitres 1 et 2) & 3 à 4 semaines \\
+1 & Cadrage, analyse de l'existant et positionnement par rapport aux solutions existantes (chapitre 1) & 3 à 4 semaines \\
 \hline
-2 & Choix technologiques et algorithmiques (chapitre 3) & 2 semaines \\
+2 & Choix technologiques et algorithmiques (chapitre 2) & 2 semaines \\
 \hline
-3 & Conception détaillée : product backlog, architecture, modèle de données (chapitre 4) & 2 à 3 semaines \\
+3 & Conception détaillée : product backlog, architecture, modèle de données (chapitre 3) & 2 à 3 semaines \\
 \hline
-4 & Réalisation itérative en sprints Scrum (chapitre 5) & environ 3 mois \\
+4 & Réalisation itérative en sprints Scrum (chapitre 4) & environ 3 mois \\
 \hline
 5 & Tests de charge et de sécurité, documentation, livraison & 2 à 3 semaines \\
 \hline
 \end{tabular}
-\caption{Planification générale du projet}
-\label{tab:planning-general}
+\end{table}
+
+\subsection{Outils et environnement de travail}
+
+Le développement s'appuie sur un environnement de travail volontairement simple, adapté à un projet porté par une seule personne. Le tableau~\ref{tab:outils-environnement} en résume les principaux éléments.
+
+\renewcommand{\arraystretch}{1.4}
+\begin{table}[H]
+\centering
+\caption{Outils et environnement de travail}
+\label{tab:outils-environnement}
+\footnotesize
+\begin{tabular}{|p{4cm}|p{4cm}|p{7cm}|}
+\hline
+\rowcolor{gray!20}
+\textbf{Catégorie} & \textbf{Outil(s)} & \textbf{Usage} \\
+\hline
+Éditeur de code & Visual Studio Code & Développement de l'application \\
+\hline
+Conteneurisation & Docker Desktop & Exécution locale des conteneurs de l'application \\
+\hline
+Modélisation UML & StarUML & Diagrammes de classes, de séquence et machines à états \\
+\hline
+Gestion de versions & Git, GitHub & Versionnement du code ; suivi du backlog via GitHub Projects \\
+\hline
+Communication avec le service RI & Email, Zoom, réunions en présentiel & Échanges courants et points d'avancement, notamment lors des Sprint Review \\
+\hline
+\end{tabular}
 \end{table}
 
 \section*{Conclusion}
@@ -388,4 +649,4 @@ Le projet s'est déroulé sur six mois, organisés en cinq grandes phases dont l
 \phantomsection
 \addcontentsline{toc}{section}{Conclusion}
 
-Ce chapitre a présenté l'organisme d'accueil, analysé les limites du système d'information existant, formulé la problématique et la solution envisagée, précisé les besoins du système et posé le cadrage du projet. Il reste toutefois à vérifier qu'aucune solution du marché ne répond déjà à ce besoin : c'est l'objet du chapitre suivant, qui positionne ce projet par rapport aux solutions existantes.
+Ce chapitre a présenté le contexte du projet, la problématique qui en découle et la solution envisagée, avant de préciser les besoins du système et le cadrage retenu pour le mener à bien. Les choix technologiques et algorithmiques qui permettent de la réaliser font l'objet du chapitre suivant.

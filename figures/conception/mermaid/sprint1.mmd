@@ -1,0 +1,113 @@
+classDiagram
+    direction LR
+
+    class Country {
+        +id: int
+        +iso2: String «unique»
+        +name_fr: String
+        +name_en: String
+        +cti_region: String
+    }
+
+    class Department {
+        +id: int
+        +code: String «unique»
+        +name: String
+        +pegase_id: String «unique»
+        +last_sync_pegase: Date
+    }
+
+    class Level {
+        +id: int
+        +code: String «unique»
+        +name: String
+        +pegase_id: String «unique»
+        +last_sync_pegase: Date
+    }
+
+    class MobilityCategory {
+        +id: int
+        +moveon_id: String «unique»
+        +name: String
+        +last_sync_moveon: Date
+    }
+
+    class PartnerUniversity {
+        +id: int
+        +moveon_id: int «unique»
+        +name: String
+        +short_name: String
+        +translated_name: String
+        +erasmus_code: String
+        +city: String
+        +url: String
+        +email: String
+        +last_sync_moveon: Date
+    }
+
+    class Agreement {
+        +id: int
+        +moveon_id: String «unique»
+        +name: String
+        +direction: String
+        +valid_from: Date
+        +valid_until: Date
+        +inp_total_places: int
+        +inp_institutions: String
+        +remarks: String
+        +last_sync_moveon: Date
+        +is_valid_for_year(year) bool
+        +is_eligible(dept_id) bool
+    }
+
+    class AgreementDepartment {
+        +id: int
+        +remarks: String
+    }
+
+    class AgreementYear {
+        +id: int
+        +is_active: Boolean
+        +inp_total_places: int
+        +n7_places: int
+        +is_validated: Boolean
+        +validated_by: String
+        +validated_at: Date
+        +clean()
+    }
+
+    class AgreementYearDepartment {
+        +id: int
+        +estimated_places: int
+        +adjusted_places: int
+        +get_effective_quota() int
+    }
+
+    class AcademicYear {
+        +id: int
+        +label: String «unique»
+        +start_date: Date
+        +end_date: Date
+        +status: FSMField
+        +wishes_open_date: Date
+        +wishes_close_date: Date
+        +closed_at: Date
+        +open_recommendation()
+        +start_candidature()
+        +close_wishes()
+        +launch_assignment()
+        +complete_assignment()
+        +publish_results()
+        +close()
+    }
+
+    PartnerUniversity "0..*" -- "1" Country : is_located_in
+    Agreement "0..*" -- "1" PartnerUniversity : is_linked_to
+    Agreement "0..*" -- "0..1" MobilityCategory : has
+    Agreement "0..*" -- "0..*" Level : concerns
+    Agreement "1" -- "0..*" AgreementDepartment : constrains
+    Department "1" -- "0..*" AgreementDepartment : authorizes
+    Agreement "1" -- "0..*" AgreementYear : is_declined_in
+    AcademicYear "1" -- "0..*" AgreementYear : is_active_in
+    AgreementYear "1" -- "0..*" AgreementYearDepartment : has_quota
+    AgreementDepartment "1" -- "0..*" AgreementYearDepartment : receives_quota
