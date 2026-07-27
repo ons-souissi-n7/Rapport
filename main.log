@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.7.19)  21 JUL 2026 15:18
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.7.19)  27 JUL 2026 12:19
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1930,129 +1930,129 @@ Underfull \hbox (badness 10000) in paragraph at lines 166--166
  []
 
 [30] [31] [32] [33]
-Underfull \hbox (badness 10000) in paragraph at lines 426--426
+Underfull \hbox (badness 10000) in paragraph at lines 424--424
 []|\T1/cmr/m/n/10 Validation Py-dan-tic (ty-page
  []
 
 [34] [35] [36]
-Underfull \hbox (badness 10000) in paragraph at lines 570--570
+Underfull \hbox (badness 10000) in paragraph at lines 568--568
 []|\T1/cmr/m/n/10 Outils de sau-ve-garde
  []
 
 [37] [38]
-Underfull \hbox (badness 7468) in paragraph at lines 677--677
+Underfull \hbox (badness 7468) in paragraph at lines 675--675
 []|\T1/cmr/m/n/10 Aucun ser-vice sup-plé-men-
  []
 
 [39] [40] [41] [42] [43] [44]
-Underfull \hbox (badness 10000) in paragraph at lines 1049--1050
+Underfull \hbox (badness 10000) in paragraph at lines 1047--1048
 
  []
 
 [45]
-Underfull \hbox (badness 10000) in paragraph at lines 1072--1073
+Underfull \hbox (badness 10000) in paragraph at lines 1070--1071
 
  []
 
 
-Overfull \hbox (17.03731pt too wide) in paragraph at lines 1089--1091
+Overfull \hbox (17.03731pt too wide) in paragraph at lines 1087--1089
 []\T1/cmr/m/n/12 Comportement moins pré-vi-sible dans un en-vi-ron-ne-ment ins-
 ti-tu-tion-nel avec des contraintes
  []
 
 [46]
-Underfull \hbox (badness 1924) in paragraph at lines 1159--1159
+Underfull \hbox (badness 1924) in paragraph at lines 1157--1157
 []|\T1/cmr/m/n/12 Backend fra-me-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1168--1168
+Underfull \hbox (badness 10000) in paragraph at lines 1166--1166
 []|\T1/cmr/m/n/12 Gestionnaire
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1171--1171
+Underfull \hbox (badness 10000) in paragraph at lines 1169--1169
 []|\T1/cmr/m/n/12 MinIO (S3-
  []
 
 
-Overfull \hbox (1.83154pt too wide) in paragraph at lines 1177--1177
+Overfull \hbox (1.83154pt too wide) in paragraph at lines 1175--1175
 []|\T1/cmr/m/n/12 Conteneurisation| 
  []
 
 
-Underfull \hbox (badness 2310) in paragraph at lines 1177--1177
+Underfull \hbox (badness 2310) in paragraph at lines 1175--1175
 []|\T1/cmr/m/n/12 Docker + Do-cker
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1180--1180
+Underfull \hbox (badness 10000) in paragraph at lines 1178--1178
 []|\T1/cmr/m/n/12 Gestion des
  []
 
 [47] [48]
-Underfull \hbox (badness 6396) in paragraph at lines 1274--1274
+Underfull \hbox (badness 6396) in paragraph at lines 1272--1272
 []|\T1/cmr/m/n/10 Compatible avec les mi-gra-tions
  []
 
 
-Underfull \hbox (badness 1028) in paragraph at lines 1278--1278
+Underfull \hbox (badness 1028) in paragraph at lines 1276--1276
 []|\T1/cmr/m/n/10 Aucune confi-gu-ra-tion Post-greSQL
  []
 
 [49] [50] [51] [52] [53] [54] [55]
-Underfull \hbox (badness 10000) in paragraph at lines 1622--1623
+Underfull \hbox (badness 10000) in paragraph at lines 1620--1621
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1640--1641
+Underfull \hbox (badness 10000) in paragraph at lines 1638--1639
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1683--1683
+Underfull \hbox (badness 10000) in paragraph at lines 1681--1681
 []|\T1/cmr/m/n/10 Simplicité de main-te-
  []
 
 [56]
-Underfull \hbox (badness 3168) in paragraph at lines 1707--1707
+Underfull \hbox (badness 3168) in paragraph at lines 1705--1705
 []|\T1/cmr/m/n/10 Département pé-da-go-
  []
 
 [57] [58] [59]
-Overfull \hbox (6.5803pt too wide) in paragraph at lines 1883--1883
+Overfull \hbox (6.5803pt too wide) in paragraph at lines 1881--1881
 |[]\T1/cmr/bx/n/17.28 Synthèse des choix al-go-rith-miques et de per-for-mance|
  
  []
 
 
-Underfull \hbox (badness 3118) in paragraph at lines 1908--1908
+Underfull \hbox (badness 3118) in paragraph at lines 1906--1906
 []|\T1/cmr/m/n/12 Répartition des
  []
 
 
-Underfull \hbox (badness 5119) in paragraph at lines 1911--1911
+Underfull \hbox (badness 5119) in paragraph at lines 1909--1909
 []|\T1/cmr/m/n/12 Moteur de re-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1911--1911
+Underfull \hbox (badness 10000) in paragraph at lines 1909--1909
 []|\T1/cmr/m/n/12 Régression lo-gis-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1914--1914
+Underfull \hbox (badness 10000) in paragraph at lines 1912--1912
 []|\T1/cmr/m/n/12 Orchestration
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1914--1914
+Underfull \hbox (badness 10000) in paragraph at lines 1912--1912
 []|\T1/cmr/m/n/12 LlamaIndex +
  []
 
 
-Underfull \hbox (badness 1215) in paragraph at lines 1917--1917
+Underfull \hbox (badness 1215) in paragraph at lines 1915--1915
 []|\T1/cmr/m/n/12 Modèle de lan-
  []
 
@@ -4183,7 +4183,7 @@ nts/type1/public/cm-super/sftt1000.pfb></usr/local/texlive/2026/texmf-dist/font
 s/type1/public/cm-super/sftt1095.pfb></usr/local/texlive/2026/texmf-dist/fonts/
 type1/public/cm-super/sftt1200.pfb></usr/local/texlive/2026/texmf-dist/fonts/ty
 pe1/urw/zapfding/uzdr.pfb>
-Output written on main.pdf (132 pages, 4728259 bytes).
+Output written on main.pdf (132 pages, 4728230 bytes).
 PDF statistics:
  2653 PDF objects out of 2984 (max. 8388607)
  2429 compressed objects within 25 object streams

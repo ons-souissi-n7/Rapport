@@ -15,7 +15,7 @@
 \phantomsection
 \addcontentsline{toc}{section}{Introduction}
 
-Le chapitre précédent a confirmé qu'aucune solution existante ne répondait aux besoins du service RI, justifiant le développement d'une plateforme sur mesure. Ce chapitre présente les technologies retenues pour la construire (frontend, backend, base de données, stockage, tâches asynchrones, routage), puis les choix algorithmiques et stratégies de performance qui structurent sa logique métier. Pour chaque composant, les alternatives sont comparées sur des critères précis avant de justifier le choix retenu.
+Le chapitre précédent a montré qu'aucune solution existante ne répondait aux besoins du service RI, d'où le choix de développer une plateforme sur mesure. Ce chapitre justifie les technologies et les algorithmes retenus pour la construire, en comparant à chaque fois les principales alternatives.
 
 % ─────────────────────────────────────────────────────────────
 \section{Choix du frontend}
@@ -175,9 +175,7 @@ Rendu hybride SSR + CSR & \xmark & \xmark & \cmark \\
 \textbf{Next.js 14} est retenu. Son modèle de React Server
 Components permet de gérer naturellement les deux espaces du projet : les pages
 sensibles du tableau de bord RI sont rendues côté serveur avant toute vérification
-de rôle, tandis que les composants interactifs de l'espace étudiant s'exécutent côté client. C'est le seul framework parmi
-ceux évalués qui couvre ces deux cas dans le même projet, sans configuration
-additionnelle complexe.
+de rôle, tandis que les composants interactifs de l'espace étudiant s'exécutent côté client. Angular pourrait, en théorie, répondre au même besoin grâce à Angular Universal. Mais avec le temps disponible pour ce projet, Next.js permettait d'arriver au même résultat plus rapidement et avec moins de configuration à mettre en place.
 
 
 % ─────────────────────────────────────────────────────────────
@@ -196,6 +194,8 @@ L'application doit également assurer plusieurs fonctions essentielles : gérer 
 Dans ce contexte, le choix du framework ne repose pas uniquement sur les performances, mais aussi sur la qualité des outils qu'il apporte pour structurer, sécuriser et faire évoluer l'application.
 
 \subsection{Choix du framework backend}
+
+Cette sous-section évalue les frameworks backend candidats au regard des besoins définis ci-dessus, puis justifie le choix retenu.
 
 \subsubsection{Alternatives évaluées}
 
@@ -217,7 +217,7 @@ qui traitent beaucoup de requêtes simultanées ~\cite{nodejs_dev}.
 \textit{Limites :}
 \begin{itemize}
     \item Aucun outil natif pour la base de données, l'administration ou la gestion des droits : il faut tout assembler manuellement à partir de bibliothèques séparées, ce qui alourdit la configuration et la maintenance.
-    \item Il n'existe pas d'outils suffisamment aboutis pour gérer des mécanismes avancés comme les machines à états ou la traçabilité fine des modifications, pourtant indispensables dans ce projet.
+    \item Des bibliothèques de machine à états comme XState existent et sont matures, mais rien d'équivalent à \texttt{django-fsm} n'est directement intégré à un ORM Node.js : il faudrait câbler soi-même la protection des transitions et la traçabilité fine des modifications au niveau des modèles, ce qui est indispensable dans ce projet.
     \item L'utilisation de Node.js implique de travailler en JavaScript, alors que le reste du système est conçu en Python, ce qui introduit une complexité supplémentaire en termes de cohérence et de maintenance.
     \item La gestion des évolutions du schéma de base de données au fil des sprints demande davantage d'efforts d'organisation et de suivi, car elle n'est pas aussi intégrée nativement dans l'écosystème.
 \end{itemize}
@@ -421,31 +421,40 @@ solutions, afin de faciliter la comparaison et de justifier le choix retenu.
 \rowcolor{gray!20}
 \textbf{Critère} & \textbf{DRF} & \textbf{Django Ninja} \\
 \hline
-Support async natif & Non natif, configuration requise & \cmark \\
-\hline
 Validation Pydantic (typage strict) & \xmark & \cmark \\
+\hline
+Réduction du code répétitif & \xmark & \cmark \\
 \hline
 Documentation auto-générée & \xmark & \cmark \\
 \hline
 Intégration ORM Django & \cmark & \cmark \\
 \hline
-Maturité et communauté & \cmark & Framework récent, moins de ressources \\
+Support async natif (vues) & Non natif, configuration requise & \cmark \\
 \hline
-Réduction du code répétitif & \xmark & \cmark \\
+Maturité et communauté & \cmark & Framework récent, moins de ressources \\
 \hline
 \end{tabular}
 \end{table}
 
 \subsubsection{Décision}
-\textbf{Django Ninja} est retenu. Les endpoints
-les plus critiques du projet, tels que le déclenchement
-de l'algorithme, le recalcul ou les synchronisations
-ETL, doivent répondre immédiatement sans
-bloquer l'interface pendant le traitement.
-Django Ninja gère cela nativement, là où DRF
-aurait demandé des contournements. La validation
-Pydantic réduit aussi significativement
-le code répétitif sur plusieurs entités.
+\textbf{Django Ninja} est retenu. L'argument principal est la validation
+par schémas Pydantic : les entrées et sorties de chaque endpoint sont
+typées explicitement, ce qui réduit nettement le code répétitif de
+sérialisation par rapport à DRF, en particulier sur les nombreuses
+entités du domaine (accords, quotas, vœux, affectations). La
+documentation OpenAPI générée automatiquement à partir de ces schémas
+est également appréciable pour un projet développé avec un frontend
+séparé.
+
+Le support natif de l'asynchrone n'est pas le critère décisif : les
+endpoints critiques du projet (déclenchement de l'algorithme, recalcul
+des quotas, synchronisations ETL) répondent immédiatement en
+déléguant le traitement à une tâche Django-Q2, ce qu'une vue
+synchrone classique fait tout aussi bien puisque c'est la mise en
+file d'attente qui est asynchrone, pas la vue elle-même. Ce support
+reste néanmoins un atout pour d'éventuels futurs endpoints qui
+appelleraient directement une API externe (Eudonet, MoveON, Pégase)
+sans passer par une tâche de fond.
 
 \medskip
 \noindent La stack backend retenue est donc :
