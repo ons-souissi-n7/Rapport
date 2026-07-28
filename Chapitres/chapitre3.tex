@@ -17,6 +17,8 @@
 
 Le chapitre précédent a confirmé qu'aucune solution existante ne répondait aux besoins du service RI, justifiant le développement d'une plateforme sur mesure. Ce chapitre présente les technologies retenues pour la construire (frontend, backend, base de données, stockage, tâches asynchrones, routage), puis les choix algorithmiques et stratégies de performance qui structurent sa logique métier. Pour chaque composant, les alternatives sont comparées sur des critères précis avant de justifier le choix retenu.
 
+Chaque tableau comparatif introduit une colonne \textbf{Poids} qui distingue deux niveaux d'importance : un critère \textbf{bloquant} est une exigence dont le non-respect suffit à écarter une solution, tandis qu'un critère \textbf{secondaire} renforce ou affaiblit un choix sans être, à lui seul, éliminatoire. Cette pondération, même binaire, rend explicite le raisonnement suivi lorsque le nombre de critères satisfaits (\cmark) est proche entre deux alternatives.
+
 % ─────────────────────────────────────────────────────────────
 \section{Choix du frontend}
 % ─────────────────────────────────────────────────────────────
@@ -115,10 +117,12 @@ logique interne ~\cite{angular_dev}.
         par Toulouse INP
 \end{itemize}
 
-\subsubsection{Next.js 14}
+\subsubsection{Next.js 16}
 
 Next.js est un framework basé sur React qui permet de combiner rendu côté serveur
-et rendu côté client selon les besoins de chaque page ~\cite{nextjs_dev}.
+et rendu côté client selon les besoins de chaque page ~\cite{nextjs_dev}. La
+comparaison ci-dessous est faite par rapport à la version 16, dernière version
+stable majeure à ce jour.
 
 \textit{Avantages :}
 \begin{itemize}
@@ -150,29 +154,29 @@ Le tableau~\ref{tab:comparaison_frontend} récapitule les critères évalués po
 \caption{Comparaison des frameworks frontend}
 \label{tab:comparaison_frontend}
 \footnotesize
-\begin{tabular}{|p{3.8cm}|>{\centering\arraybackslash}p{2.8cm}|>{\centering\arraybackslash}p{2.4cm}|>{\centering\arraybackslash}p{3cm}|}
+\begin{tabular}{|p{3.2cm}|>{\centering\arraybackslash}p{1.5cm}|>{\centering\arraybackslash}p{2.4cm}|>{\centering\arraybackslash}p{2.1cm}|>{\centering\arraybackslash}p{2.6cm}|}
 \hline
 \rowcolor{gray!20}
-\textbf{Critère} & \textbf{React + Vite} & \textbf{Angular} & \textbf{Next.js 14} \\
+\textbf{Critère} & \textbf{Poids} & \textbf{React + Vite} & \textbf{Angular} & \textbf{Next.js 16} \\
 \hline
-Rendu côté serveur (SSR) & \xmark & Via Angular Universal (config requise) & \cmark \\
+Rendu côté serveur (SSR) & Bloquant & \xmark & Via Angular Universal (config requise) & \cmark \\
 \hline
-Protection des routes par rôle & Manuelle & Mécanisme intégré & Middleware intégré \\
+Protection des routes par rôle & Bloquant & Manuelle & Mécanisme intégré & Middleware intégré \\
 \hline
-Données sensibles côté serveur & \xmark & \xmark & \cmark \\
+Données sensibles côté serveur & Bloquant & \xmark & \xmark & \cmark \\
 \hline
-TypeScript natif & Optionnel & \cmark & \cmark \\
+TypeScript natif & Secondaire & Optionnel & \cmark & \cmark \\
 \hline
-Intégration SSO CAS/OIDC & \cmark & Peu d'exemples avec le SSO CAS de Toulouse INP & \cmark \\
+Intégration SSO CAS/OIDC & Bloquant & \cmark & Peu d'exemples avec le SSO CAS de Toulouse INP & \cmark \\
 \hline
-Rendu hybride SSR + CSR & \xmark & \xmark & \cmark \\
+Rendu hybride SSR + CSR & Bloquant & \xmark & \xmark & \cmark \\
 \hline
 \end{tabular}
 \end{table}
 
 \subsection{Décision}
 
-\textbf{Next.js 14} est retenu. Son modèle de React Server
+\textbf{Next.js 16} est retenu. Son modèle de React Server
 Components permet de gérer naturellement les deux espaces du projet : les pages
 sensibles du tableau de bord RI sont rendues côté serveur avant toute vérification
 de rôle, tandis que les composants interactifs de l'espace étudiant s'exécutent côté client. C'est le seul framework parmi
@@ -194,8 +198,10 @@ Le backend de ce projet ne se limite pas à une simple gestion de données. Il d
 L'application doit également assurer plusieurs fonctions essentielles : gérer les droits d'accès selon les profils (étudiants et administrateurs RI), conserver une trace des actions importantes via un journal d'audit, accompagner l'évolution de la base de données pendant le développement, et s'intégrer au système d'authentification institutionnel CAS/OIDC de Toulouse INP.
 
 Dans ce contexte, le choix du framework ne repose pas uniquement sur les performances, mais aussi sur la qualité des outils qu'il apporte pour structurer, sécuriser et faire évoluer l'application.
-
 \subsection{Choix du framework backend}
+
+Au regard des besoins identifiés ci-dessus, cette sous-section évalue les
+frameworks backend et justifie le choix retenu.
 
 \subsubsection{Alternatives évaluées}
 
@@ -217,7 +223,7 @@ qui traitent beaucoup de requêtes simultanées ~\cite{nodejs_dev}.
 \textit{Limites :}
 \begin{itemize}
     \item Aucun outil natif pour la base de données, l'administration ou la gestion des droits : il faut tout assembler manuellement à partir de bibliothèques séparées, ce qui alourdit la configuration et la maintenance.
-    \item Il n'existe pas d'outils suffisamment aboutis pour gérer des mécanismes avancés comme les machines à états ou la traçabilité fine des modifications, pourtant indispensables dans ce projet.
+    \item Des bibliothèques de machines à états matures existent en JavaScript, comme XState~\cite{xstate_dev}, mais aucun ORM Node.js ne couple nativement les transitions d'état à la persistance des données : la sécurisation des cycles de vie (blocage des transitions non autorisées, traçabilité fine des modifications) resterait à construire manuellement.
     \item L'utilisation de Node.js implique de travailler en JavaScript, alors que le reste du système est conçu en Python, ce qui introduit une complexité supplémentaire en termes de cohérence et de maintenance.
     \item La gestion des évolutions du schéma de base de données au fil des sprints demande davantage d'efforts d'organisation et de suivi, car elle n'est pas aussi intégrée nativement dans l'écosystème.
 \end{itemize}
@@ -296,24 +302,24 @@ Le tableau~\ref{tab:comparaison_backend} récapitule les critères évalués pou
 \caption{Comparaison des frameworks backend}
 \label{tab:comparaison_backend}
 \footnotesize
-\begin{tabular}{|p{5cm}|>{\centering\arraybackslash}p{2.4cm}|>{\centering\arraybackslash}p{2.4cm}|>{\centering\arraybackslash}p{3.2cm}|}
+\begin{tabular}{|p{4cm}|>{\centering\arraybackslash}p{1.6cm}|>{\centering\arraybackslash}p{2.1cm}|>{\centering\arraybackslash}p{2.1cm}|>{\centering\arraybackslash}p{2.7cm}|}
 \hline
 \rowcolor{gray!20}
-\textbf{Critère} & \textbf{Node.js} & \textbf{FastAPI} & \textbf{Django 5} \\
+\textbf{Critère} & \textbf{Poids} & \textbf{Node.js} & \textbf{FastAPI} & \textbf{Django 5} \\
 \hline
-ORM et gestion BDD intégrés & \xmark & \xmark & \cmark \\
+ORM et gestion BDD intégrés & Bloquant & \xmark & \xmark & \cmark \\
 \hline
-Interface d'administration & \xmark & \xmark & \cmark \\
+Interface d'administration & Secondaire & \xmark & \xmark & \cmark \\
 \hline
-Machines à états (FSM) & \xmark & \xmark & \cmark \\
+Machines à états (FSM) & Bloquant & \xmark & \xmark & \cmark \\
 \hline
-Migrations de schéma & Manuel & nécessite config & \cmark \\
+Migrations de schéma & Secondaire & Manuel & nécessite config & \cmark \\
 \hline
-Authentification SSO & Manuel & Manuel & \cmark \\
+Authentification SSO & Bloquant & Manuel & Manuel & \cmark \\
 \hline
-Journal d'audit automatique & Manuel & Manuel & \cmark \\
+Journal d'audit automatique & Bloquant & Manuel & Manuel & \cmark \\
 \hline
-Support ASGI / async & \cmark & \cmark & \cmark \\
+Support ASGI / async & Secondaire & \cmark & \cmark & \cmark \\
 \hline
 \end{tabular}
 \end{table}
@@ -341,10 +347,11 @@ et Django, valider des structures de données
 parfois complexes (vœux ordonnés, quotas par
 département, rapports d'import), générer
 automatiquement une documentation utilisable
-par le développeur frontend, et répondre
-de façon non bloquante aux requêtes qui
-déclenchent des traitements longs
-(lancement de l'algorithme, recalcul).
+par le développeur frontend, et permettre de
+déclencher des traitements longs (lancement de
+l'algorithme, recalcul) sans bloquer la requête
+HTTP, en déléguant leur exécution à un système
+de tâches en arrière-plan (Django-Q2).
 
 \subsubsection{Alternatives évaluées}
 
@@ -368,11 +375,9 @@ la sérialisation, la validation et la gestion des permissions~\cite{drf_dev}.
 
 \textit{Limites :}
 \begin{itemize}
-  \item Le support des requêtes asynchrones
-        est partiel, ce qui pose problème pour
-        les endpoints qui déclenchent le lancement
-        de l'algorithme ou les synchronisations
-        avec MoveON, Pégase et Eudonet
+  \item Les vues DRF sont synchrones par défaut : les rendre
+        asynchrones demande une configuration supplémentaire,
+        non prise en charge nativement
   \item Les sérialiseurs DRF demandent beaucoup
         de code répétitif, surtout quand on
         travaille avec plusieurs entités
@@ -386,7 +391,7 @@ Framework API pour Django, basé sur une validation des données structurée et 
 
 \textit{Avantages :}
 \begin{itemize}
-    \item Toutes les routes supportent nativement les traitements asynchrones : un endpoint peut lancer un calcul ou déclencher une synchronisation sans bloquer le serveur, en déléguant l'exécution à un système de traitement en arrière-plan.
+    \item Chaque route peut être synchrone ou asynchrone selon le besoin, nativement et sans configuration supplémentaire.
   \item La validation des données via Pydantic
         est plus concise que DRF
   \item La documentation de l'API est générée
@@ -416,36 +421,34 @@ solutions, afin de faciliter la comparaison et de justifier le choix retenu.
 \caption{Comparaison DRF et Django Ninja}
 \label{tab:comparaison_api}
 \footnotesize
-\begin{tabular}{|p{5cm}|>{\centering\arraybackslash}p{3.2cm}|>{\centering\arraybackslash}p{3.2cm}|}
+\begin{tabular}{|p{4cm}|>{\centering\arraybackslash}p{1.7cm}|>{\centering\arraybackslash}p{3cm}|>{\centering\arraybackslash}p{3cm}|}
 \hline
 \rowcolor{gray!20}
-\textbf{Critère} & \textbf{DRF} & \textbf{Django Ninja} \\
+\textbf{Critère} & \textbf{Poids} & \textbf{DRF} & \textbf{Django Ninja} \\
 \hline
-Support async natif & Non natif, configuration requise & \cmark \\
+Vues async natives (IO concurrent dans la vue) & Secondaire & Non natif, configuration requise & \cmark \\
 \hline
-Validation Pydantic (typage strict) & \xmark & \cmark \\
+Validation Pydantic (typage strict) & Secondaire & \xmark & \cmark \\
 \hline
-Documentation auto-générée & \xmark & \cmark \\
+Documentation auto-générée & Secondaire & \xmark & \cmark \\
 \hline
-Intégration ORM Django & \cmark & \cmark \\
+Intégration ORM Django & Bloquant & \cmark & \cmark \\
 \hline
-Maturité et communauté & \cmark & Framework récent, moins de ressources \\
+Maturité et communauté & Secondaire & \cmark & Framework récent, moins de ressources \\
 \hline
-Réduction du code répétitif & \xmark & \cmark \\
+Réduction du code répétitif & Secondaire & \xmark & \cmark \\
 \hline
 \end{tabular}
 \end{table}
 
 \subsubsection{Décision}
-\textbf{Django Ninja} est retenu. Les endpoints
-les plus critiques du projet, tels que le déclenchement
-de l'algorithme, le recalcul ou les synchronisations
-ETL, doivent répondre immédiatement sans
-bloquer l'interface pendant le traitement.
-Django Ninja gère cela nativement, là où DRF
-aurait demandé des contournements. La validation
-Pydantic réduit aussi significativement
-le code répétitif sur plusieurs entités.
+\textbf{Django Ninja} est retenu, principalement pour la validation
+Pydantic, qui réduit le code répétitif sur plusieurs entités, et pour
+sa documentation générée automatiquement, sans configuration externe à
+maintenir contrairement à DRF. Le support natif des vues asynchrones
+n'est pas le critère déterminant : les traitements longs (algorithme,
+recalcul, synchronisations ETL) sont de toute façon délégués à
+Django-Q2, qui fonctionne à l'identique depuis une vue synchrone.
 
 \medskip
 \noindent La stack backend retenue est donc :
@@ -552,22 +555,22 @@ solutions, afin de faciliter la comparaison et de justifier le choix retenu.
 \caption{Comparaison des systèmes de gestion de base de données}
 \label{tab:comparaison_bdd}
 \footnotesize
-\begin{tabular}{|p{4cm}|>{\centering\arraybackslash}p{2.6cm}|>{\centering\arraybackslash}p{2.4cm}|>{\centering\arraybackslash}p{2.8cm}|}
+\begin{tabular}{|p{3.2cm}|>{\centering\arraybackslash}p{1.6cm}|>{\centering\arraybackslash}p{2.3cm}|>{\centering\arraybackslash}p{2.1cm}|>{\centering\arraybackslash}p{2.5cm}|}
 \hline
 \rowcolor{gray!20}
-\textbf{Critère} & \textbf{MySQL / MariaDB} & \textbf{MongoDB} & \textbf{PostgreSQL 16} \\
+\textbf{Critère} & \textbf{Poids} & \textbf{MySQL / MariaDB} & \textbf{MongoDB} & \textbf{PostgreSQL 16} \\
 \hline
-Transactions ACID multi-tables & \cmark & ACID ajouté en v4.0, moins fiable qu'un SGBD relationnel & \cmark \\
+Transactions ACID multi-tables & Bloquant & \cmark & ACID ajouté en v4.0, moins fiable qu'un SGBD relationnel & \cmark \\
 \hline
-Support JSONB natif + indexation & JSON simple, pas d'indexation avancée & \cmark & \cmark \\
+Support JSONB natif + indexation & Bloquant & JSON simple, pas d'indexation avancée & \cmark & \cmark \\
 \hline
-File d'attente de tâches & \xmark & \xmark & \cmark \\
+File d'attente de tâches & Secondaire & \xmark & \xmark & \cmark \\
 \hline
-Intégration ORM Django & \cmark & Support via PyMongo sans migration Django & \cmark \\
+Intégration ORM Django & Bloquant & \cmark & Support via PyMongo sans migration Django & \cmark \\
 \hline
-Extension pgcrypto (chiffrement) & \xmark & \xmark & \cmark \\
+Extension pgcrypto (chiffrement) & Secondaire & \xmark & \xmark & \cmark \\
 \hline
-Outils de sauvegarde fiables & \cmark & \cmark & \cmark \\
+Outils de sauvegarde fiables & Secondaire & \cmark & \cmark & \cmark \\
 \hline
 \end{tabular}
 \end{table}
@@ -663,22 +666,22 @@ au sein de la table \texttt{RawImport}, dans la même base PostgreSQL.
 \caption{Comparaison des formats de stockage pour \texttt{RawImport}}
 \label{tab:comparaison_rawimport}
 \footnotesize
-\begin{tabular}{|p{4.5cm}|>{\centering\arraybackslash}p{2.5cm}|>{\centering\arraybackslash}p{2.5cm}|>{\centering\arraybackslash}p{2.8cm}|}
+\begin{tabular}{|p{3.4cm}|>{\centering\arraybackslash}p{1.6cm}|>{\centering\arraybackslash}p{2.1cm}|>{\centering\arraybackslash}p{2.3cm}|>{\centering\arraybackslash}p{2.4cm}|}
 \hline
 \rowcolor{gray!20}
-\textbf{Critère} & \textbf{Fichiers plats} & \textbf{MongoDB} & \textbf{JSONB (PostgreSQL)} \\
+\textbf{Critère} & \textbf{Poids} & \textbf{Fichiers plats} & \textbf{MongoDB} & \textbf{JSONB (PostgreSQL)} \\
 \hline
-Requêtes SQL sur le contenu & \xmark & \xmark & \cmark \\
+Requêtes SQL sur le contenu & Bloquant & \xmark & \xmark & \cmark \\
 \hline
-Intégrité référentielle & \xmark & \xmark & \cmark \\
+Intégrité référentielle & Bloquant & \xmark & \xmark & \cmark \\
 \hline
-Garanties ACID & \xmark & Transactions ACID ajoutées en v4.0, moins fiables que PostgreSQL & \cmark \\
+Garanties ACID & Bloquant & \xmark & Transactions ACID ajoutées en v4.0, moins fiables que PostgreSQL & \cmark \\
 \hline
-Aucun service supplémentaire & \cmark & \xmark & \cmark \\
+Aucun service supplémentaire & Secondaire & \cmark & \xmark & \cmark \\
 \hline
-Indexation du contenu JSON & \xmark & \cmark & \cmark \\
+Indexation du contenu JSON & Secondaire & \xmark & \cmark & \cmark \\
 \hline
-Sauvegarde unifiée & \xmark & \xmark & \cmark \\
+Sauvegarde unifiée & Secondaire & \xmark & \xmark & \cmark \\
 \hline
 \end{tabular}
 \end{table}
@@ -782,22 +785,22 @@ solutions, afin de faciliter la comparaison et de justifier le choix retenu.
 \caption{Comparaison des gestionnaires de tâches asynchrones}
 \label{tab:comparaison_async}
 \footnotesize
-\begin{tabular}{|p{5.5cm}|>{\centering\arraybackslash}p{3cm}|>{\centering\arraybackslash}p{3cm}|}
+\begin{tabular}{|p{4.3cm}|>{\centering\arraybackslash}p{1.7cm}|>{\centering\arraybackslash}p{3cm}|>{\centering\arraybackslash}p{3cm}|}
 \hline
 \rowcolor{gray!20}
-\textbf{Critère} & \textbf{Celery + Redis} & \textbf{Django-Q2 + PostgreSQL} \\
+\textbf{Critère} & \textbf{Poids} & \textbf{Celery + Redis} & \textbf{Django-Q2 + PostgreSQL} \\
 \hline
-Aucun service supplémentaire & \xmark & \cmark \\
+Aucun service supplémentaire & Secondaire & \xmark & \cmark \\
 \hline
-Planificateur intégré & Celery Beat disponible mais service séparé & \cmark \\
+Planificateur intégré & Bloquant & Celery Beat disponible mais service séparé & \cmark \\
 \hline
-Supervision via admin Django & \xmark & \cmark \\
+Supervision via admin Django & Secondaire & \xmark & \cmark \\
 \hline
-Adapté au volume du projet & Surdimensionné pour ce volume de tâches & \cmark \\
+Adapté au volume du projet & Bloquant & Surdimensionné pour ce volume de tâches & \cmark \\
 \hline
-Maturité et communauté & \cmark & Communauté plus restreinte que Celery \\
+Maturité et communauté & Secondaire & \cmark & Communauté plus restreinte que Celery \\
 \hline
-Intégration native avec Django & Nécessite une configuration supplémentaire & \cmark \\
+Intégration native avec Django & Secondaire & Nécessite une configuration supplémentaire & \cmark \\
 \hline
 \end{tabular}
 \end{table}
@@ -886,22 +889,22 @@ solutions, afin de faciliter la comparaison et de justifier le choix retenu.
 \caption{Comparaison des solutions de stockage de fichiers}
 \label{tab:comparaison_stockage}
 \footnotesize
-\begin{tabular}{|p{5.5cm}|>{\centering\arraybackslash}p{3cm}|>{\centering\arraybackslash}p{3cm}|}
+\begin{tabular}{|p{4.3cm}|>{\centering\arraybackslash}p{1.7cm}|>{\centering\arraybackslash}p{3cm}|>{\centering\arraybackslash}p{3cm}|}
 \hline
 \rowcolor{gray!20}
-\textbf{Critère} & \textbf{Fichiers local} & \textbf{MinIO} \\
+\textbf{Critère} & \textbf{Poids} & \textbf{Fichiers local} & \textbf{MinIO} \\
 \hline
-Chiffrement natif (SSE-S3) & \xmark & \cmark \\
+Chiffrement natif (SSE-S3) & Bloquant & \xmark & \cmark \\
 \hline
-URLs pré-signées (accès sécurisé) & \xmark & \cmark \\
+URLs pré-signées (accès sécurisé) & Bloquant & \xmark & \cmark \\
 \hline
-Portabilité multi-environnements & \xmark & \cmark \\
+Portabilité multi-environnements & Secondaire & \xmark & \cmark \\
 \hline
-Suppression automatique (RGPD) & \xmark & \cmark \\
+Suppression automatique (RGPD) & Bloquant & \xmark & \cmark \\
 \hline
-Déploiement Docker intégré & \xmark & \cmark \\
+Déploiement Docker intégré & Secondaire & \xmark & \cmark \\
 \hline
-Simplicité de configuration & \cmark & Plus complexe qu'un stockage local \\
+Simplicité de configuration & Secondaire & \cmark & Plus complexe qu'un stockage local \\
 \hline
 \end{tabular}
 \end{table}
@@ -1001,22 +1004,22 @@ le choix retenu.
 \caption{Comparaison des approches de routage des requêtes}
 \label{tab:comparaison_proxy}
 \footnotesize
-\begin{tabular}{|p{5.5cm}|>{\centering\arraybackslash}p{3cm}|>{\centering\arraybackslash}p{3cm}|}
+\begin{tabular}{|p{4.3cm}|>{\centering\arraybackslash}p{1.7cm}|>{\centering\arraybackslash}p{3cm}|>{\centering\arraybackslash}p{3cm}|}
 \hline
 \rowcolor{gray!20}
-\textbf{Critère} & \textbf{Reverse proxy} & \textbf{API Gateway} \\
+\textbf{Critère} & \textbf{Poids} & \textbf{Reverse proxy} & \textbf{API Gateway} \\
 \hline
-Adapté à un seul serveur & \cmark & \xmark \\
+Adapté à un seul serveur & Bloquant & \cmark & \xmark \\
 \hline
-Terminaison SSL & \cmark & \cmark \\
+Terminaison SSL & Bloquant & \cmark & \cmark \\
 \hline
-Routage vers services internes & \cmark & \cmark \\
+Routage vers services internes & Bloquant & \cmark & \cmark \\
 \hline
-Gestion auth. centralisée & \xmark & \cmark \\
+Gestion auth. centralisée & Secondaire & \xmark & \cmark \\
 \hline
-Complexité d'exploitation & Faible & Élevée \\
+Complexité d'exploitation & Secondaire & Faible & Élevée \\
 \hline
-Pertinent pour ce projet & \cmark & \xmark \\
+Pertinent pour ce projet & Bloquant & \cmark & \xmark \\
 \hline
 \end{tabular}
 \end{table}
@@ -1102,22 +1105,22 @@ choix retenu.
 \caption{Comparaison des outils de reverse proxy}
 \label{tab:comparaison_proxy_outil}
 \footnotesize
-\begin{tabular}{|p{5.5cm}|>{\centering\arraybackslash}p{3cm}|>{\centering\arraybackslash}p{3cm}|}
+\begin{tabular}{|p{4.3cm}|>{\centering\arraybackslash}p{1.7cm}|>{\centering\arraybackslash}p{3cm}|>{\centering\arraybackslash}p{3cm}|}
 \hline
 \rowcolor{gray!20}
-\textbf{Critère} & \textbf{Nginx} & \textbf{Traefik} \\
+\textbf{Critère} & \textbf{Poids} & \textbf{Nginx} & \textbf{Traefik} \\
 \hline
-Configuration lisible (fichiers texte) & \cmark & Labels Docker, moins lisible pour les équipes IT \\
+Configuration lisible (fichiers texte) & Bloquant & \cmark & Labels Docker, moins lisible pour les équipes IT \\
 \hline
-Gestion SSL native & Nécessite Certbot pour les certificats & \cmark \\
+Gestion SSL native & Secondaire & Nécessite Certbot pour les certificats & \cmark \\
 \hline
-Automatisation Docker & Configuration manuelle à chaque changement & \cmark \\
+Automatisation Docker & Secondaire & Configuration manuelle à chaque changement & \cmark \\
 \hline
-Prévisibilité en environnement institutionnel & \cmark & Moins prévisible avec des contraintes réseau institutionnelles \\
+Prévisibilité en environnement institutionnel & Bloquant & \cmark & Moins prévisible avec des contraintes réseau institutionnelles \\
 \hline
-Maintenabilité par équipes IT générales & \cmark & \xmark \\
+Maintenabilité par équipes IT générales & Bloquant & \cmark & \xmark \\
 \hline
-Maturité et documentation & \cmark & \cmark \\
+Maturité et documentation & Secondaire & \cmark & \cmark \\
 \hline
 \end{tabular}
 \end{table}
@@ -1153,7 +1156,7 @@ important que l'automatisation dynamique proposée par Traefik.
 Méthodologie de développement & Scrum & Développement itératif et adaptation progressive aux besoins du service RI \\
 \hline
 
-Frontend & Next.js 14 & Rendu hybride SSR/CSR, séparation sécurisée des espaces RI et étudiant \\
+Frontend & Next.js 16 & Rendu hybride SSR/CSR, séparation sécurisée des espaces RI et étudiant \\
 \hline
 
 Backend framework & Django 5 & ORM, administration, gestion des droits et logique métier intégrés \\
@@ -1197,16 +1200,18 @@ Cette section présente les enjeux de performance liés à la croissance
 des données, évalue les deux approches disponibles, puis justifie
 la stratégie retenue.
 
-\subsection{Contexte et enjeux}
+\subsection{Besoins spécifiques}
 
 Plusieurs tables du projet, telles que les mobilités, les affectations ou les imports,
 grossissent d'une campagne à l'autre. Le système doit pouvoir les
 filtrer rapidement par année universitaire, que ce soit pour afficher
 le tableau de bord RI, calculer les durées CTI ou lancer l'algorithme
-d'affectation. Deux approches ont été évaluées pour répondre à cet
-enjeu.
+d'affectation.
 
 \subsection{Alternatives évaluées}
+
+Deux approches ont été évaluées pour répondre à ce besoin : le
+partitionnement par année et l'indexation ciblée.
 
 \subsubsection{Partitionnement par année}
 
@@ -1264,28 +1269,28 @@ la stratégie retenue.
 \caption{Comparaison des stratégies de performance base de données}
 \label{tab:comparaison_perf_bdd}
 \footnotesize
-\begin{tabular}{|p{5.5cm}|>{\centering\arraybackslash}p{3cm}|>{\centering\arraybackslash}p{3cm}|}
+\begin{tabular}{|p{4.3cm}|>{\centering\arraybackslash}p{1.7cm}|>{\centering\arraybackslash}p{3cm}|>{\centering\arraybackslash}p{3cm}|}
 \hline
 \rowcolor{gray!20}
-\textbf{Critère} & \textbf{Partitionnement} & \textbf{Indexation ciblée} \\
+\textbf{Critère} & \textbf{Poids} & \textbf{Partitionnement} & \textbf{Indexation ciblée} \\
 \hline
-Adapté au volume du projet & \xmark & \cmark \\
+Adapté au volume du projet & Bloquant & \xmark & \cmark \\
 \hline
-Compatible avec les migrations Django & Contraintes d'unicité incompatibles avec certaines migrations & \cmark \\
+Compatible avec les migrations Django & Bloquant & Contraintes d'unicité incompatibles avec certaines migrations & \cmark \\
 \hline
-Déclaration dans les modèles & \xmark & \cmark \\
+Déclaration dans les modèles & Secondaire & \xmark & \cmark \\
 \hline
-Aucune configuration PostgreSQL séparée & \xmark & \cmark \\
+Aucune configuration PostgreSQL séparée & Secondaire & \xmark & \cmark \\
 \hline
-Efficacité à très grande échelle & \cmark & Moins efficace pour plusieurs millions de lignes \\
+Efficacité à très grande échelle & Secondaire & \cmark & Moins efficace pour plusieurs millions de lignes \\
 \hline
 \end{tabular}
 \end{table}
 
 \subsection{Décision}
 
-\textbf{L'indexation ciblée} est retenue. L'ENSEEIHT traite quelques
-centaines d'étudiants en mobilité par an. Même en projetant ce volume
+\textbf{L'indexation ciblée} est retenue. L'ENSEEIHT compte environ
+\textbf{300 étudiants en mobilité par an}. Même en projetant ce volume
 sur dix ans, les tables restent très loin du seuil où le partitionnement
 apporterait un gain mesurable. Des index sont créés sur
 \texttt{academic\_year\_id} et sur la combinaison
@@ -1367,6 +1372,12 @@ retenue à l'issue du processus~\cite{GaleShapley1962}.
 \textit{Limites :}
 \begin{itemize}
   \item Légèrement plus complexe à implémenter que l'algorithme glouton
+  \item Seuls les étudiants expriment des vœux ; les destinations
+        n'ont pas de préférences propres, juste une priorité par GPA.
+        C'est donc une variante à \textbf{préférences unilatérales},
+        plus proche du \textit{school
+        choice}~\cite{AbdulkadirogluSonmez2003} que du mariage stable
+        classique à préférences bilatérales
 \end{itemize}
 
 \subsection{Synthèse comparative}
@@ -1380,22 +1391,22 @@ approches, afin de faciliter la comparaison et de justifier le choix retenu.
 \caption{Comparaison des algorithmes d'affectation}
 \label{tab:comparaison_algo}
 \footnotesize
-\begin{tabular}{|p{5.5cm}|>{\centering\arraybackslash}p{3cm}|>{\centering\arraybackslash}p{3cm}|}
+\begin{tabular}{|p{4.3cm}|>{\centering\arraybackslash}p{1.7cm}|>{\centering\arraybackslash}p{3cm}|>{\centering\arraybackslash}p{3cm}|}
 \hline
 \rowcolor{gray!20}
-\textbf{Critère} & \textbf{Algo. glouton} & \textbf{Gale-Shapley} \\
+\textbf{Critère} & \textbf{Poids} & \textbf{Algo. glouton} & \textbf{Gale-Shapley} \\
 \hline
-Stabilité des affectations & \xmark & \cmark \\
+Stabilité des affectations & Bloquant & \xmark & \cmark \\
 \hline
-Reproductibilité & \xmark & \cmark \\
+Reproductibilité & Bloquant & \xmark & \cmark \\
 \hline
-Indépendance à l'ordre de traitement & \xmark & \cmark \\
+Indépendance à l'ordre de traitement & Bloquant & \xmark & \cmark \\
 \hline
-Optimalité pour les étudiants & Résultat non garanti selon l'ordre de traitement & \cmark \\
+Optimalité pour les étudiants & Secondaire & Résultat non garanti selon l'ordre de traitement & \cmark \\
 \hline
-Explicabilité des résultats & Difficile à justifier si l'ordre a influencé le résultat & \cmark \\
+Explicabilité des résultats & Bloquant & Difficile à justifier si l'ordre a influencé le résultat & \cmark \\
 \hline
-Simplicité d'implémentation & \cmark & Plus complexe que l'algo glouton, bien documenté \\
+Simplicité d'implémentation & Secondaire & \cmark & Plus complexe que l'algo glouton, bien documenté \\
 \hline
 \end{tabular}
 \end{table}
@@ -1408,12 +1419,15 @@ l'inverse. Cette variante garantit que chaque étudiant obtient la meilleure
 destination possible compte tenu de son classement et de ses vœux, ce qui
 constitue la propriété dite d'\textit{optimalité côté proposant}.
 
-Les contraintes de quota sont vérifiées à deux niveaux simultanément à
-chaque proposition : un quota global par accord bilatéral (capacité de
-l'université partenaire) et un quota local par département pédagogique
-(places allouées au sein de l'ENSEEIHT). Une destination est disponible
-seulement si les deux niveaux sont respectés ; sinon la proposition est
-rejetée et l'étudiant passe à son vœu suivant.
+Les quotas fonctionnent à deux niveaux : une limite totale qui ne doit
+jamais être dépassée, et un nombre de places réservées par département,
+mais de façon plus souple — si un département n'utilise pas toutes ses
+places, les autres peuvent s'en servir. Quand un étudiant fait une
+proposition, il prend d'abord la place réservée à son département si
+elle est encore libre ; sinon, il peut quand même être accepté tant que
+la limite totale n'est pas atteinte. Une fois toutes les places prises,
+on compare les étudiants par leur score (nationalité puis GPA) : le
+moins bien classé peut être remplacé par le nouveau candidat.
 
 L'algorithme glouton est écarté car il est sensible à l'ordre de traitement
 et ne garantit pas la reproductibilité. Gale-Shapley assure un résultat
@@ -1524,22 +1538,22 @@ trois méthodes, afin de faciliter la comparaison et de justifier le choix reten
 \caption{Comparaison des méthodes de répartition des quotas}
 \label{tab:comparaison_quotas}
 \footnotesize
-\begin{tabular}{|p{5cm}|>{\centering\arraybackslash}p{2.8cm}|>{\centering\arraybackslash}p{2.8cm}|>{\centering\arraybackslash}p{2.8cm}|}
+\begin{tabular}{|p{3.6cm}|>{\centering\arraybackslash}p{1.6cm}|>{\centering\arraybackslash}p{2.3cm}|>{\centering\arraybackslash}p{2.3cm}|>{\centering\arraybackslash}p{2.3cm}|}
 \hline
 \rowcolor{gray!20}
-\textbf{Critère} & \textbf{Hamilton} & \textbf{Jefferson} & \textbf{Webster} \\
+\textbf{Critère} & \textbf{Poids} & \textbf{Hamilton} & \textbf{Jefferson} & \textbf{Webster} \\
 \hline
-Simplicité de calcul & \cmark & \xmark & \xmark \\
+Simplicité de calcul & Secondaire & \cmark & \xmark & \xmark \\
 \hline
-Vérification manuelle possible & \cmark & Calcul itératif difficile à suivre & Moins prévisible dans les cas limites \\
+Vérification manuelle possible & Bloquant & \cmark & Calcul itératif difficile à suivre & Moins prévisible dans les cas limites \\
 \hline
-Équité entre départements & \cmark & Favorise les grands départements & \cmark \\
+Équité entre départements & Bloquant & \cmark & Favorise les grands départements & \cmark \\
 \hline
-Respect du total disponible & \cmark & \cmark & \cmark \\
+Respect du total disponible & Bloquant & \cmark & \cmark & \cmark \\
 \hline
-Adapté à un petit nombre de places & \cmark & \xmark & \cmark \\
+Adapté à un petit nombre de places & Secondaire & \cmark & \xmark & \cmark \\
 \hline
-Transparence pour les acteurs & \cmark & \xmark & \xmark \\
+Transparence pour les acteurs & Bloquant & \cmark & \xmark & \xmark \\
 \hline
 \end{tabular}
 \end{table}
@@ -1550,11 +1564,6 @@ Transparence pour les acteurs & \cmark & \xmark & \xmark \\
 entre équité, simplicité et transparence dans ce contexte. Les résultats
 peuvent être vérifiés à la main par le service RI, ce qui est important
 pour un processus qui touche directement les chances de départ des étudiants.
-
-La méthode Jefferson est écartée car elle avantage systématiquement les
-grands départements, ce qui irait à l'encontre de l'équité visée. Webster
-est plus difficile à vérifier sans outil de calcul. Hamilton est donc la
-méthode la plus adaptée pour une répartition claire et justifiable.
 
 % ─────────────────────────────────────────────────────────────
 \section{Choix du moteur de recommandation}
@@ -1623,7 +1632,7 @@ de compatibilité entre un étudiant et une destination. Deux modèles ont
 
 La régression logistique est un modèle statistique qui estime la
 probabilité d'un résultat à partir de variables d'entrée numériques.
-Elle est particulièrement adaptée aux volumes de données modérés~\cite{scikit_learn}.
+Elle est particulièrement adaptée aux volumes de données modérés.
 
 \textit{Avantages :}
 \begin{itemize}
@@ -1641,7 +1650,7 @@ Elle est particulièrement adaptée aux volumes de données modérés~\cite{scik
 
 XGBoost est un algorithme de gradient boosting qui construit un ensemble
 d'arbres de décision de façon séquentielle pour améliorer la précision
-prédictive~\cite{scikit_learn}.
+prédictive.
 
 \textit{Avantages :}
 \begin{itemize}
@@ -1667,20 +1676,20 @@ approches, afin de faciliter la comparaison et de justifier le choix retenu.
 \caption{Comparaison des approches de recommandation}
 \label{tab:comparaison_reco}
 \footnotesize
-\begin{tabular}{|p{3.8cm}|>{\centering\arraybackslash}p{2cm}|>{\centering\arraybackslash}p{2cm}|>{\centering\arraybackslash}p{2.5cm}|>{\centering\arraybackslash}p{2cm}|}
+\begin{tabular}{|p{3cm}|>{\centering\arraybackslash}p{1.5cm}|>{\centering\arraybackslash}p{1.7cm}|>{\centering\arraybackslash}p{1.7cm}|>{\centering\arraybackslash}p{2.3cm}|>{\centering\arraybackslash}p{1.8cm}|}
 \hline
 \rowcolor{gray!20}
-\textbf{Critère} & \textbf{Règles} & \textbf{Collab.} & \textbf{Régression log.} & \textbf{XGBoost} \\
+\textbf{Critère} & \textbf{Poids} & \textbf{Règles} & \textbf{Collab.} & \textbf{Régression log.} & \textbf{XGBoost} \\
 \hline
-Personnalisation & \xmark & \cmark & \cmark & \cmark \\
+Personnalisation & Secondaire & \xmark & \cmark & \cmark & \cmark \\
 \hline
-Volume de données requis & \cmark & \xmark & Efficace à partir de 500 observations & Risque de surapprentissage avec peu de données \\
+Volume de données requis & Bloquant & \cmark & \xmark & Efficace à partir de 500 observations & Risque de surapprentissage avec peu de données \\
 \hline
-Interprétabilité & \cmark & Difficile sans connaître les profils similaires & \cmark & \xmark \\
+Interprétabilité & Secondaire & \cmark & Difficile sans connaître les profils similaires & \cmark & \xmark \\
 \hline
-Risque de surapprentissage & \cmark & Dépend de la qualité des données historiques & \cmark & \xmark \\
+Risque de surapprentissage & Bloquant & \cmark & Dépend de la qualité des données historiques & \cmark & \xmark \\
 \hline
-Simplicité de maintenance & \cmark & \xmark & \cmark & \xmark \\
+Simplicité de maintenance & Secondaire & \cmark & \xmark & \cmark & \xmark \\
 \hline
 \end{tabular}
 \end{table}
@@ -1689,26 +1698,31 @@ Simplicité de maintenance & \cmark & \xmark & \cmark & \xmark \\
 
 \textbf{L'apprentissage supervisé par régression logistique} est retenu.
 Le modèle estime, pour chaque couple étudiant–destination, une probabilité
-de compatibilité à partir des variables suivantes :
+de compatibilité à partir des variables suivantes, en distinguant les
+variables d'entrée (\textit{features}), la variable prédite (\textit{cible})
+et les données de contexte qui servent à construire les unes et les autres
+sans être elles-mêmes réutilisées telles quelles :
 
 \renewcommand{\arraystretch}{1.3}
 \begin{table}[H]
 \centering
-\caption{Variables d'entrée du moteur de recommandation}
+\caption{Variables du moteur de recommandation}
 \label{tab:features_reco}
 \footnotesize
-\begin{tabular}{|p{3.5cm}|p{8cm}|}
+\begin{tabular}{|p{3.2cm}|p{2.2cm}|p{6.3cm}|}
 \hline
 \rowcolor{gray!20}
-\textbf{Variable} & \textbf{Description} \\
+\textbf{Variable} & \textbf{Rôle} & \textbf{Description} \\
 \hline
-GPA de l'étudiant & Note académique normalisée, principal signal de classement \\
+GPA de l'étudiant & Feature & Note académique normalisée, principal signal de classement \\
 \hline
-Département pédagogique & Filtrage sur les accords ouverts au département de l'étudiant \\
+Département pédagogique & Feature & Filtrage sur les accords ouverts au département de l'étudiant \\
 \hline
-Destination & Identifiant de l'université partenaire \\
+Taux d'affectation historique de la destination & Feature (dérivée) & Agrégat calculé à partir des affectations des trois dernières années : proportion de candidatures retenues pour cette destination \\
 \hline
-Historique des affectations & Taux de sélection par destination sur les trois dernières années \\
+Destination & Contexte (identifiant) & Clé identifiant la paire étudiant--destination évaluée ; sert à agréger le taux historique, sans être une variable prédictive indépendante \\
+\hline
+Issue historique de l'affectation & Cible (\textit{target}) & Variable prédite : couple étudiant--destination effectivement retenu (1) ou non (0) lors des campagnes passées, utilisée pour entraîner le modèle \\
 \hline
 \end{tabular}
 \end{table}
@@ -1718,16 +1732,31 @@ afin de proposer une liste de recommandations personnalisées.
 
 La régression logistique est retenue car elle offre un bon compromis
 entre simplicité, interprétabilité et facilité de maintenance. Le volume
-de données, environ 900 observations sur trois ans, ne justifie pas
-XGBoost, dont les performances supplémentaires s'accompagnent d'un risque
-accru de surapprentissage.
+de données, environ 900 observations sur trois campagnes (les 300 étudiants
+partant en mobilité chaque année), ne justifie pas XGBoost, dont les
+performances supplémentaires s'accompagnent d'un risque accru de
+surapprentissage.
 
-\textbf{Risque de démarrage à froid.} Certaines destinations rares ou
-récentes disposent de peu d'observations historiques. Pour ces cas, le
-modèle se rabat sur le GPA et le département comme seuls signaux, ce qui
-reste cohérent avec les règles de sélection. Le module sera activé à
-partir de la deuxième année de fonctionnement, une fois qu'un historique
-minimal d'une campagne complète aura été constitué.
+\textbf{Risque de démarrage à froid.} Ce volume de 900 observations reste
+faible pour un modèle qui inclurait des termes d'interaction entre GPA,
+département et destination : le nombre de combinaisons possibles de
+l'espace \{étudiant~$\times$~destination\} croît rapidement avec le nombre
+de départements et de destinations, ce qui expose un modèle complet à un
+risque de surapprentissage dès sa première utilisation, indépendamment
+même de la question des destinations rares. Pour limiter ce risque, le
+modèle mis en production pour la première campagne d'activation est
+volontairement réduit à \textbf{trois variables sans terme d'interaction} :
+GPA, département et taux d'affectation historique par destination. Ce
+sous-ensemble reste raisonnablement estimable avec 900 observations. Les
+destinations rares ou récentes, pour lesquelles le taux historique est
+peu fiable, se rabattent alors sur le GPA et le département comme seuls
+signaux, ce qui reste cohérent avec les règles de sélection. Les
+interactions plus fines (par exemple département~$\times$~destination) ne
+seront réintroduites qu'une fois un historique plus large accumulé, sur la
+base d'une validation croisée mesurant explicitement le risque de
+surapprentissage à chaque campagne. Le module est donc activé dès la
+première campagne sur ce modèle réduit, plutôt que différé à la deuxième
+année de fonctionnement.
 
 
 % ─────────────────────────────────────────────────────────────
@@ -1851,33 +1880,164 @@ le choix retenu.
 \caption{Comparaison des frameworks d'orchestration RAG}
 \label{tab:comparaison_rag}
 \footnotesize
-\begin{tabular}{|p{4cm}|>{\centering\arraybackslash}p{2.2cm}|>{\centering\arraybackslash}p{2.2cm}|>{\centering\arraybackslash}p{2.2cm}|>{\centering\arraybackslash}p{2cm}|}
+\begin{tabular}{|p{3.2cm}|>{\centering\arraybackslash}p{1.6cm}|>{\centering\arraybackslash}p{2cm}|>{\centering\arraybackslash}p{2cm}|>{\centering\arraybackslash}p{2cm}|>{\centering\arraybackslash}p{1.8cm}|}
 \hline
 \rowcolor{gray!20}
-\textbf{Critère} & \textbf{LangChain} & \textbf{LlamaIndex} & \textbf{Haystack} & \textbf{Direct} \\
+\textbf{Critère} & \textbf{Poids} & \textbf{LangChain} & \textbf{LlamaIndex} & \textbf{Haystack} & \textbf{Direct} \\
 \hline
-Spécialisé RAG & Généraliste, non optimisé pour le RAG & \cmark & Orienté pipelines complexes & \xmark \\
+Spécialisé RAG & Secondaire & Généraliste, non optimisé pour le RAG & \cmark & Orienté pipelines complexes & \xmark \\
 \hline
-Intégration Mistral & \cmark & \cmark & Possible mais moins directe & \cmark \\
+Intégration Mistral & Bloquant & \cmark & \cmark & Possible mais moins directe & \cmark \\
 \hline
-Stabilité de l'API & \xmark & \cmark & \cmark & \cmark \\
+Stabilité de l'API & Bloquant & \xmark & \cmark & \cmark & \cmark \\
 \hline
-Adapté à un cas simple & Surcoût de dépendances pour un cas simple & \cmark & Trop complexe pour un chatbot documentaire & Logique RAG à développer entièrement \\
+Adapté à un cas simple & Bloquant & Surcoût de dépendances pour un cas simple & \cmark & Trop complexe pour un chatbot documentaire & Logique RAG à développer entièrement \\
 \hline
-Maintenance à long terme & API instable, risque de rupture à chaque mise à jour & \cmark & \cmark & \xmark \\
+Maintenance à long terme & Bloquant & API instable, risque de rupture à chaque mise à jour & \cmark & \cmark & \xmark \\
 \hline
 \end{tabular}
 \end{table}
 
 \subsection{Décision}
 
-\textbf{LlamaIndex} est retenu comme framework d'orchestration RAG,
-avec \textbf{ChromaDB} comme base vectorielle et
-\textbf{Mistral} comme modèle de langage. Cette combinaison correspond
-directement au besoin du projet : construire un chatbot documentaire
-simple, basé sur une base de connaissances stable. LlamaIndex fournit
-les fonctionnalités nécessaires sans surcoût de complexité, avec une
-API stable et une intégration directe avec Mistral et ChromaDB.
+\textbf{LlamaIndex} est retenu comme framework d'orchestration RAG. C'est
+la seule solution qui satisfait les quatre critères bloquants du tableau
+(intégration Mistral, stabilité de l'API, adéquation à un cas simple,
+maintenance à long terme) : LangChain échoue sur trois d'entre eux malgré
+sa communauté, Haystack sur l'adéquation à un cas simple, et l'approche
+directe sur la maintenance à long terme. LlamaIndex fournit les
+fonctionnalités nécessaires sans surcoût de complexité, avec une API
+stable et une intégration directe avec Mistral.
+
+\subsection{Choix de la base vectorielle}
+
+Une fois l'orchestrateur retenu, il reste à choisir la base vectorielle
+qui stockera les embeddings des documents. Cette section évalue les
+alternatives disponibles et justifie le choix retenu.
+
+\subsubsection{Besoins spécifiques}
+
+La base vectorielle doit stocker les embeddings des chunks de documents
+(guides, critères d'éligibilité, procédures) avec leurs métadonnées
+(source, section), permettre une recherche par similarité filtrable sur
+ces métadonnées, s'intégrer nativement à LlamaIndex, et rester hébergée
+on-premise, comme pour le choix de l'API Mistral ILAS.
+
+\subsubsection{Alternatives évaluées}
+
+Quatre bases vectorielles ont été évaluées en regard des besoins identifiés précédemment.
+
+\paragraph{ChromaDB}
+Base de données vectorielle open source, embarquable ou déployable comme
+service local, avec filtrage par métadonnées natif~\cite{chromadb_dev}.
+
+\textit{Avantages :}
+\begin{itemize}
+  \item Connecteur natif et bien documenté avec LlamaIndex
+  \item Filtrage par métadonnées intégré, utile pour cibler une source
+        ou une section documentaire précise
+  \item Déployable comme conteneur Docker local, sans service cloud
+\end{itemize}
+
+\textit{Limites :}
+\begin{itemize}
+  \item Moins adapté que des solutions spécialisées à des volumes de
+        plusieurs millions de vecteurs, sans incidence ici compte tenu
+        de la taille restreinte de la base documentaire
+\end{itemize}
+
+\paragraph{pgvector (extension PostgreSQL)}
+Extension ajoutant le type vectoriel et la recherche par similarité
+directement dans PostgreSQL.
+
+\textit{Avantages :}
+\begin{itemize}
+  \item Aucun service supplémentaire : réutilise le PostgreSQL déjà
+        en place, dans la continuité du choix retenu pour \texttt{RawImport}
+  \item Sauvegarde unifiée avec le reste des données
+\end{itemize}
+
+\textit{Limites :}
+\begin{itemize}
+  \item Filtrage combiné similarité~+~métadonnées moins direct qu'avec
+        ChromaDB, qui l'expose nativement via son connecteur LlamaIndex
+  \item Ferait porter la charge de calcul des recherches vectorielles
+        sur l'instance PostgreSQL transactionnelle déjà sollicitée par
+        le reste de l'application
+\end{itemize}
+
+\paragraph{FAISS}
+Bibliothèque bas niveau de recherche par similarité, développée par
+Meta AI~\cite{faiss_dev}.
+
+\textit{Avantages :}
+\begin{itemize}
+  \item Très performante sur la recherche de similarité pure
+\end{itemize}
+
+\textit{Limites :}
+\begin{itemize}
+  \item Aucune gestion native des métadonnées ni de la persistance :
+        la couche de stockage des chunks et leurs métadonnées serait
+        à développer manuellement
+\end{itemize}
+
+\paragraph{Pinecone}
+Service de base vectorielle managé, proposé en mode SaaS~\cite{pinecone_dev}.
+
+\textit{Avantages :}
+\begin{itemize}
+  \item Aucune infrastructure à gérer, hautement scalable
+\end{itemize}
+
+\textit{Limites :}
+\begin{itemize}
+  \item Service cloud tiers hébergé hors de France, comme pour Mistral ILAS
+  \item Coût récurrent injustifié pour un chatbot documentaire à faible volume
+\end{itemize}
+
+\subsubsection{Synthèse comparative}
+
+Le tableau~\ref{tab:comparaison_vectordb} récapitule les critères évalués
+pour chacune des quatre solutions.
+
+\renewcommand{\arraystretch}{1.35}
+\begin{table}[H]
+\centering
+\caption{Comparaison des bases vectorielles}
+\label{tab:comparaison_vectordb}
+\footnotesize
+\begin{tabular}{|p{3.4cm}|>{\centering\arraybackslash}p{1.6cm}|>{\centering\arraybackslash}p{2.1cm}|>{\centering\arraybackslash}p{2.1cm}|>{\centering\arraybackslash}p{1.8cm}|>{\centering\arraybackslash}p{1.9cm}|}
+\hline
+\rowcolor{gray!20}
+\textbf{Critère} & \textbf{Poids} & \textbf{ChromaDB} & \textbf{pgvector} & \textbf{FAISS} & \textbf{Pinecone} \\
+\hline
+Intégration native LlamaIndex & Bloquant & \cmark & Partielle, via SQL brut & Manuelle & \cmark \\
+\hline
+Filtrage par métadonnées natif & Bloquant & \cmark & Partiel (SQL) & \xmark & \cmark \\
+\hline
+Hébergement on-premise (souveraineté RGPD) & Bloquant & \cmark & \cmark & \cmark & \xmark \\
+\hline
+Aucun service supplémentaire & Secondaire & \xmark & \cmark & \xmark & \xmark \\
+\hline
+Adapté à un volume documentaire restreint & Secondaire & \cmark & \cmark & \cmark & Sur-dimensionné \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsubsection{Décision}
+
+\textbf{ChromaDB} est retenu. C'est la seule solution qui satisfait les
+trois critères bloquants simultanément : intégration native à LlamaIndex,
+filtrage par métadonnées, et hébergement on-premise conforme aux exigences
+RGPD déjà appliquées au choix de Mistral ILAS. Pinecone échoue sur ce
+dernier point, FAISS ne gère nativement ni les métadonnées ni la
+persistance, et pgvector, bien qu'il évite d'introduire un service
+supplémentaire, expose ce filtrage combiné de façon moins directe et
+ferait porter la charge des recherches vectorielles sur l'instance
+PostgreSQL transactionnelle déjà sollicitée par le reste de l'application.
+Le conteneur ChromaDB supplémentaire reste un coût d'exploitation limité
+au regard de ces garanties.
 
 % ─────────────────────────────────────────────────────────────
 \section{Synthèse des choix algorithmiques et de performance}

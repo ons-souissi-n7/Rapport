@@ -222,28 +222,28 @@ Cette section présente la conception UML détaillée des entités métier du Sp
 
 \subsubsection{Diagramme de classes}
 
-Le diagramme de la figure~\ref{fig:diag-class-sprint1} modélise le domaine de gestion des accords de mobilité internationale de l'ENSEEIHT. L'entité centrale est \texttt{Agreement}, qui représente un accord entre l'ENSEEIHT et une université partenaire (\texttt{PartnerUniversity}), qualifiée par un cadre de mobilité (\texttt{MobilityCategory}) et des niveaux d'études (\texttt{Level}).
+% Le diagramme de la figure~\ref{fig:diag-class-sprint1} modélise le domaine de gestion des accords de mobilité internationale de l'ENSEEIHT. L'entité centrale est \texttt{Agreement}, qui représente un accord entre l'ENSEEIHT et une université partenaire (\texttt{PartnerUniversity}), qualifiée par un cadre de mobilité (\texttt{MobilityCategory}) et des niveaux d'études (\texttt{Level}).
 
-La hiérarchie des quotas — INP $\to$ N7 $\to$ département — est portée par trois classes. \texttt{AgreementDepartment} liste les départements autorisés par accord, indépendamment de l'année, et constitue la contrainte référentielle qui interdit d'allouer un quota à un département non autorisé. \texttt{AgreementYear} matérialise la déclinaison annuelle d'un accord : elle fige un instantané du quota INP (\texttt{inp\_total\_places}) au moment de la validation et porte le quota N7 global (\texttt{n7\_places}) qui en est déduit. \texttt{AgreementYearDepartment} distribue enfin ce quota N7 par département autorisé, avec deux niveaux de valeur : \texttt{estimated\_places}, calculé automatiquement (méthode Hamilton, cf. Sprint 4 — US-11), et \texttt{adjusted\_places}, un ajustement manuel optionnel qui prévaut dès qu'il est renseigné (\texttt{get\_\allowbreak effective\_\allowbreak quota()}).
+% La hiérarchie des quotas — INP $\to$ N7 $\to$ département — est portée par trois classes. \texttt{AgreementDepartment} liste les départements autorisés par accord, indépendamment de l'année, et constitue la contrainte référentielle qui interdit d'allouer un quota à un département non autorisé. \texttt{AgreementYear} matérialise la déclinaison annuelle d'un accord : elle fige un instantané du quota INP (\texttt{inp\_total\_places}) au moment de la validation et porte le quota N7 global (\texttt{n7\_places}) qui en est déduit. \texttt{AgreementYearDepartment} distribue enfin ce quota N7 par département autorisé, avec deux niveaux de valeur : \texttt{estimated\_places}, calculé automatiquement (méthode Hamilton, cf. Sprint 4 — US-11), et \texttt{adjusted\_places}, un ajustement manuel optionnel qui prévaut dès qu'il est renseigné (\texttt{get\_\allowbreak effective\_\allowbreak quota()}).
 
-\texttt{AcademicYear} pilote le cycle de vie de la campagne via une machine à états à huit phases (cf. chapitre~\ref{cha:conception}, section FSM). Toutes les classes portent les champs d'audit \texttt{created\_at}, \texttt{updated\_at}, \texttt{created\_by} et \texttt{updated\_by}, hérités de \texttt{TimeStampedModel} et omis de la figure par souci de lisibilité.
+% \texttt{AcademicYear} pilote le cycle de vie de la campagne via une machine à états à huit phases (cf. chapitre~\ref{cha:conception}, section FSM). Toutes les classes portent les champs d'audit \texttt{created\_at}, \texttt{updated\_at}, \texttt{created\_by} et \texttt{updated\_by}, hérités de \texttt{TimeStampedModel} et omis de la figure par souci de lisibilité.
 
-\begin{landscape}
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\linewidth,height=0.9\textheight,keepaspectratio]{figures/conception/Sprint1/Diagramme_de_classe_sprint1.png}
-  \caption{Diagramme de classes — Sprint 1}
-  \label{fig:diag-class-sprint1}
-\end{figure}
-\end{landscape}
+% \begin{landscape}
+% \begin{figure}[H]
+%   \centering
+%   \includegraphics[width=\linewidth,height=0.9\textheight,keepaspectratio]{figures/conception/Sprint1/Diagramme_de_classe_sprint1.png}
+%   \caption{Diagramme de classes — Sprint 1}
+%   \label{fig:diag-class-sprint1}
+% \end{figure}
+% \end{landscape}
 
 \subsection{Implémentation}
 
-Le modèle de données est implémenté dans trois apps Django : \texttt{reference} (\texttt{Country}, \texttt{Department}, \texttt{Level}, \texttt{Parcours}), \texttt{institutions} (\texttt{PartnerUniversity}) et \texttt{mobility} (\texttt{MobilityCategory}, \texttt{Agreement}, \texttt{AgreementDepartment}, \texttt{AgreementYear}, \texttt{AgreementYearDepartment}), tandis que \texttt{AcademicYear} vit dans l'app \texttt{academic}. La FSM de \texttt{AcademicYear} est protégée (\texttt{protected=True}) et expose sept transitions (\texttt{open\_\allowbreak recommendation}, \texttt{start\_candidature}, \texttt{close\_wishes}, \texttt{launch\_assignment}, \texttt{complete\_\allowbreak assignment}, \texttt{publish\_results}, \texttt{close}), routées par l'API \texttt{academic/\allowbreak api.py}. Les référentiels et les accords sont synchronisés depuis Pégase et MoveON par des adaptateurs dédiés (\texttt{integrations/\allowbreak pegase.py}, \texttt{integrations/\allowbreak moveon.py}), et les pages Next.js correspondantes (\texttt{admin/\allowbreak references}, \texttt{admin/\allowbreak academic-years}, \texttt{admin/\allowbreak mobility}) consomment ces données via l'API Django Ninja.
+% Le modèle de données est implémenté dans trois apps Django : \texttt{reference} (\texttt{Country}, \texttt{Department}, \texttt{Level}, \texttt{Parcours}), \texttt{institutions} (\texttt{PartnerUniversity}) et \texttt{mobility} (\texttt{MobilityCategory}, \texttt{Agreement}, \texttt{AgreementDepartment}, \texttt{AgreementYear}, \texttt{AgreementYearDepartment}), tandis que \texttt{AcademicYear} vit dans l'app \texttt{academic}. La FSM de \texttt{AcademicYear} est protégée (\texttt{protected=True}) et expose sept transitions (\texttt{open\_\allowbreak recommendation}, \texttt{start\_candidature}, \texttt{close\_wishes}, \texttt{launch\_assignment}, \texttt{complete\_\allowbreak assignment}, \texttt{publish\_results}, \texttt{close}), routées par l'API \texttt{academic/\allowbreak api.py}. Les référentiels et les accords sont synchronisés depuis Pégase et MoveON par des adaptateurs dédiés (\texttt{integrations/\allowbreak pegase.py}, \texttt{integrations/\allowbreak moveon.py}), et les pages Next.js correspondantes (\texttt{admin/\allowbreak references}, \texttt{admin/\allowbreak academic-years}, \texttt{admin/\allowbreak mobility}) consomment ces données via l'API Django Ninja.
 
 \subsection{Tests}
 
-Chaque app dispose d'une suite de tests dédiée (\texttt{academic/tests}, \texttt{mobility/tests}, \texttt{institutions/tests}, \texttt{reference/tests}), couvrant en particulier les transitions FSM valides et invalides de \texttt{AcademicYear} (\texttt{TransitionNotAllowed} attendu hors séquence), la validation des dates (\texttt{clean()}), et le calcul de \texttt{get\_\allowbreak effective\_\allowbreak quota()} sur les différentes combinaisons de quota estimé et ajusté.
+% Chaque app dispose d'une suite de tests dédiée (\texttt{academic/tests}, \texttt{mobility/tests}, \texttt{institutions/tests}, \texttt{reference/tests}), couvrant en particulier les transitions FSM valides et invalides de \texttt{AcademicYear} (\texttt{TransitionNotAllowed} attendu hors séquence), la validation des dates (\texttt{clean()}), et le calcul de \texttt{get\_\allowbreak effective\_\allowbreak quota()} sur les différentes combinaisons de quota estimé et ajusté.
 
 
 % ─────────────────────────────────────────────────────────────
@@ -481,32 +481,32 @@ Haute & 2 \\
 
 \subsection{Conception détaillée}
 
-Cette section présente la conception UML détaillée des entités métier du Sprint 2.
+% Cette section présente la conception UML détaillée des entités métier du Sprint 2.
 
-\subsubsection{Diagramme de classes}
+% \subsubsection{Diagramme de classes}
 
-Le diagramme de la figure~\ref{fig:diag-class-sprint2} modélise la gestion des étudiants et de leurs vœux de mobilité au sein du système de mobilité de l'ENSEEIHT.
+% Le diagramme de la figure~\ref{fig:diag-class-sprint2} modélise la gestion des étudiants et de leurs vœux de mobilité au sein du système de mobilité de l'ENSEEIHT.
 
-\texttt{AnnualEnrollment} est la classe d'association centrale du sprint : elle matérialise l'inscription d'un étudiant (\texttt{Student}) pour une année universitaire (\texttt{AcademicYear}) donnée, et porte le département et le niveau d'études. Le parcours est renseigné uniquement lorsque l'étudiant a intégré une filière spécialisée ; il reste absent pour les niveaux en tronc commun (première année). \texttt{StudentWish} matérialise à son tour un vœu de mobilité émis dans le cadre d'une inscription annuelle : chaque inscription peut générer au plus trois vœux, chacun pointant vers un accord différent et portant un rang.
+% \texttt{AnnualEnrollment} est la classe d'association centrale du sprint : elle matérialise l'inscription d'un étudiant (\texttt{Student}) pour une année universitaire (\texttt{AcademicYear}) donnée, et porte le département et le niveau d'études. Le parcours est renseigné uniquement lorsque l'étudiant a intégré une filière spécialisée ; il reste absent pour les niveaux en tronc commun (première année). \texttt{StudentWish} matérialise à son tour un vœu de mobilité émis dans le cadre d'une inscription annuelle : chaque inscription peut générer au plus trois vœux, chacun pointant vers un accord différent et portant un rang.
 
-Une contrainte d'intégrité garantit que le parcours suivi par l'étudiant appartient au même département que son inscription annuelle, exprimée par la contrainte :\\
- \texttt{\{parcours.department = department\}} annotée sur l'association.
+% Une contrainte d'intégrité garantit que le parcours suivi par l'étudiant appartient au même département que son inscription annuelle, exprimée par la contrainte :\\
+%  \texttt{\{parcours.department = department\}} annotée sur l'association.
 
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\linewidth]{figures/conception/Sprint2/Diagramme_de_classe_sprint2.png}
-  \caption{Diagramme de classes — Sprint 2}
-  \label{fig:diag-class-sprint2}
-\end{figure}
+% \begin{figure}[H]
+%   \centering
+%   \includegraphics[width=\linewidth]{figures/conception/Sprint2/Diagramme_de_classe_sprint2.png}
+%   \caption{Diagramme de classes — Sprint 2}
+%   \label{fig:diag-class-sprint2}
+% \end{figure}
 
 
 \subsection{Implémentation}
 
-L'audit log s'appuie sur le paquet tiers \texttt{django-auditlog} plutôt que sur un modèle métier développé en interne : il journalise automatiquement les créations, modifications et suppressions des modèles enregistrés, avec l'auteur et l'horodatage, et un utilitaire \texttt{audit/\allowbreak logger.py} permet de tracer explicitement les actions qui ne correspondent pas à une sauvegarde de modèle (synchronisations, imports par lot). Les pipelines d'import (\texttt{students/\allowbreak services/\allowbreak student\_\allowbreak importer.py} pour Pégase, \texttt{students/\allowbreak services/\allowbreak sync\_\allowbreak moveon.py} pour les vœux) upsertent sur l'INE et produisent systématiquement un \texttt{ImportReport} détaillant succès, erreurs et doublons.
+% L'audit log s'appuie sur le paquet tiers \texttt{django-auditlog} plutôt que sur un modèle métier développé en interne : il journalise automatiquement les créations, modifications et suppressions des modèles enregistrés, avec l'auteur et l'horodatage, et un utilitaire \texttt{audit/\allowbreak logger.py} permet de tracer explicitement les actions qui ne correspondent pas à une sauvegarde de modèle (synchronisations, imports par lot). Les pipelines d'import (\texttt{students/\allowbreak services/\allowbreak student\_\allowbreak importer.py} pour Pégase, \texttt{students/\allowbreak services/\allowbreak sync\_\allowbreak moveon.py} pour les vœux) upsertent sur l'INE et produisent systématiquement un \texttt{ImportReport} détaillant succès, erreurs et doublons.
 
 \subsection{Tests}
 
-Les suites \texttt{students/tests} et \texttt{audit/tests} couvrent l'upsert sur INE, le rejet des vœux sans correspondance INE (motif \texttt{INE\_NOT\_FOUND}), la contrainte d'unicité \texttt{(annual\_\allowbreak enrollment, rank)} sur \texttt{StudentWish}, et la présence d'une entrée d'audit après chaque import.
+% Les suites \texttt{students/tests} et \texttt{audit/tests} couvrent l'upsert sur INE, le rejet des vœux sans correspondance INE (motif \texttt{INE\_NOT\_FOUND}), la contrainte d'unicité \texttt{(annual\_\allowbreak enrollment, rank)} sur \texttt{StudentWish}, et la présence d'une entrée d'audit après chaque import.
 
 
 % ─────────────────────────────────────────────────────────────
@@ -744,22 +744,22 @@ Haute & 2 \\
 
 \subsubsection{Diagramme de classes}
 
-Le diagramme de la figure~\ref{fig:diag-class-sprint3} modélise le résultat de l'algorithme d'affectation. \texttt{Assignment} représente un run d'affectation pour une année universitaire donnée : elle porte l'état de supervision (proposé, validé, publié ou annulé) et des compteurs agrégés (\texttt{total\_students}, \texttt{assigned\_count}, \texttt{unassigned\_count}). Le détail par étudiant est porté par \texttt{AssignmentResult}, une classe d'association entre \texttt{Assignment} et \texttt{AnnualEnrollment} (contrainte unique sur ce couple), qui indique le type de créneau obtenu (\texttt{slot\_type} : quota département, surplus redistribué, destination alternative ou non affecté), le rang du vœu retenu, ainsi qu'un jeu de champs \texttt{override\_*} pour la correction manuelle du service RI et un champ \texttt{source} distinguant une affectation automatique d'une correction.
+% Le diagramme de la figure~\ref{fig:diag-class-sprint3} modélise le résultat de l'algorithme d'affectation. \texttt{Assignment} représente un run d'affectation pour une année universitaire donnée : elle porte l'état de supervision (proposé, validé, publié ou annulé) et des compteurs agrégés (\texttt{total\_students}, \texttt{assigned\_count}, \texttt{unassigned\_count}). Le détail par étudiant est porté par \texttt{AssignmentResult}, une classe d'association entre \texttt{Assignment} et \texttt{AnnualEnrollment} (contrainte unique sur ce couple), qui indique le type de créneau obtenu (\texttt{slot\_type} : quota département, surplus redistribué, destination alternative ou non affecté), le rang du vœu retenu, ainsi qu'un jeu de champs \texttt{override\_*} pour la correction manuelle du service RI et un champ \texttt{source} distinguant une affectation automatique d'une correction.
 
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\linewidth]{figures/conception/Sprint3/Diagramme_de_classe_sprint3.png}
-  \caption{Diagramme de classes — Sprint 3}
-  \label{fig:diag-class-sprint3}
-\end{figure}
+% \begin{figure}[H]
+%   \centering
+%   \includegraphics[width=\linewidth]{figures/conception/Sprint3/Diagramme_de_classe_sprint3.png}
+%   \caption{Diagramme de classes — Sprint 3}
+%   \label{fig:diag-class-sprint3}
+% \end{figure}
 
 \subsection{Implémentation}
 
-L'algorithme Deferred Acceptance est implémenté en Python pur dans \texttt{outgoing/\allowbreak services/\allowbreak gale\_\allowbreak shapley.py}, encapsulé dans une tâche Django-Q2 (\texttt{outgoing/\allowbreak services/\allowbreak task\_\allowbreak runners.py}) qui persiste les résultats et déclenche automatiquement la transition FSM \texttt{complete\_\allowbreak assignment} de l'année universitaire à la fin du calcul. Les endpoints de \texttt{outgoing/\allowbreak api.py} exposent la liste des affectations, les statistiques par département, la validation et la publication (\texttt{/assignments/\allowbreak\{id\}/\allowbreak validate/}, \texttt{/assignments/\allowbreak\{id\}/\allowbreak publish/}), ainsi que la correction manuelle d'un résultat individuel (\texttt{PATCH /\allowbreak assignments/\allowbreak\{id\}/\allowbreak results/\allowbreak \{id\}/\allowbreak }), bloquée dès que l'affectation quitte l'état \texttt{proposed}.
+% L'algorithme Deferred Acceptance est implémenté en Python pur dans \texttt{outgoing/\allowbreak services/\allowbreak gale\_\allowbreak shapley.py}, encapsulé dans une tâche Django-Q2 (\texttt{outgoing/\allowbreak services/\allowbreak task\_\allowbreak runners.py}) qui persiste les résultats et déclenche automatiquement la transition FSM \texttt{complete\_\allowbreak assignment} de l'année universitaire à la fin du calcul. Les endpoints de \texttt{outgoing/\allowbreak api.py} exposent la liste des affectations, les statistiques par département, la validation et la publication (\texttt{/assignments/\allowbreak\{id\}/\allowbreak validate/}, \texttt{/assignments/\allowbreak\{id\}/\allowbreak publish/}), ainsi que la correction manuelle d'un résultat individuel (\texttt{PATCH /\allowbreak assignments/\allowbreak\{id\}/\allowbreak results/\allowbreak \{id\}/\allowbreak }), bloquée dès que l'affectation quitte l'état \texttt{proposed}.
 
 \subsection{Tests}
 
-La suite \texttt{outgoing/\allowbreak tests/\allowbreak test\_\allowbreak gale\_\allowbreak shapley.py} vérifie la stabilité des affectations produites (absence de paire bloquante) et le respect des quotas par département sur des jeux de données synthétiques. La suite \texttt{outgoing/\allowbreak tests/\allowbreak test\_\allowbreak api.py}, la plus fournie du projet, couvre les transitions FSM valides et invalides, la correction manuelle avec et sans motif, et la cohérence des statistiques exposées par l'API.
+% La suite \texttt{outgoing/\allowbreak tests/\allowbreak test\_\allowbreak gale\_\allowbreak shapley.py} vérifie la stabilité des affectations produites (absence de paire bloquante) et le respect des quotas par département sur des jeux de données synthétiques. La suite \texttt{outgoing/\allowbreak tests/\allowbreak test\_\allowbreak api.py}, la plus fournie du projet, couvre les transitions FSM valides et invalides, la correction manuelle avec et sans motif, et la cohérence des statistiques exposées par l'API.
 
 
 % ─────────────────────────────────────────────────────────────
@@ -1131,24 +1131,24 @@ Cette section présente la conception UML détaillée des entités métier du Sp
 
 \subsubsection{Diagramme de classes}
 
-Le diagramme de la figure~\ref{fig:diag-class-sprint4} regroupe les trois nouvelles entités métier du sprint autour des classes de référence déjà établies. \texttt{Internship} et \texttt{IncomingStudent} sont deux entités d'import, sans machine à états, rattachées à l'étudiant ou à l'année universitaire selon le sens de la mobilité (sortante pour un stage, entrante pour un étudiant accueilli) ; \texttt{IncomingStudent} référence en outre plusieurs référentiels du Sprint 1 (département, niveau, parcours, cadre de mobilité, université d'origine), omis de la figure par souci de lisibilité. \texttt{ComplementaryMobility} est la seule des trois à porter un cycle de vie propre, avec sa FSM à trois états \texttt{pending} $\to$ \texttt{validated} \textbar{} \texttt{rejected} — la troisième machine à états du système avec celles d'\texttt{AcademicYear} et d'\texttt{Assignment} (chapitre~\ref{cha:conception}, section FSM). La répartition Hamilton des quotas (US-11), pour sa part, n'introduit aucune nouvelle classe : elle recalcule les valeurs de \texttt{AgreementYearDepartment.estimated\_\allowbreak places}, déjà modélisée au Sprint 1.
+% Le diagramme de la figure~\ref{fig:diag-class-sprint4} regroupe les trois nouvelles entités métier du sprint autour des classes de référence déjà établies. \texttt{Internship} et \texttt{IncomingStudent} sont deux entités d'import, sans machine à états, rattachées à l'étudiant ou à l'année universitaire selon le sens de la mobilité (sortante pour un stage, entrante pour un étudiant accueilli) ; \texttt{IncomingStudent} référence en outre plusieurs référentiels du Sprint 1 (département, niveau, parcours, cadre de mobilité, université d'origine), omis de la figure par souci de lisibilité. \texttt{ComplementaryMobility} est la seule des trois à porter un cycle de vie propre, avec sa FSM à trois états \texttt{pending} $\to$ \texttt{validated} \textbar{} \texttt{rejected} — la troisième machine à états du système avec celles d'\texttt{AcademicYear} et d'\texttt{Assignment} (chapitre~\ref{cha:conception}, section FSM). La répartition Hamilton des quotas (US-11), pour sa part, n'introduit aucune nouvelle classe : elle recalcule les valeurs de \texttt{AgreementYearDepartment.estimated\_\allowbreak places}, déjà modélisée au Sprint 1.
 
-\begin{landscape}
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\linewidth,height=0.9\textheight,keepaspectratio]{figures/conception/Sprint4/Diagramme_de_classe_sprint4.png}
-  \caption{Diagramme de classes — Sprint 4}
-  \label{fig:diag-class-sprint4}
-\end{figure}
-\end{landscape}
+% \begin{landscape}
+% \begin{figure}[H]
+%   \centering
+%   \includegraphics[width=\linewidth,height=0.9\textheight,keepaspectratio]{figures/conception/Sprint4/Diagramme_de_classe_sprint4.png}
+%   \caption{Diagramme de classes — Sprint 4}
+%   \label{fig:diag-class-sprint4}
+% \end{figure}
+% \end{landscape}
 
 \subsection{Implémentation}
 
-Les US-11 à US-15 sont implémentées et mergées sur la branche de développement ; l'US-16 est en cours de finalisation (les endpoints de validation/rejet existent déjà côté API, l'interface d'administration reste à livrer). La méthode Hamilton est isolée dans un service pur (\texttt{\_hamilton()}), testable indépendamment de l'ORM, et pondérée par l'historique des cinq dernières années de vœux et d'affectations par département. Les intégrations Eudonet et Excel suivent le même pipeline en cinq étapes que Pégase et MoveON (récupération, nettoyage, persistance, déclenchement, supervision — cf. chapitre~\ref{cha:conception}). La réconciliation sans INE réutilise le statut \texttt{FAILED} du modèle \texttt{RawImport} existant plutôt que d'introduire un nouveau statut dédié, et s'appuie sur \texttt{difflib.SequenceMatcher} pour le score de similarité. Le dépôt de justificatifs (US-15) s'appuie sur MinIO avec chiffrement côté serveur (SSE-S3) et URLs présignées à durée limitée pour la consultation.
+% Les US-11 à US-15 sont implémentées et mergées sur la branche de développement ; l'US-16 est en cours de finalisation (les endpoints de validation/rejet existent déjà côté API, l'interface d'administration reste à livrer). La méthode Hamilton est isolée dans un service pur (\texttt{\_hamilton()}), testable indépendamment de l'ORM, et pondérée par l'historique des cinq dernières années de vœux et d'affectations par département. Les intégrations Eudonet et Excel suivent le même pipeline en cinq étapes que Pégase et MoveON (récupération, nettoyage, persistance, déclenchement, supervision — cf. chapitre~\ref{cha:conception}). La réconciliation sans INE réutilise le statut \texttt{FAILED} du modèle \texttt{RawImport} existant plutôt que d'introduire un nouveau statut dédié, et s'appuie sur \texttt{difflib.SequenceMatcher} pour le score de similarité. Le dépôt de justificatifs (US-15) s'appuie sur MinIO avec chiffrement côté serveur (SSE-S3) et URLs présignées à durée limitée pour la consultation.
 
 \subsection{Tests}
 
-Les suites \texttt{mobility/\allowbreak tests/\allowbreak test\_\allowbreak mobility\_\allowbreak services.py} (répartition Hamilton, y compris le cas sans historique), \texttt{internships/tests}, \texttt{incoming/tests} et \texttt{students/\allowbreak tests/\allowbreak test\_\allowbreak reconciliation.py} couvrent respectivement l'algorithme de répartition, les pipelines d'import Eudonet et Excel, et le scoring de réconciliation sur des cas d'homonymie. Les tests de \texttt{ComplementaryMobility} (transitions FSM, contrôle de format et de taille du justificatif) sont en cours de complétion en cohérence avec l'avancement de l'US-16.
+% Les suites \texttt{mobility/\allowbreak tests/\allowbreak test\_\allowbreak mobility\_\allowbreak services.py} (répartition Hamilton, y compris le cas sans historique), \texttt{internships/tests}, \texttt{incoming/tests} et \texttt{students/\allowbreak tests/\allowbreak test\_\allowbreak reconciliation.py} couvrent respectivement l'algorithme de répartition, les pipelines d'import Eudonet et Excel, et le scoring de réconciliation sur des cas d'homonymie. Les tests de \texttt{ComplementaryMobility} (transitions FSM, contrôle de format et de taille du justificatif) sont en cours de complétion en cohérence avec l'avancement de l'US-16.
 
 
 % ─────────────────────────────────────────────────────────────

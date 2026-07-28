@@ -2386,26 +2386,29 @@
     <bcf:citekey order="11" intorder="1">angular_dev</bcf:citekey>
     <bcf:citekey order="12" intorder="1">nextjs_dev</bcf:citekey>
     <bcf:citekey order="13" intorder="1">nodejs_dev</bcf:citekey>
-    <bcf:citekey order="14" intorder="1">fastapi_dev</bcf:citekey>
-    <bcf:citekey order="15" intorder="1">django_dev</bcf:citekey>
-    <bcf:citekey order="16" intorder="1">drf_dev</bcf:citekey>
-    <bcf:citekey order="17" intorder="1">djangoninja_dev</bcf:citekey>
-    <bcf:citekey order="18" intorder="1">mysql_dev</bcf:citekey>
-    <bcf:citekey order="19" intorder="1">mongodb_dev</bcf:citekey>
-    <bcf:citekey order="20" intorder="1">postgresql_dev</bcf:citekey>
-    <bcf:citekey order="21" intorder="1">celery_dev</bcf:citekey>
-    <bcf:citekey order="22" intorder="1">redis_dev</bcf:citekey>
-    <bcf:citekey order="23" intorder="1">djangoq2_dev</bcf:citekey>
-    <bcf:citekey order="24" intorder="1">minio_dev</bcf:citekey>
-    <bcf:citekey order="25" intorder="1">nginx_dev</bcf:citekey>
-    <bcf:citekey order="26" intorder="1">traefik_dev</bcf:citekey>
-    <bcf:citekey order="27" intorder="1">GaleShapley1962</bcf:citekey>
-    <bcf:citekey order="28" intorder="1">scikit_learn</bcf:citekey>
-    <bcf:citekey order="29" intorder="1">scikit_learn</bcf:citekey>
+    <bcf:citekey order="14" intorder="1">xstate_dev</bcf:citekey>
+    <bcf:citekey order="15" intorder="1">fastapi_dev</bcf:citekey>
+    <bcf:citekey order="16" intorder="1">django_dev</bcf:citekey>
+    <bcf:citekey order="17" intorder="1">drf_dev</bcf:citekey>
+    <bcf:citekey order="18" intorder="1">djangoninja_dev</bcf:citekey>
+    <bcf:citekey order="19" intorder="1">mysql_dev</bcf:citekey>
+    <bcf:citekey order="20" intorder="1">mongodb_dev</bcf:citekey>
+    <bcf:citekey order="21" intorder="1">postgresql_dev</bcf:citekey>
+    <bcf:citekey order="22" intorder="1">celery_dev</bcf:citekey>
+    <bcf:citekey order="23" intorder="1">redis_dev</bcf:citekey>
+    <bcf:citekey order="24" intorder="1">djangoq2_dev</bcf:citekey>
+    <bcf:citekey order="25" intorder="1">minio_dev</bcf:citekey>
+    <bcf:citekey order="26" intorder="1">nginx_dev</bcf:citekey>
+    <bcf:citekey order="27" intorder="1">traefik_dev</bcf:citekey>
+    <bcf:citekey order="28" intorder="1">GaleShapley1962</bcf:citekey>
+    <bcf:citekey order="29" intorder="1">AbdulkadirogluSonmez2003</bcf:citekey>
     <bcf:citekey order="30" intorder="1">mistral_dev</bcf:citekey>
     <bcf:citekey order="31" intorder="1">langchain_dev</bcf:citekey>
     <bcf:citekey order="32" intorder="1">LlamaIndex_dev</bcf:citekey>
     <bcf:citekey order="33" intorder="1">haystack_dev</bcf:citekey>
+    <bcf:citekey order="34" intorder="1">chromadb_dev</bcf:citekey>
+    <bcf:citekey order="35" intorder="1">faiss_dev</bcf:citekey>
+    <bcf:citekey order="36" intorder="1">pinecone_dev</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">

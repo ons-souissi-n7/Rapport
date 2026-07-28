@@ -29,7 +29,7 @@ Chaque user story est priorisée selon la méthode MoSCoW, qui permet de sépare
     \item \textbf{M — Must Have} : fonctionnalités sans lesquelles le système ne peut pas remplir son objectif. Leur absence rendrait le projet inutilisable pour le service RI.
     \item \textbf{S — Should Have} : fonctionnalités importantes, mais dont le report à une version suivante reste acceptable sans compromettre le MVP.
     \item \textbf{C — Could Have} : fonctionnalités souhaitables, planifiées uniquement si la capacité restante du sprint le permet une fois les priorités supérieures traitées.
-    \item \textbf{W — Won't Have} : fonctionnalités explicitement exclues du périmètre actuel, documentées pour ne pas créer d'attente non maîtrisée.
+    \item \textbf{W — Won't Have (this time)} : fonctionnalités écartées de cette itération, non de façon définitive, mais documentées pour ne pas créer d'attente non maîtrisée ; elles pourront être réévaluées lors d'une itération future.
 \end{itemize}
 
 
@@ -627,11 +627,11 @@ La plateforme repose sur une architecture en cinq couches qui s'appuie sur le mo
   \label{fig:archi-logique}
 \end{figure}
 
-La figure~\ref{fig:archi-logique} donne une vue d'ensemble du système. Les flux sont unidirectionnels et bien délimités. Le frontend Next.js 14 s'adresse exclusivement à l'API Django Ninja via des appels REST sur HTTPS, jamais directement à la base de données. Django-Q2 s'exécute dans un processus séparé et partage le même PostgreSQL que l'applicatif, ce qui lui permet de fonctionner comme broker de messages sans service externe supplémentaire. PostgreSQL et MinIO sont des services internes non accessibles depuis l'extérieur du réseau Docker. Les adaptateurs ETL sont physiquement séparés des modules métier, précisément parce qu'ils dépendent de sources externes (MoveON, Pégase, Eudonet) dont la disponibilité n'est pas garantie. L'authentification passe par le CAS OIDC de Toulouse INP : à chaque requête, le token JWT est validé et le rôle (\texttt{ADMIN\_RI} ou \texttt{ETUDIANT}) est extrait pour contrôler les accès.
+La figure~\ref{fig:archi-logique} donne une vue d'ensemble du système. Les flux sont unidirectionnels et bien délimités. Le frontend Next.js 16 s'adresse exclusivement à l'API Django Ninja via des appels REST sur HTTPS, jamais directement à la base de données. Django-Q2 s'exécute dans un processus séparé et partage le même PostgreSQL que l'applicatif, ce qui lui permet de fonctionner comme file d'attente sans service externe supplémentaire. PostgreSQL et MinIO sont des services internes non accessibles depuis l'extérieur du réseau Docker. Les adaptateurs ETL sont physiquement séparés des modules métier, précisément parce qu'ils dépendent de sources externes (MoveON, Pégase, Eudonet) dont la disponibilité n'est pas garantie. L'authentification passe par le CAS OIDC de Toulouse INP : à chaque requête, le token JWT est validé et le rôle (\texttt{ADMIN\_RI} ou \texttt{ETUDIANT}) est extrait pour contrôler les accès.
 
-\subsection{Couche présentation — Next.js 14}
+\subsection{Couche présentation — Next.js 16}
 
-La couche présentation est développée en \textbf{Next.js 14} avec \textbf{TypeScript} et \textbf{Tailwind CSS}. Elle expose deux espaces fonctionnellement distincts, séparés dès le middleware de routage.
+La couche présentation est développée en \textbf{Next.js 16} avec \textbf{TypeScript} et \textbf{Tailwind CSS}. Elle expose deux espaces fonctionnellement distincts, séparés dès le middleware de routage.
 
 \textbf{Espace administrateur RI :} pilotage de campagne, gestion des quotas par accord et par département, supervision des affectations avant publication, instruction des demandes de mobilités complémentaires, tableaux de bord de conformité CTI.
 
@@ -663,7 +663,7 @@ Le backend concentre la logique métier du système. Il est découpé en modules
 
 \subsection{Couche traitement asynchrone — Django-Q2}
 
-Plutôt que de bloquer l'interface le temps qu'un calcul se termine, les traitements longs sont soumis à une file de tâches gérée par \textbf{Django-Q2}. Ce dernier utilise PostgreSQL comme broker, ce qui évite d'introduire Redis dans l'infrastructure. Deux familles de tâches y transitent :
+Plutôt que de bloquer l'interface le temps qu'un calcul se termine, les traitements longs sont soumis à une file de tâches gérée par \textbf{Django-Q2}. Ce dernier utilise PostgreSQL comme file d'attente persistante (backend de tâches), ce qui évite d'introduire Redis dans l'infrastructure. Deux familles de tâches y transitent :
 
 \begin{itemize}
   \item \textbf{Tâches déclenchées par événement} : lancement de l'algorithme d'affectation, recalcul des durées CTI après chaque transition FSM, génération des rapports d'import.
@@ -676,7 +676,7 @@ Un seul service de données est utilisé dans l'infrastructure : \textbf{Postgre
 
 \begin{itemize}
   \item \textbf{Base de données relationnelle} : toutes les entités métier y sont stockées, avec des index composites sur \texttt{academic\_year\_id} pour les performances de filtrage par campagne.
-  \item \textbf{Broker de messages Django-Q2} : la table \texttt{django\_q\_task} stocke les tâches en attente.
+  \item \textbf{File d'attente Django-Q2} : la table \texttt{django\_q\_task} stocke les tâches en attente.
   % , éliminant le besoin de Redis.
   \item \textbf{Stockage des données brutes (JSONB)} : la table \texttt{RawImport} conserve les réponses JSON brutes de chaque appel API avant transformation, garantissant la possibilité de relancer les imports.
 \end{itemize}
@@ -839,7 +839,7 @@ Six containers composent l'infrastructure. Le tableau~\ref{tab:docker-containers
 \hline
 \texttt{worker} & \texttt{python:3.12-slim} & Django-Q2 cluster (tâches asynchrones et cron) \\
 \hline
-\texttt{db} & \texttt{postgres:16-alpine} & PostgreSQL, base de données et broker Django-Q2 \\
+\texttt{db} & \texttt{postgres:16-alpine} & PostgreSQL, base de données et file d'attente Django-Q2 \\
 \hline
 \texttt{minio} & \texttt{minio/minio} & Stockage objet S3 (justificatifs, fichiers Excel) \\
 \hline

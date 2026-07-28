@@ -11,31 +11,32 @@
 \contentsline {table}{\numberline {2.1}{\ignorespaces Comparaison des frameworks frontend}}{30}{table.caption.19}%
 \contentsline {table}{\numberline {2.2}{\ignorespaces Comparaison des frameworks backend}}{33}{table.caption.20}%
 \contentsline {table}{\numberline {2.3}{\ignorespaces Comparaison DRF et Django Ninja}}{35}{table.caption.21}%
-\contentsline {table}{\numberline {2.4}{\ignorespaces Comparaison des systèmes de gestion de base de données}}{37}{table.caption.22}%
-\contentsline {table}{\numberline {2.5}{\ignorespaces Comparaison des formats de stockage pour \texttt {RawImport}}}{39}{table.caption.23}%
-\contentsline {table}{\numberline {2.6}{\ignorespaces Comparaison des gestionnaires de tâches asynchrones}}{41}{table.caption.24}%
-\contentsline {table}{\numberline {2.7}{\ignorespaces Comparaison des solutions de stockage de fichiers}}{43}{table.caption.25}%
-\contentsline {table}{\numberline {2.8}{\ignorespaces Comparaison des approches de routage des requêtes}}{45}{table.caption.26}%
+\contentsline {table}{\numberline {2.4}{\ignorespaces Comparaison des systèmes de gestion de base de données}}{38}{table.caption.22}%
+\contentsline {table}{\numberline {2.5}{\ignorespaces Comparaison des formats de stockage pour \texttt {RawImport}}}{40}{table.caption.23}%
+\contentsline {table}{\numberline {2.6}{\ignorespaces Comparaison des gestionnaires de tâches asynchrones}}{42}{table.caption.24}%
+\contentsline {table}{\numberline {2.7}{\ignorespaces Comparaison des solutions de stockage de fichiers}}{44}{table.caption.25}%
+\contentsline {table}{\numberline {2.8}{\ignorespaces Comparaison des approches de routage des requêtes}}{46}{table.caption.26}%
 \contentsline {table}{\numberline {2.9}{\ignorespaces Comparaison des outils de reverse proxy}}{47}{table.caption.27}%
-\contentsline {table}{\numberline {2.10}{\ignorespaces Synthèse des choix technologiques}}{47}{table.2.10}%
+\contentsline {table}{\numberline {2.10}{\ignorespaces Synthèse des choix technologiques}}{48}{table.2.10}%
 \contentsline {table}{\numberline {2.11}{\ignorespaces Comparaison des stratégies de performance base de données}}{50}{table.caption.28}%
 \contentsline {table}{\numberline {2.12}{\ignorespaces Comparaison des algorithmes d'affectation}}{52}{table.caption.29}%
-\contentsline {table}{\numberline {2.13}{\ignorespaces Comparaison des méthodes de répartition des quotas}}{54}{table.caption.30}%
-\contentsline {table}{\numberline {2.14}{\ignorespaces Comparaison des approches de recommandation}}{57}{table.caption.31}%
-\contentsline {table}{\numberline {2.15}{\ignorespaces Variables d'entrée du moteur de recommandation}}{57}{table.caption.32}%
-\contentsline {table}{\numberline {2.16}{\ignorespaces Comparaison des frameworks d'orchestration RAG}}{60}{table.caption.33}%
-\contentsline {table}{\numberline {2.17}{\ignorespaces Synthèse des choix algorithmiques et de performance}}{61}{table.2.17}%
+\contentsline {table}{\numberline {2.13}{\ignorespaces Comparaison des méthodes de répartition des quotas}}{55}{table.caption.30}%
+\contentsline {table}{\numberline {2.14}{\ignorespaces Comparaison des approches de recommandation}}{58}{table.caption.31}%
+\contentsline {table}{\numberline {2.15}{\ignorespaces Variables du moteur de recommandation}}{58}{table.caption.32}%
+\contentsline {table}{\numberline {2.16}{\ignorespaces Comparaison des frameworks d'orchestration RAG}}{62}{table.caption.33}%
+\contentsline {table}{\numberline {2.17}{\ignorespaces Comparaison des bases vectorielles}}{64}{table.caption.34}%
+\contentsline {table}{\numberline {2.18}{\ignorespaces Synthèse des choix algorithmiques et de performance}}{65}{table.2.18}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {3.1}{\ignorespaces Échelle des story points}}{64}{table.caption.36}%
-\contentsline {table}{\numberline {3.2}{\ignorespaces Product Backlog}}{65}{table.3.2}%
-\contentsline {table}{\numberline {3.3}{\ignorespaces Planification des sprints}}{69}{table.3.3}%
-\contentsline {table}{\numberline {3.4}{\ignorespaces Diagramme de Gantt}}{70}{table.3.4}%
-\contentsline {table}{\numberline {3.5}{\ignorespaces Découpage en domaines métier du système}}{72}{table.caption.37}%
-\contentsline {table}{\numberline {3.6}{\ignorespaces Stratégie de synchronisation par source}}{77}{table.caption.39}%
-\contentsline {table}{\numberline {3.7}{\ignorespaces Containers Docker et leurs rôles}}{81}{table.caption.41}%
-\contentsline {table}{\numberline {3.8}{\ignorespaces Packages du modèle de données}}{83}{table.caption.42}%
-\contentsline {table}{\numberline {3.9}{\ignorespaces Conditions préalables (guard conditions) des transitions FSM}}{86}{table.caption.44}%
-\contentsline {table}{\numberline {3.10}{\ignorespaces FSM des entités métier}}{86}{table.caption.45}%
-\contentsline {table}{\numberline {3.11}{\ignorespaces Matrice des risques}}{91}{table.3.11}%
+\contentsline {table}{\numberline {3.1}{\ignorespaces Échelle des story points}}{69}{table.caption.37}%
+\contentsline {table}{\numberline {3.2}{\ignorespaces Product Backlog}}{69}{table.3.2}%
+\contentsline {table}{\numberline {3.3}{\ignorespaces Planification des sprints}}{73}{table.3.3}%
+\contentsline {table}{\numberline {3.4}{\ignorespaces Diagramme de Gantt}}{74}{table.3.4}%
+\contentsline {table}{\numberline {3.5}{\ignorespaces Découpage en domaines métier du système}}{76}{table.caption.38}%
+\contentsline {table}{\numberline {3.6}{\ignorespaces Stratégie de synchronisation par source}}{81}{table.caption.40}%
+\contentsline {table}{\numberline {3.7}{\ignorespaces Containers Docker et leurs rôles}}{85}{table.caption.42}%
+\contentsline {table}{\numberline {3.8}{\ignorespaces Packages du modèle de données}}{87}{table.caption.43}%
+\contentsline {table}{\numberline {3.9}{\ignorespaces Conditions préalables (guard conditions) des transitions FSM}}{90}{table.caption.45}%
+\contentsline {table}{\numberline {3.10}{\ignorespaces FSM des entités métier}}{90}{table.caption.46}%
+\contentsline {table}{\numberline {3.11}{\ignorespaces Matrice des risques}}{95}{table.3.11}%
 \addvspace {10\p@ }
 \contentsfinish 
