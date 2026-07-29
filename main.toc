@@ -170,7 +170,7 @@
 \contentsline {subsection}{\numberline {3.1.1}Priorités MoSCoW}{68}{subsection.3.1.1}%
 \contentsline {subsection}{\numberline {3.1.2}Story points}{68}{subsection.3.1.2}%
 \contentsline {subsection}{\numberline {3.1.3}Tableau du Product Backlog}{69}{subsection.3.1.3}%
-\contentsline {section}{\numberline {3.2}Planification des sprints}{73}{section.3.2}%
+\contentsline {section}{\numberline {3.2}Planification des sprints}{72}{section.3.2}%
 \contentsline {subsection}{\numberline {3.2.1}Diagramme de Gantt}{73}{subsection.3.2.1}%
 \contentsline {section}{\numberline {3.3}Approches de conception : organisation du code et style architectural}{76}{section.3.3}%
 \contentsline {subsection}{\numberline {3.3.1}Organisation du code : Domain-Driven Design allégé}{76}{subsection.3.3.1}%
@@ -222,9 +222,9 @@
 \contentsline {paragraph}{\numberline {3.8.1.1.3}Gestion des valeurs manquantes}{93}{paragraph.3.8.1.1.3}%
 \contentsline {paragraph}{\numberline {3.8.1.1.4}Détection et gestion des doublons}{93}{paragraph.3.8.1.1.4}%
 \contentsline {paragraph}{\numberline {3.8.1.1.5}Validation métier}{93}{paragraph.3.8.1.1.5}%
-\contentsline {paragraph}{\numberline {3.8.1.1.6}Traçabilité et gestion des erreurs}{93}{paragraph.3.8.1.1.6}%
-\contentsline {subsubsection}{\numberline {3.8.1.2}Architecture du pipeline de nettoyage}{93}{subsubsection.3.8.1.2}%
-\contentsline {subsubsection}{\numberline {3.8.1.3}Technologies et outils utilisés}{94}{subsubsection.3.8.1.3}%
+\contentsline {paragraph}{\numberline {3.8.1.1.6}Traçabilité et gestion des erreurs}{94}{paragraph.3.8.1.1.6}%
+\contentsline {subsubsection}{\numberline {3.8.1.2}Architecture du pipeline de nettoyage}{94}{subsubsection.3.8.1.2}%
+\contentsline {subsubsection}{\numberline {3.8.1.3}Technologies et outils utilisés}{95}{subsubsection.3.8.1.3}%
 \contentsline {section}{\numberline {3.9}Gestion des risques}{95}{section.3.9}%
 \contentsline {section}{Conclusion}{96}{section*.49}%
 \contentsline {chapter}{\numberline {4}Réalisation}{97}{chapter.4}%
@@ -256,9 +256,9 @@
 \contentsline {subsubsection}{\numberline {4.4.3.1}Diagramme de classes}{111}{subsubsection.4.4.3.1}%
 \contentsline {subsection}{\numberline {4.4.4}Implémentation}{111}{subsection.4.4.4}%
 \contentsline {subsection}{\numberline {4.4.5}Tests}{111}{subsection.4.4.5}%
-\contentsline {section}{\numberline {4.5}Sprint 5 — CTI, espace étudiant et supervision}{111}{section.4.5}%
+\contentsline {section}{\numberline {4.5}Sprint 5 — Conformité CTI et authentification}{111}{section.4.5}%
 \contentsline {subsection}{\numberline {4.5.1}Objectif du sprint}{111}{subsection.4.5.1}%
 \contentsline {subsection}{\numberline {4.5.2}Sprint Backlog — Sprint 5 (planifié)}{112}{subsection.4.5.2}%
-\contentsline {chapter}{Conclusion générale}{116}{chapter*.51}%
-\contentsline {chapter}{Bibliographie}{117}{chapter*.52}%
+\contentsline {chapter}{Conclusion générale}{115}{chapter*.51}%
+\contentsline {chapter}{Bibliographie}{116}{chapter*.52}%
 \contentsfinish 

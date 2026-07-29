@@ -108,8 +108,9 @@ M & 5 & S1 \\
 \nextus & Année universitaire et FSM &
 En tant qu’\textbf{administrateur RI}, je veux que le cycle de vie de l’année
 universitaire soit géré par une machine à états (initialisation → recommandation
-→ candidature → import → pré-affectation → validation → publiée → clôturée) afin de
-contrôler chaque phase de la campagne de manière sécurisée. &
+→ candidature → import → pré-affectation → validation → publiée → finalisation
+CTI → clôturée) afin de contrôler chaque phase de la campagne de manière
+sécurisée. &
 M & 4 & S1 \\
 \hline
 
@@ -233,92 +234,44 @@ M & 5 & S4 \\
 \hline
 
 % ── SPRINT 5 ─────────────────────────────────────────────────
-% ── ÉPOPÉE 5 : Conformité CTI ────────────────────────────────
-\multicolumn{6}{|l|}{\cellcolor{yellow!10}\textbf{Conformité CTI}} \\
+% ── ÉPOPÉE 5 : Conformité CTI et authentification ────────────
+\multicolumn{6}{|l|}{\cellcolor{yellow!10}\textbf{Conformité CTI et authentification}} \\
 \hline
 
 \nextus & Calcul automatique des durées CTI &
 En tant qu’\textbf{administrateur RI}, je veux que le système calcule
 automatiquement la durée totale de mobilité de chaque étudiant (séjours
-académiques, stages, expériences complémentaires validées) afin de vérifier
-la conformité CTI sans intervention manuelle. &
+académiques, stages internationaux, mobilités complémentaires validées)
+afin de vérifier la conformité CTI sans intervention manuelle. &
 M & 8 & S5 \\
 \hline
 
-\nextus & Indicateur CTI pour l’étudiant &
-En tant qu’\textbf{étudiant}, je veux visualiser ma durée cumulée de mobilité
-et sa comparaison avec le seuil CTI requis afin de savoir si je suis
-en règle pour l’obtention de mon diplôme. &
+\nextus & Affichage des durées de mobilité dans le tableau de bord étudiant &
+En tant qu’\textbf{étudiant}, je veux visualiser ma durée cumulée de
+mobilité afin de suivre mon avancement. &
 M & 3 & S5 \\
 \hline
 
 \nextus & Export rapport CTI &
-En tant qu’\textbf{administrateur RI}, je veux exporter un rapport de
-conformité CTI pour l’ensemble des étudiants de la promotion afin de
-le soumettre lors des audits. &
+En tant qu’\textbf{administrateur RI}, je veux exporter un rapport
+CTI pour l’ensemble des étudiants de la promotion afin de le
+soumettre lors des audits. &
 S & 5 & S5 \\
 \hline
 
-% ── ÉPOPÉE 6 : Espace étudiant ───────────────────────────────
-\multicolumn{6}{|l|}{\cellcolor{cyan!10}\textbf{Espace étudiant}} \\
-\hline
-
-\nextus & Catalogue des destinations &
-En tant qu’\textbf{étudiant}, je veux consulter les universités partenaires
-avec les places disponibles estimées, les conditions d’éligibilité (GPA
-minimum, département) et les informations pratiques, afin d’explorer
-les options avant de saisir mes vœux dans MoveON. &
-M & 5 & S5 \\
-\hline
-
-\nextus & Suivi de candidature &
-En tant qu’\textbf{étudiant}, je veux suivre le statut de ma candidature
-en temps réel (soumis, en traitement, affecté, rejeté) afin d’être
-informé de l’avancement sans solliciter le service RI. &
-M & 3 & S5 \\
-\hline
-
-\nextus & Gestion des mobilités entrantes &
-En tant qu’\textbf{administrateur RI}, je veux gérer le suivi administratif
-des étudiants internationaux accueillis (procédure envoyée, candidature
-Moodle, lettre d’acceptation, inscription) afin de centraliser le suivi
-dans un seul outil. &
-M & 5 & S5 \\
-\hline
-
-% ── ÉPOPÉE 7 : Supervision et authentification ───────────────
-\multicolumn{6}{|l|}{\cellcolor{red!10}\textbf{Supervision et authentification}} \\
-\hline
-
-\nextus & Console de supervision de campagne &
-En tant qu’\textbf{administrateur RI}, je veux un tableau de bord affichant
-l’état en temps réel de la campagne (candidatures reçues, imports réalisés,
-anomalies en attente, avancement par phase) afin de piloter efficacement
-la campagne. &
-S & 8 & S5 \\
-\hline
-
-\nextus & Contrôle des prérequis FSM &
-En tant qu’\textbf{administrateur RI}, je veux que le système m’empêche de
-passer à la phase de consolidation tant que tous les GPA étudiants ne sont
-pas renseignés et que les vœux ne sont pas importés, afin de garantir que
-l’algorithme d’affectation dispose de données complètes et fiables. &
-M & 3 & S5 \\
-\hline
-
-\nextus & Authentification SSO &
-En tant qu’\textbf{utilisateur}, je veux m’authentifier via le SSO institutionnel
-(CAS/OIDC) afin d’accéder à mon espace personnalisé (étudiant ou administrateur)
-sans créer de compte séparé. &
+\nextus & Tableaux de bord analytiques &
+En tant qu’\textbf{administrateur RI}, je veux disposer de tableaux de
+bord analytiques (taux d’affectation par département, évolution des
+flux entrants/sortants, destinations les plus demandées, indicateurs
+CTI) afin d’alimenter le pilotage opérationnel et la réflexion
+stratégique sur les partenariats. &
 M & 8 & S5 \\
 \hline
 
-\nextus & Tableaux de bord analytiques et exports CTI &
-En tant qu’\textbf{administrateur RI}, je veux disposer de tableaux de bord
-analytiques et d'exports CTI (taux d’affectation par département, évolution
-des flux entrants/sortants, destinations les plus demandées, indicateurs CTI)
-afin d’alimenter le pilotage opérationnel et la réflexion stratégique sur les
-partenariats. &
+\nextus & Authentification SSO &
+En tant qu’\textbf{utilisateur}, je veux m’authentifier via le SSO
+institutionnel (CAS/OIDC) afin d’accéder à mon espace personnalisé
+(étudiant ou administrateur) sans créer de compte séparé. &
 M & 8 & S5 \\
 \hline
 
@@ -385,8 +338,8 @@ Sprint 4 & Sources complémentaires et mobilités &
 US-11 à US-16 — Répartition des quotas par département (Hamilton), stages internationaux (import Eudonet), mobilités entrantes (import Excel), réconciliation sans INE, déclaration et validation des mobilités complémentaires \\
 \hline
 
-Sprint 5 & CTI, espace étudiant et supervision &
-US-17 à US-26 — Calcul des durées CTI, indicateur étudiant, export CTI, catalogue des destinations, suivi de candidature, gestion des mobilités entrantes, console de supervision, contrôle des prérequis FSM, SSO, tableaux de bord analytiques et exports CTI \\
+Sprint 5 & Conformité CTI et authentification &
+US-17 à US-21 — Calcul des durées CTI, tableau de bord étudiant, export CTI, tableaux de bord analytiques, authentification SSO \\
 \hline
 
 % Fonctionnalités V2 commentées pour ajout ultérieur :
@@ -976,7 +929,7 @@ Dans un système comme celui-ci, certaines entités ne peuvent pas changer d'ét
 
 \subsection{FSM de l'année universitaire}
 
-C'est la machine à états centrale du système. Elle gouverne l'accès à toutes les fonctionnalités de la campagne et compte huit états. La figure~\ref{fig:fsm-academic-year} en présente les états et transitions.
+C'est la machine à états centrale du système. Elle gouverne l'accès à toutes les fonctionnalités de la campagne et compte neuf états. La figure~\ref{fig:fsm-academic-year} en présente les états et transitions.
 
 \begin{figure}[H]
 \centering
@@ -992,7 +945,8 @@ C'est la machine à états centrale du système. Elle gouverne l'accès à toute
 \node[state] (pre)    [below=of imp]    {pre\_assignment};
 \node[state] (valid)  [left=of pre]     {validation};
 \node[state] (pub)    [left=of valid]   {published};
-\node[state] (closed) [left=of pub]     {closed};
+\node[state] (fin)    [left=of pub]     {finalization};
+\node[state] (closed) [left=of fin]     {closed};
 
 \draw[arrow] (init)  -- node[above,font=\tiny]{open\_recommendation} (reco);
 \draw[arrow] (reco)  -- node[above,font=\tiny]{start\_candidature} (cand);
@@ -1000,7 +954,8 @@ C'est la machine à états centrale du système. Elle gouverne l'accès à toute
 \draw[arrow] (imp)   -- node[right,font=\tiny]{launch\_assignment} (pre);
 \draw[arrow] (pre)   -- node[below,font=\tiny]{complete\_assignment} (valid);
 \draw[arrow] (valid) -- node[below,font=\tiny]{publish\_results} (pub);
-\draw[arrow] (pub)   -- node[below,font=\tiny]{close} (closed);
+\draw[arrow] (pub)   -- node[below,font=\tiny]{finalize\_cti} (fin);
+\draw[arrow] (fin)   -- node[below,font=\tiny]{close} (closed);
 \end{tikzpicture}
 \caption{Machine à états — AcademicYear}
 \label{fig:fsm-academic-year}
@@ -1015,7 +970,8 @@ Chaque transition marque un cap dans le déroulement de la campagne.
   \item \textbf{import} → \textbf{pre\_assignment} (\texttt{launch\_assignment}) : l'algorithme Gale-Shapley est soumis à Django-Q2 pour exécution asynchrone.
   \item \textbf{pre\_assignment} → \textbf{validation} (\texttt{complete\_assignment}) : déclenchée automatiquement à la fin du calcul asynchrone (un point de reprise manuel existe pour les incidents) ; les propositions sont soumises à l'examen du service RI.
   \item \textbf{validation} → \textbf{published} (\texttt{publish\_results}) : les résultats sont publiés aux étudiants ; l'\texttt{Assignment} associé est lui-même transitionné vers \texttt{published}.
-  \item \textbf{published} → \textbf{closed} (\texttt{close}) : la campagne est définitivement clôturée (\texttt{closed\_at} horodaté) et l'ensemble de ses données bascule en lecture seule.
+  \item \textbf{published} → \textbf{finalization} (\texttt{finalize\_cti}) : le calcul des durées de mobilité pour le rapport CTI (\texttt{MobilityDuration}) est soumis à Django-Q2 pour exécution asynchrone.
+  \item \textbf{finalization} → \textbf{closed} (\texttt{close}) : la campagne est définitivement clôturée (\texttt{closed\_at} horodaté) et l'ensemble de ses données bascule en lecture seule.
 \end{itemize}
 
 Le tableau ci-dessous liste les préconditions effectivement vérifiées par le système avant chaque transition, ainsi que le comportement en cas d'échec.
@@ -1043,7 +999,9 @@ Le tableau ci-dessous liste les préconditions effectivement vérifiées par le 
 \hline
 \texttt{publish\_results} & Aucune précondition applicative au-delà de l'état source & \texttt{TransitionNotAllowed} si l'année n'est pas en \texttt{validation} \\
 \hline
-\texttt{close} & Aucune précondition applicative au-delà de l'état source & \texttt{TransitionNotAllowed} si l'année n'est pas en \texttt{published} \\
+\texttt{finalize\_cti} & Aucune précondition applicative au-delà de l'état source & \texttt{TransitionNotAllowed} si l'année n'est pas en \texttt{published}, tâche Django-Q2 non déclenchée \\
+\hline
+\texttt{close} & Aucune précondition applicative au-delà de l'état source & \texttt{TransitionNotAllowed} si l'année n'est pas en \texttt{finalization} \\
 \hline
 \end{tabular}
 \end{table}

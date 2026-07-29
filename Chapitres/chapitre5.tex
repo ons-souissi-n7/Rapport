@@ -121,7 +121,7 @@ Définir \texttt{AcademicYear} avec FSM &
 Définir le modèle \texttt{AcademicYear}
 en utilisant une machine à états finis (FSM),
 implémentée avec \texttt{django-fsm},
-comprenant 8 états correspondant aux
+comprenant 9 états correspondant aux
 différentes phases de la campagne.
 Mettre en place des transitions sécurisées
 entre ces états, ainsi qu'une méthode
@@ -226,7 +226,7 @@ Cette section présente la conception UML détaillée des entités métier du Sp
 
 % La hiérarchie des quotas — INP $\to$ N7 $\to$ département — est portée par trois classes. \texttt{AgreementDepartment} liste les départements autorisés par accord, indépendamment de l'année, et constitue la contrainte référentielle qui interdit d'allouer un quota à un département non autorisé. \texttt{AgreementYear} matérialise la déclinaison annuelle d'un accord : elle fige un instantané du quota INP (\texttt{inp\_total\_places}) au moment de la validation et porte le quota N7 global (\texttt{n7\_places}) qui en est déduit. \texttt{AgreementYearDepartment} distribue enfin ce quota N7 par département autorisé, avec deux niveaux de valeur : \texttt{estimated\_places}, calculé automatiquement (méthode Hamilton, cf. Sprint 4 — US-11), et \texttt{adjusted\_places}, un ajustement manuel optionnel qui prévaut dès qu'il est renseigné (\texttt{get\_\allowbreak effective\_\allowbreak quota()}).
 
-% \texttt{AcademicYear} pilote le cycle de vie de la campagne via une machine à états à huit phases (cf. chapitre~\ref{cha:conception}, section FSM). Toutes les classes portent les champs d'audit \texttt{created\_at}, \texttt{updated\_at}, \texttt{created\_by} et \texttt{updated\_by}, hérités de \texttt{TimeStampedModel} et omis de la figure par souci de lisibilité.
+% \texttt{AcademicYear} pilote le cycle de vie de la campagne via une machine à états à neuf phases (cf. chapitre~\ref{cha:conception}, section FSM). Toutes les classes portent les champs d'audit \texttt{created\_at}, \texttt{updated\_at}, \texttt{created\_by} et \texttt{updated\_by}, hérités de \texttt{TimeStampedModel} et omis de la figure par souci de lisibilité.
 
 % \begin{landscape}
 % \begin{figure}[H]
@@ -1152,16 +1152,16 @@ Cette section présente la conception UML détaillée des entités métier du Sp
 
 
 % ─────────────────────────────────────────────────────────────
-\section{Sprint 5 — CTI, espace étudiant et supervision}
+\section{Sprint 5 — Conformité CTI et authentification}
 % ─────────────────────────────────────────────────────────────
 
 Le Sprint 5 n'a pas encore débuté à la date de rédaction de ce rapport ; le backlog ci-dessous constitue donc une planification, présentée selon le même niveau de détail que les sprints précédents, et non un compte rendu de réalisation. Sa conception détaillée, son implémentation et ses tests seront documentés à l'issue du sprint.
 
 \subsection{Objectif du sprint}
 
-Le Sprint 5 a pour objectif de fermer la boucle réglementaire (conformité CTI) et d'ouvrir le système aux étudiants et à l'équipe RI au-delà des seuls flux de données : calcul consolidé de la durée de mobilité CTI à partir des mobilités sortantes publiées, des stages et des expériences complémentaires validées (US-17 à US-19) ; espace étudiant pour explorer les destinations et suivre sa candidature (US-20 à US-22) ; et outils de pilotage pour le service RI, incluant l'authentification institutionnelle (US-23 à US-26).
+Le Sprint 5 a pour objectif de fermer la boucle réglementaire de conformité CTI et d'ouvrir l'authentification institutionnelle du système : calcul consolidé de la durée de mobilité CTI à partir des séjours académiques, des stages internationaux et des mobilités complémentaires validées, avec indicateur pour l'étudiant et export pour le service RI (US-17 à US-19) ; tableaux de bord analytiques pour le pilotage opérationnel (US-20) ; et authentification SSO institutionnelle pour sécuriser l'accès aux deux espaces (US-21).
 
-\textbf{Définition of Done.} À l'issue de ce sprint, la durée CTI de chaque étudiant est calculée automatiquement et exportable pour audit, l'étudiant authentifié via SSO peut consulter le catalogue des destinations et le statut de sa candidature, le service RI dispose d'une console de supervision de campagne et d'un contrôle bloquant sur les prérequis avant consolidation, et les tableaux de bord analytiques sont alimentés par les données réelles des sprints précédents.
+\textbf{Définition of Done.} À l'issue de ce sprint, la durée CTI de chaque étudiant est calculée automatiquement et consultable par l'étudiant, un rapport CTI est exportable pour l'ensemble de la promotion, les tableaux de bord analytiques sont alimentés par les données réelles des sprints précédents, et l'authentification institutionnelle (SSO CAS/OIDC) protège l'ensemble des routes API et des pages Next.js selon le rôle de l'utilisateur.
 
 \setcounter{tasknum}{1}
 
@@ -1211,274 +1211,143 @@ Le Sprint 5 a pour objectif de fermer la boucle réglementaire (conformité CTI)
 \usheaderyellow{US-17 — Calcul automatique des durées CTI}{%
   En tant qu'\textbf{administrateur RI}, je veux que le système calcule
   automatiquement la durée totale de mobilité de chaque étudiant (séjours
-  académiques, stages, expériences complémentaires validées) afin de
-  vérifier la conformité CTI sans intervention manuelle.}
+  académiques, stages internationaux, mobilités complémentaires validées)
+  afin de vérifier la conformité CTI sans intervention manuelle.}
 
 \nexttask &
 Définir \texttt{MobilityDuration} &
-Créer le modèle agrégeant, par étudiant, la durée cumulée issue des
-\texttt{AssignmentResult} publiés, des \texttt{Internship} et des
-\texttt{ComplementaryMobility} validées. &
-Le modèle migre sans erreur.
-La durée totale est la somme
-des trois sources. &
-Haute & 3 \\
+Créer le modèle dans \texttt{backend/\allowbreak app/\allowbreak cti/\allowbreak models.py}. &
+Le modèle migre sans erreur. &
+Haute & 2 \\
 \hline
 
 \nexttask &
-Recalcul déclenché par événement &
-Recalculer \texttt{MobilityDuration} via une tâche Django-Q2 à chaque
-publication d'affectation, synchronisation de stage ou validation de
-mobilité complémentaire. &
-Le recalcul s'exécute après
-chaque transition concernée.
-Le résultat est cohérent avec
-les trois sources. &
-Haute & 3 \\
+Service de calcul de durée &
+Implémenter le service agrégeant, par étudiant, les séjours académiques,
+les stages internationaux et les mobilités complémentaires validées. &
+La durée totale est la somme
+des trois sources. &
+Haute & 2 \\
 \hline
 
 \nexttask &
 Endpoint de consultation &
-Exposer \texttt{GET /\allowbreak api/\allowbreak students/\allowbreak \{ine\}/\allowbreak mobility-duration/\allowbreak }
+Exposer \texttt{GET /\allowbreak api/\allowbreak cti/\allowbreak duration/\allowbreak \{ine\}/\allowbreak }
 retournant la durée cumulée et le détail par source. &
 La réponse détaille chaque
 source et le total. &
 Haute & 2 \\
 \hline
 
-% ── US-18 ─────────────────────────────────────────────────────────────────────
-\usheaderyellow{US-18 — Indicateur CTI pour l'étudiant}{%
-  En tant qu'\textbf{étudiant}, je veux visualiser ma durée cumulée de
-  mobilité et sa comparaison avec le seuil CTI requis afin de savoir si
-  je suis en règle pour l'obtention de mon diplôme.}
-
 \nexttask &
-Endpoint indicateur étudiant &
-Exposer \texttt{GET /\allowbreak api/\allowbreak student/\allowbreak \{ine\}/\allowbreak cti-status/\allowbreak } retournant la
-durée cumulée, le seuil requis et l'écart. &
-La réponse reflète le seuil
-CTI en vigueur. &
+Recalcul automatique par transition FSM &
+Déclencher, via une tâche Django-Q2, le recalcul de
+\texttt{MobilityDuration} à chaque transition FSM des entités
+\texttt{OutgoingMobility}, \texttt{Internship} et
+\texttt{ComplementaryMobility}. &
+Le recalcul s'exécute après
+chaque transition concernée. &
 Haute & 1 \\
 \hline
 
 \nexttask &
-Page indicateur (espace étudiant) &
-Créer une page Next.js affichant la durée cumulée, le seuil requis et
-un indicateur visuel de conformité. &
-L'indicateur reflète le statut
-retourné par l'API. &
-Haute & 2 \\
+Tests unitaires &
+Couvrir le service de calcul et les déclencheurs de recalcul. &
+Couverture de tests
+$\geq$ 80\,\%. &
+Haute & 1 \\
+\hline
+
+% ── US-18 ─────────────────────────────────────────────────────────────────────
+\usheaderyellow{US-18 — Affichage des durées de mobilité dans le tableau de bord étudiant}{%
+  En tant qu'\textbf{étudiant}, je veux visualiser ma durée cumulée de
+  mobilité afin de suivre mon avancement.}
+
+\nexttask &
+Page tableau de bord étudiant &
+Implémenter \texttt{frontend/\allowbreak app/\allowbreak student/\allowbreak [ine]/\allowbreak tableau-\allowbreak de-\allowbreak bord/\allowbreak page.tsx}
+consommant l'endpoint de durée CTI (US-17). &
+La page se charge et affiche
+les données de l'étudiant. &
+Haute & 1 \\
+\hline
+
+\nexttask &
+Affichage de la durée cumulée &
+Afficher la durée totale cumulée de mobilité, exprimée en semaines. &
+La durée affichée correspond
+à la réponse de l'API. &
+Haute & 1 \\
+\hline
+
+\nexttask &
+Détail par type de mobilité &
+Afficher le détail des contributions par type de mobilité (échanges
+académiques, stages internationaux, mobilités complémentaires
+validées). &
+Chaque type de mobilité
+contribue visiblement au
+total affiché. &
+Haute & 1 \\
 \hline
 
 % ── US-19 ─────────────────────────────────────────────────────────────────────
 \usheaderyellow{US-19 — Export rapport CTI}{%
-  En tant qu'\textbf{administrateur RI}, je veux exporter un rapport de
-  conformité CTI pour l'ensemble des étudiants de la promotion afin de
-  le soumettre lors des audits.}
+  En tant qu'\textbf{administrateur RI}, je veux exporter un rapport
+  CTI pour l'ensemble des étudiants de la promotion afin de le
+  soumettre lors des audits.}
 
 \nexttask &
 Endpoint d'export &
-Exposer \texttt{GET /\allowbreak api/\allowbreak students/\allowbreak cti-export/\allowbreak \{year\_\allowbreak id\}/\allowbreak } générant
-un export Excel de la durée CTI de chaque étudiant inscrit. &
-Le fichier contient un
-étudiant par ligne avec
-durée et statut. &
-Moyenne & 3 \\
+Exposer \texttt{GET /\allowbreak api/\allowbreak cti/\allowbreak export/\allowbreak } générant un
+fichier Excel par promotion. &
+Le fichier se génère sans
+erreur pour une promotion
+donnée. &
+Moyenne & 2 \\
 \hline
 
 \nexttask &
-Déclenchement depuis l'interface &
-Ajouter un bouton d'export dans la page de gestion des étudiants,
-filtrable par année universitaire. &
-L'export se télécharge
-depuis l'interface admin. &
-Moyenne & 2 \\
+Colonnes du rapport &
+Inclure les colonnes INE, nom, durée totale, détail par type de
+mobilité et statut de conformité. &
+Le fichier contient les cinq
+colonnes attendues pour
+chaque étudiant. &
+Moyenne & 1 \\
+\hline
+
+\nexttask &
+Bouton d'export &
+Ajouter le bouton d'export dans
+\texttt{frontend/\allowbreak app/\allowbreak admin/\allowbreak statistiques/\allowbreak page.tsx}. &
+L'export se télécharge depuis
+la page statistiques. &
+Moyenne & 1 \\
+\hline
+
+\nexttask &
+Filtre par année universitaire &
+Filtrer l'export par année universitaire. &
+Le fichier exporté ne
+contient que les étudiants de
+l'année sélectionnée. &
+Moyenne & 1 \\
 \hline
 
 % ── US-20 ─────────────────────────────────────────────────────────────────────
-\usheadercyan{US-20 — Catalogue des destinations}{%
-  En tant qu'\textbf{étudiant}, je veux consulter les universités
-  partenaires avec les places disponibles estimées, les conditions
-  d'éligibilité (GPA minimum, département) et les informations
-  pratiques, afin d'explorer les options avant de saisir mes vœux dans
-  MoveON.}
-
-\nexttask &
-Endpoint catalogue &
-Exposer \texttt{GET /\allowbreak api/\allowbreak student/\allowbreak catalogue/\allowbreak } listant les accords actifs
-de l'année en cours avec quota effectif par département et
-département(s) autorisé(s). &
-La liste reflète les accords
-actifs et leurs quotas
-effectifs. &
-Haute & 2 \\
-\hline
-
-\nexttask &
-Page catalogue (espace étudiant) &
-Créer une page Next.js avec filtre par département, pays et cadre de
-mobilité. &
-Le filtre fonctionne.
-Les places disponibles
-estimées s'affichent. &
-Haute & 3 \\
-\hline
-
-% ── US-21 ─────────────────────────────────────────────────────────────────────
-\usheadercyan{US-21 — Suivi de candidature}{%
-  En tant qu'\textbf{étudiant}, je veux suivre le statut de ma
-  candidature en temps réel (soumis, en traitement, affecté, rejeté)
-  afin d'être informé de l'avancement sans solliciter le service RI.}
-
-\nexttask &
-Endpoint statut de candidature &
-Exposer \texttt{GET /\allowbreak api/\allowbreak student/\allowbreak \{ine\}/\allowbreak candidature-status/\allowbreak } dérivant
-le statut affiché de la phase FSM de l'année universitaire et de
-l'\texttt{AssignmentResult} de l'étudiant. &
-Le statut retourné est
-cohérent avec la phase FSM
-et l'affectation éventuelle. &
-Haute & 2 \\
-\hline
-
-\nexttask &
-Page de suivi (espace étudiant) &
-Créer une page Next.js affichant une frise de statut (soumis $\to$ en
-traitement $\to$ affecté/rejeté). &
-La frise reflète le statut
-retourné par l'API. &
-Haute & 1 \\
-\hline
-
-% ── US-22 ─────────────────────────────────────────────────────────────────────
-\usheadercyan{US-22 — Gestion des mobilités entrantes}{%
-  En tant qu'\textbf{administrateur RI}, je veux gérer le suivi
-  administratif des étudiants internationaux accueillis (procédure
-  envoyée, candidature Moodle, lettre d'acceptation, inscription) afin
-  de centraliser le suivi dans un seul outil.}
-
-\nexttask &
-Étendre \texttt{IncomingStudent} &
-Ajouter les champs de suivi administratif (procédure envoyée,
-candidature Moodle, lettre d'acceptation, inscription) au modèle
-existant (US-13). &
-Le modèle migre sans erreur
-et reste rétrocompatible avec
-l'import Excel existant. &
-Moyenne & 2 \\
-\hline
-
-\nexttask &
-Interface de suivi administratif &
-Étendre la page admin des mobilités entrantes avec des cases à cocher
-de suivi et un filtre par étape administrative. &
-Les étapes se mettent à jour
-individuellement.
-Le filtre par étape
-fonctionne. &
-Moyenne & 3 \\
-\hline
-
-% ── US-23 ─────────────────────────────────────────────────────────────────────
-\usheaderred{US-23 — Console de supervision de campagne}{%
-  En tant qu'\textbf{administrateur RI}, je veux un tableau de bord
-  affichant l'état en temps réel de la campagne (candidatures reçues,
-  imports réalisés, anomalies en attente, avancement par phase) afin de
-  piloter efficacement la campagne.}
-
-\nexttask &
-Endpoint agrégé de supervision &
-Exposer \texttt{GET /\allowbreak api/\allowbreak academic/\allowbreak years/\allowbreak \{id\}/\allowbreak dashboard/\allowbreak } agrégeant
-phase FSM courante, décompte des imports par source, anomalies en
-attente de réconciliation et de validation. &
-La réponse agrège les
-indicateurs des sprints
-précédents sans recalcul
-redondant. &
-Moyenne & 3 \\
-\hline
-
-\nexttask &
-Page console de supervision &
-Créer une page Next.js présentant ces indicateurs sous forme de
-tableau de bord synthétique, avec liens directs vers les écrans de
-traitement des anomalies. &
-Le tableau de bord se charge
-depuis l'API agrégée. &
-Moyenne & 5 \\
-\hline
-
-% ── US-24 ─────────────────────────────────────────────────────────────────────
-\usheaderred{US-24 — Contrôle des prérequis FSM}{%
-  En tant qu'\textbf{administrateur RI}, je veux que le système
-  m'empêche de passer à la phase de consolidation tant que tous les GPA
-  étudiants ne sont pas renseignés et que les vœux ne sont pas
-  importés, afin de garantir que l'algorithme d'affectation dispose de
-  données complètes et fiables.}
-
-\nexttask &
-Étendre les guard conditions &
-Ajouter aux préconditions applicatives de \texttt{close\_wishes} et
-\texttt{launch\_assignment} (\texttt{academic/\allowbreak api.py}) une vérification
-d'exhaustivité des GPA et des vœux, au-delà des contrôles déjà en
-place sur \texttt{open\_\allowbreak recommendation}. &
-La transition est refusée
-avec un message précis si
-des GPA ou des vœux manquent. &
-Haute & 2 \\
-\hline
-
-\nexttask &
-Affichage des blocages &
-Afficher dans la page de gestion de l'année universitaire le détail
-des prérequis manquants lorsqu'une transition est indisponible. &
-Le détail des manques
-s'affiche avant tentative
-de transition. &
-Haute & 1 \\
-\hline
-
-% ── US-25 ─────────────────────────────────────────────────────────────────────
-\usheaderred{US-25 — Authentification SSO}{%
-  En tant qu'\textbf{utilisateur}, je veux m'authentifier via le SSO
-  institutionnel (CAS/OIDC) afin d'accéder à mon espace personnalisé
-  (étudiant ou administrateur) sans créer de compte séparé.}
-
-\nexttask &
-Intégrer le client CAS/OIDC &
-Configurer l'authentification institutionnelle côté Django (middleware
-OIDC) et exposer un flux de connexion pour le frontend Next.js. &
-La connexion SSO redirige
-vers l'espace approprié selon
-le rôle de l'utilisateur. &
-Haute & 5 \\
-\hline
-
-\nexttask &
-Protéger les endpoints existants &
-Ajouter le contrôle d'accès (authentification et permissions par rôle)
-aux endpoints actuellement ouverts, notamment l'espace étudiant
-(\texttt{student\_api.py}). &
-Les endpoints protégés
-rejettent les requêtes non
-authentifiées ou hors
-périmètre (403/401). &
-Haute & 3 \\
-\hline
-
-% ── US-26 ─────────────────────────────────────────────────────────────────────
-\usheaderred{US-26 — Tableaux de bord analytiques et exports CTI}{%
-  En tant qu'\textbf{administrateur RI}, je veux disposer de tableaux de
-  bord analytiques et d'exports CTI (taux d'affectation par département,
-  évolution des flux entrants/sortants, destinations les plus demandées,
+\usheadercyan{US-20 — Tableaux de bord analytiques}{%
+  En tant qu'\textbf{administrateur RI}, je veux disposer de tableaux
+  de bord analytiques (taux d'affectation par département, évolution
+  des flux entrants/sortants, destinations les plus demandées,
   indicateurs CTI) afin d'alimenter le pilotage opérationnel et la
   réflexion stratégique sur les partenariats.}
 
 \nexttask &
-Endpoints statistiques &
-Étendre \texttt{GET /\allowbreak api/\allowbreak mobility/\allowbreak dashboard/\allowbreak } et créer les agrégations
-manquantes (flux entrants/sortants par année, destinations les plus
-demandées). &
+Endpoints statistiques agrégées &
+Exposer les endpoints de statistiques agrégées : taux d'affectation
+par département, destinations les plus demandées, flux
+entrants/sortants par année. &
 Les statistiques sont
 cohérentes avec les données
 sources. &
@@ -1487,13 +1356,85 @@ Moyenne & 3 \\
 
 \nexttask &
 Page tableaux de bord analytiques &
-Créer une page Next.js avec graphiques (taux d'affectation par
-département, évolution pluriannuelle des flux, indicateurs CTI
-agrégés). &
+Implémenter \texttt{frontend/\allowbreak app/\allowbreak admin/\allowbreak statistiques/\allowbreak page.tsx}
+avec les graphiques correspondants. &
 Les graphiques se chargent
 depuis les endpoints
 statistiques. &
-Moyenne & 5 \\
+Moyenne & 3 \\
+\hline
+
+\nexttask &
+Indicateurs CTI globaux &
+Afficher le nombre d'étudiants conformes CTI rapporté au total. &
+L'indicateur reflète les
+données réelles de
+conformité. &
+Moyenne & 1 \\
+\hline
+
+\nexttask &
+Export Excel des statistiques &
+Ajouter l'export Excel des statistiques affichées. &
+Le fichier exporté correspond
+aux données affichées à
+l'écran. &
+Moyenne & 1 \\
+\hline
+
+% ── US-21 ─────────────────────────────────────────────────────────────────────
+\usheaderred{US-21 — Authentification SSO}{%
+  En tant qu'\textbf{utilisateur}, je veux m'authentifier via le SSO
+  institutionnel (CAS/OIDC) afin d'accéder à mon espace personnalisé
+  (étudiant ou administrateur) sans créer de compte séparé.}
+
+\nexttask &
+Intégrer le client CAS/OIDC &
+Configurer l'authentification institutionnelle côté Django (middleware
+OIDC) et exposer un flux de connexion pour le frontend Next.js. &
+La connexion SSO aboutit et
+une session valide est
+établie. &
+Haute & 3 \\
+\hline
+
+\nexttask &
+Middleware de détection du rôle &
+Extraire le rôle (étudiant / administrateur RI) depuis le token pour
+chaque requête authentifiée. &
+Le rôle détecté correspond au
+profil de l'utilisateur. &
+Haute & 1 \\
+\hline
+
+\nexttask &
+Redirection après login &
+Rediriger automatiquement vers l'espace approprié selon le rôle
+détecté. &
+L'utilisateur arrive sur
+l'espace correspondant à son
+rôle. &
+Haute & 1 \\
+\hline
+
+\nexttask &
+Sécurisation des routes &
+Protéger les endpoints API et les pages Next.js contre les accès non
+authentifiés ou hors périmètre. &
+Les routes protégées
+rejettent les requêtes non
+authentifiées ou hors
+périmètre (403/401). &
+Haute & 2 \\
+\hline
+
+\nexttask &
+Tests d'intégration SSO &
+Couvrir le flux de connexion, la détection de rôle et la protection
+des routes. &
+Les tests d'intégration SSO
+passent. &
+Haute & 1 \\
 \hline
 
 \end{longtable}
