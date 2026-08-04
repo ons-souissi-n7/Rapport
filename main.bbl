@@ -154,14 +154,6 @@
       \field{note}{Consulté le 2026-03-18}
       \field{title}{Node.js -- Run JavaScript Everywhere}
     \endentry
-    \entry{xstate_dev}{misc}{}{}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
-      \field{labeltitlesource}{title}
-      \field{howpublished}{\url{https://stately.ai/docs/xstate}}
-      \field{note}{Consulté le 2026-03-18}
-      \field{title}{XState -- State Machines and Statecharts for the Modern Web}
-    \endentry
     \entry{fastapi_dev}{misc}{}{}
       \field{sortinit}{1}
       \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
@@ -203,8 +195,8 @@
       \field{title}{MySQL -- The world's most popular open source database}
     \endentry
     \entry{mongodb_dev}{misc}{}{}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labeltitlesource}{title}
       \field{howpublished}{\url{https://www.mongodb.com/}}
       \field{note}{Consulté le 2026-03-17}
@@ -266,6 +258,14 @@
       \field{note}{Consulté le 2026-03-27}
       \field{title}{Traefik -- The Cloud Native Application Proxy}
     \endentry
+    \entry{rgpd_2016}{misc}{}{}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://eur-lex.europa.eu/eli/reg/2016/679/oj/fra}}
+      \field{note}{Consulté le 2026-05-04}
+      \field{title}{Règlement (UE) 2016/679 du Parlement européen et du Conseil du 27 avril 2016 relatif à la protection des personnes physiques à l'égard du traitement des données à caractère personnel (RGPD)}
+    \endentry
     \entry{GaleShapley1962}{article}{}{}
       \name{author}{2}{}{%
         {{hash=8921ac40fd1635d7d5bcf2cc6307b6f7}{%
@@ -303,41 +303,70 @@
       \verb 10.2307/2312726
       \endverb
     \endentry
-    \entry{AbdulkadirogluSonmez2003}{article}{}{}
-      \name{author}{2}{}{%
-        {{hash=9210d7a0646d485f1f21951c61c52cd2}{%
-           family={Abdulkadiroğlu},
-           familyi={A\bibinitperiod},
-           given={Atila},
-           giveni={A\bibinitperiod}}}%
-        {{hash=8073f6091c1c9c41b6684fbd2d0112aa}{%
-           family={Sönmez},
-           familyi={S\bibinitperiod},
-           given={Tayfun},
-           giveni={T\bibinitperiod}}}%
+    \entry{Cox1958}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=ec0b9ca4f3b98349d98f9f91b1ea21fe}{%
+           family={Cox},
+           familyi={C\bibinitperiod},
+           given={David\bibnamedelima R.},
+           giveni={D\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
       }
-      \strng{namehash}{3ea8bbd7b953270c0887a3a025b4e285}
-      \strng{fullhash}{3ea8bbd7b953270c0887a3a025b4e285}
-      \strng{fullhashraw}{3ea8bbd7b953270c0887a3a025b4e285}
-      \strng{bibnamehash}{3ea8bbd7b953270c0887a3a025b4e285}
-      \strng{authorbibnamehash}{3ea8bbd7b953270c0887a3a025b4e285}
-      \strng{authornamehash}{3ea8bbd7b953270c0887a3a025b4e285}
-      \strng{authorfullhash}{3ea8bbd7b953270c0887a3a025b4e285}
-      \strng{authorfullhashraw}{3ea8bbd7b953270c0887a3a025b4e285}
+      \strng{namehash}{ec0b9ca4f3b98349d98f9f91b1ea21fe}
+      \strng{fullhash}{ec0b9ca4f3b98349d98f9f91b1ea21fe}
+      \strng{fullhashraw}{ec0b9ca4f3b98349d98f9f91b1ea21fe}
+      \strng{bibnamehash}{ec0b9ca4f3b98349d98f9f91b1ea21fe}
+      \strng{authorbibnamehash}{ec0b9ca4f3b98349d98f9f91b1ea21fe}
+      \strng{authornamehash}{ec0b9ca4f3b98349d98f9f91b1ea21fe}
+      \strng{authorfullhash}{ec0b9ca4f3b98349d98f9f91b1ea21fe}
+      \strng{authorfullhashraw}{ec0b9ca4f3b98349d98f9f91b1ea21fe}
       \field{sortinit}{2}
       \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{journaltitle}{American Economic Review}
+      \field{journaltitle}{Journal of the Royal Statistical Society: Series B}
       \field{langid}{english}
-      \field{number}{3}
-      \field{title}{School Choice: A Mechanism Design Approach}
-      \field{volume}{93}
-      \field{year}{2003}
-      \field{pages}{729\bibrangedash 747}
-      \range{pages}{19}
+      \field{number}{2}
+      \field{title}{The Regression Analysis of Binary Sequences}
+      \field{volume}{20}
+      \field{year}{1958}
+      \field{pages}{215\bibrangedash 242}
+      \range{pages}{28}
       \verb{doi}
-      \verb 10.1257/000282803322157061
+      \verb 10.1111/j.2517-6161.1958.tb00292.x
+      \endverb
+    \endentry
+    \entry{ChenGuestrin2016}{inproceedings}{}{}
+      \name{author}{2}{}{%
+        {{hash=48461ccdf50ba5a54e29a354aa734c0b}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Tianqi},
+           giveni={T\bibinitperiod}}}%
+        {{hash=c9ab8ac486d7f85ac914b1a8e51e512b}{%
+           family={Guestrin},
+           familyi={G\bibinitperiod},
+           given={Carlos},
+           giveni={C\bibinitperiod}}}%
+      }
+      \strng{namehash}{f79ceb030bcf791e5521f87ac6ada03b}
+      \strng{fullhash}{f79ceb030bcf791e5521f87ac6ada03b}
+      \strng{fullhashraw}{f79ceb030bcf791e5521f87ac6ada03b}
+      \strng{bibnamehash}{f79ceb030bcf791e5521f87ac6ada03b}
+      \strng{authorbibnamehash}{f79ceb030bcf791e5521f87ac6ada03b}
+      \strng{authornamehash}{f79ceb030bcf791e5521f87ac6ada03b}
+      \strng{authorfullhash}{f79ceb030bcf791e5521f87ac6ada03b}
+      \strng{authorfullhashraw}{f79ceb030bcf791e5521f87ac6ada03b}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining}
+      \field{title}{{XGBoost}: A Scalable Tree Boosting System}
+      \field{year}{2016}
+      \field{pages}{785\bibrangedash 794}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.1145/2939672.2939785
       \endverb
     \endentry
     \entry{mistral_dev}{misc}{}{}
@@ -371,30 +400,6 @@
       \field{howpublished}{\url{https://docs.haystack.deepset.ai/}}
       \field{note}{Consulté le 2026-03-30}
       \field{title}{Haystack -- The open-source AI framework}
-    \endentry
-    \entry{chromadb_dev}{misc}{}{}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
-      \field{labeltitlesource}{title}
-      \field{howpublished}{\url{https://docs.trychroma.com/}}
-      \field{note}{Consulté le 2026-03-30}
-      \field{title}{Chroma -- The AI-native open-source embedding database}
-    \endentry
-    \entry{faiss_dev}{misc}{}{}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
-      \field{labeltitlesource}{title}
-      \field{howpublished}{\url{https://faiss.ai/}}
-      \field{note}{Consulté le 2026-03-30}
-      \field{title}{FAISS -- A library for efficient similarity search}
-    \endentry
-    \entry{pinecone_dev}{misc}{}{}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
-      \field{labeltitlesource}{title}
-      \field{howpublished}{\url{https://docs.pinecone.io/}}
-      \field{note}{Consulté le 2026-03-30}
-      \field{title}{Pinecone -- The vector database for AI applications}
     \endentry
   \enddatalist
 \endrefsection

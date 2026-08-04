@@ -1,7 +1,7 @@
-﻿% !TEX root = ../main.tex
+% !TEX root = ../main.tex
 % ══════════════════════════════════════════════════════════════
-\chapter{Choix technologiques et algorithmiques}
-\label{cha:choix-technologiques}
+\chapter{Conception du système}
+\label{cha:conception}
 % ══════════════════════════════════════════════════════════════
 \begingroup
 \let\clearpage\relax
@@ -15,1922 +15,1157 @@
 \phantomsection
 \addcontentsline{toc}{section}{Introduction}
 
-Le chapitre précédent a montré qu'aucune solution existante ne répondait aux besoins du service RI, d'où le choix de développer une plateforme sur mesure. Ce chapitre justifie les technologies et les algorithmes retenus pour la construire, en comparant à chaque fois les principales alternatives.
+Le chapitre précédent a justifié les technologies retenues pour la plateforme. Ce chapitre présente la conception globale du système qui en découle : product backlog Scrum, organisation du code et architecture logicielle et physique, et modèle de données.
 
 % ─────────────────────────────────────────────────────────────
-\section{Choix du frontend}
+\section{Product Backlog}
 % ─────────────────────────────────────────────────────────────
 
-Cette section présente les besoins spécifiques du frontend, évalue les
-alternatives disponibles, puis justifie le choix retenu.
+\subsection{Priorités MoSCoW}
 
-\subsection{Besoins spécifiques}
+Chaque user story est priorisée selon la méthode MoSCoW, qui permet de séparer l'essentiel de l'accessoire et d'éviter que des fonctionnalités secondaires ne retardent la livraison du cœur du système.
 
-L'interface du projet doit couvrir deux espaces bien
-distincts : d'un côté, un espace dédié au service RI
-pour piloter les campagnes, de l'autre, un espace
-étudiant pour consulter les destinations, suivre
-sa candidature et interagir avec le chatbot.
-Certaines pages affichent des données sensibles
-(résultats d'affectation, GPA) et doivent être
-construites côté serveur pour éviter qu'elles
-ne soient accessibles avant que le rôle de
-l'utilisateur soit vérifié. D'autres, comme
-le suivi de candidature ou le chatbot,
-nécessitent une navigation fluide et réactive.
-Gérer ces deux types de pages dans le même projet,
-avec une séparation fiable des accès selon le rôle,
-est le principal critère de choix.
-
-\subsection{Alternatives évaluées}
-
-Trois frameworks ont été évalués au regard des besoins identifiés.
-
-\subsubsection{Applications monopage — React + Vite}
-
-React  permet de construire des interfaces
-entièrement rendues dans le navigateur ~\cite{react_dev}.
-
-\textit{Avantages :}
-\begin{itemize}
-  \item Simple à configurer et à démarrer
-  \item Très bien documenté, avec de nombreuses
-        ressources disponibles en ligne
+\begin{itemize}[label=•]
+    \item \textbf{M : Must Have} : fonctionnalités sans lesquelles le système ne peut pas remplir son objectif. Leur absence rendrait le projet inutilisable pour le service RI.
+    \item \textbf{S : Should Have} : fonctionnalités importantes, mais dont le report à une version suivante reste acceptable sans compromettre le MVP.
+    \item \textbf{C : Could Have} : fonctionnalités souhaitables, planifiées uniquement si la capacité restante du sprint le permet une fois les priorités supérieures traitées.
+    \item \textbf{W : Won't Have (this time)} : fonctionnalités écartées de cette itération, non de façon définitive, mais documentées pour ne pas créer d'attente non maîtrisée ; elles pourront être réévaluées lors d'une itération future.
 \end{itemize}
 
-\textit{Limites :}
-\begin{itemize}
-  \item Tout est chargé et affiché dans le navigateur :
-        les données sensibles comme les affectations
-        ou les GPA y arrivent avant même que
-        le rôle de l'utilisateur soit contrôlé,
-        ce qui fragilise la séparation entre
-        l'espace étudiant et l'espace RI
-  \item La protection des pages selon le rôle
-        doit être codée manuellement, sans
-        mécanisme intégré pour l'imposer
-        au niveau du routing
-  \item Les appels à l'API Django passent tous
-        par le navigateur, ce qui expose
-        les tokens d'authentification au client
-\end{itemize}
 
-\subsubsection{Angular}
+\subsection{Story points}
 
-Angular est un framework TypeScript développé
-par Google, utilisé principalement pour des
-applications d'entreprise avec beaucoup de
-logique interne ~\cite{angular_dev}.
+L'effort de chaque story est estimé en story points selon l'échelle de Fibonacci. Cette échelle non linéaire reflète le fait que l'incertitude croît avec la complexité : la différence entre 5 et 8 points n'est pas la même que celle entre 1 et 2. Le tableau~\ref{tab:story-points} donne les correspondances retenues pour ce projet, avec des exemples concrets.
 
-\textit{Avantages :}
-\begin{itemize}
-  \item Architecture très structurée, adaptée aux
-        applications avec de nombreux écrans
-        et règles métier
-  \item Typage TypeScript natif, ce qui réduit
-        les erreurs au moment du développement
-  \item Mécanisme de protection des routes intégré,
-        utile pour séparer les accès
-        selon le rôle utilisateur
-  \item Bien adapté à des interfaces
-        d'administration complexes
-        comme le tableau de bord RI
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item Pas de rendu côté serveur sans
-        Angular Universal, qui nécessite
-        une configuration supplémentaire
-        non négligeable
-  \item Angular demande un temps de prise en main
-        important : son architecture impose
-        de nombreux concepts spécifiques
-        (modules, décorateurs, injection de
-        dépendances) qui ralentissent
-        le démarrage
-  \item Moins d'exemples disponibles que
-        React/Next.js pour l'intégration
-        avec le SSO CAS utilisé
-        par Toulouse INP
-\end{itemize}
-
-\subsubsection{Next.js 14}
-
-Next.js est un framework basé sur React qui permet de combiner rendu côté serveur
-et rendu côté client selon les besoins de chaque page ~\cite{nextjs_dev}.
-
-\textit{Avantages :}
-\begin{itemize}
-  \item Rendu hybride : pages sensibles rendues côté serveur, composants
-        interactifs côté client, les deux coexistant dans le même projet
-  \item Middleware intégré pour bloquer l'accès aux pages selon le rôle
-        utilisateur avant même leur chargement
-  \item Appels à l'API Django réalisables côté serveur, sans exposer
-        les tokens dans le navigateur
-  \item App Router et React Server Components : chaque composant est rendu
-        côté serveur par défaut, avec des layouts partagés par espace
-        (RI, étudiant) qui structurent naturellement la séparation des interfaces
-  \item TypeScript, Tailwind CSS et intégration SSO CAS/OIDC bien documentés
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item Configuration initiale un peu plus complexe qu'une application
-        monopage classique
-\end{itemize}
-
-\subsection{Synthèse comparative}
-
-Le tableau~\ref{tab:comparaison_frontend} récapitule les critères évalués pour chacune des trois solutions, afin de faciliter la comparaison et de justifier le choix retenu.
-
-\renewcommand{\arraystretch}{1.35}
 \begin{table}[H]
 \centering
-\caption{Comparaison des frameworks frontend}
-\label{tab:comparaison_frontend}
+\caption{Échelle des story points}
+\label{tab:story-points}
 \footnotesize
-\begin{tabular}{|p{3.8cm}|>{\centering\arraybackslash}p{2.8cm}|>{\centering\arraybackslash}p{2.4cm}|>{\centering\arraybackslash}p{3cm}|}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{|p{1cm}|p{6cm}|p{8.5cm}|}
 \hline
 \rowcolor{gray!20}
-\textbf{Critère} & \textbf{React + Vite} & \textbf{Angular} & \textbf{Next.js 14} \\
+\textbf{SP} & \textbf{Effort estimé} & \textbf{Exemples typiques} \\
 \hline
-Rendu côté serveur (SSR) & \xmark & Via Angular Universal (config requise) & \cmark \\
+1 & Très faible : quelques heures & Ajout d'un champ, endpoint simple \\
 \hline
-Protection des routes par rôle & Manuelle & Mécanisme intégré & Middleware intégré \\
+2 & Faible : une demi-journée & Nouveau modèle Django, endpoint CRUD \\
 \hline
-Données sensibles côté serveur & \xmark & \xmark & \cmark \\
+3 & Modéré : une journée & Service métier, FSM à 3 états \\
 \hline
-TypeScript natif & Optionnel & \cmark & \cmark \\
+5 & Significatif : deux jours & Pipeline d'import, interface multi-composants \\
 \hline
-Intégration SSO CAS/OIDC & \cmark & Peu d'exemples avec le SSO CAS de Toulouse INP & \cmark \\
+8 & Élevé : trois à quatre jours & Intégration SSO, import Excel avec rapport \\
 \hline
-Rendu hybride SSR + CSR & \xmark & \xmark & \cmark \\
+13 & Très élevé : une semaine & Algorithme d'affectation, moteur de recommandation \\
+\hline
+21 & Exceptionnel : plus d'une semaine & Chatbot RAG complet \\
 \hline
 \end{tabular}
 \end{table}
 
-\subsection{Décision}
+\subsection{Tableau du Product Backlog}
 
-\textbf{Next.js 14} est retenu. Son modèle de React Server
-Components permet de gérer naturellement les deux espaces du projet : les pages
-sensibles du tableau de bord RI sont rendues côté serveur avant toute vérification
-de rôle, tandis que les composants interactifs de l'espace étudiant s'exécutent côté client. Angular pourrait, en théorie, répondre au même besoin grâce à Angular Universal. Mais avec le temps disponible pour ce projet, Next.js permettait d'arriver au même résultat plus rapidement et avec moins de configuration à mettre en place.
+Le tableau ci-dessous liste l'ensemble des user stories au niveau produit, avec leur priorité MoSCoW, leur estimation en story points et le sprint auquel elles sont affectées. Les critères d'acceptation détaillés, tâche par tâche, ne sont pas répétés ici : ils sont présentés dans les sprint backlogs correspondants au chapitre~\ref{cha:realisation}, afin d'éviter toute redondance ou incohérence entre les deux niveaux de backlog.
 
+\newcounter{usnum}
+\setcounter{usnum}{1}
+\newcommand{\nextus}{%
+  US-\ifnum\value{usnum}<10 0\fi\arabic{usnum}%
+  \stepcounter{usnum}%
+}
 
-% ─────────────────────────────────────────────────────────────
-\section{Choix du backend}
-% ─────────────────────────────────────────────────────────────
-
-Cette section présente les besoins spécifiques du backend, évalue les
-alternatives disponibles, puis justifie le choix retenu.
-
-\subsection{Besoins spécifiques}
-
-Le backend de ce projet ne se limite pas à une simple gestion de données. Il doit orchestrer de nombreuses entités métier liées entre elles et gérer des processus parfois complexes, comme le suivi des candidatures, des affectations ou des mobilités étudiantes.
-
-L'application doit également assurer plusieurs fonctions essentielles : gérer les droits d'accès selon les profils (étudiants et administrateurs RI), conserver une trace des actions importantes via un journal d'audit, accompagner l'évolution de la base de données pendant le développement, et s'intégrer au système d'authentification institutionnel CAS/OIDC de Toulouse INP.
-
-Dans ce contexte, le choix du framework ne repose pas uniquement sur les performances, mais aussi sur la qualité des outils qu'il apporte pour structurer, sécuriser et faire évoluer l'application.
-
-\subsection{Choix du framework backend}
-
-Cette sous-section évalue les frameworks backend candidats au regard des besoins définis ci-dessus, puis justifie le choix retenu.
-
-\subsubsection{Alternatives évaluées}
-
-Trois frameworks ont été évalués en regard des besoins identifiés précédemment.
-
-\paragraph{Node.js}
-Environnement d'exécution JavaScript côté serveur,
-reconnu pour ses performances sur les applications
-qui traitent beaucoup de requêtes simultanées ~\cite{nodejs_dev}.
-
-\textit{Avantages :}
-\begin{itemize}
-  \item Bonnes performances sur les traitements
-        non bloquants
-  \item Grand nombre de bibliothèques disponibles
-  \item Gestion native des opérations asynchrones
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-    \item Aucun outil natif pour la base de données, l'administration ou la gestion des droits : il faut tout assembler manuellement à partir de bibliothèques séparées, ce qui alourdit la configuration et la maintenance.
-    \item Des bibliothèques de machine à états comme XState existent et sont matures, mais rien d'équivalent à \texttt{django-fsm} n'est directement intégré à un ORM Node.js : il faudrait câbler soi-même la protection des transitions et la traçabilité fine des modifications au niveau des modèles, ce qui est indispensable dans ce projet.
-    \item L'utilisation de Node.js implique de travailler en JavaScript, alors que le reste du système est conçu en Python, ce qui introduit une complexité supplémentaire en termes de cohérence et de maintenance.
-    \item La gestion des évolutions du schéma de base de données au fil des sprints demande davantage d'efforts d'organisation et de suivi, car elle n'est pas aussi intégrée nativement dans l'écosystème.
-\end{itemize}
-
-\paragraph{FastAPI}
-Framework Python récent, conçu pour construire
-des APIs performantes avec une validation
-automatique des données ~\cite{fastapi_dev}.
-
-\textit{Avantages :}
-\begin{itemize}
-  \item Très bonnes performances grâce
-        au support natif des requêtes asynchrones
-  \item Validation automatique des données entrantes
-  \item Documentation de l'API générée automatiquement
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item Pas d'outil intégré pour la base de données,
-        l'administration ou la gestion des droits
-  \item Les cycles de vie des entités,
-        le journal d'audit et les permissions
-        seraient à construire de zéro
-  \item L'outil de migration de schéma demande davantage de configuration et d'intervention manuelle, ce qui peut ralentir les cycles d'itération en développement.
-  \item FastAPI est surtout adapté à des APIs légères et rapides, et moins à des applications contenant beaucoup de logique métier.
-\end{itemize}
-
-\paragraph{Django}
-Framework Python complet, pensé pour développer
-rapidement des applications web avec beaucoup
-de logique interne ~\cite{django_dev}.
-
-\textit{Avantages :}
-\begin{itemize}
-  \item Gestion de la base de données,
-        authentification, permissions et interface
-        d'administration fournis nativement,
-        sans aucune configuration supplémentaire
-  \item \texttt{django-fsm} permet de définir
-        des cycles de vie sécurisés sur chaque entité,
-        avec une option qui empêche toute
-        modification directe du statut
-        en dehors des transitions autorisées
-  \item \texttt{django-auditlog} enregistre
-        automatiquement toutes les modifications
-        avec l'auteur et la date, ce qui est indispensable
-        pour les décisions réglementaires
-  \item La gestion des évolutions de schéma
-        est intégrée nativement, ce qui
-        facilite les changements à chaque sprint
-  \item S'intègre facilement avec le SSO CAS/OIDC
-        via des bibliothèques existantes et maintenues
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item Django était historiquement limité
-        sur les traitements asynchrones,
-        mais cette lacune a été corrigée
-        depuis la version 5
-  \item Légèrement moins performant que FastAPI
-        sur des calculs très complexes,
-        ce qui peut être contourné en passant
-        par des requêtes SQL directes
-        pour les agrégations de durées CTI
-\end{itemize}
-
-\subsubsection{Synthèse comparative}
-
-Le tableau~\ref{tab:comparaison_backend} récapitule les critères évalués pour chacune des trois solutions, afin de faciliter la comparaison et de justifier le choix retenu.
-
-\renewcommand{\arraystretch}{1.35}
-\begin{table}[H]
-\centering
-\caption{Comparaison des frameworks backend}
-\label{tab:comparaison_backend}
+\begingroup
 \footnotesize
-\begin{tabular}{|p{5cm}|>{\centering\arraybackslash}p{2.4cm}|>{\centering\arraybackslash}p{2.4cm}|>{\centering\arraybackslash}p{3.2cm}|}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.4}
+
+\begin{longtable}{|p{1cm}|p{3cm}|p{7.5cm}|p{1.2cm}|p{0.9cm}|p{1cm}|}
+\caption{Product Backlog}\\
 \hline
 \rowcolor{gray!20}
-\textbf{Critère} & \textbf{Node.js} & \textbf{FastAPI} & \textbf{Django 5} \\
+\textbf{ID} & \textbf{Titre} & \textbf{User Story} & \textbf{Prior.} & \textbf{SP} & \textbf{Sprint} \\
 \hline
-ORM et gestion BDD intégrés & \xmark & \xmark & \cmark \\
+\endfirsthead
 \hline
-Interface d'administration & \xmark & \xmark & \cmark \\
+\rowcolor{gray!20}
+\textbf{ID} & \textbf{Titre} & \textbf{User Story} & \textbf{Prior.} & \textbf{SP} & \textbf{Sprint} \\
 \hline
-Machines à états (FSM) & \xmark & \xmark & \cmark \\
+\endhead
+
+% ── SPRINT 1 ─────────────────────────────────────────────────
+% ── ÉPOPÉE 1 : Fondations techniques ─────────────────────────
+\multicolumn{6}{|l|}{\cellcolor{green!10}\textbf{Fondations techniques}} \\
 \hline
-Migrations de schéma & Manuel & nécessite config & \cmark \\
+
+\nextus & Référentiels de base &
+En tant qu’\textbf{administrateur RI}, je veux disposer d’un référentiel
+stable des pays, départements et universités partenaires (synchronisé
+depuis MoveON) afin que toutes les entités du système s’appuient sur
+des données de référence cohérentes. &
+M & 5 & S1 \\
 \hline
-Authentification SSO & Manuel & Manuel & \cmark \\
+
+\nextus & Année universitaire et FSM &
+En tant qu’\textbf{administrateur RI}, je veux que le cycle de vie de l’année
+universitaire soit géré par une machine à états (initialisation → recommandation
+→ candidature → import → pré-affectation → validation → publiée → finalisation
+CTI → clôturée) afin de contrôler chaque phase de la campagne de manière
+sécurisée. &
+M & 5 & S1 \\
 \hline
-Journal d'audit automatique & Manuel & Manuel & \cmark \\
+
+\nextus & Accords et quotas &
+En tant qu’\textbf{administrateur RI}, je veux un modèle de données complet
+pour les accords et leurs quotas (INP global, estimation N7, ajustement N7,
+répartition par département), synchronisé depuis MoveON, afin d’avoir une
+base fiable pour l’algorithme d’affectation. &
+M & 8 & S1 \\
 \hline
-Support ASGI / async & \cmark & \cmark & \cmark \\
+
+% ── SPRINT 2 ─────────────────────────────────────────────────
+% ── ÉPOPÉE 2 : Données et traçabilité ────────────────────────
+\multicolumn{6}{|l|}{\cellcolor{blue!10}\textbf{Données et traçabilité}} \\
+\hline
+
+\nextus & Audit log et traçabilité &
+En tant qu’\textbf{administrateur RI}, je veux que chaque action importante
+(import, transition FSM, modification, validation) soit enregistrée avec
+l’auteur et l’horodatage, afin de garantir la traçabilité complète des
+décisions. &
+M & 3 & S2 \\
+\hline
+
+\nextus & Données étudiants &
+En tant qu’\textbf{administrateur RI}, je veux importer et synchroniser
+les données académiques des étudiants (INE, GPA, département, niveau)
+depuis Pégase, afin d’alimenter l’algorithme d’affectation avec des
+données étudiants fiables et à jour. &
+M & 8 & S2 \\
+\hline
+
+\nextus & Vœux étudiants &
+En tant qu’\textbf{administrateur RI}, je veux importer les dossiers de
+candidature et les vœux ordonnés des étudiants depuis MoveON, et les
+consulter par étudiant, afin de les intégrer dans le système d’affectation. &
+M & 5 & S2 \\
+\hline
+
+\nextus & Rapport d’import &
+En tant qu’\textbf{administrateur RI}, je veux consulter un rapport détaillé
+après chaque import (succès, erreurs, doublons) avec la raison précise
+de chaque rejet, afin de corriger les anomalies rapidement. &
+M & 3 & S2 \\
+\hline
+
+% ── SPRINT 3 ─────────────────────────────────────────────────
+% ── ÉPOPÉE 3 : Algorithme d’affectation ──────────────────────
+\multicolumn{6}{|l|}{\cellcolor{orange!10}\textbf{Algorithme d’affectation}} \\
+\hline
+
+\nextus & Algorithme Gale-Shapley &
+En tant qu’\textbf{administrateur RI}, je veux lancer l’algorithme d’affectation
+(Deferred Acceptance) qui affecte chaque étudiant à son meilleur vœu
+disponible en respectant les quotas par département, afin de produire
+une proposition équitable et stable. &
+M & 13 & S3 \\
+\hline
+
+\nextus & Supervision des affectations &
+En tant qu’\textbf{administrateur RI}, je veux consulter les propositions
+d’affectation, les ajuster manuellement pour les cas particuliers et tracer
+chaque modification avec un motif, avant de valider et publier les résultats. &
+M & 8 & S3 \\
+\hline
+
+\nextus & Consultation des résultats &
+En tant qu’\textbf{étudiant}, je veux consulter mon affectation une fois les
+résultats publiés afin de connaître ma destination et les démarches à suivre. &
+M & 3 & S3 \\
+\hline
+
+% ── SPRINT 4 ─────────────────────────────────────────────────
+% ── ÉPOPÉE 4 : Sources complémentaires et mobilités ──────────
+\multicolumn{6}{|l|}{\cellcolor{teal!10}\textbf{Sources complémentaires et mobilités}} \\
+\hline
+
+\nextus & Répartition des quotas par département &
+En tant qu'\textbf{administrateur RI}, je veux que le système calcule
+automatiquement la répartition des places de chaque accord entre les
+départements pédagogiques (SN, 3EA, MF2E) selon la méthode Hamilton
+(plus grands restes), afin que l'algorithme d'affectation dispose de
+quotas par département précis, équitables et vérifiables. &
+M & 5 & S4 \\
+\hline
+
+\nextus & Stages internationaux (Eudonet) &
+En tant qu’\textbf{administrateur RI}, je veux importer et synchroniser les
+conventions de stages internationaux depuis Eudonet afin de les comptabiliser
+dans le calcul CTI de chaque étudiant. &
+M & 8 & S4 \\
+\hline
+
+\nextus & Mobilités entrantes (Excel) &
+En tant qu’\textbf{administrateur RI}, je veux importer les mobilités entrantes
+via un template Excel standardisé afin de centraliser le suivi des étudiants
+internationaux accueillis à l’ENSEEIHT. &
+M & 8 & S4 \\
+\hline
+
+\nextus & Réconciliation sans INE &
+En tant qu’\textbf{administrateur RI}, je veux que le système me propose
+des correspondances pour les enregistrements sans INE valide (via nom,
+prénom, e-mail) afin de résoudre manuellement les cas ambigus. &
+S & 5 & S4 \\
+\hline
+
+\nextus & Déclaration mobilité complémentaire &
+En tant qu’\textbf{étudiant}, je veux déclarer une expérience internationale
+hors cursus (summer school, séjour linguistique, programme court) avec
+dépôt de justificatifs, afin qu’elle soit prise en compte dans mon
+calcul de durée CTI. &
+M & 8 & S4 \\
+\hline
+
+\nextus & Validation des mobilités complémentaires &
+En tant qu’\textbf{administrateur RI}, je veux consulter les justificatifs
+soumis, valider ou rejeter chaque demande avec un motif, afin de maintenir
+la qualité des données comptabilisées dans le calcul CTI. &
+M & 5 & S4 \\
+\hline
+
+% ── SPRINT 5 ─────────────────────────────────────────────────
+% ── ÉPOPÉE 5 : Conformité CTI et authentification ────────────
+\multicolumn{6}{|l|}{\cellcolor{yellow!10}\textbf{Conformité CTI et authentification}} \\
+\hline
+
+\nextus & Calcul automatique des durées CTI &
+En tant qu’\textbf{administrateur RI}, je veux que le système calcule
+automatiquement la durée totale de mobilité de chaque étudiant (séjours
+académiques, stages internationaux, mobilités complémentaires validées)
+afin de vérifier la conformité CTI sans intervention manuelle. &
+M & 8 & S5 \\
+\hline
+
+\nextus & Affichage des durées de mobilité dans le tableau de bord étudiant &
+En tant qu’\textbf{étudiant}, je veux visualiser ma durée cumulée de
+mobilité afin de suivre mon avancement. &
+M & 3 & S5 \\
+\hline
+
+\nextus & Export rapport CTI &
+En tant qu’\textbf{administrateur RI}, je veux exporter un rapport
+CTI pour l’ensemble des étudiants de la promotion afin de le
+soumettre lors des audits. &
+S & 5 & S5 \\
+\hline
+
+\nextus & Tableaux de bord analytiques &
+En tant qu’\textbf{administrateur RI}, je veux disposer de tableaux de
+bord analytiques (taux d’affectation par département, évolution des
+flux entrants/sortants, destinations les plus demandées, indicateurs
+CTI) afin d’alimenter le pilotage opérationnel et la réflexion
+stratégique sur les partenariats. &
+M & 8 & S5 \\
+\hline
+
+\nextus & Authentification SSO &
+En tant qu’\textbf{utilisateur}, je veux m’authentifier via le SSO
+institutionnel (CAS/OIDC) afin d’accéder à mon espace personnalisé
+(étudiant ou administrateur) sans créer de compte séparé. &
+M & 8 & S5 \\
+\hline
+
+% ── SPRINT 6 ─────────────────────────────────────────────────
+% ── ÉPOPÉE 8 : Fonctionnalités intelligentes (V2) ────────────
+\multicolumn{6}{|l|}{\cellcolor{gray!10}\textbf{Fonctionnalités intelligentes}} \\
+\hline
+
+\nextus & Moteur de recommandation &
+En tant qu’\textbf{étudiant}, je veux recevoir des suggestions de destinations
+adaptées à mon profil (GPA, département, historique des affectations similaires)
+afin de cibler mes vœux de manière réaliste avant la saisie dans MoveON. &
+C & 13 & S6 \\
+\hline
+
+\nextus & Assistant virtuel (chatbot RAG) &
+En tant qu’\textbf{étudiant}, je veux poser des questions sur les procédures,
+critères d’éligibilité et démarches à un assistant virtuel afin d’obtenir
+des réponses immédiates sans solliciter le service RI. &
+C & 21 & S6 \\
+\hline
+
+\end{longtable}
+\endgroup
+
+% ─────────────────────────────────────────────────────────────
+\section{Planification des sprints}
+% ─────────────────────────────────────────────────────────────
+
+Le développement est découpé en six sprints de trois semaines chacun, suivant une progression de l'infrastructure vers les fonctionnalités visibles. Les sprints sont ordonnés par dépendances techniques : rien dans le Sprint 2 ne peut exister sans le Sprint 1, et l'algorithme du Sprint 3 dépend directement des données produites par le Sprint 2. Les cinq premiers sprints couvrent l'engagement MVP ; le Sprint 6, classé \textit{Could Have}, couvre les fonctionnalités intelligentes (moteur de recommandation, chatbot RAG). Le tableau~\ref{tab:planif-sprints} détaille la répartition.
+
+\begin{longtable}{|p{1.5cm}|p{4.5cm}|p{9.5cm}|}
+\caption{Planification des sprints}
+\label{tab:planif-sprints} \\
+\hline
+\rowcolor{gray!20}
+\textbf{Sprint} & \textbf{Thème} & \textbf{User stories couvertes} \\
+\hline
+\endfirsthead
+
+\hline
+\rowcolor{gray!20}
+\textbf{Sprint} & \textbf{Thème} & \textbf{User stories couvertes} \\
+\hline
+\endhead
+
+Sprint 1 & Fondations techniques &
+US-01 à US-03 : Référentiels de base (sync MoveON), année universitaire et FSM, accords et quotas (sync MoveON) \\
+\hline
+
+Sprint 2 & Données et traçabilité &
+US-04 à US-07 : Audit log, données étudiants (import Pégase), vœux étudiants (import MoveON), rapport d’import \\
+\hline
+
+Sprint 3 & Algorithme d’affectation &
+US-08 à US-10 : Algorithme Gale-Shapley, supervision et publication des résultats, consultation des résultats par l’étudiant \\
+\hline
+
+Sprint 4 & Sources complémentaires et mobilités &
+US-11 à US-16 : Répartition des quotas par département (Hamilton), stages internationaux (import Eudonet), mobilités entrantes (import Excel), réconciliation sans INE, déclaration et validation des mobilités complémentaires \\
+\hline
+
+Sprint 5 & Conformité CTI et authentification &
+US-17 à US-21 : Calcul des durées CTI, tableau de bord étudiant, export CTI, tableaux de bord analytiques, authentification SSO \\
+\hline
+
+Sprint 6 & Fonctionnalités intelligentes (V2) &
+US-22 à US-23 : Moteur de recommandation de destinations, assistant virtuel (chatbot RAG) \\
+\hline
+
+\end{longtable}
+
+\subsection{Diagramme de Gantt}
+
+La figure~\ref{tab:gantt} présente le calendrier de réalisation sur l'ensemble des sprints, en indiquant pour chaque tâche la semaine de début, la durée estimée et l'éventuel chevauchement avec les tâches adjacentes. Ce calendrier reste indicatif et prévisionnel : il sert à estimer la charge globale et à cadrer le projet en amont, mais le contenu précis de chaque sprint continue d'être ajusté à chaque itération, conformément à l'approche Scrum retenue.
+
+\begin{landscape}
+\footnotesize
+\setlength{\tabcolsep}{2pt}
+\renewcommand{\arraystretch}{1.5}
+
+\newcommand{\gc}{\cellcolor{blue!40}}
+\newcommand{\gv}{\cellcolor{green!40}}
+\newcommand{\go}{\cellcolor{orange!40}}
+\newcommand{\gr}{\cellcolor{red!20}}
+\newcommand{\gy}{\cellcolor{yellow!40}}
+
+\begin{longtable}{|p{4.8cm}|*{24}{p{0.55cm}|}}
+
+\caption{Diagramme de Gantt}
+\label{tab:gantt} \\
+
+% ===== EN-TÊTE (1ère page) =====
+\hline
+\rowcolor{gray!30}
+\textbf{Activité} &
+\multicolumn{4}{c|}{\textbf{Mois 1}} &
+\multicolumn{4}{c|}{\textbf{Mois 2}} &
+\multicolumn{4}{c|}{\textbf{Mois 3}} &
+\multicolumn{4}{c|}{\textbf{Mois 4}} &
+\multicolumn{4}{c|}{\textbf{Mois 5}} &
+\multicolumn{4}{c|}{\textbf{Mois 6}} \\
+\hline
+\rowcolor{gray!15}
+ & S1 & S2 & S3 & S4 & S5 & S6 & S7 & S8 & S9 & S10 & S11 & S12 & S13 & S14 & S15 & S16 & S17 & S18 & S19 & S20 & S21 & S22 & S23 & S24 \\
+\hline
+\endfirsthead
+
+% ===== EN-TÊTE (pages suivantes) =====
+\hline
+\rowcolor{gray!30}
+\textbf{Activité} &
+\multicolumn{4}{c|}{\textbf{Mois 1}} &
+\multicolumn{4}{c|}{\textbf{Mois 2}} &
+\multicolumn{4}{c|}{\textbf{Mois 3}} &
+\multicolumn{4}{c|}{\textbf{Mois 4}} &
+\multicolumn{4}{c|}{\textbf{Mois 5}} &
+\multicolumn{4}{c|}{\textbf{Mois 6}} \\
+\hline
+\rowcolor{gray!15}
+ & S1 & S2 & S3 & S4 & S5 & S6 & S7 & S8 & S9 & S10 & S11 & S12 & S13 & S14 & S15 & S16 & S17 & S18 & S19 & S20 & S21 & S22 & S23 & S24 \\
+\hline
+\endhead
+
+% ===== CONTENU =====
+
+\multicolumn{25}{|l|}{\cellcolor{gray!20}\textbf{Phase 1 : Cadrage et analyse}} \\
+\hline
+Analyse des besoins & \gc & \gc & \gc & & & & & & & & & & & & & & & & & & & & & \\
+\hline
+Rédaction CDC / spécifications & & \gc & \gc & \gc & & & & & & & & & & & & & & & & & & & & \\
+\hline
+Modélisation des données & & & \gc & \gc & \gc & & & & & & & & & & & & & & & & & & & \\
+\hline
+Conception architecture & & & \gc & \gc & \gc & \gc & & & & & & & & & & & & & & & & & & \\
+\hline
+
+\multicolumn{25}{|l|}{\cellcolor{gray!20}\textbf{Phase 2 : Environnement et DevOps}} \\
+\hline
+Setup Docker / environnement & & & & & \gv & \gv & \gv & & & & & & & & & & & & & & & & & \\
+\hline
+Pipeline CI/CD (GitLab/GitHub) & & & & & & \gv & \gv & \gv & & & & & & & & & & & & & & & & \\
+\hline
+Configuration PostgreSQL & & & & & & \gv & \gv & & & & & & & & & & & & & & & & & \\
+\hline
+Setup Django-Q2 / MinIO & & & & & & & \gv & \gv & & & & & & & & & & & & & & & & \\
+\hline
+Monitoring (Sentry / Grafana) & & & & & & & & & & & & & & & & & & & \gv & \gv & & & & \\
+\hline
+
+\multicolumn{25}{|l|}{\cellcolor{gray!20}\textbf{Phase 3 : Développement itératif}} \\
+\hline
+\textbf{Sprint 1}  & & & & & & \go & \go & \go & & & & & & & & & & & & & & & & \\
+\hline
+\textbf{Sprint 2}  & & & & & & & & & \go & \go & \go & & & & & & & & & & & & & \\
+\hline
+\textbf{Sprint 3}  & & & & & & & & & & & & \go & \go & \go & & & & & & & & & & \\
+\hline
+\textbf{Sprint 4}  & & & & & & & & & & & & & & & \go & \go & \go & & & & & & & \\
+\hline
+\textbf{Sprint 5}  & & & & & & & & & & & & & & & & & & \go & \go & \go & & & & \\
+\hline
+\textbf{Sprint 6 (V2)}  & & & & & & & & & & & & & & & & & & & & & \go & \go & \go & \\
+\hline
+
+\multicolumn{25}{|l|}{\cellcolor{gray!20}\textbf{Phase 4 : Tests et qualité}} \\
+\hline
+Tests unitaires (continus) & & & & & & \gr & \gr & \gr & \gr & \gr & \gr & \gr & \gr & \gr & \gr & \gr & \gr & \gr & \gr & \gr & \gr & \gr & \gr & \\
+\hline
+Tests d'intégration (continus) & & & & & & & & \gr & \gr & \gr & \gr & \gr & \gr & \gr & \gr & \gr & \gr & \gr & \gr & \gr & \gr & \gr & \gr & \\
+\hline
+Tests de charge (Locust) & & & & & & & & & & & & & & & & & & & & & \gr & \gr & & \\
+\hline
+Audit sécurité (OWASP ZAP) & & & & & & & & & & & & & & & & & & & & & & & \gr & \\
+\hline
+UAT avec service RI & & & & & & & & & & & & & & & & & & & & & & & \gr & \gr \\
+\hline
+
+\multicolumn{25}{|l|}{\cellcolor{gray!20}\textbf{Phase 5 : Livraison}} \\
+\hline
+Documentation technique & & & & & & & & & & & & & & & & & & & & & \gy & \gy & \gy & \gy \\
+\hline
+Déploiement staging & & & & & & & & & & & & & & & & & & & & & & & \gy & \gy \\
+\hline
+Livraison finale & & & & & & & & & & & & & & & & & & & & & & & & \gy \\
+\hline
+
+\end{longtable}
+
+\vspace{4pt}
+
+\end{landscape}
+
+% ─────────────────────────────────────────────────────────────
+\section{Approches de conception : organisation du code et style architectural}
+% ─────────────────────────────────────────────────────────────
+
+Avant de détailler l'architecture technique, deux décisions structurantes doivent être présentées : l'approche retenue pour organiser le code, et le style architectural choisi pour l'ensemble du système.
+
+\subsection{Organisation du code : approche modulaire par domaine métier}
+
+Le code est organisé en modules Django (\textit{apps}) alignés sur les domaines métier de la mobilité internationale, plutôt que sur des considérations purement techniques. Cette organisation s'inspire de certains principes du \textit{Domain-Driven Design} (DDD), notamment un vocabulaire métier partagé, l'encapsulation des règles par module, et des dépendances orientées dans un seul sens. Elle n'en reprend cependant pas les techniques les plus avancées : pas de règles obligeant plusieurs objets liés à toujours rester cohérents entre eux (agrégats), pas d'historique de chaque modification plutôt que du seul résultat final (\textit{event sourcing}), pas de séparation entre le chemin utilisé pour lire les données et celui utilisé pour les modifier (CQRS), ni de limites strictement définies entre les différentes parties du système (\textit{bounded contexts}). Ces techniques auraient ajouté une complexité disproportionnée pour un système développé par une seule personne sur la durée d'un PFE ; l'objectif retenu est la clarté du découpage et l'indépendance des modules, pas la conformité à un modèle théorique.
+
+\subsubsection{Découpage en modules Django}
+
+Quatorze apps Django, chacune exposant sa propre API (Django Ninja), portent la logique métier effectivement déployée. Le tableau~\ref{tab:domaines_apps} les met en correspondance avec les sept packages du modèle de données présenté au tableau~\ref{tab:packages_modele} : plusieurs apps peuvent alimenter un même package lorsque leurs entités sont fortement liées.
+
+\begin{table}[H]
+\centering
+\caption{Correspondance entre les apps Django et les packages du modèle de données}
+\label{tab:domaines_apps}
+\footnotesize
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{|p{3.2cm}|p{3cm}|p{8.5cm}|}
+\hline
+\rowcolor{gray!20}
+\textbf{Package} & \textbf{App(s) Django} & \textbf{Périmètre} \\
+\hline
+Reference & \texttt{reference} & Référentiels stables : pays (avec région CTI), départements, niveaux d'études (dont le niveau terminal diplômant) et parcours \\
+\hline
+Academic Year & \texttt{academic} & Année universitaire et cycle de campagne, piloté par une FSM \\
+\hline
+Students & \texttt{students} & Données académiques importées de Pégase, inscriptions, parcours \\
+\hline
+Institutions & \texttt{institutions} & Universités partenaires et organismes d'accueil \\
+\hline
+Agreements \& Quotas & \texttt{mobility} & Accords de mobilité et hiérarchie de quotas (INP, N7, département) \\
+\hline
+Mobilities & \texttt{outgoing}, \texttt{incoming}, \texttt{internships}, \texttt{complementary}, \texttt{cti} & Vœux et affectations issues de l'algorithme Gale-Shapley pour les mobilités sortantes, quatre types de mobilité au total, et durée CTI consolidée \\
+\hline
+Import & \texttt{imports} & Pipeline ETL de staging (MoveON, Pégase, Eudonet, Excel) : enregistrements bruts avant transformation et rapports de session d'import (compteurs succès / erreurs / doublons) \\
 \hline
 \end{tabular}
 \end{table}
 
-\subsubsection{Décision}
-\textbf{Django 5} est retenu car le projet repose sur de nombreuses entités liées entre elles, avec des cycles de vie distincts, un journal d'audit obligatoire et une gestion fine des droits entre deux profils utilisateurs.
+Au sein du package \texttt{Mobilities}, l'app \texttt{outgoing} porte à la fois la logique de vœux et d'affectations et l'entité \textit{mobilité sortante académique} qui en résulte : les deux sont trop imbriquées pour être séparées en deux packages distincts sans complexifier inutilement le code. Cinq apps supplémentaires jouent un rôle transversal, hors de ce découpage par package : \texttt{audit} (traçabilité des actions via un module applicatif développé en interne), \texttt{alerts} (notifications système), \texttt{analytics} (tableaux de bord de flux de mobilité), \texttt{rag} (assistant conversationnel permettant aux étudiants d'interroger la base de connaissances de la mobilité internationale) et \texttt{recommendation} (moteur de recommandation de destinations fondé sur le profil académique et les vœux historiques de l'étudiant). S'y ajoutent \texttt{integrations} (adaptateurs MoveON, Pégase, Eudonet).
 
-Utiliser une autre solution aurait impliqué de reconstruire une grande partie de ces mécanismes.
+\subsubsection{Langage commun}
 
-Django permet de disposer de ces fonctionnalités directement, ce qui est un avantage important dans ce projet.
+Les noms des classes, des champs et des méthodes reprennent directement le vocabulaire du service RI (accord, quota, vœu, affectation, mobilité complémentaire...), plutôt qu'un vocabulaire technique générique. Ce vocabulaire partagé facilite les échanges avec l'experte du domaine et réduit les risques d'ambiguïté lors de la validation des fonctionnalités.
 
-% Pour le déploiement en production, la configuration retenue est \textbf{Gunicorn} avec l'option \texttt{-k uvicorn.workers.UvicornWorker} : Gunicorn orchestre les workers et gère les signaux système, tandis que UvicornWorker assure le support natif de l'interface ASGI requise par Django Ninja pour les endpoints asynchrones.
+\subsubsection{Encapsulation des règles métier}
+
+Chaque app encapsule ses propres règles métier dans des fichiers \texttt{services.py} distincts des vues et de l'API, ce qui permet de les faire évoluer indépendamment du reste du système. Cette séparation rend le système plus robuste face aux évolutions de besoins, inévitables dans un contexte de développement itératif où certaines règles, comme les critères de priorité dans l'affectation, se précisent au fil des sprints.
+
+\subsection{Style architectural : architecture en couches}
+
+Le système est structuré selon une architecture en couches, où chaque niveau a une responsabilité clairement délimitée. Ce style architectural a été préféré à une architecture microservices, qui aurait été surdimensionnée pour l'échelle du projet, les contraintes d'hébergement de Toulouse INP et une équipe réduite à une seule développeuse.
+
+Le système s'articule autour de cinq couches distinctes :
+
+\begin{itemize}
+    \item \textbf{La couche présentation} (\textbf{Next.js 16}) : responsable du rendu des interfaces
+    et de la gestion des interactions utilisateur.
+    \item \textbf{La couche applicative} (\textbf{Django 5} + \textbf{Django Ninja}) : porte la logique métier, la validation
+    et l'orchestration des apps.
+    \item \textbf{La couche asynchrone} (\textbf{Django-Q2}) : prend en charge les traitements longs
+    découplés des requêtes, tels que l'algorithme d'affectation ou les
+    synchronisations nocturnes.
+    \item \textbf{La couche données} (\textbf{PostgreSQL} + \textbf{MinIO}) : assure la persistance relationnelle et
+    le stockage des fichiers justificatifs.
+    \item \textbf{La couche intégration} (adaptateurs \textbf{MoveON}, \textbf{Pégase}, \textbf{Eudonet}) : gère la connexion avec les systèmes
+    externes via des adaptateurs dédiés.
+\end{itemize}
+
+La section suivante détaille l'implémentation concrète de cette architecture en couches, avec les technologies retenues pour chacune d'entre elles.
 
 % ─────────────────────────────────────────────────────────────
-\subsection{Choix de la couche API}
+\section{Architecture logicielle}
+% ─────────────────────────────────────────────────────────────
 
-Une fois le framework backend retenu, il reste à choisir la bibliothèque
-la mieux adaptée pour construire l'API. Cette section évalue les deux
-solutions compatibles avec Django et justifie le choix retenu.
+Cette section détaille la mise en œuvre concrète de l'architecture en couches présentée précédemment : une vue d'ensemble des flux entre couches, puis le rôle et les technologies retenues pour chacune d'entre elles.
 
-\subsubsection{Besoins spécifiques}
+\subsection{Vue d'ensemble}
 
-L'API doit permettre les échanges entre Next.js
-et Django, valider des structures de données
-parfois complexes (vœux ordonnés, quotas par
-département, rapports d'import), générer
-automatiquement une documentation utilisable
-par le développeur frontend, et répondre
-de façon non bloquante aux requêtes qui
-déclenchent des traitements longs
-(lancement de l'algorithme, recalcul).
+La plateforme repose sur une architecture en cinq couches qui s'appuie sur le modèle 3-tiers classique tout en l'enrichissant d'une couche asynchrone dédiée aux traitements longs. Chaque couche a une frontière bien définie : aucun composant Next.js n'accède à la base de données directement, aucune tâche asynchrone ne peut bloquer une requête HTTP.
 
-\subsubsection{Alternatives évaluées}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{figures/architecture/Architecture-Logicielle.png}
+  \caption{Architecture logicielle}
+  \label{fig:archi-logique}
+\end{figure}
 
-Deux solutions ont été évaluées pour exposer l'API entre le frontend Next.js et le backend Django.
+La figure~\ref{fig:archi-logique} donne une vue d'ensemble du système. Les flux sont unidirectionnels et bien délimités. Le frontend Next.js 16 s'adresse exclusivement à l'API Django Ninja via des appels REST sur HTTPS, jamais directement à la base de données. Django-Q2 s'exécute dans un processus séparé et partage le même PostgreSQL que l'applicatif, ce qui lui permet de fonctionner comme file d'attente sans service externe supplémentaire. PostgreSQL et MinIO sont des services internes non accessibles depuis l'extérieur du réseau Docker. Les adaptateurs ETL sont physiquement séparés des modules métier, précisément parce qu'ils dépendent de sources externes (MoveON, Pégase, Eudonet) dont la disponibilité n'est pas garantie. L'authentification passe par le CAS OIDC de Toulouse INP : à chaque requête, le token JWT est validé et le rôle (\texttt{ADMIN\_RI} ou \texttt{ETUDIANT}) est extrait pour contrôler les accès.
 
-\paragraph{Django REST Framework (DRF)}
-Django REST Framework est la bibliothèque la plus utilisée pour construire
-des APIs avec Django. Elle fournit un ensemble complet d'outils pour
-la sérialisation, la validation et la gestion des permissions~\cite{drf_dev}.
+\subsection{Couche présentation : Next.js 16}
 
-\textit{Avantages :}
+La couche présentation est développée en \textbf{Next.js 16} avec \textbf{TypeScript} et \textbf{Tailwind CSS}. Elle expose deux espaces fonctionnellement distincts, séparés dès le middleware de routage.
+
+\textbf{Espace administrateur RI :} pilotage de campagne, gestion des quotas par accord et par département, supervision des affectations avant publication, instruction des demandes de mobilités complémentaires, tableaux de bord de conformité CTI.
+
+\textbf{Espace étudiant :} consultation du catalogue de destinations, suivi de l'état de candidature, déclaration d'expériences complémentaires, indicateur personnel de durée CTI.
+
+Toutes les communications entre le frontend et le backend passent par l'API REST, en JSON sur HTTPS, avec un token JWT joint à chaque requête. 
+% Le rendu est hybride : les pages à données dynamiques utilisent le \textit{Server-Side Rendering} (SSR) pour le premier chargement, et le \textit{Client-Side Rendering} (CSR) pour les interactions ultérieures. Les middlewares Next.js gèrent la protection des routes selon le rôle.
+
+\subsection{Couche applicative : Django 5 + Django Ninja}
+
+Le backend concentre la logique métier du système. Il est découpé en modules Django autonomes, chacun responsable d'un domaine précis, selon les principes DDD décrits en début de chapitre. Cette organisation garantit qu'une modification dans le domaine de l'affectation ne peut pas affecter le comportement du domaine CTI ou des imports.
+
+% \begin{itemize}
+%   \item \texttt{apps.reference} : référentiels stables (pays, départements) ;
+%   \item \texttt{apps.academic} : années universitaires et machines à états de campagne ;
+%   \item \texttt{apps.students} : étudiants, inscriptions annuelles, GPA ;
+%   \item \texttt{apps.institutions} : universités partenaires et organismes ;
+%   \item \texttt{apps.mobility} : accords, quotas, vœux, affectations ;
+%   \item \texttt{apps.outgoing} : mobilités sortantes ;
+%   \item \texttt{apps.internships} : stages internationaux (Eudonet) ;
+%   \item \texttt{apps.complementary} : mobilités complémentaires ;
+%   \item \texttt{apps.incoming} : mobilités entrantes ;
+%   \item \texttt{apps.cti} : consolidation des durées et conformité CTI ;
+%   \item \texttt{apps.imports} : adaptateurs et pipeline ETL ;
+%   \item \texttt{apps.rag} : chatbot RAG (LlamaIndex + ChromaDB).
+% \end{itemize}
+
+\textbf{Django Ninja} est utilisé pour exposer l’API REST. Chaque module définit ses propres schémas pour valider les données en entrée et structurer les réponses. L’authentification repose sur le middleware OIDC (CAS Toulouse INP), qui vérifie le token et associe l’utilisateur à chaque requête.
+
+\subsection{Couche traitement asynchrone : Django-Q2}
+
+Plutôt que de bloquer l'interface le temps qu'un calcul se termine, les traitements longs sont soumis à une file de tâches gérée par \textbf{Django-Q2}. Ce dernier utilise PostgreSQL comme file d'attente persistante (backend de tâches), ce qui évite d'introduire Redis dans l'infrastructure. Deux familles de tâches y transitent :
+
 \begin{itemize}
-  \item Très mature et bien documenté,
-        avec une grande communauté
-  \item Outillage complet : gestion des tokens JWT,
-        filtres, pagination, génération de
-        documentation via \texttt{drf-spectacular}
-  \item Fonctionne parfaitement avec l'ORM
-        et les permissions Django
+  \item \textbf{Tâches déclenchées par événement} : lancement de l'algorithme d'affectation, recalcul des durées CTI après chaque transition FSM, génération des rapports d'import.
+  \item \textbf{Tâches planifiées (cron)} : synchronisation nocturne avec MoveON, Pégase et Eudonet ; purge des données brutes (\texttt{RawImport}) traitées depuis plus de 90 jours.
 \end{itemize}
 
-\textit{Limites :}
+\subsection{Couche données : PostgreSQL 16}
+
+Un seul service de données est utilisé dans l'infrastructure : \textbf{PostgreSQL 16}. Ce choix simplifie les sauvegardes et la supervision. PostgreSQL remplit ici trois fonctions différentes :
+
 \begin{itemize}
-  \item Le support des requêtes asynchrones
-        est partiel, ce qui pose problème pour
-        les endpoints qui déclenchent le lancement
-        de l'algorithme ou les synchronisations
-        avec MoveON, Pégase et Eudonet
-  \item Les sérialiseurs DRF demandent beaucoup
-        de code répétitif, surtout quand on
-        travaille avec plusieurs entités
-  \item La documentation de l'API nécessite
-        une configuration externe séparée,
-        à maintenir en parallèle
+  \item \textbf{Base de données relationnelle} : toutes les entités métier y sont stockées, avec des index composites sur \texttt{academic\_year\_id} pour les performances de filtrage par campagne.
+  \item \textbf{File d'attente Django-Q2} : la table \texttt{django\_q\_task} stocke les tâches en attente.
+  % , éliminant le besoin de Redis.
+  \item \textbf{Stockage des données brutes (JSONB)} : la table \texttt{RawImport} conserve les réponses JSON brutes de chaque appel API avant transformation, garantissant la possibilité de relancer les imports.
 \end{itemize}
 
-\paragraph{Django Ninja}
-Framework API pour Django, basé sur une validation des données structurée et typée via Pydantic ~\cite{djangoninja_dev}.
+Le stockage des fichiers (justificatifs de mobilités complémentaires, templates Excel) est assuré par \textbf{MinIO}, un serveur de stockage objet compatible S3, déployé comme container Docker interne.
 
-\textit{Avantages :}
+\subsection{Couche intégration : Adaptateurs ETL}
+
+Chaque source externe est encapsulée dans un adaptateur dédié, isolé du reste du code métier. Quatre adaptateurs ont été développés :
+
 \begin{itemize}
-    \item Toutes les routes supportent nativement les traitements asynchrones : un endpoint peut lancer un calcul ou déclencher une synchronisation sans bloquer le serveur, en déléguant l'exécution à un système de traitement en arrière-plan.
-  \item La validation des données via Pydantic
-        est plus concise que DRF
-  \item La documentation de l'API est générée
-        automatiquement, sans aucune
-        configuration supplémentaire
-  \item Conserve entièrement l'écosystème Django :
-        ORM, administration, cycles de vie,
-        permissions
+  \item \texttt{adapters/moveon.py} : extraction des accords bilatéraux, des quotas INP et des candidatures/vœux ;
+  \item \texttt{adapters/pegase.py} : extraction des données académiques étudiants (INE, GPA trimestriel, département d'inscription) ;
+  \item \texttt{adapters/eudonet.py} : extraction des conventions de stages à l'international ;
+  \item \texttt{adapters/excel.py} : traitement des fichiers Excel standardisés (mobilités entrantes, données sans API disponible).
 \end{itemize}
 
-\textit{Limites :}
-\begin{itemize}
-  \item Plus récent que DRF, avec moins
-        d'extensions disponibles
-  \item Moins de ressources en ligne
-        pour des cas très spécifiques
-\end{itemize}
+Tous les adaptateurs suivent le même enchaînement : récupération des données depuis la source → stockage brut en JSONB (\texttt{RawImport}) → parsing et standardisation → validation métier → persistance en base → génération du rapport d'import. En cas d'indisponibilité de la source, le client HTTP tente successivement plusieurs points d'entrée alternatifs (par exemple \texttt{/internships} puis \texttt{/api/internships} pour Eudonet). Si tous les points d'entrée échouent, une exception est levée, capturée par la tâche Django-Q2 et signalée via \textbf{Sentry}. Aucun mécanisme de retry temporel avec backoff n'est appliqué à ce stade ; un import Excel de secours reste disponible pour chaque source en cas d'indisponibilité prolongée.
 
-\subsubsection{Synthèse comparative}
+\subsubsection{Stratégie d'upsert}
 
-Le tableau~\ref{tab:comparaison_api} récapitule les critères évalués pour chacune des deux
-solutions, afin de faciliter la comparaison et de justifier le choix retenu.
+À la phase de persistance, chaque enregistrement est traité selon une logique d'upsert. La clé métier (généralement l'INE ou l'identifiant de l'accord) permet de déterminer si l'enregistrement est nouveau ou déjà connu. S'il est nouveau, il est inséré. S'il existe, ses champs sont comparés un à un avec la version en base : en l'absence de différence, l'enregistrement est ignoré ; si un champ a changé (par exemple un GPA révisé dans Pégase ou une date de fin de stage corrigée dans Eudonet), la mise à jour est appliquée et l'écart est consigné dans le journal d'audit. Cela permet au service RI de savoir exactement ce qui a changé d'une synchronisation à l'autre.
 
-\renewcommand{\arraystretch}{1.35}
+\subsubsection{Clé de jointure : l'INE}
+
+L'identifiant national étudiant (INE) est la clé partagée entre
+MoveON, Pégase, Eudonet et le CAS institutionnel. Toutes les données
+importées sont croisées via l'INE pour construire une vue unifiée
+du dossier étudiant.
+
+Lorsque l'INE est absent d'une source (notamment Eudonet),
+une stratégie de réconciliation par score de similarité est appliquée :
+chaque candidat est scoré selon une pondération fixe, 50~\% sur le nom
+(similarité textuelle \texttt{SequenceMatcher}), 30~\% sur le prénom
+(même mesure) et 20~\% sur la correspondance exacte de l'e-mail.
+Les candidats dont le score composite est inférieur à 0,60 sont
+éliminés ; ceux dont il dépasse 0,85 sont classés confiance élevée.
+Les cas ambigus (confiance faible ou moyenne) sont remontés pour
+validation manuelle par le service RI.
+
+\subsubsection{Stratégie de synchronisation}
+
+Le tableau~\ref{tab:sync-strategy} récapitule, pour chaque source externe, le déclencheur de synchronisation et les particularités de traitement associées.
+
+\renewcommand{\arraystretch}{1.4}
 \begin{table}[H]
 \centering
-\caption{Comparaison DRF et Django Ninja}
-\label{tab:comparaison_api}
+\caption{Stratégie de synchronisation par source}
+\label{tab:sync-strategy}
 \footnotesize
-\begin{tabular}{|p{5cm}|>{\centering\arraybackslash}p{3.2cm}|>{\centering\arraybackslash}p{3.2cm}|}
+\begin{tabular}{|p{2.5cm}|p{5cm}|p{5cm}|}
 \hline
 \rowcolor{gray!20}
-\textbf{Critère} & \textbf{DRF} & \textbf{Django Ninja} \\
+\textbf{Source} & \textbf{Déclencheur} & \textbf{Remarque} \\
 \hline
-Validation Pydantic (typage strict) & \xmark & \cmark \\
+MoveON &
+Tâche Django-Q2 planifiée (phases actives) + manuelle avant
+lancement de l'algorithme &
+Lecture seule : aucune écriture vers MoveON \\
 \hline
-Réduction du code répétitif & \xmark & \cmark \\
+Pégase &
+Initialisation de campagne + à la demande &
+GPA figé à la \texttt{gpa\_freeze\_date} définie par l'admin \\
 \hline
-Documentation auto-générée & \xmark & \cmark \\
+Eudonet &
+Périodique (fin de période de stage) + à la demande &
+Réconciliation INE si absent \\
 \hline
-Intégration ORM Django & \cmark & \cmark \\
-\hline
-Support async natif (vues) & Non natif, configuration requise & \cmark \\
-\hline
-Maturité et communauté & \cmark & Framework récent, moins de ressources \\
+Excel &
+Upload manuel par l'administrateur &
+Fallback pour toutes les sources en cas d'indisponibilité API \\
 \hline
 \end{tabular}
 \end{table}
 
-\subsubsection{Décision}
-\textbf{Django Ninja} est retenu. L'argument principal est la validation
-par schémas Pydantic : les entrées et sorties de chaque endpoint sont
-typées explicitement, ce qui réduit nettement le code répétitif de
-sérialisation par rapport à DRF, en particulier sur les nombreuses
-entités du domaine (accords, quotas, vœux, affectations). La
-documentation OpenAPI générée automatiquement à partir de ces schémas
-est également appréciable pour un projet développé avec un frontend
-séparé.
+\subsection{Sécurité et contrôle d'accès}
 
-Le support natif de l'asynchrone n'est pas le critère décisif : les
-endpoints critiques du projet (déclenchement de l'algorithme, recalcul
-des quotas, synchronisations ETL) répondent immédiatement en
-déléguant le traitement à une tâche Django-Q2, ce qu'une vue
-synchrone classique fait tout aussi bien puisque c'est la mise en
-file d'attente qui est asynchrone, pas la vue elle-même. Ce support
-reste néanmoins un atout pour d'éventuels futurs endpoints qui
-appelleraient directement une API externe (Eudonet, MoveON, Pégase)
-sans passer par une tâche de fond.
+\subsubsection{Flux d'authentification OIDC}
+
+L'application délègue entièrement l'authentification au CAS institutionnel de Toulouse INP via OIDC. Aucun mot de passe n'est stocké côté applicatif. Le flux se déroule en quatre étapes :
+
+\begin{enumerate}
+  \item L'utilisateur accède à l'application et est redirigé vers le portail SSO institutionnel.
+  \item Après authentification CAS, un token OIDC (JWT) est émis et transmis à l'application.
+  \item Le backend décode le token, extrait l'INE et le groupe LDAP de l'utilisateur, et détermine automatiquement son rôle (\texttt{ADMIN\_RI} ou \texttt{ETUDIANT}).
+  \item Le frontend reçoit le rôle et affiche l'espace correspondant. Les tokens ont une durée de vie courte (15 minutes) et sont renouvelés silencieusement sans interrompre la navigation.
+\end{enumerate}
+
+\subsubsection{Contrôle d'accès (RBAC)}
+
+Les rôles sont déduits automatiquement depuis l'annuaire LDAP institutionnel, sans gestion manuelle dans l'application :
+
+\begin{itemize}
+  \item \textbf{ADMIN\_RI} : accès complet aux fonctions d'administration, à savoir les imports, le lancement de l'algorithme, les validations et les exports CTI. Toute action est enregistrée dans le journal d'audit.
+  \item \textbf{ETUDIANT} : accès strictement limité à son propre dossier. Un contrôle au niveau de l'objet (\textit{object-level permission}) est appliqué sur chaque endpoint exposant des données personnelles, de sorte qu'un étudiant ne puisse pas accéder au dossier d'un autre.
+\end{itemize}
+
+\subsubsection{Gestion du renouvellement des tokens JWT}
+
+Les tokens JWT ont une durée de vie de 15 minutes pour limiter l'exposition en cas d'interception. Côté Next.js, NextAuth gère le renouvellement silencieusement : quand le token approche de son expiration, un flux de rafraîchissement est initié via le endpoint OIDC du CAS sans interrompre la session. Côté Django, chaque requête est vérifiée par un middleware qui contrôle la signature et l'expiration du token ; un token expiré retourne un 401 et force le frontend à initier un nouveau cycle. Un token révoqué au niveau du CAS ne peut donc pas être utilisé pour accéder au backend, même si le frontend n'a pas encore détecté l'invalidation.
+
+\subsubsection{Journal d'audit}
+
+La traçabilité des actions administratives est assurée par un module applicatif développé en interne (\texttt{app/audit/logger.py}). La fonction \texttt{log\_action()} est appelée explicitement dans les vues et les transitions FSM pour tracer les actions administratives. Les événements enregistrés couvrent :
+
+\begin{itemize}
+  \item Authentifications réussies et tentatives échouées ;
+  \item Toutes les transitions FSM (changements d'état d'une année universitaire, d'un dossier, d'une affectation) ;
+  \item Modifications manuelles des affectations par le service RI (avec champ \textit{motif} obligatoire) ;
+  \item Lancements d'imports ETL et résultats (source, nombre d'enregistrements traités, erreurs) ;
+  \item Validations ou rejets de mobilités complémentaires ;
+  \item Exports de rapports CTI.
+\end{itemize}
+
+Chaque entrée contient l'identifiant de l'auteur, l'horodatage UTC, l'entité concernée (table et clé primaire), l'action effectuée, et les valeurs avant/après modification. Le journal est stocké dans une table PostgreSQL dédiée (\texttt{auditlog\_logentry}), accessible en lecture seule. La politique de rétention est de sept ans, soit un cycle complet d'habilitation CTI (six ans) augmenté d'une marge de sécurité, afin que le journal reste disponible pour tout audit d'habilitation portant sur l'intégralité de la période concernée. Aucune entrée ne peut être modifiée ou supprimée depuis l'application ; toute suppression nécessite un accès direct à la base, lui-même tracé au niveau opérateur.
+
+\subsubsection{Protection des données (RGPD)}
+
+La plateforme traite des données personnelles étudiantes (INE, email, genre, nationalité, identifiant Pégase) soumises au RGPD. Quatre mesures techniques ont été intégrées dès la conception :
+
+\begin{itemize}
+  \item \textbf{Chiffrement au repos} : les champs sensibles sont chiffrés en base via \texttt{pgcrypto} ; leur lecture requiert la clé de déchiffrement qui n'est jamais stockée dans le code.
+  \item \textbf{Chiffrement en transit} : TLS est obligatoire sur tous les endpoints ; les communications HTTP sont systématiquement redirigées vers HTTPS par Nginx.
+  \item \textbf{Stockage des justificatifs} : les fichiers uploadés (justificatifs de mobilités complémentaires) sont chiffrés côté serveur dans MinIO (SSE-S3) et supprimés automatiquement après validation et expiration du délai de conservation.
+  \item \textbf{Droit à l'oubli}~\cite{rgpd_2016} : l'étudiant peut demander l'anonymisation de ses données nominatives (nom, prénom, e-mail, genre, nationalité, identifiant Pégase) à tout moment, et non uniquement après diplômation ; les données nécessaires à la cohérence de la campagne (inscriptions, résultats d'affectation, durées CTI) sont conservées sous forme dépersonnalisée. La demande n'est différée que si l'étudiant est encore inscrit à une campagne non clôturée, le temps que celle-ci se termine, conformément aux exceptions prévues par ce même règlement. Chaque anonymisation est tracée dans le journal d'audit.
+\end{itemize}
+% ─────────────────────────────────────────────────────────────
+\section{Architecture physique et déploiement}
+% ─────────────────────────────────────────────────────────────
+
+Cette section présente le déploiement physique du système, les containers Docker qui le composent, les environnements maintenus et les stratégies de migration, de rollback, de sauvegarde et de gestion des secrets qui encadrent la mise en production.
+
+\subsection{Vue d'ensemble}
+
+L'application s'exécute sur un serveur on-premise hébergé par Toulouse INP. Tous les services sont conteneurisés via \textbf{Docker Compose}, ce qui garantit que l'environnement de développement et l'environnement de production sont structurellement identiques ; éliminer les surprises du déploiement était une contrainte dès le départ.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{figures/architecture/Architecture-Physique.png}
+  \caption{Architecture physique}
+  \label{fig:archi-physique}
+\end{figure}
+
+La figure~\ref{fig:archi-physique} détaille les flux réseau. Tout le trafic entrant passe par \textbf{Nginx}, le seul container exposé à l'extérieur (ports 80 et 443). Nginx redirige le HTTP vers HTTPS, sert les fichiers statiques Next.js et route les appels API vers \texttt{backend:8000}. PostgreSQL, MinIO et le worker Django-Q2 sont confinés dans le réseau Docker interne ; aucune connexion directe depuis l'extérieur n'est possible. Les appels vers les APIs institutionnelles (MoveON, Pégase, Eudonet, CAS) partent exclusivement du container \texttt{backend} en HTTPS sortant. Sentry est externe à l'infrastructure et reçoit les rapports d'erreur du backend et du frontend. Prometheus (collecte de métriques) et Grafana (visualisation) tournent en interne, accessibles uniquement depuis le réseau institutionnel.
+
+\subsection{Containers Docker}
+
+Huit containers composent l'infrastructure. Le tableau~\ref{tab:docker-containers} en donne le détail.
+
+\begin{table}[H]
+\centering
+\caption{Containers Docker et leurs rôles}
+\label{tab:docker-containers}
+\small
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{|p{3cm}|p{4cm}|p{6.5cm}|}
+\hline
+\rowcolor{gray!20}
+\textbf{Container} & \textbf{Image} & \textbf{Rôle} \\
+\hline
+\texttt{nginx} & \texttt{nginx:alpine} & Reverse proxy : SSL/TLS, fichiers statiques, routage vers Django et Next.js \\
+\hline
+\texttt{frontend} & \texttt{node:22-slim} & Application Next.js (SSR + API routes) \\
+\hline
+\texttt{backend} & \texttt{python:3.12-slim} & Django 5 + Django Ninja \\
+\hline
+\texttt{worker} & \texttt{python:3.12-slim} & Django-Q2 cluster (tâches asynchrones et cron) \\
+\hline
+\texttt{db} & \texttt{postgres:16-alpine} & PostgreSQL, base de données et file d'attente Django-Q2 \\
+\hline
+\texttt{minio} & \texttt{minio/minio} & Stockage objet S3 (justificatifs, fichiers Excel) \\
+\hline
+\texttt{prometheus} & \texttt{prom/prometheus} & Collecte des métriques système et applicatives \\
+\hline
+\texttt{grafana} & \texttt{grafana/grafana} & Visualisation des métriques (tableaux de bord internes) \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Flux réseau}
+
+Nginx est le seul point d'entrée du système : les requêtes vers \texttt{/api/*} sont acheminées vers \texttt{backend:8000}, toutes les autres vers \texttt{frontend:3000}. Le container \texttt{backend} dialogue avec la base de données pour les opérations métier et avec MinIO pour la gestion des fichiers. Le \texttt{worker} Django-Q2 utilise le même PostgreSQL comme file de messages ; aucun Redis ni RabbitMQ n'est nécessaire. Les appels sortants vers MoveON, Pégase, Eudonet et le CAS passent uniquement par le container \texttt{backend}.
+
+\subsection{Environnements}
+
+Trois environnements coexistent, avec une parité de configuration maximale entre eux :
+
+\begin{itemize}
+  \item \textbf{Développement} : Docker Compose local, données anonymisées, variables d'environnement dans \texttt{.env}. Chaque développeur dispose d'un environnement reproductible en une commande.
+  \item \textbf{Staging} : copie conforme de la production hébergée sur le serveur institutionnel, utilisée pour les tests d'acceptation (UAT) avec le service RI avant chaque mise en production.
+  \item \textbf{Production} : déploiement final sur le serveur on-premise, avec sauvegardes PostgreSQL quotidiennes, alertes via Sentry (standard pour la capture d'exceptions applicatives) et métriques via Prometheus/Grafana (standard pour la supervision d'infrastructure conteneurisée).
+\end{itemize}
+
+\subsection{CI/CD}
+
+Le pipeline CI/CD sur \textbf{GitHub Actions} s'exécute à chaque push. Quatre étapes s'enchaînent :
+
+\begin{itemize}
+  \item \textbf{Lint et tests} : le linter \texttt{ruff} vérifie la qualité du code Python, puis \texttt{pytest} exécute la suite de tests complète.
+  \item \textbf{Build} : construction des images Docker et vérification que l'ensemble des services démarre sans erreur.
+  \item \textbf{Déploiement staging} : déploiement automatique sur l'environnement de staging à chaque merge sur \texttt{main}, sans intervention manuelle.
+  \item \textbf{Déploiement production} : jamais automatique. Il est déclenché manuellement par l'administrateur système une fois les tests d'acceptation validés sur staging, ce qui garantit une approbation explicite avant toute mise en production, compte tenu du caractère institutionnel du système et des données personnelles qu'il traite.
+\end{itemize}
+
+\subsection{Stratégie de migration de schéma}
+
+Les migrations Django sont appliquées automatiquement avant le démarrage du serveur applicatif, ce qui garantit que le code et le schéma de base de données sont toujours cohérents. La stratégie retenue est celle des migrations additives en deux temps : on ajoute d'abord le nouveau champ (migration non destructive), et on supprime les éléments devenus inutiles dans une migration ultérieure, une fois que le code de production n'y fait plus référence. Cette approche permet de déployer sans fenêtre de maintenance et sans risque de rupture entre le code et le schéma. Chaque fichier de migration est versionné dans le dépôt git au même titre que le code, et relu avant intégration.
+
+\subsection{Stratégie de rollback}
+
+Si un incident survient après un déploiement, le rollback se déroule en deux temps. L'image Docker précédente est remise en service en ciblant son tag de version. Si la migration de schéma était irréversible (suppression de colonne par exemple), une restauration depuis la sauvegarde pré-déploiement est effectuée ; c'est pourquoi une sauvegarde complète est systématiquement déclenchée juste avant tout déploiement en production. Pour les migrations réversibles, un retour en arrière via la commande Django est possible sans restauration complète.
+
+\subsection{Politique de sauvegarde}
+
+La politique de sauvegarde prévoit deux niveaux. Une sauvegarde complète de la base de données (avec l'outil PostgreSQL \texttt{pg\_dump}) est prévue chaque nuit, à conserver 30 jours sur un espace de stockage séparé de celui des données. Une sauvegarde physique (copie complète des fichiers de la base) est prévue chaque semaine, à conserver six mois ; combinée aux journaux qui enregistrent chaque modification de la base (WAL), elle permettrait de restaurer les données à un instant précis plutôt qu'à la seule dernière sauvegarde.
+
+La mise en place de ces sauvegardes automatiques (programmation régulière, copie vers un stockage distant, test mensuel de restauration sur l'environnement de staging) sera réalisée par l'administrateur système lors du déploiement en production, avec des outils standards (\texttt{pg\_dump}, copie de volume, script de vérification des données).
+
+\subsection{Gestion des secrets}
+
+Aucun secret n'est présent dans le dépôt git. Les variables sensibles, telles que \texttt{SECRET\_KEY}, les mots de passe PostgreSQL, les clés d'API MoveON, Pégase, Eudonet ou les tokens MinIO, sont injectées au runtime via un fichier \texttt{.env.prod} stocké uniquement sur le serveur de production. Le \texttt{.gitignore} exclut tous les fichiers \texttt{.env.*}, à l'exception d'un fichier de référence avec des valeurs fictives fourni pour le développement local.
+
+% ─────────────────────────────────────────────────────────────
+\section{Modèle de données}
+% ─────────────────────────────────────────────────────────────
+
+Le modèle de données traduit en structures relationnelles les entités métier identifiées dans l’analyse. Il est organisé en sept packages thématiques, chacun correspondant à un domaine métier distinct. Cette section en présente la logique d’ensemble ; les diagrammes de classes détaillés de chaque sprint sont présentés dans le chapitre de réalisation.
+
+\subsection{Organisation par packages}
+
+Le modèle s'articule autour de sept packages dont les responsabilités
+sont résumées dans le tableau suivant.
+
+\renewcommand{\arraystretch}{1.4}
+\begin{table}[H]
+\centering
+\caption{Packages du modèle de données}
+\label{tab:packages_modele}
+\footnotesize
+\begin{tabular}{|p{3.5cm}|p{11cm}|}
+\hline
+\rowcolor{gray!20}
+\textbf{Package} & \textbf{Responsabilité} \\
+\hline
+\textbf{Reference} &
+Référentiels stables partagés par l'ensemble du système :
+pays (avec région CTI), départements, niveaux d'études
+(dont le niveau terminal diplômant) et parcours. \\
+\hline
+\textbf{Academic Year} &
+Axe temporel central. Chaque campagne de mobilité est rattachée
+à une année universitaire dont le cycle de vie est piloté par
+une machine à états. \\
+\hline
+\textbf{Students} &
+Données académiques des étudiants importées depuis Pégase :
+\texttt{Student}, inscriptions annuelles (\texttt{AnnualEnrollment}),
+parcours pédagogique (\texttt{Parcours}), relevés de GPA gelés à date fixe. \\
+\hline
+\textbf{Institutions} &
+Universités partenaires (synchronisées depuis MoveON) et
+organismes d'accueil pour les stages. \\
+\hline
+\textbf{Agreements \& Quotas} &
+Accords de mobilité (\texttt{Agreement}) et leur hiérarchie de quotas :
+déclinaison annuelle par accord (\texttt{AgreementYear}),
+liste des départements autorisés par accord (\texttt{AgreementDepartment}),
+et répartition annuelle du quota N7 par département (\texttt{AgreementYearDepartment}). \\
+\hline
+\textbf{Mobilities} &
+Quatre types de mobilités : sortantes académiques, dont les vœux
+ordonnés saisis par l'étudiant (\texttt{StudentWish}) et les
+affectations produites par l'algorithme ou ajustées manuellement
+(\texttt{Assignment}, \texttt{AssignmentResult}) ; stages
+internationaux (Eudonet) ; complémentaires déclarées par
+l'étudiant ; et entrantes (import Excel).
+La durée CTI consolidée est calculée automatiquement. \\
+\hline
+\textbf{Import} &
+Stockage brut (JSONB) des données reçues de chaque source
+avant transformation, garantissant la reprise sur erreur
+et la traçabilité des imports. \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Principes structurants}
+
+Trois décisions de conception traversent l'ensemble du modèle et méritent d'être explicitées.
+
+\subsubsection{L'année universitaire comme axe temporel}
+Toutes les entités opérationnelles, telles que les dossiers, vœux, affectations, mobilités et imports, sont rattachées à une \texttt{AcademicYear}. Cette clé de partitionnement logique garantit deux propriétés : l'historique des campagnes passées est complet et consultable, et dès qu'une année est clôturée, ses données basculent automatiquement en lecture seule.
+
+\subsubsection{L'INE comme identifiant pivot}
+L'identifiant national étudiant (INE) est le seul identifiant commun à toutes les sources : MoveON, Pégase, Eudonet et le CAS OIDC. Tous les imports sont croisés via l'INE pour construire une vue unifiée du dossier étudiant. Quand un enregistrement arrive sans INE valide (cas courant dans Eudonet), une réconciliation par similarité est appliquée sur le nom et le prénom (distance d'édition), pondérée par la correspondance exacte de l'e-mail ; chaque candidat est classé par un score de confiance (élevé, moyen, faible), et les cas ambigus sont remontés pour validation manuelle par le service RI.
+
+\subsubsection{Hiérarchie quotas INP / quotas N7}
+MoveON ne gère les quotas qu'à l'échelle de l'INP, au niveau global de l'accord, sans distinction d'année universitaire. Pour piloter une campagne à la fois et permettre à ce quota de varier d'une année sur l'autre, la hiérarchie de quotas s'appuie non pas sur \texttt{Agreement} mais sur sa version annuelle, \texttt{AgreementYear} : à sa validation, celle-ci enregistre le quota INP de l'année (\texttt{inp\_total\_places}), à partir duquel est calculé le quota N7 (\texttt{n7\_places}). Ce quota N7 est ensuite réparti par département via \texttt{AgreementYearDepartment}. Cette répartition combine deux niveaux : une estimation automatique, dont la méthode de calcul est justifiée et détaillée au chapitre~\ref{cha:algo-fsm} (Sprint 4 : US-11), et un ajustement manuel optionnel, laissé à l'appréciation du service RI lorsque la répartition automatique ne correspond pas à la réalité du terrain. Cette organisation garantit la compatibilité avec MoveON, permet à un accord d'évoluer d'une campagne à l'autre, et fournit à l'algorithme d'affectation le niveau de détail dont il a besoin.
+
+% ─────────────────────────────────────────────────────────────
+\section{Flux de données : de la source au workflow}
+% ─────────────────────────────────────────────────────────────
+
+Chaque information importée dans le système suit un même parcours balisé, du fichier brut jusqu’à son intégration dans les entités métier. Ce parcours est délibérément découpé pour garantir qu’aucune donnée non validée ne peut déclencher un workflow, et que chaque étape est indépendamment traçable et rejouable.
+
+\begin{enumerate}
+  \item \textbf{Récupération :} la tâche Django-Q2 interroge la source (API MoveON, Pégase, Eudonet ou fichier Excel). La réponse brute est immédiatement sérialisée en JSONB dans \texttt{RawImport}. Aucune transformation n’a encore eu lieu à ce stade, ce qui signifie que si un traitement ultérieur échoue, l’import peut être rejoué sans rappeler la source.
+  \item \textbf{Nettoyage et validation :} un pipeline Python normalise les chaînes, croise les INE, détecte les doublons et vérifie les règles métier. Les enregistrements qui ne passent pas la validation sont consignés dans le rapport d’import avec le motif de rejet, sans interrompre le reste du traitement.
+  \item \textbf{Persistance :} les enregistrements validés sont intégrés en base par upsert atomique, rattachés à l’année universitaire en cours.
+  \item \textbf{Déclenchement des workflows :} chaque entité créée entre dans l’état initial de sa FSM. Un vœu importé commence en statut \texttt{candidate} ; une affectation créée par l’algorithme commence en \texttt{proposed}. Toute progression ultérieure passe obligatoirement par une transition FSM explicite.
+  \item \textbf{Supervision :} l’administrateur consulte le rapport d’import, traite les anomalies signalées et confirme le passage à la phase suivante de la campagne.
+\end{enumerate}
+
+La figure~\ref{fig:pipeline-global} illustre ces cinq étapes successives.
+
+\begin{figure}[H]
+ \centering \begin{tikzpicture}[ node distance=0.3cm, every node/.style={ draw, rectangle, rounded corners, align=center, minimum width=0.2cm, minimum height=0.2cm }, arrow/.style={->, thick} ] \node (input) {\textbf{Sources}\\MoveON \\ Pégase \\ Eudonet \\ Excel}; \node (json) [right=of input] {\textbf{Format JSON}\\+ JSONB}; \node (parsing) [right=of json] {\textbf{Parsing}\\Objets Python}; \node (cleaning) [right=of parsing] {\textbf{Nettoyage}\\Standardisation \\ Normalisation}; \node (validation) [right=of cleaning] {\textbf{Validation}\\Règles métier}; \node (output) [right=of validation] {\textbf{Output}\\Valide / Rejet}; \draw[arrow] (input) -- (json); \draw[arrow] (json) -- (parsing); \draw[arrow] (parsing) -- (cleaning); \draw[arrow] (cleaning) -- (validation); \draw[arrow] (validation) -- (output);
+\end{tikzpicture}
+\caption{Pipeline global de traitement des données}
+\label{fig:pipeline-global}
+\end{figure}
+
+\subsection{Détail de l’étape de nettoyage et validation}
+
+L’étape de nettoyage et validation est la plus délicate du pipeline : c’est là que les données brutes issues de sources hétérogènes deviennent exploitables par le système métier. Elle s’intercale entre la phase de récupération (stockage JSONB) et la persistance en base.
+\subsubsection{Description du processus de transformation}
+
+Les données importées arrivent sous des formats incompatibles : une API REST renvoie du JSON, Eudonet exporte du XML, les fichiers Excel du service RI utilisent des colonnes nommées différemment selon l’agent qui les a créés. Le pipeline de transformation commence donc par convertir toutes ces entrées dans une représentation intermédiaire commune, avant d’appliquer les mêmes règles de nettoyage quel que soit l’origine. Cette approche modulaire permet d’ajouter une nouvelle source sans modifier la logique de validation.
+
+\paragraph{Standardisation des formats}
+\begin{itemize}
+    \item Normalisation des chaînes de caractères : suppression des espaces en début/fin, homogénéisation de la casse pour les codes (INE, codes ISO pays, codes département et niveau).
+    
+    \item \textbf{Gestion des accents :}
+    \begin{itemize}
+        \item Les accents sont conservés pour les champs descriptifs (noms propres, universités, pays) afin de préserver l’intégrité sémantique des données.
+        
+        \item Lors des opérations de recherche, de comparaison ou de détection de similarité (\textit{matching}), les comparaisons sont effectuées de manière insensible aux accents afin d’éviter les divergences liées aux variations d’écriture.
+    \end{itemize}
+    
+    \item Uniformisation des formats de dates (ISO 8601).
+    
+    \item Conversion des types (ex : chaînes vers entiers pour les identifiants).
+\end{itemize}
+
+\paragraph{Normalisation sémantique}
+\begin{itemize}
+    \item Harmonisation des noms d’universités via une table de correspondance (\textit{lookup table}) :
+    \begin{itemize}
+        \item Les données sources peuvent contenir différentes variantes pour une même université (abréviations, différences de langue, fautes de frappe).
+        
+        \item Une table de correspondance permet d’associer ces variantes à une valeur unique de référence.
+        
+        \item Cette approche garantit la cohérence des données et évite les duplications logiques lors des traitements.
+    \end{itemize}
+    
+    \item Normalisation des pays selon un référentiel standard (ISO 3166).
+    
+    \item Mapping des valeurs hétérogènes vers des valeurs métier uniques (ex : “FR”, “France”, “france” $\rightarrow$ “France”).
+\end{itemize}
+
+\paragraph{Gestion des valeurs manquantes}
+\begin{itemize}
+    \item Identification des champs obligatoires (INE, université, type de mobilité).
+    
+    \item Si une valeur obligatoire est manquante, l’enregistrement est rejeté et consigné dans le rapport d’import avec la raison de l’erreur.
+    
+    \item Si les champs manquants ne sont pas critiques, l’enregistrement est conservé et peut être sauvegardé en base de données.
+\end{itemize}
+
+\paragraph{Détection et gestion des doublons}
+\begin{itemize}
+    \item Les doublons sont identifiés à partir d’une clé composite construite à partir de plusieurs attributs pertinents (par exemple : INE, entité concernée, période), permettant de représenter de manière unique un enregistrement métier.
+
+    \item La composition de cette clé peut varier selon le type de donnée traité (étudiant, souhait, accord, etc.), afin de s’adapter aux spécificités de chaque entité.
+
+    \item Chaque enregistrement est comparé aux données existantes afin de détecter les occurrences identiques.
+
+    \item En cas de doublon exact, l’enregistrement est ignoré afin d’éviter la duplication des données.
+
+    \item Les cas détectés sont tracés dans le rapport d’import pour assurer la traçabilité.
+\end{itemize}
+
+\paragraph{Validation métier}
+\begin{itemize}
+    \item Vérification de la cohérence avec les données Pégase (existence de l’étudiant via INE).
+    
+    \item Contrôle des règles métier (nombre maximum de vœux, compatibilité des destinations).
+\end{itemize}
+
+\paragraph{Traçabilité et gestion des erreurs}
+\begin{itemize}
+    \item Journalisation des erreurs dans un rapport d’import structuré.
+    
+    \item Stockage des données rejetées avec leur motif (audit et reprise).
+    
+    \item Attribution d’un identifiant de traitement pour chaque batch.
+\end{itemize}
+
+\subsubsection{Architecture du pipeline de nettoyage}
+
+Le pipeline de nettoyage est conçu comme un module autonome intégré dans le flux global. Il fonctionne par batch afin d’assurer l’isolation des traitements et la robustesse du système.
+
+\begin{itemize}
+    \item \textbf{Entrée :} données JSON issues du pipeline global.
+    \item \textbf{Parsing :} transformation en objets manipulables.
+    \item \textbf{Nettoyage :} standardisation et normalisation.
+    \item \textbf{Validation :} application des règles métier.
+    \item \textbf{Sortie :}
+    \begin{itemize}
+        \item Données valides → persistance.
+        \item Données invalides → rapport d’erreurs.
+    \end{itemize}
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+    node distance=0.3cm,
+    every node/.style={
+        draw,
+        rectangle,
+        rounded corners,
+        align=center,
+        minimum width=0.2cm,
+        minimum height=0.2cm
+    },
+    arrow/.style={->, thick}
+]
+
+\node (start) {\textbf{Entrée}\\Enregistrement brut};
+
+\node (standard) [below=of start] {
+\textbf{Standardisation}\\
+\small Formats, types, casse
+};
+
+\node (semantic) [below=of standard] {
+\textbf{Normalisation}\\
+\small Universités, pays, mapping
+};
+
+\node (missing) [below=of semantic] {
+\textbf{Valeurs manquantes}\\
+\small Champs obligatoires
+};
+
+\node (duplicate) [below=of missing] {
+\textbf{Doublons}\\
+\small Clé composite
+};
+
+\node (clean) [below=of duplicate] {\textbf{Donnée nettoyée}};
+
+\draw[arrow] (start) -- (standard);
+\draw[arrow] (standard) -- (semantic);
+\draw[arrow] (semantic) -- (missing);
+\draw[arrow] (missing) -- (duplicate);
+\draw[arrow] (duplicate) -- (clean);
+
+\end{tikzpicture}
+\caption{Pipeline détaillé de l’étape de nettoyage des données}
+\end{figure}
+
+
 
 \medskip
-\noindent La stack backend retenue est donc :
-\textbf{Django 5 + Django Ninja}.
 
-% ─────────────────────────────────────────────────────────────
-\section{Choix de la base de données}
-% ─────────────────────────────────────────────────────────────
-
-Cette section présente les besoins spécifiques liés au stockage des données,
-évalue les alternatives disponibles, puis justifie le choix retenu.
-
-\subsection{Besoins spécifiques}
-
-La base de données doit supporter un modèle avec plusieurs entités reliées
-entre elles par de nombreuses clés étrangères, stocker les réponses brutes
-des APIs externes avant transformation (\texttt{RawImport}), et garantir
-la cohérence des données lors des opérations qui touchent plusieurs entités
-à la fois (transitions de cycle de vie, affectations, journal d'audit).
-
-\subsection{Alternatives évaluées}
-
-Trois systèmes de gestion de base de données ont été évalués en regard
-des besoins identifiés précédemment.
-
-\subsubsection{MySQL}
-
-MySQL est un système de gestion de base de données relationnelle très répandu,
-bien supporté par l'écosystème Django et largement utilisé en
-production ~\cite{mysql_dev}.
-
-\textit{Avantages :}
+Cette architecture garantit :
 \begin{itemize}
-  \item Système très répandu, avec une grande communauté et une documentation abondante
-  \item Bonne intégration avec l'écosystème Django
-  \item Largement utilisé en production, avec des outils de sauvegarde matures
+    \item une \textbf{traçabilité complète} grâce au stockage JSONB,
+    \item une \textbf{robustesse} via le traitement isolé de chaque enregistrement,
+    \item une \textbf{reprise sur erreur} par batch,
+    \item une \textbf{maintenabilité} grâce à la modularité du pipeline.
 \end{itemize}
 
-\textit{Limites :}
+\subsubsection{Technologies et outils utilisés}
 \begin{itemize}
-  \item Support moins adapté pour le stockage et l'exploitation de données
-        au format JSON, notamment pour les imports bruts (\texttt{RawImport})
-  \item Fonctionnalités limitées pour gérer des mécanismes de file d'attente
-        de tâches
-  \item Moins adapté aux opérations transactionnelles complexes impliquant
-        plusieurs entités liées
+    \item \textbf{Python} : traitement et transformation des données.
+    \item \textbf{openpyxl} : lecture et écriture des fichiers Excel (imports et exports CTI).
+    \item \textbf{Regex} : validation et transformation des formats.
+    \item \textbf{PostgreSQL (JSONB)} : stockage temporaire des données brutes.
 \end{itemize}
 
-\subsubsection{MongoDB}
-
-MongoDB est une base de données orientée documents, conçue pour offrir
-une grande flexibilité dans la structure des données et particulièrement
-adaptée au stockage JSON ~\cite{mongodb_dev}.
-
-\textit{Avantages :}
-\begin{itemize}
-  \item Grande flexibilité dans la structure des données
-  \item Adapté au stockage de documents JSON
-  \item Bonnes performances sur les lectures de documents non structurés
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item Le modèle de données du projet repose fortement sur des relations
-        entre entités (quotas, affectations, mobilités), ce qui rend
-        l'absence de relations structurées moins adaptée
-  \item Intégration limitée avec les outils ORM utilisés dans le projet
-  \item Absence de support direct pour certains mécanismes de traitement
-        asynchrone utilisés dans l'architecture
-\end{itemize}
-
-\subsubsection{PostgreSQL 16}
-
-PostgreSQL est un système de gestion de base de données relationnelle
-open source, reconnu pour sa robustesse, la richesse de ses fonctionnalités
-et son respect strict des standards SQL ~\cite{postgresql_dev}.
-
-\textit{Avantages :}
-\begin{itemize}
-  \item Gestion robuste des transactions, adaptée aux opérations impliquant
-        plusieurs entités liées
-  \item Support natif du format JSON avec indexation, utile pour le stockage
-        des données brutes (\texttt{RawImport})
-  \item Possibilité d'utiliser la base comme support de file d'attente
-        pour les traitements asynchrones
-  \item Bon niveau d'intégration avec les outils de développement du projet
-  \item Outils de sauvegarde et de restauration fiables
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item Mise en place initiale plus complète, nécessitant une configuration
-        structurée dès le début du projet
-\end{itemize}
-
-\subsection{Synthèse comparative}
-
-Le tableau~\ref{tab:comparaison_bdd} récapitule les critères évalués pour chacune des trois
-solutions, afin de faciliter la comparaison et de justifier le choix retenu.
-
-\renewcommand{\arraystretch}{1.35}
-\begin{table}[H]
-\centering
-\caption{Comparaison des systèmes de gestion de base de données}
-\label{tab:comparaison_bdd}
-\footnotesize
-\begin{tabular}{|p{4cm}|>{\centering\arraybackslash}p{2.6cm}|>{\centering\arraybackslash}p{2.4cm}|>{\centering\arraybackslash}p{2.8cm}|}
-\hline
-\rowcolor{gray!20}
-\textbf{Critère} & \textbf{MySQL / MariaDB} & \textbf{MongoDB} & \textbf{PostgreSQL 16} \\
-\hline
-Transactions ACID multi-tables & \cmark & ACID ajouté en v4.0, moins fiable qu'un SGBD relationnel & \cmark \\
-\hline
-Support JSONB natif + indexation & JSON simple, pas d'indexation avancée & \cmark & \cmark \\
-\hline
-File d'attente de tâches & \xmark & \xmark & \cmark \\
-\hline
-Intégration ORM Django & \cmark & Support via PyMongo sans migration Django & \cmark \\
-\hline
-Extension pgcrypto (chiffrement) & \xmark & \xmark & \cmark \\
-\hline
-Outils de sauvegarde fiables & \cmark & \cmark & \cmark \\
-\hline
-\end{tabular}
-\end{table}
-
-\subsection{Décision}
-
-\textbf{PostgreSQL 16} est retenu. Il répond de manière cohérente à l'ensemble
-des besoins identifiés, à savoir la gestion des relations, le support du JSON natif,
-les traitements asynchrones et le chiffrement, dans un seul service, sans introduire
-de composant supplémentaire dans l'infrastructure.
-
-% ─────────────────────────────────────────────────────────────
-\section{Choix du format de stockage des imports bruts}
-% ─────────────────────────────────────────────────────────────
-
-Cette section précise comment sont stockées les réponses brutes des APIs
-externes avant leur traitement, en évaluant les alternatives disponibles
-et en justifiant le format retenu.
-
-\subsection{Besoins spécifiques}
-
-L'entité \texttt{RawImport} doit conserver la réponse complète de chaque
-appel d'API externe (MoveON, Pégase, Eudonet) avant toute transformation.
-Ces données sont semi-structurées et variables d'une source à l'autre.
-Le format retenu doit permettre de relire, d'interroger et de tracer ces
-imports tout en restant cohérent avec le reste du modèle de données.
-
-\subsection{Alternatives évaluées}
-
-\subsubsection{Fichiers plats (JSON sur le système de fichiers)}
-
-Un fichier plat est un fichier texte brut qui stocke des données sans
-structure hiérarchique ni mécanisme d'indexation. Dans ce contexte, chaque
-réponse d'API serait sérialisée en JSON et enregistrée dans un répertoire
-dédié sur le serveur, un fichier par import.
-
-\textit{Avantages :}
-\begin{itemize}
-  \item Mise en place immédiate, sans configuration particulière
-  \item Lecture directe par n'importe quel éditeur de texte
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item Aucune possibilité d'interroger le contenu avec des requêtes SQL
-  \item Intégrité référentielle avec les autres entités non garantie
-  \item Gestion des accès concurrents et des transactions non assurée
-  \item Sauvegarde dissociée du reste de la base de données
-\end{itemize}
-
-\subsubsection{Base NoSQL dédiée (MongoDB)}
-
-Les imports bruts sont stockés dans une base documentaire séparée,
-spécialisée dans le stockage de documents JSON.
-
-\textit{Avantages :}
-\begin{itemize}
-  \item Très bien adapté au stockage de documents JSON hétérogènes
-  \item Bonne performance sur les lectures de documents non structurés
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item Service supplémentaire à déployer, superviser et sauvegarder
-  \item Aucune relation possible avec les entités de la base relationnelle
-  \item Surcoût d'infrastructure injustifié pour ce seul cas d'usage
-\end{itemize}
-
-\subsubsection{Type JSONB dans PostgreSQL}
-
-Les réponses brutes sont stockées dans une colonne de type \textbf{JSONB}
-au sein de la table \texttt{RawImport}, dans la même base PostgreSQL.
-
-\textit{Avantages :}
-\begin{itemize}
-  \item Stockage dans la base existante, sans service supplémentaire
-  \item Indexation du contenu JSON pour des requêtes efficaces
-  \item Jointures possibles avec les autres tables du modèle
-  \item Mêmes garanties ACID et même périmètre de sauvegarde que le reste
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item Moins flexible que MongoDB pour des structures JSON très hétérogènes,
-        ce qui reste sans impact ici compte tenu du faible nombre de sources
-\end{itemize}
-
-\subsection{Synthèse comparative}
-
-\renewcommand{\arraystretch}{1.35}
-\begin{table}[H]
-\centering
-\caption{Comparaison des formats de stockage pour \texttt{RawImport}}
-\label{tab:comparaison_rawimport}
-\footnotesize
-\begin{tabular}{|p{4.5cm}|>{\centering\arraybackslash}p{2.5cm}|>{\centering\arraybackslash}p{2.5cm}|>{\centering\arraybackslash}p{2.8cm}|}
-\hline
-\rowcolor{gray!20}
-\textbf{Critère} & \textbf{Fichiers plats} & \textbf{MongoDB} & \textbf{JSONB (PostgreSQL)} \\
-\hline
-Requêtes SQL sur le contenu & \xmark & \xmark & \cmark \\
-\hline
-Intégrité référentielle & \xmark & \xmark & \cmark \\
-\hline
-Garanties ACID & \xmark & Transactions ACID ajoutées en v4.0, moins fiables que PostgreSQL & \cmark \\
-\hline
-Aucun service supplémentaire & \cmark & \xmark & \cmark \\
-\hline
-Indexation du contenu JSON & \xmark & \cmark & \cmark \\
-\hline
-Sauvegarde unifiée & \xmark & \xmark & \cmark \\
-\hline
-\end{tabular}
-\end{table}
-
-\subsection{Décision}
-
-Le type \textbf{JSONB} de PostgreSQL est retenu pour le stockage des imports
-bruts. Il évite toute fragmentation de l'infrastructure en réutilisant la base
-déjà en place, tout en offrant les capacités d'interrogation nécessaires sur
-les données semi-structurées. Les fichiers plats ne permettent pas de garantir
-la cohérence avec le reste du modèle, et l'ajout de MongoDB n'apporterait
-aucun avantage fonctionnel pour ce seul cas d'usage.
-
-% ─────────────────────────────────────────────────────────────
-\section{Choix du gestionnaire de tâches asynchrones}
-% ─────────────────────────────────────────────────────────────
-
-Cette section présente les besoins en traitement asynchrone du projet,
-évalue les solutions disponibles, puis justifie le choix retenu.
-
-\subsection{Besoins spécifiques}
-
-Certaines opérations du système ne peuvent pas s'exécuter de façon
-synchrone sans bloquer l'interface utilisateur. Deux catégories de
-tâches ont été identifiées.
-
-La première catégorie regroupe les tâches déclenchées par des événements :
-le lancement de l'algorithme d'affectation, le recalcul des durées
-après modification d'un état, et le traitement des imports qui peuvent
-durer plusieurs secondes.
-
-La seconde catégorie regroupe les tâches planifiées : les synchronisations
-nocturnes avec MoveON, Pégase et Eudonet, ainsi que la suppression
-automatique des imports bruts anciens.
-
-Le volume reste modéré : quelques dizaines de tâches par jour en
-fonctionnement normal, quelques centaines lors des périodes de traitement,
-sans besoin de traitement intensif en continu.
-
-\subsection{Alternatives évaluées}
-
-Deux solutions ont été évaluées pour la gestion des tâches asynchrones
-dans l'écosystème Django.
-
-\subsubsection{Celery + Redis}
-
-Celery est la bibliothèque Python de référence pour l'exécution de tâches
-en arrière-plan. Elle s'appuie sur un broker de messages externe,
-généralement Redis ou RabbitMQ, pour acheminer les tâches vers les
-workers ~\cite{celery_dev} ~\cite{redis_dev}.
-
-\textit{Avantages :}
-\begin{itemize}
-  \item Très mature, bien documenté, avec une grande communauté
-  \item Capable de traiter un très grand volume de tâches en parallèle
-  \item Compatible avec plusieurs brokers (Redis, RabbitMQ)
-  \item Outil de supervision dédié (Flower)
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item Trois services supplémentaires à déployer et maintenir :
-        le worker Celery, le planificateur Celery Beat et Redis
-  \item Redis consomme entre 50 et 200~Mo de mémoire pour un rôle
-        que PostgreSQL, déjà présent, peut assurer seul
-  \item Complexité disproportionnée par rapport au volume réel du projet
-\end{itemize}
-
-\subsubsection{Django-Q2 + PostgreSQL}
-
-Django-Q2 est une bibliothèque de gestion de tâches asynchrones conçue
-spécifiquement pour Django. Elle utilise directement PostgreSQL comme
-file d'attente, sans nécessiter de broker externe ~\cite{djangoq2_dev}.
-
-\textit{Avantages :}
-\begin{itemize}
-  \item Aucun service supplémentaire : PostgreSQL joue le rôle
-        de file d'attente sans configuration additionnelle
-  \item Planificateur de tâches intégré, adapté aux synchronisations
-        nocturnes et aux suppressions programmées
-  \item Supervision accessible depuis l'interface d'administration
-        Django existante, sans outil tiers
-  \item Seulement deux services à opérer au lieu de cinq avec Celery
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item Moins performant que Celery pour des volumes très élevés,
-        sans incidence pour ce projet
-  \item Communauté plus restreinte que Celery
-\end{itemize}
-
-\subsection{Synthèse comparative}
-
-Le tableau~\ref{tab:comparaison_async} récapitule les critères évalués pour chacune des deux
-solutions, afin de faciliter la comparaison et de justifier le choix retenu.
-
-\renewcommand{\arraystretch}{1.35}
-\begin{table}[H]
-\centering
-\caption{Comparaison des gestionnaires de tâches asynchrones}
-\label{tab:comparaison_async}
-\footnotesize
-\begin{tabular}{|p{5.5cm}|>{\centering\arraybackslash}p{3cm}|>{\centering\arraybackslash}p{3cm}|}
-\hline
-\rowcolor{gray!20}
-\textbf{Critère} & \textbf{Celery + Redis} & \textbf{Django-Q2 + PostgreSQL} \\
-\hline
-Aucun service supplémentaire & \xmark & \cmark \\
-\hline
-Planificateur intégré & Celery Beat disponible mais service séparé & \cmark \\
-\hline
-Supervision via admin Django & \xmark & \cmark \\
-\hline
-Adapté au volume du projet & Surdimensionné pour ce volume de tâches & \cmark \\
-\hline
-Maturité et communauté & \cmark & Communauté plus restreinte que Celery \\
-\hline
-Intégration native avec Django & Nécessite une configuration supplémentaire & \cmark \\
-\hline
-\end{tabular}
-\end{table}
-
-\subsection{Décision}
-
-\textbf{Django-Q2 avec PostgreSQL} est retenu. Il réutilise la base de
-données déjà en place comme file d'attente, ce qui évite d'introduire
-un service supplémentaire dans l'infrastructure. Le volume de tâches
-du projet ne justifie pas la complexité opérationnelle de Celery. La
-supervision des traitements depuis l'interface d'administration Django
-existante simplifie également le suivi quotidien pour le service RI.
+\medskip
+Ce pipeline garantit qu'aucune donnée non validée n'atteint la couche métier. Chaque rejet est documenté dans le rapport d'import avec le motif exact, ce qui permet à l'administrateur de corriger la source ou de saisir manuellement les données manquantes.
 
 
 % ─────────────────────────────────────────────────────────────
-\section{Choix du stockage de fichiers}
+\section{Gestion des risques}
 % ─────────────────────────────────────────────────────────────
 
-Cette section présente les besoins en stockage de fichiers du projet,
-évalue les solutions disponibles, puis justifie le choix retenu.
-
-\subsection{Besoins spécifiques}
-
-Le projet requiert un mécanisme de dépôt et de stockage de fichiers pour
-les justificatifs soumis par les étudiants lors de la déclaration de
-mobilités complémentaires. Ces fichiers doivent être stockés de manière
-sécurisée et chiffrée, accessibles uniquement par le service RI et
-l'étudiant concerné, avec une suppression automatique conforme au RGPD.
-
-\subsection{Alternatives évaluées}
-
-Deux approches ont été évaluées pour répondre à ces besoins.
-
-\subsubsection{Système de fichiers local}
-
-Le stockage local consiste à enregistrer les fichiers directement sur
-le système de fichiers du serveur hébergeant l'application Django,
-dans un répertoire dédié.
-
-\textit{Avantages :}
-\begin{itemize}
-  \item Simple à configurer, sans dépendance supplémentaire
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item Aucun chiffrement natif des fichiers stockés
-  \item Non portable entre environnements (développement, staging,
-        production)
-  \item Difficile à sauvegarder et à migrer indépendamment
-        de la base de données
-\end{itemize}
-
-\subsubsection{MinIO (stockage objet S3-compatible)}
-
-MinIO est une solution de stockage objet open source, auto-hébergeable
-et compatible avec l'API S3 d'Amazon ~\cite{minio_dev}. Elle s'intègre
-nativement dans une infrastructure Docker et ne nécessite aucun service
-cloud externe.
-
-\textit{Avantages :}
-\begin{itemize}
-  \item Stockage objet auto-hébergé, compatible avec l'API S3 standard
-  \item Chiffrement côté serveur (SSE-S3) des fichiers stockés
-  \item Génération d'URLs pré-signées pour un accès temporaire
-        et sécurisé, sans exposer les fichiers directement
-  \item Déployable comme container Docker interne,
-        sans aucune dépendance externe ni service cloud
-  \item Politique de rétention et suppression automatique configurables,
-        conformes aux exigences RGPD
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item Configuration initiale plus complexe qu'un stockage local
-\end{itemize}
-
-\subsection{Synthèse comparative}
-
-Le tableau~\ref{tab:comparaison_stockage} récapitule les critères évalués pour chacune des deux
-solutions, afin de faciliter la comparaison et de justifier le choix retenu.
-
-\renewcommand{\arraystretch}{1.35}
-\begin{table}[H]
-\centering
-\caption{Comparaison des solutions de stockage de fichiers}
-\label{tab:comparaison_stockage}
-\footnotesize
-\begin{tabular}{|p{5.5cm}|>{\centering\arraybackslash}p{3cm}|>{\centering\arraybackslash}p{3cm}|}
-\hline
-\rowcolor{gray!20}
-\textbf{Critère} & \textbf{Fichiers local} & \textbf{MinIO} \\
-\hline
-Chiffrement natif (SSE-S3) & \xmark & \cmark \\
-\hline
-URLs pré-signées (accès sécurisé) & \xmark & \cmark \\
-\hline
-Portabilité multi-environnements & \xmark & \cmark \\
-\hline
-Suppression automatique (RGPD) & \xmark & \cmark \\
-\hline
-Déploiement Docker intégré & \xmark & \cmark \\
-\hline
-Simplicité de configuration & \cmark & Plus complexe qu'un stockage local \\
-\hline
-\end{tabular}
-\end{table}
-
-\subsection{Décision}
-
-\textbf{MinIO} est retenu. MinIO peut être déployé selon deux modes :
-\textbf{standalone} (instance unique sur un seul serveur) ou
-\textbf{distributed} (plusieurs nœuds pour la haute disponibilité et
-la tolérance aux pannes). Le mode distribué est destiné aux
-infrastructures multi-serveurs nécessitant une réplication des données.
-
-Dans le cadre de ce projet, le déploiement cible un \textbf{serveur
-unique on-premise} au sein de l'établissement. Le mode standalone
-est donc retenu : il correspond exactement à cette topologie, sans
-surcharger l'infrastructure avec des mécanismes de distribution
-inutiles. MinIO répond ainsi directement aux exigences de sécurité
-(chiffrement SSE-S3) et de conformité RGPD (rétention et suppression
-automatiques), tout en s'intégrant de façon transparente dans
-Docker Compose sans aucun service externe.
-
-
-% ─────────────────────────────────────────────────────────────
-\section{Couche de routage des requêtes}
-% ─────────────────────────────────────────────────────────────
-
-Cette section présente les besoins en matière de routage réseau,
-évalue les deux approches disponibles, puis justifie le choix retenu.
-
-\subsection{Besoins spécifiques}
-
-Le système doit disposer d'un composant chargé de recevoir les
-requêtes HTTP entrantes, d'assurer la terminaison SSL, de router
-le trafic vers le frontend Next.js et l'API Django Ninja, et de
-servir directement les fichiers statiques sans les faire transiter par l'application. Ce composant
-sera administré par
-les équipes IT de Toulouse INP ; sa configuration doit donc être
-lisible et maintenable sans expertise Docker particulière.
-
-\subsection{Alternatives évaluées}
-
-Deux approches ont été évaluées pour assurer ce rôle.
-
-\subsubsection{Reverse proxy}
-
-Un reverse proxy est un composant qui se place entre les clients et
-les services internes. Il reçoit les requêtes HTTP entrantes, assure
-la terminaison SSL, les achemine vers le service approprié selon des
-règles de routage, et sert les fichiers statiques directement sans
-solliciter l'application.
-
-\textit{Avantages :}
-\begin{itemize}
-  \item Composant léger, dédié au routage et à la terminaison SSL
-  \item Configuration statique (Nginx) ou dynamique (Traefik) selon
-        le besoin
-  \item Bien adapté à une architecture monolithique sur un seul serveur
-  \item Maturité et documentation abondantes pour les deux outils
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item Ne centralise pas l'authentification ni le contrôle de débit
-        (ce qui n'est pas requis ici)
-\end{itemize}
-
-\subsubsection{API Gateway}
-
-Une API Gateway est un composant qui, en plus du routage, centralise
-la gestion de l'authentification, du contrôle de débit et de la
-transformation des requêtes. Elle est conçue pour exposer plusieurs
-microservices à des clients externes variés.
-
-\textit{Avantages :}
-\begin{itemize}
-  \item Gestion centralisée de l'authentification et du contrôle de débit
-  \item Adapté aux architectures microservices exposées à l'externe
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item Complexité et surcoût injustifiés pour une architecture
-        déployée sur un seul serveur
-  \item Le projet consomme des APIs externes, il n'en expose pas
-        à des clients variés ; ce cas d'usage ne s'applique pas
-\end{itemize}
-
-\subsection{Synthèse comparative}
-
-Le tableau~\ref{tab:comparaison_proxy} récapitule les critères évalués pour chacune des
-deux approches, afin de faciliter la comparaison et de justifier
-le choix retenu.
-
-\renewcommand{\arraystretch}{1.35}
-\begin{table}[H]
-\centering
-\caption{Comparaison des approches de routage des requêtes}
-\label{tab:comparaison_proxy}
-\footnotesize
-\begin{tabular}{|p{5.5cm}|>{\centering\arraybackslash}p{3cm}|>{\centering\arraybackslash}p{3cm}|}
-\hline
-\rowcolor{gray!20}
-\textbf{Critère} & \textbf{Reverse proxy} & \textbf{API Gateway} \\
-\hline
-Adapté à un seul serveur & \cmark & \xmark \\
-\hline
-Terminaison SSL & \cmark & \cmark \\
-\hline
-Routage vers services internes & \cmark & \cmark \\
-\hline
-Gestion auth. centralisée & \xmark & \cmark \\
-\hline
-Complexité d'exploitation & Faible & Élevée \\
-\hline
-Pertinent pour ce projet & \cmark & \xmark \\
-\hline
-\end{tabular}
-\end{table}
-
-\subsection{Décision}
-
-Le \textbf{reverse proxy} est retenu. L'architecture est déployée sur
-un seul serveur et le système consomme des APIs externes sans en
-exposer à des clients variés. Une API Gateway introduirait une
-complexité sans aucun bénéfice fonctionnel dans ce contexte.
-
-\subsection{Choix de l'implémentation : Nginx vs Traefik}
-
-Une fois le reverse proxy retenu, il reste à choisir l'outil
-d'implémentation. Cette partie évalue les deux solutions
-les plus utilisées dans l'écosystème Docker et justifie le choix retenu.
-
-\subsubsection{Besoins spécifiques}
-
-L'outil retenu doit assurer la terminaison SSL, le routage vers
-le frontend Next.js et l'API Django Ninja, et la distribution des
-fichiers statiques. Sa configuration doit être lisible et auditable
-par les équipes IT de Toulouse INP qui administreront le serveur,
-sans expertise Docker avancée.
-
-\subsubsection{Alternatives évaluées}
-
-Deux outils open source ont été comparés pour implémenter le reverse proxy.
-
-\paragraph{Nginx}
-
-Nginx est un serveur web et reverse proxy très répandu, reconnu pour
-sa stabilité et la lisibilité de ses fichiers de
-configuration~\cite{nginx_dev}.
-
-\textit{Avantages :}
-\begin{itemize}
-  \item Très stable et bien documenté, avec un comportement prévisible
-  \item Configuration dans des fichiers texte simples, lisibles
-        et faciles à auditer par n'importe quel administrateur système
-  \item Gestion SSL/TLS fiable, excellentes performances sur
-        le routage des requêtes
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item La gestion des certificats SSL nécessite un outil externe
-        (Certbot)
-  \item Configuration manuelle à mettre à jour lors de changements
-        de services
-\end{itemize}
-
-\paragraph{Traefik}
-
-Traefik est un reverse proxy conçu pour les environnements
-conteneurisés. Il se configure dynamiquement à partir des labels
-des conteneurs Docker actifs~\cite{traefik_dev}.
-
-\textit{Avantages :}
-\begin{itemize}
-  \item Configuration automatique à partir des conteneurs Docker actifs
-  \item Gestion native des certificats SSL via Let's Encrypt
-  \item Interface de supervision intégrée
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item Configuration déclarative moins lisible pour des équipes IT
-        non familières avec Docker
-  \item Comportement moins prévisible dans un environnement
-        institutionnel avec des contraintes réseau spécifiques
-\end{itemize}
-
-\subsubsection{Synthèse comparative}
-
-Le tableau~\ref{tab:comparaison_proxy_outil} récapitule les critères évalués pour chacun des
-deux outils, afin de faciliter la comparaison et de justifier le
-choix retenu.
-
-\renewcommand{\arraystretch}{1.35}
-\begin{table}[H]
-\centering
-\caption{Comparaison des outils de reverse proxy}
-\label{tab:comparaison_proxy_outil}
-\footnotesize
-\begin{tabular}{|p{5.5cm}|>{\centering\arraybackslash}p{3cm}|>{\centering\arraybackslash}p{3cm}|}
-\hline
-\rowcolor{gray!20}
-\textbf{Critère} & \textbf{Nginx} & \textbf{Traefik} \\
-\hline
-Configuration lisible (fichiers texte) & \cmark & Labels Docker, moins lisible pour les équipes IT \\
-\hline
-Gestion SSL native & Nécessite Certbot pour les certificats & \cmark \\
-\hline
-Automatisation Docker & Configuration manuelle à chaque changement & \cmark \\
-\hline
-Prévisibilité en environnement institutionnel & \cmark & Moins prévisible avec des contraintes réseau institutionnelles \\
-\hline
-Maintenabilité par équipes IT générales & \cmark & \xmark \\
-\hline
-Maturité et documentation & \cmark & \cmark \\
-\hline
-\end{tabular}
-\end{table}
-
-\subsubsection{Décision}
-
-\textbf{Nginx} est retenu. Le serveur sera administré par les équipes
-IT de Toulouse INP. Disposer d'une configuration statique dans des
-fichiers texte qu'un administrateur système peut lire et modifier
-sans expertise Docker est, dans ce contexte institutionnel, plus
-important que l'automatisation dynamique proposée par Traefik.
-
-% ─────────────────────────────────────────────────────────────
-\section{Synthèse des choix technologiques}
-% ─────────────────────────────────────────────────────────────
+Concevoir un système qui s'interface avec plusieurs sources institutionnelles implique d'accepter dès le départ que certaines choses ne se passeront pas comme prévu. Le tableau ci-dessous liste les risques les plus significatifs identifiés en phase de conception et les mesures retenues pour en limiter l'impact.
 
 \renewcommand{\arraystretch}{1.4}
-
-\begin{longtable}{|p{3cm}|p{3.5cm}|p{8.5cm}|}
-\caption{Synthèse des choix technologiques} \\
+\begin{longtable}{|p{4cm}|p{1.5cm}|p{1.5cm}|p{6.5cm}|}
+\caption{Matrice des risques} \\
 \hline
 \rowcolor{gray!20}
-\textbf{Composant} & \textbf{Technologie retenue} & \textbf{Justification principale} \\
+\textbf{Risque} & \textbf{Prob.} & \textbf{Impact} & \textbf{Mitigation} \\
 \hline
 \endfirsthead
-
 \hline
 \rowcolor{gray!20}
-\textbf{Composant} & \textbf{Technologie retenue} & \textbf{Justification principale} \\
+\textbf{Risque} & \textbf{Prob.} & \textbf{Impact} & \textbf{Mitigation} \\
 \hline
 \endhead
 
-Méthodologie de développement & Scrum & Développement itératif et adaptation progressive aux besoins du service RI \\
+INE absent dans une source externe (Eudonet, MoveON) &
+Haute & Élevé &
+Réconciliation par score de similarité pondéré : 50~\% nom,
+30~\% prénom, 20~\% correspondance exacte de l'e-mail (seuil 0,60).
+Cas ambigus (confiance faible ou moyenne) remontés pour validation
+manuelle par le service RI. \\
 \hline
 
-Frontend & Next.js 14 & Rendu hybride SSR/CSR, séparation sécurisée des espaces RI et étudiant \\
+API externe indisponible pendant une campagne &
+Moyenne & Élevé &
+Import Excel de secours documenté pour chaque source.
+Cache local des données de la dernière synchronisation réussie. \\
 \hline
 
-Backend framework & Django 5 & ORM, administration, gestion des droits et logique métier intégrés \\
+Dérive du périmètre en cours de PFE &
+Haute & Moyen &
+Priorisation stricte MVP / V2. Les fonctionnalités V2
+(chatbot, recommandation) restent hors engagement initial et ne sont activées
+que dans une réserve conditionnelle, après validation du MVP et selon la capacité disponible. \\
 \hline
 
-Couche API & Django Ninja & Support natif de l'asynchrone, validation Pydantic, documentation automatique \\
+Résistance au changement du service RI &
+Moyenne & Moyen &
+Implication du service RI dans les tests d'acceptation (UAT).
+Interface proche des pratiques Excel actuelles. \\
 \hline
 
-Base de données & PostgreSQL 16 & Transactions robustes, support JSON et bonne intégration avec Django \\
+Fuite de données personnelles &
+Faible & Très élevé &
+Chiffrement des données sensibles (pgcrypto),
+cloisonnement strict par rôle (RBAC),
+audit log de toutes les actions. \\
 \hline
 
-Gestionnaire de tâches asynchrones & Django-Q2 + PostgreSQL & Aucun service supplémentaire et supervision intégrée à Django \\
+Démarrage à froid du moteur de recommandation &
+Haute & Faible &
+Les premières campagnes utiliseront des heuristiques simples (GPA + département). Le modèle s'affine progressivement à mesure que l'historique s'accumule (2-3 ans de données suffisent). \\
 \hline
 
-Stockage fichiers & MinIO (S3-compatible) & Stockage objet auto-hébergé, chiffrement SSE-S3, conforme RGPD, intégré comme container Docker sans service externe \\
-\hline
-
-Reverse proxy & Nginx & Configuration simple, stable et adaptée à un environnement institutionnel \\
-\hline
-
-Conteneurisation & Docker + Docker Compose & Déploiement reproductible et simplification de l'environnement \\
-\hline
-
-Gestion des états métier & django-fsm & Transitions sécurisées et intégration directe avec Django ORM \\
-\hline
-
-Journalisation et audit & django-auditlog & Historique automatique des modifications et traçabilité \\
-\hline
-
-Authentification & CAS/OIDC & Exigence institutionnelle : SSO Toulouse INP avec détection automatique du rôle depuis le token \\
+Performance de l'algorithme d'affectation sous contraintes multiples &
+Faible & Moyen &
+Gale-Shapley est en $O(n^2)$ dans le cas général, mais $O(n)$ dans notre cas puisque chaque étudiant ne formule que trois vœux : parfaitement adapté à quelques centaines d'étudiants. Un test de charge Locust sera réalisé avant la mise en production pour vérifier les temps de réponse. \\
 \hline
 
 \end{longtable}
 
-
-% ─────────────────────────────────────────────────────────────
-\section{Stratégie de performance base de données}
-% ─────────────────────────────────────────────────────────────
-
-Cette section présente les enjeux de performance liés à la croissance
-des données, évalue les deux approches disponibles, puis justifie
-la stratégie retenue.
-
-\subsection{Contexte et enjeux}
-
-Plusieurs tables du projet, telles que les mobilités, les affectations ou les imports,
-grossissent d'une campagne à l'autre. Le système doit pouvoir les
-filtrer rapidement par année universitaire, que ce soit pour afficher
-le tableau de bord RI, calculer les durées CTI ou lancer l'algorithme
-d'affectation. Deux approches ont été évaluées pour répondre à cet
-enjeu.
-
-\subsection{Alternatives évaluées}
-
-\subsubsection{Partitionnement par année}
-
-Le partitionnement consiste à découper physiquement une table en
-sous-tables, une par valeur de la colonne de partition, ici par
-année universitaire. PostgreSQL ne lit alors que la partition
-concernée lors d'une requête filtrée.
-
-\textit{Avantages :}
-\begin{itemize}
-  \item Réduction significative du volume scanné pour les requêtes
-        filtrées par année
-  \item Efficace lorsque les tables atteignent plusieurs millions
-        de lignes
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item La colonne de partitionnement doit être incluse dans toutes
-        les contraintes d'unicité, ce qui peut créer des conflits
-        avec les migrations Django au fil des sprints
-  \item Complexité supplémentaire du schéma pour un volume qui
-        ne le justifie pas
-\end{itemize}
-
-\subsubsection{Indexation ciblée}
-
-L'indexation ciblée consiste à créer des index sur les colonnes
-les plus utilisées dans les filtres, sans modifier la structure
-physique des tables.
-
-\textit{Avantages :}
-\begin{itemize}
-  \item Aucune modification du schéma ni des migrations Django
-  \item Index déclarés directement dans les modèles, visibles
-        dans le code et versionnés avec lui
-  \item Transparent pour l'ORM, sans configuration PostgreSQL séparée
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item Moins efficace que le partitionnement pour des volumes
-        de plusieurs millions de lignes, sans incidence ici
-\end{itemize}
-
-\subsection{Synthèse comparative}
-
-Le tableau~\ref{tab:comparaison_perf_bdd} récapitule les critères évalués pour chacune des
-deux approches, afin de faciliter la comparaison et de justifier
-la stratégie retenue.
-
-\renewcommand{\arraystretch}{1.35}
-\begin{table}[H]
-\centering
-\caption{Comparaison des stratégies de performance base de données}
-\label{tab:comparaison_perf_bdd}
-\footnotesize
-\begin{tabular}{|p{5.5cm}|>{\centering\arraybackslash}p{3cm}|>{\centering\arraybackslash}p{3cm}|}
-\hline
-\rowcolor{gray!20}
-\textbf{Critère} & \textbf{Partitionnement} & \textbf{Indexation ciblée} \\
-\hline
-Adapté au volume du projet & \xmark & \cmark \\
-\hline
-Compatible avec les migrations Django & Contraintes d'unicité incompatibles avec certaines migrations & \cmark \\
-\hline
-Déclaration dans les modèles & \xmark & \cmark \\
-\hline
-Aucune configuration PostgreSQL séparée & \xmark & \cmark \\
-\hline
-Efficacité à très grande échelle & \cmark & Moins efficace pour plusieurs millions de lignes \\
-\hline
-\end{tabular}
-\end{table}
-
-\subsection{Décision}
-
-\textbf{L'indexation ciblée} est retenue. L'ENSEEIHT traite quelques
-centaines d'étudiants en mobilité par an. Même en projetant ce volume
-sur dix ans, les tables restent très loin du seuil où le partitionnement
-apporterait un gain mesurable. Des index sont créés sur
-\texttt{academic\_year\_id} et sur la combinaison
-\texttt{(academic\_year\_id, student\_id)} pour les tables les plus
-sollicitées, directement dans les modèles Django concernés.
-
-% ─────────────────────────────────────────────────────────────
-\section{Choix de l'algorithme d'affectation}
-% ─────────────────────────────────────────────────────────────
-
-Cette section présente les contraintes auxquelles l'algorithme doit
-répondre, évalue les approches disponibles, puis justifie le choix retenu.
-
-\subsection{Besoins spécifiques}
-
-L'algorithme doit attribuer à chaque étudiant une destination parmi ses
-vœux, en respectant un ensemble de contraintes institutionnelles. Les
-résultats ont un impact réel sur les parcours : le service RI doit pouvoir
-justifier chaque affectation. L'équité entre candidats et la
-reproductibilité des résultats sont des exigences essentielles.
-
-Le classement des étudiants repose principalement sur le GPA, complété
-par des règles institutionnelles. Les affectations doivent respecter
-les quotas par accord de mobilité et par département, les contraintes
-de financement, ainsi que la situation des étudiants étrangers dans
-le classement global. Chaque étudiant exprime jusqu'à trois vœux
-ordonnés ; l'algorithme traite les vœux dans l'ordre et recherche
-une affectation alternative en cas d'indisponibilité.
-
-\subsection{Alternatives évaluées}
-
-Deux approches algorithmiques ont été évaluées pour répondre à ces besoins.
-
-\subsubsection{Algorithme glouton}
-
-L'algorithme glouton parcourt les candidats dans l'ordre de leur GPA
-et affecte chacun à son meilleur vœu encore disponible, sans jamais
-revenir sur une décision déjà prise.
-
-\textit{Avantages :}
-\begin{itemize}
-  \item Simple à implémenter et à expliquer
-  \item Résultat prévisible, complexité $O(n^2)$
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item Le résultat dépend de l'ordre de traitement : deux étudiants
-        avec des GPA très proches peuvent se retrouver dans des
-        situations très différentes selon leur position dans la liste
-  \item Une légère variation de l'ordre d'entrée peut produire des
-        résultats différents, ce qui est incompatible avec l'exigence
-        de reproductibilité
-\end{itemize}
-
-\subsubsection{Gale-Shapley}
-
-L'algorithme de Gale-Shapley est un algorithme
-d'affectation stable qui procède par rondes successives de propositions
-et de rejets différés jusqu'à convergence. Il garantit qu'aucune paire
-étudiant-destination ne peut former une meilleure association que celle
-retenue à l'issue du processus~\cite{GaleShapley1962}.
-
-\textit{Avantages :}
-\begin{itemize}
-  \item Résultat stable : il est mathématiquement impossible qu'un
-        étudiant et une destination forment une meilleure paire que
-        celle retenue, quelles que soient les données
-  \item Équitable : le résultat ne dépend pas de l'ordre de traitement,
-        deux exécutions avec les mêmes données donnent toujours le
-        même résultat
-  \item Optimal pour les étudiants dans la variante Student-Proposing :
-        chacun obtient la meilleure destination possible compte tenu
-        de son classement et de ses vœux
-  \item Complexité $O(n^2)$, tout à fait adaptée à quelques centaines
-        d'étudiants
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item Légèrement plus complexe à implémenter que l'algorithme glouton
-\end{itemize}
-
-\subsection{Synthèse comparative}
-
-Le tableau~\ref{tab:comparaison_algo} récapitule les critères évalués pour chacune des deux
-approches, afin de faciliter la comparaison et de justifier le choix retenu.
-
-\renewcommand{\arraystretch}{1.35}
-\begin{table}[H]
-\centering
-\caption{Comparaison des algorithmes d'affectation}
-\label{tab:comparaison_algo}
-\footnotesize
-\begin{tabular}{|p{5.5cm}|>{\centering\arraybackslash}p{3cm}|>{\centering\arraybackslash}p{3cm}|}
-\hline
-\rowcolor{gray!20}
-\textbf{Critère} & \textbf{Algo. glouton} & \textbf{Gale-Shapley} \\
-\hline
-Stabilité des affectations & \xmark & \cmark \\
-\hline
-Reproductibilité & \xmark & \cmark \\
-\hline
-Indépendance à l'ordre de traitement & \xmark & \cmark \\
-\hline
-Optimalité pour les étudiants & Résultat non garanti selon l'ordre de traitement & \cmark \\
-\hline
-Explicabilité des résultats & Difficile à justifier si l'ordre a influencé le résultat & \cmark \\
-\hline
-Simplicité d'implémentation & \cmark & Plus complexe que l'algo glouton, bien documenté \\
-\hline
-\end{tabular}
-\end{table}
-
-\subsection{Décision}
-
-\textbf{Gale-Shapley} est retenu, dans sa variante \textbf{Student-Proposing} :
-ce sont les étudiants qui font des propositions aux destinations, et non
-l'inverse. Cette variante garantit que chaque étudiant obtient la meilleure
-destination possible compte tenu de son classement et de ses vœux, ce qui
-constitue la propriété dite d'\textit{optimalité côté proposant}.
-
-Les contraintes de quota sont vérifiées à deux niveaux simultanément à
-chaque proposition : un quota global par accord bilatéral (capacité de
-l'université partenaire) et un quota local par département pédagogique
-(places allouées au sein de l'ENSEEIHT). Une destination est disponible
-seulement si les deux niveaux sont respectés ; sinon la proposition est
-rejetée et l'étudiant passe à son vœu suivant.
-
-L'algorithme glouton est écarté car il est sensible à l'ordre de traitement
-et ne garantit pas la reproductibilité. Gale-Shapley assure un résultat
-stable, équitable et reproductible dans ce cadre multi-contraint.
-
-
-% ─────────────────────────────────────────────────────────────
-\section{Choix de la méthode de répartition des quotas par département}
-% ─────────────────────────────────────────────────────────────
-
-Cette section présente les besoins liés à la répartition des quotas entre
-départements, évalue les méthodes disponibles, puis justifie le choix retenu.
-
-\subsection{Besoins spécifiques}
-
-Chaque accord bilatéral fixe un nombre total de places disponibles. Ce nombre
-doit ensuite être distribué entre les départements pédagogiques, ce qui soulève
-une question qui n'a pas de réponse évidente : sur quelle base décider combien
-de places revient à chaque département ?
-
-Une répartition basée uniquement sur les demandes de l'année en cours serait
-insuffisante : elle ne tient pas compte du fait qu'un département peut avoir été
-systématiquement défavorisé les années précédentes, ni du fait que certains
-accords voient leur nombre de places évoluer d'une campagne à l'autre. Sans
-intégrer cet historique, la répartition risque d'être perçue comme arbitraire
-et de creuser des déséquilibres entre départements au fil des années.
-
-Le besoin est donc de disposer d'une méthode qui distribue les places de façon
-proportionnelle à la demande réelle, tout en restant simple à comprendre,
-transparente et vérifiable par le service RI. La méthode retenue doit également
-garantir que la somme des places attribuées aux départements est exactement égale
-au nombre de places de l'accord, sans qu'aucune place ne soit perdue lors des
-arrondis.
-
-\subsection{Alternatives évaluées}
-
-Trois méthodes de répartition proportionnelle ont été comparées. Toutes
-partent du même principe : chaque département reçoit une quote-part
-proportionnelle à son nombre d'étudiants. La différence porte sur la
-manière de distribuer les places entières lorsque la division produit
-des résultats décimaux.
-
-\subsubsection{Méthode Hamilton (plus grands restes)}
-
-La méthode Hamilton attribue d'abord à chaque département la partie entière
-de sa quote-part. Les places restantes sont ensuite données, une par une,
-aux départements ayant les fractions les plus élevées, jusqu'à épuiser le
-total disponible.
-
-\textit{Avantages :}
-\begin{itemize}
-  \item Simple à comprendre et à expliquer à tous les acteurs
-  \item Résultat facile à vérifier manuellement
-  \item Respecte les proportions au plus près du total disponible
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item Un département dont la quote-part est inférieure à 1 ne reçoit
-        aucune place garantie, même si sa fraction est élevée
-\end{itemize}
-
-\subsubsection{Méthode Jefferson (plus grandes moyennes)}
-
-La méthode Jefferson procède de façon itérative : à chaque étape, la
-prochaine place est attribuée au département dont le rapport entre sa
-taille et le nombre de places déjà reçues est le plus élevé.
-
-\textit{Avantages :}
-\begin{itemize}
-  \item Aucun arrondi explicite nécessaire
-  \item Résultats stables et cohérents d'une campagne à l'autre
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item Avantage les grands départements et pénalise les petits
-  \item Calcul itératif moins intuitif à vérifier manuellement
-\end{itemize}
-
-\subsubsection{Méthode Webster}
-
-La méthode Webster est proche de Jefferson, mais elle utilise un arrondi
-standard (seuil à 0,5) pour décider si un département reçoit une place
-supplémentaire ou non.
-
-\textit{Avantages :}
-\begin{itemize}
-  \item Plus équilibrée que Jefferson pour les petits départements
-  \item Bien adaptée aux cas où peu de places sont à distribuer
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item Calcul moins intuitif qu'Hamilton, plus difficile à vérifier
-        sans outil
-  \item Résultats moins prévisibles dans les cas limites
-\end{itemize}
-
-\subsection{Synthèse comparative}
-
-Le tableau~\ref{tab:comparaison_quotas} récapitule les critères évalués pour chacune des
-trois méthodes, afin de faciliter la comparaison et de justifier le choix retenu.
-
-\renewcommand{\arraystretch}{1.35}
-\begin{table}[H]
-\centering
-\caption{Comparaison des méthodes de répartition des quotas}
-\label{tab:comparaison_quotas}
-\footnotesize
-\begin{tabular}{|p{5cm}|>{\centering\arraybackslash}p{2.8cm}|>{\centering\arraybackslash}p{2.8cm}|>{\centering\arraybackslash}p{2.8cm}|}
-\hline
-\rowcolor{gray!20}
-\textbf{Critère} & \textbf{Hamilton} & \textbf{Jefferson} & \textbf{Webster} \\
-\hline
-Simplicité de calcul & \cmark & \xmark & \xmark \\
-\hline
-Vérification manuelle possible & \cmark & Calcul itératif difficile à suivre & Moins prévisible dans les cas limites \\
-\hline
-Équité entre départements & \cmark & Favorise les grands départements & \cmark \\
-\hline
-Respect du total disponible & \cmark & \cmark & \cmark \\
-\hline
-Adapté à un petit nombre de places & \cmark & \xmark & \cmark \\
-\hline
-Transparence pour les acteurs & \cmark & \xmark & \xmark \\
-\hline
-\end{tabular}
-\end{table}
-
-\subsection{Décision}
-
-\textbf{La méthode Hamilton} est retenue. Elle offre le meilleur équilibre
-entre équité, simplicité et transparence dans ce contexte. Les résultats
-peuvent être vérifiés à la main par le service RI, ce qui est important
-pour un processus qui touche directement les chances de départ des étudiants.
-
-La méthode Jefferson est écartée car elle avantage systématiquement les
-grands départements, ce qui irait à l'encontre de l'équité visée. Webster
-est plus difficile à vérifier sans outil de calcul. Hamilton est donc la
-méthode la plus adaptée pour une répartition claire et justifiable.
-
-% ─────────────────────────────────────────────────────────────
-\section{Choix du moteur de recommandation}
-% ─────────────────────────────────────────────────────────────
-
-Cette section présente les besoins du module de recommandation,
-évalue les approches disponibles, puis justifie la méthode retenue.
-
-\subsection{Besoins spécifiques}
-
-Le moteur de recommandation a pour objectif d'aider les étudiants à
-choisir leurs destinations avant la saisie des vœux dans MoveON. Il
-ne prend pas de décision, mais propose un classement des destinations
-selon leur pertinence pour le profil de l'étudiant. Les recommandations
-doivent s'appuyer sur le profil académique et sur les données historiques
-disponibles, tout en restant interprétables pour l'étudiant.
-
-\subsection{Alternatives évaluées}
-
-Trois grandes familles d'approches ont été évaluées pour répondre à
-ce besoin.
-
-\subsubsection{Approche basée sur des règles (rule-based)}
-
-Cette approche repose sur des règles métier simples définies manuellement,
-telles que filtrer les destinations selon le département et classer par
-taux d'acceptation historique.
-
-\textit{Avantages :}
-\begin{itemize}
-  \item Simple à mettre en place, sans données d'apprentissage
-  \item Facile à comprendre et à expliquer
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item Peu flexible, ne s'adapte pas aux profils individuels
-  \item Résultats souvent trop génériques
-\end{itemize}
-
-\subsubsection{Approche par similarité (collaborative filtering)}
-
-Cette approche propose des destinations en se basant sur les choix
-d'étudiants ayant des profils similaires dans les promotions précédentes.
-
-\textit{Avantages :}
-\begin{itemize}
-  \item Prend en compte les expériences passées des promotions
-  \item Permet des recommandations plus personnalisées
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item Nécessite un volume important de données historiques
-  \item Moins efficace pour les nouvelles destinations
-  \item Mise en œuvre plus complexe
-\end{itemize}
-
-\subsubsection{Approche par apprentissage supervisé}
-
-Cette approche consiste à entraîner un modèle pour prédire une probabilité
-de compatibilité entre un étudiant et une destination. Deux modèles ont
-été comparés au sein de cette famille.
-
-\paragraph{Régression logistique}
-
-La régression logistique est un modèle statistique qui estime la
-probabilité d'un résultat à partir de variables d'entrée numériques.
-Elle est particulièrement adaptée aux volumes de données modérés~\cite{scikit_learn}.
-
-\textit{Avantages :}
-\begin{itemize}
-  \item Modèle simple et rapide à entraîner
-  \item Résultats faciles à interpréter et à expliquer
-  \item Adapté à des volumes de données modérés
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item Capture difficilement des relations complexes entre variables
-\end{itemize}
-
-\paragraph{XGBoost}
-
-XGBoost est un algorithme de gradient boosting qui construit un ensemble
-d'arbres de décision de façon séquentielle pour améliorer la précision
-prédictive~\cite{scikit_learn}.
-
-\textit{Avantages :}
-\begin{itemize}
-  \item Capable de modéliser des relations complexes entre variables
-  \item Très bonnes performances prédictives
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item Plus complexe à entraîner et à maintenir
-  \item Résultats moins interprétables
-  \item Risque de surapprentissage avec un volume de données limité
-\end{itemize}
-
-\subsection{Synthèse comparative}
-
-Le tableau~\ref{tab:comparaison_reco} récapitule les critères évalués pour chacune des
-approches, afin de faciliter la comparaison et de justifier le choix retenu.
-
-\renewcommand{\arraystretch}{1.35}
-\begin{table}[H]
-\centering
-\caption{Comparaison des approches de recommandation}
-\label{tab:comparaison_reco}
-\footnotesize
-\begin{tabular}{|p{3.8cm}|>{\centering\arraybackslash}p{2cm}|>{\centering\arraybackslash}p{2cm}|>{\centering\arraybackslash}p{2.5cm}|>{\centering\arraybackslash}p{2cm}|}
-\hline
-\rowcolor{gray!20}
-\textbf{Critère} & \textbf{Règles} & \textbf{Collab.} & \textbf{Régression log.} & \textbf{XGBoost} \\
-\hline
-Personnalisation & \xmark & \cmark & \cmark & \cmark \\
-\hline
-Volume de données requis & \cmark & \xmark & Efficace à partir de 500 observations & Risque de surapprentissage avec peu de données \\
-\hline
-Interprétabilité & \cmark & Difficile sans connaître les profils similaires & \cmark & \xmark \\
-\hline
-Risque de surapprentissage & \cmark & Dépend de la qualité des données historiques & \cmark & \xmark \\
-\hline
-Simplicité de maintenance & \cmark & \xmark & \cmark & \xmark \\
-\hline
-\end{tabular}
-\end{table}
-
-\subsection{Décision}
-
-\textbf{L'apprentissage supervisé par régression logistique} est retenu.
-Le modèle estime, pour chaque couple étudiant–destination, une probabilité
-de compatibilité à partir des variables suivantes :
-
-\renewcommand{\arraystretch}{1.3}
-\begin{table}[H]
-\centering
-\caption{Variables d'entrée du moteur de recommandation}
-\label{tab:features_reco}
-\footnotesize
-\begin{tabular}{|p{3.5cm}|p{8cm}|}
-\hline
-\rowcolor{gray!20}
-\textbf{Variable} & \textbf{Description} \\
-\hline
-GPA de l'étudiant & Note académique normalisée, principal signal de classement \\
-\hline
-Département pédagogique & Filtrage sur les accords ouverts au département de l'étudiant \\
-\hline
-Destination & Identifiant de l'université partenaire \\
-\hline
-Historique des affectations & Taux de sélection par destination sur les trois dernières années \\
-\hline
-\end{tabular}
-\end{table}
-
-Les destinations sont classées par ordre de probabilité décroissante
-afin de proposer une liste de recommandations personnalisées.
-
-La régression logistique est retenue car elle offre un bon compromis
-entre simplicité, interprétabilité et facilité de maintenance. Le volume
-de données, environ 900 observations sur trois ans, ne justifie pas
-XGBoost, dont les performances supplémentaires s'accompagnent d'un risque
-accru de surapprentissage.
-
-\textbf{Risque de démarrage à froid.} Certaines destinations rares ou
-récentes disposent de peu d'observations historiques. Pour ces cas, le
-modèle se rabat sur le GPA et le département comme seuls signaux, ce qui
-reste cohérent avec les règles de sélection. Le module sera activé à
-partir de la deuxième année de fonctionnement, une fois qu'un historique
-minimal d'une campagne complète aura été constitué.
-
-
-% ─────────────────────────────────────────────────────────────
-\section{Choix de l'orchestration RAG}
-% ─────────────────────────────────────────────────────────────
-
-Cette section présente les besoins du module RAG et le modèle de langage
-imposé, évalue les frameworks d'orchestration disponibles, puis justifie
-le choix retenu.
-
-\subsection{Besoins spécifiques}
-
-Le composant RAG du projet est un chatbot destiné aux étudiants, capable
-de répondre à des questions sur les procédures de mobilité à partir de
-la documentation institutionnelle de l'ENSEEIHT : guides, critères
-d'éligibilité, délais et démarches administratives. Le cas d'usage est
-relativement simple : une base documentaire stable, des questions en
-français ou en anglais, et des réponses ancrées dans les documents officiels.
-
-\subsection{Modèle de langage}
-
-Le modèle de langage retenu est \textbf{Mistral}~\cite{mistral_dev}
-(\texttt{mistral-small-latest}), conformément aux exigences de l'ENSEEIHT.
-Il est accessible via l'\textbf{API Mistral ILAS}, une infrastructure
-nationale dédiée aux établissements de l'enseignement supérieur français,
-hébergée sur des serveurs localisés en France.
-
-Ce mode d'accès institutionnel répond directement aux exigences RGPD :
-les données traitées restent dans l'infrastructure nationale et ne sont
-pas transmises à des tiers commerciaux. Il est néanmoins impératif que
-les données personnelles des étudiants ne soient jamais incluses dans
-les requêtes envoyées au modèle : les questions au chatbot sont
-transmises telles que saisies, sans enrichissement avec des données
-de dossier.
-
-
-\subsection{Alternatives évaluées}
-
-Quatre approches ont été évaluées pour orchestrer le pipeline RAG
-autour du modèle Mistral.
-
-\subsubsection{LangChain}
-
-LangChain est un framework d'orchestration IA généraliste, compatible
-avec un large éventail de modèles et de bases vectorielles~\cite{langchain_dev}.
-
-\textit{Avantages :}
-\begin{itemize}
-  \item Grande communauté et nombreuses ressources disponibles
-  \item Intégration simple avec Mistral et ChromaDB
-  \item Adapté aux pipelines IA complexes et multi-étapes
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item API qui évolue fréquemment, induisant des risques de rupture
-  \item Nombreuses dépendances, surcoût pour un chatbot documentaire simple
-\end{itemize}
-
-\subsubsection{LlamaIndex}
-
-LlamaIndex est un framework spécialisé dans la recherche et la génération
-à partir de documents structurés~\cite{LlamaIndex_dev}.
-
-\textit{Avantages :}
-\begin{itemize}
-  \item Conçu spécifiquement pour les applications RAG documentaires
-  \item Bonne intégration avec Mistral et les bases vectorielles
-  \item API plus stable, prise en main plus directe
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item Moins adapté aux architectures IA multi-agents très complexes
-\end{itemize}
-
-\subsubsection{Haystack}
-
-Haystack est un framework orienté production pour les systèmes de
-recherche et de génération augmentée~\cite{haystack_dev}.
-
-\textit{Avantages :}
-\begin{itemize}
-  \item Architecture modulaire adaptée aux déploiements en production
-  \item Compatible avec Mistral
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item Documentation moins accessible pour des cas d'usage simples
-  \item Intégration avec Mistral moins directe que LlamaIndex
-\end{itemize}
-
-\subsubsection{Approche directe (sans framework)}
-
-L'approche directe consiste à implémenter manuellement le pipeline RAG
-via des appels à l'API Mistral, sans couche d'abstraction intermédiaire.
-
-\textit{Avantages :}
-\begin{itemize}
-  \item Contrôle total sur chaque étape du pipeline
-  \item Peu de dépendances externes
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item Nécessite de développer manuellement toute la logique RAG
-        (chunking, indexation, retrieval, construction du prompt)
-  \item Maintenance plus complexe à long terme
-\end{itemize}
-
-\subsection{Synthèse comparative}
-
-Le tableau~\ref{tab:comparaison_rag} récapitule les critères évalués pour chacune des
-quatre approches, afin de faciliter la comparaison et de justifier
-le choix retenu.
-
-\renewcommand{\arraystretch}{1.35}
-\begin{table}[H]
-\centering
-\caption{Comparaison des frameworks d'orchestration RAG}
-\label{tab:comparaison_rag}
-\footnotesize
-\begin{tabular}{|p{4cm}|>{\centering\arraybackslash}p{2.2cm}|>{\centering\arraybackslash}p{2.2cm}|>{\centering\arraybackslash}p{2.2cm}|>{\centering\arraybackslash}p{2cm}|}
-\hline
-\rowcolor{gray!20}
-\textbf{Critère} & \textbf{LangChain} & \textbf{LlamaIndex} & \textbf{Haystack} & \textbf{Direct} \\
-\hline
-Spécialisé RAG & Généraliste, non optimisé pour le RAG & \cmark & Orienté pipelines complexes & \xmark \\
-\hline
-Intégration Mistral & \cmark & \cmark & Possible mais moins directe & \cmark \\
-\hline
-Stabilité de l'API & \xmark & \cmark & \cmark & \cmark \\
-\hline
-Adapté à un cas simple & Surcoût de dépendances pour un cas simple & \cmark & Trop complexe pour un chatbot documentaire & Logique RAG à développer entièrement \\
-\hline
-Maintenance à long terme & API instable, risque de rupture à chaque mise à jour & \cmark & \cmark & \xmark \\
-\hline
-\end{tabular}
-\end{table}
-
-\subsection{Décision}
-
-\textbf{LlamaIndex} est retenu comme framework d'orchestration RAG,
-avec \textbf{ChromaDB} comme base vectorielle et
-\textbf{Mistral} comme modèle de langage. Cette combinaison correspond
-directement au besoin du projet : construire un chatbot documentaire
-simple, basé sur une base de connaissances stable. LlamaIndex fournit
-les fonctionnalités nécessaires sans surcoût de complexité, avec une
-API stable et une intégration directe avec Mistral et ChromaDB.
-
-% ─────────────────────────────────────────────────────────────
-\section{Synthèse des choix algorithmiques et de performance}
-% ─────────────────────────────────────────────────────────────
-
-\renewcommand{\arraystretch}{1.4}
-
-\begin{longtable}{|p{3cm}|p{3.5cm}|p{8.5cm}|}
-\caption{Synthèse des choix algorithmiques et de performance} \\
-\hline
-\rowcolor{gray!20}
-\textbf{Composant} & \textbf{Méthode retenue} & \textbf{Justification principale} \\
-\hline
-\endfirsthead
-
-\hline
-\rowcolor{gray!20}
-\textbf{Composant} & \textbf{Méthode retenue} & \textbf{Justification principale} \\
-\hline
-\endhead
-
-Stratégie de performance BDD & Indexation ciblée & Solution simple et suffisante pour le volume de données du projet \\
-\hline
-
-Algorithme d'affectation & Gale-Shapley & Stabilité, équité et reproductibilité des affectations \\
-\hline
-
-Répartition des quotas & Hamilton & Méthode proportionnelle simple, transparente et vérifiable manuellement \\
-\hline
-
-Moteur de recommandation & Régression logistique & Modèle simple, interprétable et adapté à un volume de données limité \\
-\hline
-
-Orchestration RAG & LlamaIndex + ChromaDB & Solution adaptée à un chatbot documentaire simple et stable \\
-\hline
-
-Modèle de langage & Mistral & Compatible avec le besoin multilingue du chatbot étudiant \\
-\hline
-
-\end{longtable}
 
 \section*{Conclusion}
 \justifying
 \phantomsection
 \addcontentsline{toc}{section}{Conclusion}
 
-Ce chapitre a justifié l'ensemble des choix technologiques et algorithmiques qui structurent la plateforme, en privilégiant la cohérence de l'ensemble, l'équité et la simplicité d'exploitation. Ces choix forment le socle sur lequel repose la conception détaillée du système, présentée au chapitre suivant.
+Ce chapitre a défini la conception complète du système : backlog en cinq sprints MVP, architecture logicielle et physique et modèle de données. Les choix algorithmiques et les machines à états qui structurent la logique métier du système sont détaillés au chapitre suivant, avant la présentation de sa réalisation.

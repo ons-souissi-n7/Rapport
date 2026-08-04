@@ -14,7 +14,7 @@
 \phantomsection
 \addcontentsline{toc}{section}{Introduction}
 
-Ce chapitre présente l'organisme d'accueil et analyse le système d'information utilisé pour la gestion des mobilités internationales. Il en dégage la problématique, positionne le projet par rapport aux solutions existantes, précise les besoins du système et présente la solution envisagée, puis pose le cadrage retenu pour conduire le projet.
+Ce chapitre présente l'organisme d'accueil et analyse le système d'information utilisé pour la gestion des mobilités internationales. Il en dégage la problématique, positionne le projet par rapport aux solutions existantes et présente la solution envisagée, puis pose le cadrage retenu pour conduire le projet.
 
 % ─────────────────────────────────────────────────────────────
 \section{Présentation de l'organisme d'accueil}
@@ -304,98 +304,7 @@ C9 – Réponse aux questions des étudiants & \xmark & \xmark & \xmark & \xmark
 \end{tabular}
 \end{table}
 
-Aucune des quatre solutions étudiées ne répond à l'ensemble des neuf critères retenus, en particulier la granularité des quotas par département et la conformité CTI. Ce constat, obtenu sur un panel volontairement diversifié, confirme la nécessité d'une solution propre au service RI, dont les besoins sont précisés dans la section suivante.
-
-% ─────────────────────────────────────────────────────────────
-\section{Besoins du système}
-\label{sec:besoins-systeme}
-% ─────────────────────────────────────────────────────────────
-
-Le constat précédent conduit à formuler des exigences précises. Cette section décrit les principales fonctionnalités attendues du système, les exigences non fonctionnelles associées, ainsi que les profils utilisateurs et le périmètre de réalisation retenu pour ce projet.
-
-\subsection{Besoins fonctionnels}
-
-Les besoins fonctionnels décrivent les principales fonctionnalités attendues du système afin de répondre aux problématiques identifiées au sein du service RI. Ils couvrent à la fois les fonctionnalités opérationnelles et les fonctionnalités intelligentes.
-
-\subsubsection{Fonctionnalités opérationnelles}
-
-Le système prend en charge les opérations suivantes, qui couvrent l'ensemble du cycle de gestion des mobilités internationales, de l'import des données jusqu'à l'archivage des résultats.
-
-\begin{itemize}
-    \item \textbf{BF01 --- Intégration des données} : import depuis MoveON, Pégase et Eudonet via API REST, et depuis des fichiers Excel pour les sources sans API. Chaque import inclut une détection de doublons, une validation des formats et un mécanisme de fallback Excel en cas d'indisponibilité d'une API.
-    \item \textbf{BF02 --- Gestion des accords et quotas} : import des accords depuis MoveON et gestion de la répartition locale des places par département N7, avec possibilité d'ajustement manuel par le service RI.
-    \item \textbf{BF03 --- Algorithme d'affectation} : pré-affectation automatique basée sur le GPA, les vœux ordonnés et les quotas par département, avec interface de supervision et d'ajustement.
-    \item \textbf{BF04 --- Suivi de la durée de mobilité} : calcul automatique de la durée totale de mobilité de chaque étudiant, par agrégation des séjours académiques, stages et expériences complémentaires validées.
-    \item \textbf{BF05 --- Mobilités complémentaires} : les étudiants déclarent leurs expériences et déposent les justificatifs nécessaires, puis le service RI se charge de la validation des dossiers.
-    \item \textbf{BF06 --- Mobilités entrantes} : import via template Excel et suivi administratif granulaire.
-    \item \textbf{BF07 --- Historisation} : les données d'une campagne clôturée passent en lecture seule. Aucune exécution ultérieure ne peut modifier les résultats d'une année passée.
-    \item \textbf{BF08 --- Reporting et enquêtes CTI} : calcul automatique des indicateurs requis pour les enquêtes annuelles de la Commission des Titres d'Ingénieur, à savoir le nombre et le pourcentage d'étudiants mobiles, la durée moyenne de mobilité et la répartition des destinations, ainsi que l'export des rapports de conformité correspondants.
-\end{itemize}
-
-\subsubsection{Fonctionnalités intelligentes}
-
-En complément des fonctionnalités opérationnelles, le système intègre deux modules intelligents qui améliorent l'expérience étudiant sans solliciter le service RI.
-
-\begin{itemize}
-    \item \textbf{BF09 --- Moteur de recommandation} : suggestions de destinations basées sur le GPA, le département et l'historique des affectations, pour orienter les choix de l'étudiant avant la saisie dans MoveON.
-    \item \textbf{BF10 --- Assistant virtuel (chatbot RAG)} : agent conversationnel répondant aux questions procédurales à partir de la documentation institutionnelle, sans solliciter le service RI.
-\end{itemize}
-
-\subsection{Besoins non fonctionnels}
-
-Au-delà des fonctionnalités métier, le système doit également répondre à plusieurs exigences techniques et organisationnelles. Ces besoins non fonctionnels concernent notamment la sécurité, la performance, l'intégrité des données et l'intégration avec l'environnement existant.
-
-\begin{itemize}
-    \item \textbf{BNF01 --- Interopérabilité} : le système doit s'intégrer sans rupture dans l'écosystème existant via des adaptateurs REST dédiés à chaque source. En cas d'indisponibilité d'une API, un fallback par import Excel garantit la continuité opérationnelle.
-
-    \item \textbf{BNF02 --- Intégrité des données} : les données provenant de sources hétérogènes peuvent être incohérentes ou dupliquées. Une validation stricte est appliquée à chaque import : contrôle de format, détection de doublons, cohérence inter-sources. Toute donnée rejetée est tracée dans un rapport d'import avec la raison précise, pour correction ciblée.
-
-    \item \textbf{BNF03 --- Sécurité et RGPD} : authentification via le SSO institutionnel, gestion stricte des rôles (étudiant vs administrateur), chiffrement des données sensibles. Un étudiant n'accède qu'à son propre dossier.
-
-    \item \textbf{BNF04 --- Performance} : le temps de réponse de l'API pour les endpoints courants doit être inférieur à 200~ms sous une charge de 50 utilisateurs simultanés. L'algorithme d'affectation doit s'exécuter en moins de 30 secondes pour une promotion de 300 étudiants. Les traitements lourds, tels que l'algorithme d'affectation ou les calculs CTI, sont exécutés de façon asynchrone en arrière-plan pour ne pas bloquer l'interface.
-
-    \item \textbf{BNF05 --- Disponibilité} : s'agissant d'un système institutionnel sollicité lors de périodes de campagne critiques (ouverture des vœux, publication des résultats), une disponibilité cible de 99~\% hors fenêtres de maintenance planifiées est visée, appuyée par une politique de sauvegarde permettant une reprise rapide en cas d'incident.
-
-    \item \textbf{BNF06 --- Scalabilité} : séparation entre données actives et données archivées en lecture seule pour absorber la croissance annuelle du volume historique et les pics de connexion lors des moments clés de campagne.
-
-    \item \textbf{BNF07 --- Ergonomie} : l'interface adapte sa navigation et ses fonctionnalités au rôle de l'utilisateur connecté, réduisant les erreurs de manipulation.
-
-    \item \textbf{BNF08 --- Traçabilité} : toute action importante, telle qu'un import, une modification d'affectation, une validation ou une transition de phase, est enregistrée avec l'identité de l'auteur et l'horodatage dans un journal d'audit persistant en écriture seule.
-\end{itemize}
-
-\subsection{Profils utilisateurs et périmètre de réalisation}
-
-Cette sous-section présente les profils d'utilisateurs du système, puis définit le périmètre de réalisation retenu pour ce projet.
-
-\subsubsection{Profils utilisateurs}
-
-Deux profils utilisent le système, avec des besoins très différents.
-
-\textbf{L'administrateur}, c'est-à-dire le service RI, pilote la campagne de bout en bout. Il supervise les imports, configure les quotas, ajuste les propositions d'affectation, instruit les demandes de mobilités complémentaires et produit les rapports CTI. Le système prend en charge les tâches répétitives, mais toute décision finale reste sous sa responsabilité, et chaque intervention manuelle est tracée.
-
-\textbf{L'étudiant} consulte les destinations disponibles, reçoit des recommandations personnalisées avant de saisir ses vœux dans MoveON, suit l'état de sa candidature, déclare ses expériences complémentaires et vérifie à tout moment si sa durée totale de mobilité atteint le seuil requis pour l'obtention du diplôme. L'assistant virtuel répond à ses questions procédurales sans solliciter le service RI.
-
-\subsubsection{Périmètre de réalisation}
-
-Le développement est organisé en deux niveaux de priorité.
-
-\textbf{MVP : fonctionnalités prioritaires (BF01 à BF08, BNF01 à BNF08)} :
-\begin{itemize}
-  \item Intégration des données multi-sources (MoveON, Pégase, Eudonet, Excel)
-  \item Gestion des accords et quotas par département
-  \item Algorithme d'affectation avec validation humaine
-  \item Calcul automatique de la durée de mobilité
-  \item Gestion des mobilités complémentaires et entrantes
-  \item Reporting et enquêtes CTI : indicateurs chiffrés, tableaux de bord analytiques et exports de conformité
-  \item Espace étudiant : catalogue, suivi de candidature, déclarations
-  \item Sécurité : SSO, contrôle d'accès, audit log
-\end{itemize}
-
-\textbf{V2 : fonctionnalités secondaires (BF09, BF10)} :
-\begin{itemize}
-  \item Moteur de recommandation de destinations personnalisé
-  \item Assistant virtuel (chatbot RAG)
-\end{itemize}
+Aucune des quatre solutions étudiées ne répond à l'ensemble des neuf critères retenus, en particulier la granularité des quotas par département et la conformité CTI. Ce constat, obtenu sur un panel volontairement diversifié, confirme la nécessité d'une solution propre au service RI, dont les besoins sont précisés au chapitre suivant.
 
 % ─────────────────────────────────────────────────────────────
 \section{Solution envisagée}
@@ -437,7 +346,7 @@ C9 -- Réponse aux questions des étudiants & BF10 : assistant virtuel (chatbot 
 
 Donc, sept critères sur neuf sont couverts dès la première version (MVP). Les deux critères restants, la recommandation de destinations (C7) et la réponse aux questions des étudiants (C9), sont repoussés en V2, si le temps le permet, car ils n'ont pas d'impact sur la conformité CTI.
 
-Côté architecture, la plateforme est organisée en couches : présentation, API, logique métier et données, avec une couche dédiée à l'intégration des imports MoveON, Pégase, Eudonet et Excel. Le choix des technologies pour chaque couche, ainsi que les algorithmes de sélection, d'affectation et de recommandation, sont expliqués au chapitre~\ref{cha:choix-technologiques}. Leur mise en œuvre concrète (organisation du code, modèle de données, machines à états) est détaillée au chapitre~\ref{cha:conception}.
+Côté architecture, la plateforme est organisée en couches : présentation, API, logique métier et données, avec une couche dédiée à l'intégration des imports MoveON, Pégase, Eudonet et Excel. Le choix des technologies pour chaque couche est expliqué au chapitre~\ref{cha:besoins-technologies}, et les algorithmes de sélection, d'affectation et de recommandation, ainsi que les machines à états, au chapitre~\ref{cha:algo-fsm}. Leur mise en œuvre concrète (organisation du code, modèle de données) est détaillée au chapitre~\ref{cha:conception}.
 
 % ─────────────────────────────────────────────────────────────
 \section{Organisation et cadrage du projet}
@@ -546,26 +455,26 @@ ci-dessous et adaptés au contexte d'un stage individuel.
     \item \textit{\textbf{L'équipe de développement (Development Team)}} : réalise les incréments du produit. Ce rôle est habituellement porté par plusieurs personnes ; dans ce projet, il est assuré par une seule personne, responsable de l'intégralité du développement.
 \end{itemize}
 
-Le tableau~\ref{tab:roles-scrum} précise, pour ce projet, la personne assurant chacun de ces rôles.
+% Le tableau~\ref{tab:roles-scrum} précise, pour ce projet, la personne assurant chacun de ces rôles.
 
-\renewcommand{\arraystretch}{1.5}
-\begin{table}[H]
-\centering
-\caption{Rôles Scrum et responsables associés}
-\label{tab:roles-scrum}
-\begin{tabular}{|p{5cm}|p{7cm}|}
-\hline
-\rowcolor{gray!20}
-\textbf{Rôle Scrum} & \textbf{Personne(s)} \\
-\hline
-Product Owner & Service RI  \\
-\hline
-Scrum Master & Madame Myriam FOURATI  \\
-\hline
-Development Team & Ons SOUISSI \\
-\hline
-\end{tabular}
-\end{table}
+% \renewcommand{\arraystretch}{1.5}
+% \begin{table}[H]
+% \centering
+% \caption{Rôles Scrum et responsables associés}
+% \label{tab:roles-scrum}
+% \begin{tabular}{|p{5cm}|p{7cm}|}
+% \hline
+% \rowcolor{gray!20}
+% \textbf{Rôle Scrum} & \textbf{Personne(s)} \\
+% \hline
+% Product Owner & Service RI  \\
+% \hline
+% Scrum Master & Madame Myriam FOURATI  \\
+% \hline
+% Development Team & Ons SOUISSI \\
+% \hline
+% \end{tabular}
+% \end{table}
 
 \textbf{Les artefacts Scrum.}
 
@@ -605,11 +514,11 @@ Le projet s'est déroulé sur six mois, organisés en cinq grandes phases dont l
 \hline
 1 & Cadrage, analyse de l'existant et positionnement par rapport aux solutions existantes (chapitre 1) & 3 à 4 semaines \\
 \hline
-2 & Choix technologiques et algorithmiques (chapitre 2) & 2 semaines \\
+2 & Choix technologiques et algorithmiques (chapitres 2 et 4) & 2 semaines \\
 \hline
 3 & Conception détaillée : product backlog, architecture, modèle de données (chapitre 3) & 2 à 3 semaines \\
 \hline
-4 & Réalisation itérative en sprints Scrum (chapitre 4) & environ 3 mois \\
+4 & Réalisation itérative en sprints Scrum (chapitre 5) & environ 3 mois \\
 \hline
 5 & Tests de charge et de sécurité, documentation, livraison & 2 à 3 semaines \\
 \hline
@@ -649,4 +558,4 @@ Communication avec le service RI & Email, Zoom, réunions en présentiel & Écha
 \phantomsection
 \addcontentsline{toc}{section}{Conclusion}
 
-Ce chapitre a présenté le contexte du projet, la problématique qui en découle et la solution envisagée, avant de préciser les besoins du système et le cadrage retenu pour le mener à bien. Les choix technologiques et algorithmiques qui permettent de la réaliser font l'objet du chapitre suivant.
+Ce chapitre a présenté le contexte du projet, la problématique qui en découle, la solution envisagée et le cadrage retenu pour le mener à bien. Les besoins du système et les choix technologiques qui permettent de le réaliser font l'objet du chapitre suivant.

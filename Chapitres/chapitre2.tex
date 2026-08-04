@@ -1,0 +1,1405 @@
+% !TEX root = ../main.tex
+% ══════════════════════════════════════════════════════════════
+\chapter{Besoins fonctionnels et choix technologiques}
+\label{cha:besoins-technologies}
+% ══════════════════════════════════════════════════════════════
+\begingroup
+\let\clearpage\relax
+\startcontents[chapters]
+\printcontents[chapters]{}{1}{\section*{Plan}}
+\endgroup
+\newpage
+
+\section*{Introduction}
+\justifying
+\phantomsection
+\addcontentsline{toc}{section}{Introduction}
+
+Le chapitre précédent a montré qu'aucune solution existante ne répondait aux besoins du service RI. Ce chapitre précise les besoins du système, puis justifie les technologies retenues pour chaque composant, en comparant les principales alternatives.
+
+% ─────────────────────────────────────────────────────────────
+\section{Besoins du système}
+\label{sec:besoins-systeme}
+% ─────────────────────────────────────────────────────────────
+
+Le constat précédent conduit à formuler des exigences précises. Cette section décrit les principales fonctionnalités attendues du système, les exigences non fonctionnelles associées, ainsi que les profils utilisateurs et le périmètre de réalisation retenu pour ce projet.
+
+\subsection{Besoins fonctionnels}
+
+Les besoins fonctionnels décrivent les principales fonctionnalités attendues du système afin de répondre aux problématiques identifiées au sein du service RI. Ils couvrent à la fois les fonctionnalités opérationnelles et les fonctionnalités intelligentes.
+
+\subsubsection{Fonctionnalités opérationnelles}
+
+Le système prend en charge les opérations suivantes, qui couvrent l'ensemble du cycle de gestion des mobilités internationales, de l'import des données jusqu'à l'archivage des résultats.
+
+\begin{itemize}
+    \item \textbf{BF01 --- Intégration des données} : import depuis MoveON, Pégase et Eudonet via API REST, et depuis des fichiers Excel pour les sources sans API. Chaque import inclut une détection de doublons, une validation des formats et un mécanisme de fallback Excel en cas d'indisponibilité d'une API.
+    \item \textbf{BF02 --- Gestion des accords et quotas} : import des accords depuis MoveON et gestion de la répartition locale des places par département N7, avec possibilité d'ajustement manuel par le service RI.
+    \item \textbf{BF03 --- Algorithme d'affectation} : pré-affectation automatique basée sur le GPA, les vœux ordonnés et les quotas par département, avec interface de supervision et d'ajustement.
+    \item \textbf{BF04 --- Suivi de la durée de mobilité} : calcul automatique de la durée totale de mobilité de chaque étudiant, par agrégation des séjours académiques, stages et expériences complémentaires validées.
+    \item \textbf{BF05 --- Mobilités complémentaires} : les étudiants déclarent leurs expériences et déposent les justificatifs nécessaires, puis le service RI se charge de la validation des dossiers.
+    \item \textbf{BF06 --- Mobilités entrantes} : import via template Excel et suivi administratif granulaire.
+    \item \textbf{BF07 --- Historisation} : les données d'une campagne clôturée passent en lecture seule. Aucune exécution ultérieure ne peut modifier les résultats d'une année passée.
+    \item \textbf{BF08 --- Reporting et enquêtes CTI} : calcul automatique des indicateurs requis pour les enquêtes annuelles de la Commission des Titres d'Ingénieur, à savoir le nombre et le pourcentage d'étudiants mobiles, la durée moyenne de mobilité et la répartition des destinations, ainsi que l'export des rapports de conformité correspondants.
+\end{itemize}
+
+\subsubsection{Fonctionnalités intelligentes}
+
+En complément des fonctionnalités opérationnelles, le système intègre deux modules intelligents qui améliorent l'expérience étudiant sans solliciter le service RI.
+
+\begin{itemize}
+    \item \textbf{BF09 --- Moteur de recommandation} : suggestions de destinations basées sur le GPA, le département et l'historique des affectations, pour orienter les choix de l'étudiant avant la saisie dans MoveON.
+    \item \textbf{BF10 --- Assistant virtuel (chatbot RAG)} : agent conversationnel répondant aux questions procédurales à partir de la documentation institutionnelle, sans solliciter le service RI.
+\end{itemize}
+
+\subsection{Besoins non fonctionnels}
+
+Au-delà des fonctionnalités métier, le système doit également répondre à plusieurs exigences techniques et organisationnelles. Ces besoins non fonctionnels concernent notamment la sécurité, la performance, l'intégrité des données et l'intégration avec l'environnement existant.
+
+\begin{itemize}
+    \item \textbf{BNF01 --- Interopérabilité} : le système doit s'intégrer sans rupture dans l'écosystème existant via des adaptateurs REST dédiés à chaque source. En cas d'indisponibilité d'une API, un fallback par import Excel garantit la continuité opérationnelle.
+
+    \item \textbf{BNF02 --- Intégrité des données} : les données provenant de sources hétérogènes peuvent être incohérentes ou dupliquées. Une validation stricte est appliquée à chaque import : contrôle de format, détection de doublons, cohérence inter-sources. Toute donnée rejetée est tracée dans un rapport d'import avec la raison précise, pour correction ciblée.
+
+    \item \textbf{BNF03 --- Sécurité et RGPD} : authentification via le SSO institutionnel, gestion stricte des rôles (étudiant vs administrateur), chiffrement des données sensibles. Un étudiant n'accède qu'à son propre dossier.
+
+    \item \textbf{BNF04 --- Performance} : le temps de réponse de l'API pour les endpoints courants doit être inférieur à 200~ms sous une charge de 50 utilisateurs simultanés. L'algorithme d'affectation doit s'exécuter en moins de 30 secondes pour une promotion de 300 étudiants. Les traitements lourds, tels que l'algorithme d'affectation ou les calculs CTI, sont exécutés de façon asynchrone en arrière-plan pour ne pas bloquer l'interface.
+
+    \item \textbf{BNF05 --- Disponibilité} : s'agissant d'un système institutionnel sollicité lors de périodes de campagne critiques (ouverture des vœux, publication des résultats), une disponibilité cible de 99~\% hors fenêtres de maintenance planifiées est visée, appuyée par une politique de sauvegarde permettant une reprise rapide en cas d'incident.
+
+    \item \textbf{BNF06 --- Scalabilité} : séparation entre données actives et données archivées en lecture seule pour absorber la croissance annuelle du volume historique et les pics de connexion lors des moments clés de campagne.
+
+    \item \textbf{BNF07 --- Ergonomie} : l'interface adapte sa navigation et ses fonctionnalités au rôle de l'utilisateur connecté, réduisant les erreurs de manipulation.
+
+    \item \textbf{BNF08 --- Traçabilité} : toute action importante, telle qu'un import, une modification d'affectation, une validation ou une transition de phase, est enregistrée avec l'identité de l'auteur et l'horodatage dans un journal d'audit persistant en écriture seule.
+\end{itemize}
+
+\subsection{Profils utilisateurs et périmètre de réalisation}
+
+Cette sous-section présente les profils d'utilisateurs du système, puis définit le périmètre de réalisation retenu pour ce projet.
+
+\subsubsection{Profils utilisateurs}
+
+Deux profils utilisent le système, avec des besoins très différents.
+
+\textbf{L'administrateur}, c'est-à-dire le service RI, pilote la campagne de bout en bout. Il supervise les imports, configure les quotas, ajuste les propositions d'affectation, instruit les demandes de mobilités complémentaires et produit les rapports CTI. Le système prend en charge les tâches répétitives, mais toute décision finale reste sous sa responsabilité, et chaque intervention manuelle est tracée.
+
+\textbf{L'étudiant} consulte les destinations disponibles, reçoit des recommandations personnalisées avant de saisir ses vœux dans MoveON, suit l'état de sa candidature, déclare ses expériences complémentaires et vérifie à tout moment si sa durée totale de mobilité atteint le seuil requis pour l'obtention du diplôme. L'assistant virtuel répond à ses questions procédurales sans solliciter le service RI.
+
+\subsubsection{Périmètre de réalisation}
+
+Le développement est organisé en deux niveaux de priorité.
+
+\textbf{MVP : fonctionnalités prioritaires (BF01 à BF08, BNF01 à BNF08)} :
+\begin{itemize}
+  \item Intégration des données multi-sources (MoveON, Pégase, Eudonet, Excel)
+  \item Gestion des accords et quotas par département
+  \item Algorithme d'affectation avec validation humaine
+  \item Calcul automatique de la durée de mobilité
+  \item Gestion des mobilités complémentaires et entrantes
+  \item Reporting et enquêtes CTI : indicateurs chiffrés, tableaux de bord analytiques et exports de conformité
+  \item Espace étudiant : catalogue, suivi de candidature, déclarations
+  \item Sécurité : SSO, contrôle d'accès, audit log
+\end{itemize}
+
+\textbf{V2 : fonctionnalités secondaires (BF09, BF10)} :
+\begin{itemize}
+  \item Moteur de recommandation de destinations personnalisé
+  \item Assistant virtuel (chatbot RAG)
+\end{itemize}
+
+
+% ─────────────────────────────────────────────────────────────
+\section{Choix du frontend}
+% ─────────────────────────────────────────────────────────────
+
+Cette section présente les besoins spécifiques du frontend, évalue les
+alternatives disponibles, puis justifie le choix retenu.
+
+\subsection{Besoins spécifiques}
+
+L'interface du projet doit couvrir deux espaces bien
+distincts : d'un côté, un espace dédié au service RI
+pour piloter les campagnes, de l'autre, un espace
+étudiant pour consulter les destinations, suivre
+sa candidature et interagir avec le chatbot.
+Certaines pages affichent des données sensibles
+(résultats d'affectation, GPA) et doivent être
+construites côté serveur pour éviter qu'elles
+ne soient accessibles avant que le rôle de
+l'utilisateur soit vérifié. D'autres, comme
+le suivi de candidature ou le chatbot,
+nécessitent une navigation fluide et réactive.
+Gérer ces deux types de pages dans le même projet,
+avec une séparation fiable des accès selon le rôle,
+est le principal critère de choix.
+
+\subsection{Alternatives évaluées}
+
+Trois frameworks ont été évalués au regard des besoins identifiés.
+
+\subsubsection{Applications monopage : React + Vite}
+
+React  permet de construire des interfaces
+entièrement rendues dans le navigateur ~\cite{react_dev}.
+
+\textit{Avantages :}
+\begin{itemize}
+  \item Simple à configurer et à démarrer
+  \item Très bien documenté, avec de nombreuses
+        ressources disponibles en ligne
+\end{itemize}
+
+\textit{Limites :}
+\begin{itemize}
+  \item Tout est chargé et affiché dans le navigateur :
+        les données sensibles comme les affectations
+        ou les GPA y arrivent avant même que
+        le rôle de l'utilisateur soit contrôlé,
+        ce qui fragilise la séparation entre
+        l'espace étudiant et l'espace RI
+  \item La protection des pages selon le rôle
+        doit être codée manuellement, sans
+        mécanisme intégré pour l'imposer
+        au niveau du routing
+  \item Les appels à l'API Django passent tous
+        par le navigateur, ce qui expose
+        les tokens d'authentification au client
+\end{itemize}
+
+\subsubsection{Angular}
+
+Angular est un framework TypeScript développé
+par Google, utilisé principalement pour des
+applications d'entreprise avec beaucoup de
+logique interne ~\cite{angular_dev}.
+
+\textit{Avantages :}
+\begin{itemize}
+  \item Architecture très structurée, adaptée aux
+        applications avec de nombreux écrans
+        et règles métier
+  \item Typage TypeScript natif, ce qui réduit
+        les erreurs au moment du développement
+  \item Mécanisme de protection des routes intégré,
+        utile pour séparer les accès
+        selon le rôle utilisateur
+  \item Bien adapté à des interfaces
+        d'administration complexes
+        comme le tableau de bord RI
+\end{itemize}
+
+\textit{Limites :}
+\begin{itemize}
+  \item Pas de rendu côté serveur sans
+        Angular Universal, qui nécessite
+        une configuration supplémentaire
+        non négligeable
+  \item Angular demande un temps de prise en main
+        important : son architecture impose
+        de nombreux concepts spécifiques
+        (modules, décorateurs, injection de
+        dépendances) qui ralentissent
+        le démarrage
+  \item Moins d'exemples disponibles que
+        React/Next.js pour l'intégration
+        avec le SSO CAS utilisé
+        par Toulouse INP
+\end{itemize}
+
+\subsubsection{Next.js 16}
+
+Next.js est un framework basé sur React qui permet de combiner rendu côté serveur
+et rendu côté client selon les besoins de chaque page ~\cite{nextjs_dev}.
+
+\textit{Avantages :}
+\begin{itemize}
+  \item Rendu hybride : pages sensibles rendues côté serveur, composants
+        interactifs côté client, les deux coexistant dans le même projet
+  \item Middleware intégré pour bloquer l'accès aux pages selon le rôle
+        utilisateur avant même leur chargement
+  \item Appels à l'API Django réalisables côté serveur, sans exposer
+        les tokens dans le navigateur
+  \item App Router et React Server Components : chaque composant est rendu
+        côté serveur par défaut, avec des layouts partagés par espace
+        (RI, étudiant) qui structurent naturellement la séparation des interfaces
+  \item TypeScript, Tailwind CSS et intégration SSO CAS/OIDC bien documentés
+\end{itemize}
+
+\textit{Limites :}
+\begin{itemize}
+  \item Configuration initiale un peu plus complexe qu'une application
+        monopage classique
+\end{itemize}
+
+\subsection{Synthèse comparative}
+
+Le tableau~\ref{tab:comparaison_frontend} récapitule les critères évalués pour chacune des trois solutions, afin de faciliter la comparaison et de justifier le choix retenu. Chaque tableau comparatif de ce chapitre introduit une colonne \textbf{Poids} : un critère \textbf{bloquant} est une exigence dont le non-respect suffit à écarter une solution, tandis qu'un critère \textbf{secondaire} renforce ou affaiblit un choix sans être, à lui seul, éliminatoire.
+
+\renewcommand{\arraystretch}{1.35}
+\begin{table}[H]
+\centering
+\caption{Comparaison des frameworks frontend}
+\label{tab:comparaison_frontend}
+\footnotesize
+\begin{tabular}{|p{3.2cm}|>{\centering\arraybackslash}p{1.5cm}|>{\centering\arraybackslash}p{2.4cm}|>{\centering\arraybackslash}p{2.1cm}|>{\centering\arraybackslash}p{2.6cm}|}
+\hline
+\rowcolor{gray!20}
+\textbf{Critère} & \textbf{Poids} & \textbf{React + Vite} & \textbf{Angular} & \textbf{Next.js 16} \\
+\hline
+Rendu côté serveur (SSR) & Bloquant & \xmark & Via Angular Universal (config requise) & \cmark \\
+\hline
+Protection des routes par rôle & Bloquant & Manuelle & Mécanisme intégré & Middleware intégré \\
+\hline
+Données sensibles côté serveur & Bloquant & \xmark & \xmark & \cmark \\
+\hline
+TypeScript natif & Secondaire & Optionnel & \cmark & \cmark \\
+\hline
+Intégration SSO CAS/OIDC & Bloquant & \cmark & Peu d'exemples avec le SSO CAS de Toulouse INP & \cmark \\
+\hline
+Rendu hybride SSR + CSR & Bloquant & \xmark & \xmark & \cmark \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Décision}
+
+\textbf{Next.js 16} est retenu. Son modèle de React Server
+Components permet de gérer naturellement les deux espaces du projet : les pages
+sensibles du tableau de bord RI sont rendues côté serveur avant toute vérification
+de rôle, tandis que les composants interactifs de l'espace étudiant s'exécutent côté client. Angular pourrait, en théorie, répondre au même besoin grâce à Angular Universal. Mais avec le temps disponible pour ce projet, Next.js permettait d'arriver au même résultat plus rapidement et avec moins de configuration à mettre en place.
+
+
+% ─────────────────────────────────────────────────────────────
+\section{Choix du backend}
+% ─────────────────────────────────────────────────────────────
+
+Cette section présente les besoins spécifiques du backend, évalue les
+alternatives disponibles, puis justifie le choix retenu.
+
+\subsection{Besoins spécifiques}
+
+Le backend de ce projet ne se limite pas à une simple gestion de données. Il doit orchestrer de nombreuses entités métier liées entre elles et gérer des processus parfois complexes, comme le suivi des candidatures, des affectations ou des mobilités étudiantes.
+
+L'application doit également assurer plusieurs fonctions essentielles : gérer les droits d'accès selon les profils (étudiants et administrateurs RI), conserver une trace des actions importantes via un journal d'audit, accompagner l'évolution de la base de données pendant le développement, et s'intégrer au système d'authentification institutionnel CAS/OIDC de Toulouse INP.
+
+Dans ce contexte, le choix du framework ne repose pas uniquement sur les performances, mais aussi sur la qualité des outils qu'il apporte pour structurer, sécuriser et faire évoluer l'application.
+
+\subsection{Choix du framework backend}
+
+Cette sous-section évalue les frameworks backend candidats au regard des besoins définis ci-dessus, puis justifie le choix retenu.
+
+\subsubsection{Alternatives évaluées}
+
+Trois frameworks ont été évalués en regard des besoins identifiés précédemment.
+
+\paragraph{Node.js}
+Environnement d'exécution JavaScript côté serveur,
+reconnu pour ses performances sur les applications
+qui traitent beaucoup de requêtes simultanées ~\cite{nodejs_dev}.
+
+\textit{Avantages :}
+\begin{itemize}
+  \item Bonnes performances sur les traitements
+        non bloquants
+  \item Grand nombre de bibliothèques disponibles
+  \item Gestion native des opérations asynchrones
+\end{itemize}
+
+\textit{Limites :}
+\begin{itemize}
+    \item Aucun outil natif pour la base de données, l'administration ou la gestion des droits : il faut tout assembler manuellement à partir de bibliothèques séparées, ce qui alourdit la configuration et la maintenance.
+    \item Des bibliothèques de machine à états comme XState existent et sont matures, mais rien d'équivalent à \texttt{django-fsm} n'est directement intégré à un ORM Node.js : il faudrait câbler soi-même la protection des transitions et la traçabilité fine des modifications au niveau des modèles, ce qui est indispensable dans ce projet.
+    \item L'utilisation de Node.js implique de travailler en JavaScript, alors que le reste du système est conçu en Python, ce qui introduit une complexité supplémentaire en termes de cohérence et de maintenance.
+    \item La gestion des évolutions du schéma de base de données au fil des sprints demande davantage d'efforts d'organisation et de suivi, car elle n'est pas aussi intégrée nativement dans l'écosystème.
+\end{itemize}
+
+\paragraph{FastAPI}
+Framework Python récent, conçu pour construire
+des APIs performantes avec une validation
+automatique des données ~\cite{fastapi_dev}.
+
+\textit{Avantages :}
+\begin{itemize}
+  \item Très bonnes performances grâce
+        au support natif des requêtes asynchrones
+  \item Validation automatique des données entrantes
+  \item Documentation de l'API générée automatiquement
+\end{itemize}
+
+\textit{Limites :}
+\begin{itemize}
+  \item Pas d'outil intégré pour la base de données,
+        l'administration ou la gestion des droits
+  \item Les cycles de vie des entités,
+        le journal d'audit et les permissions
+        seraient à construire de zéro
+  \item L'outil de migration de schéma demande davantage de configuration et d'intervention manuelle, ce qui peut ralentir les cycles d'itération en développement.
+  \item FastAPI est surtout adapté à des APIs légères et rapides, et moins à des applications contenant beaucoup de logique métier.
+\end{itemize}
+
+\paragraph{Django}
+Framework Python complet, pensé pour développer
+rapidement des applications web avec beaucoup
+de logique interne ~\cite{django_dev}.
+
+\textit{Avantages :}
+\begin{itemize}
+  \item Gestion de la base de données,
+        authentification, permissions et interface
+        d'administration fournis nativement,
+        sans aucune configuration supplémentaire
+  \item \texttt{django-fsm} permet de définir
+        des cycles de vie sécurisés sur chaque entité,
+        avec une option qui empêche toute
+        modification directe du statut
+        en dehors des transitions autorisées
+  \item \texttt{django-auditlog} enregistre
+        automatiquement toutes les modifications
+        avec l'auteur et la date, ce qui est indispensable
+        pour les décisions réglementaires
+  \item La gestion des évolutions de schéma
+        est intégrée nativement, ce qui
+        facilite les changements à chaque sprint
+  \item S'intègre facilement avec le SSO CAS/OIDC
+        via des bibliothèques existantes et maintenues
+\end{itemize}
+
+\textit{Limites :}
+\begin{itemize}
+  \item Django était historiquement limité
+        sur les traitements asynchrones,
+        mais cette lacune a été corrigée
+        depuis la version 5
+  \item Légèrement moins performant que FastAPI
+        sur des calculs très complexes,
+        ce qui peut être contourné en passant
+        par des requêtes SQL directes
+        pour les agrégations de durées CTI
+\end{itemize}
+
+\subsubsection{Synthèse comparative}
+
+Le tableau~\ref{tab:comparaison_backend} récapitule les critères évalués pour chacune des trois solutions, afin de faciliter la comparaison et de justifier le choix retenu.
+
+\renewcommand{\arraystretch}{1.35}
+\begin{table}[H]
+\centering
+\caption{Comparaison des frameworks backend}
+\label{tab:comparaison_backend}
+\footnotesize
+\begin{tabular}{|p{4cm}|>{\centering\arraybackslash}p{1.6cm}|>{\centering\arraybackslash}p{2.1cm}|>{\centering\arraybackslash}p{2.1cm}|>{\centering\arraybackslash}p{2.7cm}|}
+\hline
+\rowcolor{gray!20}
+\textbf{Critère} & \textbf{Poids} & \textbf{Node.js} & \textbf{FastAPI} & \textbf{Django 5} \\
+\hline
+ORM et gestion BDD intégrés & Bloquant & \xmark & \xmark & \cmark \\
+\hline
+Interface d'administration & Secondaire & \xmark & \xmark & \cmark \\
+\hline
+Machines à états (FSM) & Bloquant & \xmark & \xmark & \cmark \\
+\hline
+Migrations de schéma & Secondaire & Manuel & nécessite config & \cmark \\
+\hline
+Authentification SSO & Bloquant & Manuel & Manuel & \cmark \\
+\hline
+Journal d'audit automatique & Bloquant & Manuel & Manuel & \cmark \\
+\hline
+Support ASGI / async & Secondaire & \cmark & \cmark & \cmark \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsubsection{Décision}
+\textbf{Django 5} est retenu car le projet repose sur de nombreuses entités liées entre elles, avec des cycles de vie distincts, un journal d'audit obligatoire et une gestion fine des droits entre deux profils utilisateurs.
+
+Utiliser une autre solution aurait impliqué de reconstruire une grande partie de ces mécanismes.
+
+Django permet de disposer de ces fonctionnalités directement, ce qui est un avantage important dans ce projet.
+
+% Pour le déploiement en production, la configuration retenue est \textbf{Gunicorn} avec l'option \texttt{-k uvicorn.workers.UvicornWorker} : Gunicorn orchestre les workers et gère les signaux système, tandis que UvicornWorker assure le support natif de l'interface ASGI requise par Django Ninja pour les endpoints asynchrones.
+
+% ─────────────────────────────────────────────────────────────
+\subsection{Choix de la couche API}
+
+Une fois le framework backend retenu, il reste à choisir la bibliothèque
+la mieux adaptée pour construire l'API. Cette section évalue les deux
+solutions compatibles avec Django et justifie le choix retenu.
+
+\subsubsection{Besoins spécifiques}
+
+L'API doit permettre les échanges entre Next.js
+et Django, valider des structures de données
+parfois complexes (vœux ordonnés, quotas par
+département, rapports d'import), générer
+automatiquement une documentation utilisable
+par le développeur frontend, et répondre
+de façon non bloquante aux requêtes qui
+déclenchent des traitements longs
+(lancement de l'algorithme, recalcul).
+
+\subsubsection{Alternatives évaluées}
+
+Deux solutions ont été évaluées pour exposer l'API entre le frontend Next.js et le backend Django.
+
+\paragraph{Django REST Framework (DRF)}
+Django REST Framework est la bibliothèque la plus utilisée pour construire
+des APIs avec Django. Elle fournit un ensemble complet d'outils pour
+la sérialisation, la validation et la gestion des permissions~\cite{drf_dev}.
+
+\textit{Avantages :}
+\begin{itemize}
+  \item Très mature et bien documenté,
+        avec une grande communauté
+  \item Outillage complet : gestion des tokens JWT,
+        filtres, pagination, génération de
+        documentation via \texttt{drf-spectacular}
+  \item Fonctionne parfaitement avec l'ORM
+        et les permissions Django
+\end{itemize}
+
+\textit{Limites :}
+\begin{itemize}
+  \item Les vues DRF sont synchrones par défaut :
+        les rendre asynchrones demande une
+        configuration supplémentaire, utile
+        uniquement si une vue devait un jour
+        appeler elle-même une API externe sans
+        passer par une tâche de fond
+  \item Les sérialiseurs DRF demandent beaucoup
+        de code répétitif, surtout quand on
+        travaille avec plusieurs entités
+  \item La documentation de l'API nécessite
+        une configuration externe séparée,
+        à maintenir en parallèle
+\end{itemize}
+
+\paragraph{Django Ninja}
+Framework API pour Django, basé sur une validation des données structurée et typée via Pydantic ~\cite{djangoninja_dev}.
+
+\textit{Avantages :}
+\begin{itemize}
+    \item Chaque route peut être synchrone ou asynchrone selon le besoin, nativement et sans configuration supplémentaire.
+  \item La validation des données via Pydantic
+        est plus concise que DRF
+  \item La documentation de l'API est générée
+        automatiquement, sans aucune
+        configuration supplémentaire
+  \item Conserve entièrement l'écosystème Django :
+        ORM, administration, cycles de vie,
+        permissions
+\end{itemize}
+
+\textit{Limites :}
+\begin{itemize}
+  \item Plus récent que DRF, avec moins
+        d'extensions disponibles
+  \item Moins de ressources en ligne
+        pour des cas très spécifiques
+\end{itemize}
+
+\subsubsection{Synthèse comparative}
+
+Le tableau~\ref{tab:comparaison_api} récapitule les critères évalués pour chacune des deux
+solutions, afin de faciliter la comparaison et de justifier le choix retenu.
+
+\renewcommand{\arraystretch}{1.35}
+\begin{table}[H]
+\centering
+\caption{Comparaison DRF et Django Ninja}
+\label{tab:comparaison_api}
+\footnotesize
+\begin{tabular}{|p{4cm}|>{\centering\arraybackslash}p{1.7cm}|>{\centering\arraybackslash}p{3cm}|>{\centering\arraybackslash}p{3cm}|}
+\hline
+\rowcolor{gray!20}
+\textbf{Critère} & \textbf{Poids} & \textbf{DRF} & \textbf{Django Ninja} \\
+\hline
+Validation Pydantic (typage strict) & Secondaire & \xmark & \cmark \\
+\hline
+Réduction du code répétitif & Secondaire & \xmark & \cmark \\
+\hline
+Documentation auto-générée & Secondaire & \xmark & \cmark \\
+\hline
+Intégration ORM Django & Bloquant & \cmark & \cmark \\
+\hline
+Support async natif (vues) & Secondaire & Non natif, configuration requise & \cmark \\
+\hline
+Maturité et communauté & Secondaire & \cmark & Framework récent, moins de ressources \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsubsection{Décision}
+\textbf{Django Ninja} est retenu. L'argument principal est la validation
+par schémas Pydantic : les entrées et sorties de chaque endpoint sont
+typées explicitement, ce qui réduit nettement le code répétitif de
+sérialisation par rapport à DRF, en particulier sur les nombreuses
+entités du domaine (accords, quotas, vœux, affectations). La
+documentation OpenAPI générée automatiquement à partir de ces schémas
+est également appréciable pour un projet développé avec un frontend
+séparé.
+
+Le support natif de l'asynchrone n'est pas le critère décisif : les
+endpoints critiques du projet (déclenchement de l'algorithme, recalcul
+des quotas, synchronisations ETL) répondent immédiatement en
+déléguant le traitement à une tâche Django-Q2, ce qu'une vue
+synchrone classique fait tout aussi bien puisque c'est la mise en
+file d'attente qui est asynchrone, pas la vue elle-même. Ce support
+reste néanmoins un atout pour d'éventuels futurs endpoints qui
+appelleraient directement une API externe (Eudonet, MoveON, Pégase)
+sans passer par une tâche de fond.
+
+\medskip
+\noindent La stack backend retenue est donc :
+\textbf{Django 5 + Django Ninja}.
+
+% ─────────────────────────────────────────────────────────────
+\section{Choix de la base de données}
+% ─────────────────────────────────────────────────────────────
+
+Cette section présente les besoins spécifiques liés au stockage des données,
+évalue les alternatives disponibles, puis justifie le choix retenu.
+
+\subsection{Besoins spécifiques}
+
+La base de données doit supporter un modèle avec plusieurs entités reliées
+entre elles par de nombreuses clés étrangères, stocker les réponses brutes
+des APIs externes avant transformation (\texttt{RawImport}), et garantir
+la cohérence des données lors des opérations qui touchent plusieurs entités
+à la fois (transitions de cycle de vie, affectations, journal d'audit).
+
+\subsection{Alternatives évaluées}
+
+Trois systèmes de gestion de base de données ont été évalués en regard
+des besoins identifiés précédemment.
+
+\subsubsection{MySQL}
+
+MySQL est un système de gestion de base de données relationnelle très répandu,
+bien supporté par l'écosystème Django et largement utilisé en
+production ~\cite{mysql_dev}.
+
+\textit{Avantages :}
+\begin{itemize}
+  \item Système très répandu, avec une grande communauté et une documentation abondante
+  \item Bonne intégration avec l'écosystème Django
+  \item Largement utilisé en production, avec des outils de sauvegarde matures
+\end{itemize}
+
+\textit{Limites :}
+\begin{itemize}
+  \item Support moins adapté pour le stockage et l'exploitation de données
+        au format JSON, notamment pour les imports bruts (\texttt{RawImport})
+  \item Fonctionnalités limitées pour gérer des mécanismes de file d'attente
+        de tâches
+  \item Moins adapté aux opérations transactionnelles complexes impliquant
+        plusieurs entités liées
+\end{itemize}
+
+\subsubsection{MongoDB}
+
+MongoDB est une base de données orientée documents, conçue pour offrir
+une grande flexibilité dans la structure des données et particulièrement
+adaptée au stockage JSON ~\cite{mongodb_dev}.
+
+\textit{Avantages :}
+\begin{itemize}
+  \item Grande flexibilité dans la structure des données
+  \item Adapté au stockage de documents JSON
+  \item Bonnes performances sur les lectures de documents non structurés
+\end{itemize}
+
+\textit{Limites :}
+\begin{itemize}
+  \item Le modèle de données du projet repose fortement sur des relations
+        entre entités (quotas, affectations, mobilités), ce qui rend
+        l'absence de relations structurées moins adaptée
+  \item Intégration limitée avec les outils ORM utilisés dans le projet
+  \item Absence de support direct pour certains mécanismes de traitement
+        asynchrone utilisés dans l'architecture
+\end{itemize}
+
+\subsubsection{PostgreSQL 16}
+
+PostgreSQL est un système de gestion de base de données relationnelle
+open source, reconnu pour sa robustesse, la richesse de ses fonctionnalités
+et son respect strict des standards SQL ~\cite{postgresql_dev}.
+
+\textit{Avantages :}
+\begin{itemize}
+  \item Gestion robuste des transactions, adaptée aux opérations impliquant
+        plusieurs entités liées
+  \item Support natif du format JSON avec indexation, utile pour le stockage
+        des données brutes (\texttt{RawImport})
+  \item Possibilité d'utiliser la base comme support de file d'attente
+        pour les traitements asynchrones
+  \item Bon niveau d'intégration avec les outils de développement du projet
+  \item Outils de sauvegarde et de restauration fiables
+\end{itemize}
+
+\textit{Limites :}
+\begin{itemize}
+  \item Mise en place initiale plus complète, nécessitant une configuration
+        structurée dès le début du projet
+\end{itemize}
+
+\subsection{Synthèse comparative}
+
+Le tableau~\ref{tab:comparaison_bdd} récapitule les critères évalués pour chacune des trois
+solutions, afin de faciliter la comparaison et de justifier le choix retenu.
+
+\renewcommand{\arraystretch}{1.35}
+\begin{table}[H]
+\centering
+\caption{Comparaison des systèmes de gestion de base de données}
+\label{tab:comparaison_bdd}
+\footnotesize
+\begin{tabular}{|p{3.2cm}|>{\centering\arraybackslash}p{1.6cm}|>{\centering\arraybackslash}p{2.3cm}|>{\centering\arraybackslash}p{2.1cm}|>{\centering\arraybackslash}p{2.5cm}|}
+\hline
+\rowcolor{gray!20}
+\textbf{Critère} & \textbf{Poids} & \textbf{MySQL / MariaDB} & \textbf{MongoDB} & \textbf{PostgreSQL 16} \\
+\hline
+Transactions ACID multi-tables & Bloquant & \cmark & ACID ajouté en v4.0, moins fiable qu'un SGBD relationnel & \cmark \\
+\hline
+Support JSONB natif + indexation & Bloquant & JSON simple, pas d'indexation avancée & \cmark & \cmark \\
+\hline
+File d'attente de tâches & Secondaire & \xmark & \xmark & \cmark \\
+\hline
+Intégration ORM Django & Bloquant & \cmark & Support via PyMongo sans migration Django & \cmark \\
+\hline
+Extension pgcrypto (chiffrement) & Secondaire & \xmark & \xmark & \cmark \\
+\hline
+Outils de sauvegarde fiables & Secondaire & \cmark & \cmark & \cmark \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Décision}
+
+\textbf{PostgreSQL 16} est retenu. Il répond de manière cohérente à l'ensemble
+des besoins identifiés, à savoir la gestion des relations, le support du JSON natif,
+les traitements asynchrones et le chiffrement, dans un seul service, sans introduire
+de composant supplémentaire dans l'infrastructure.
+
+% ─────────────────────────────────────────────────────────────
+\section{Choix du format de stockage des imports bruts}
+% ─────────────────────────────────────────────────────────────
+
+Cette section précise comment sont stockées les réponses brutes des APIs
+externes avant leur traitement, en évaluant les alternatives disponibles
+et en justifiant le format retenu.
+
+\subsection{Besoins spécifiques}
+
+L'entité \texttt{RawImport} doit conserver la réponse complète de chaque
+appel d'API externe (MoveON, Pégase, Eudonet) avant toute transformation.
+Ces données sont semi-structurées et variables d'une source à l'autre.
+Le format retenu doit permettre de relire, d'interroger et de tracer ces
+imports tout en restant cohérent avec le reste du modèle de données.
+
+\subsection{Alternatives évaluées}
+
+\subsubsection{Fichiers plats (JSON sur le système de fichiers)}
+
+Un fichier plat est un fichier texte brut qui stocke des données sans
+structure hiérarchique ni mécanisme d'indexation. Dans ce contexte, chaque
+réponse d'API serait sérialisée en JSON et enregistrée dans un répertoire
+dédié sur le serveur, un fichier par import.
+
+\textit{Avantages :}
+\begin{itemize}
+  \item Mise en place immédiate, sans configuration particulière
+  \item Lecture directe par n'importe quel éditeur de texte
+\end{itemize}
+
+\textit{Limites :}
+\begin{itemize}
+  \item Aucune possibilité d'interroger le contenu avec des requêtes SQL
+  \item Intégrité référentielle avec les autres entités non garantie
+  \item Gestion des accès concurrents et des transactions non assurée
+  \item Sauvegarde dissociée du reste de la base de données
+\end{itemize}
+
+\subsubsection{Base NoSQL dédiée (MongoDB)}
+
+Les imports bruts sont stockés dans une base documentaire séparée,
+spécialisée dans le stockage de documents JSON.
+
+\textit{Avantages :}
+\begin{itemize}
+  \item Très bien adapté au stockage de documents JSON hétérogènes
+  \item Bonne performance sur les lectures de documents non structurés
+\end{itemize}
+
+\textit{Limites :}
+\begin{itemize}
+  \item Service supplémentaire à déployer, superviser et sauvegarder
+  \item Aucune relation possible avec les entités de la base relationnelle
+  \item Surcoût d'infrastructure injustifié pour ce seul cas d'usage
+\end{itemize}
+
+\subsubsection{Type JSONB dans PostgreSQL}
+
+Les réponses brutes sont stockées dans une colonne de type \textbf{JSONB}
+au sein de la table \texttt{RawImport}, dans la même base PostgreSQL.
+
+\textit{Avantages :}
+\begin{itemize}
+  \item Stockage dans la base existante, sans service supplémentaire
+  \item Indexation du contenu JSON pour des requêtes efficaces
+  \item Jointures possibles avec les autres tables du modèle
+  \item Mêmes garanties ACID et même périmètre de sauvegarde que le reste
+\end{itemize}
+
+\textit{Limites :}
+\begin{itemize}
+  \item Moins flexible que MongoDB pour des structures JSON très hétérogènes,
+        ce qui reste sans impact ici compte tenu du faible nombre de sources
+\end{itemize}
+
+\subsection{Synthèse comparative}
+
+\renewcommand{\arraystretch}{1.35}
+\begin{table}[H]
+\centering
+\caption{Comparaison des formats de stockage pour \texttt{RawImport}}
+\label{tab:comparaison_rawimport}
+\footnotesize
+\begin{tabular}{|p{3.4cm}|>{\centering\arraybackslash}p{1.6cm}|>{\centering\arraybackslash}p{2.1cm}|>{\centering\arraybackslash}p{2.3cm}|>{\centering\arraybackslash}p{2.4cm}|}
+\hline
+\rowcolor{gray!20}
+\textbf{Critère} & \textbf{Poids} & \textbf{Fichiers plats} & \textbf{MongoDB} & \textbf{JSONB (PostgreSQL)} \\
+\hline
+Requêtes SQL sur le contenu & Bloquant & \xmark & \xmark & \cmark \\
+\hline
+Intégrité référentielle & Bloquant & \xmark & \xmark & \cmark \\
+\hline
+Garanties ACID & Bloquant & \xmark & Transactions ACID ajoutées en v4.0, moins fiables que PostgreSQL & \cmark \\
+\hline
+Aucun service supplémentaire & Secondaire & \cmark & \xmark & \cmark \\
+\hline
+Indexation du contenu JSON & Secondaire & \xmark & \cmark & \cmark \\
+\hline
+Sauvegarde unifiée & Secondaire & \xmark & \xmark & \cmark \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Décision}
+
+Le type \textbf{JSONB} de PostgreSQL est retenu pour le stockage des imports
+bruts. Il évite toute fragmentation de l'infrastructure en réutilisant la base
+déjà en place, tout en offrant les capacités d'interrogation nécessaires sur
+les données semi-structurées. Les fichiers plats ne permettent pas de garantir
+la cohérence avec le reste du modèle, et l'ajout de MongoDB n'apporterait
+aucun avantage fonctionnel pour ce seul cas d'usage.
+
+% ─────────────────────────────────────────────────────────────
+\section{Choix du gestionnaire de tâches asynchrones}
+% ─────────────────────────────────────────────────────────────
+
+Cette section présente les besoins en traitement asynchrone du projet,
+évalue les solutions disponibles, puis justifie le choix retenu.
+
+\subsection{Besoins spécifiques}
+
+Certaines opérations du système ne peuvent pas s'exécuter de façon
+synchrone sans bloquer l'interface utilisateur. Deux catégories de
+tâches ont été identifiées.
+
+La première catégorie regroupe les tâches déclenchées par des événements :
+le lancement de l'algorithme d'affectation, le recalcul des durées
+après modification d'un état, et le traitement des imports qui peuvent
+durer plusieurs secondes.
+
+La seconde catégorie regroupe les tâches planifiées : les synchronisations
+nocturnes avec MoveON, Pégase et Eudonet, ainsi que la suppression
+automatique des imports bruts anciens.
+
+Le volume reste modéré : quelques dizaines de tâches par jour en
+fonctionnement normal, quelques centaines lors des périodes de traitement,
+sans besoin de traitement intensif en continu.
+
+\subsection{Alternatives évaluées}
+
+Deux solutions ont été évaluées pour la gestion des tâches asynchrones
+dans l'écosystème Django.
+
+\subsubsection{Celery + Redis}
+
+Celery est la bibliothèque Python de référence pour l'exécution de tâches
+en arrière-plan. Elle s'appuie sur un broker de messages externe,
+généralement Redis ou RabbitMQ, pour acheminer les tâches vers les
+workers ~\cite{celery_dev} ~\cite{redis_dev}.
+
+\textit{Avantages :}
+\begin{itemize}
+  \item Très mature, bien documenté, avec une grande communauté
+  \item Capable de traiter un très grand volume de tâches en parallèle
+  \item Compatible avec plusieurs brokers (Redis, RabbitMQ)
+  \item Outil de supervision dédié (Flower)
+\end{itemize}
+
+\textit{Limites :}
+\begin{itemize}
+  \item Trois services supplémentaires à déployer et maintenir :
+        le worker Celery, le planificateur Celery Beat et Redis
+  \item Redis consomme entre 50 et 200~Mo de mémoire pour un rôle
+        que PostgreSQL, déjà présent, peut assurer seul
+  \item Complexité disproportionnée par rapport au volume réel du projet
+\end{itemize}
+
+\subsubsection{Django-Q2 + PostgreSQL}
+
+Django-Q2 est une bibliothèque de gestion de tâches asynchrones conçue
+spécifiquement pour Django. Elle utilise directement PostgreSQL comme
+file d'attente, sans nécessiter de broker externe ~\cite{djangoq2_dev}.
+
+\textit{Avantages :}
+\begin{itemize}
+  \item Aucun service supplémentaire : PostgreSQL joue le rôle
+        de file d'attente sans configuration additionnelle
+  \item Planificateur de tâches intégré, adapté aux synchronisations
+        nocturnes et aux suppressions programmées
+  \item Supervision accessible depuis l'interface d'administration
+        Django existante, sans outil tiers
+  \item Seulement deux services à opérer au lieu de cinq avec Celery
+\end{itemize}
+
+\textit{Limites :}
+\begin{itemize}
+  \item Moins performant que Celery pour des volumes très élevés,
+        sans incidence pour ce projet
+  \item Communauté plus restreinte que Celery
+\end{itemize}
+
+\subsection{Synthèse comparative}
+
+Le tableau~\ref{tab:comparaison_async} récapitule les critères évalués pour chacune des deux
+solutions, afin de faciliter la comparaison et de justifier le choix retenu.
+
+\renewcommand{\arraystretch}{1.35}
+\begin{table}[H]
+\centering
+\caption{Comparaison des gestionnaires de tâches asynchrones}
+\label{tab:comparaison_async}
+\footnotesize
+\begin{tabular}{|p{4.3cm}|>{\centering\arraybackslash}p{1.7cm}|>{\centering\arraybackslash}p{3cm}|>{\centering\arraybackslash}p{3cm}|}
+\hline
+\rowcolor{gray!20}
+\textbf{Critère} & \textbf{Poids} & \textbf{Celery + Redis} & \textbf{Django-Q2 + PostgreSQL} \\
+\hline
+Aucun service supplémentaire & Secondaire & \xmark & \cmark \\
+\hline
+Planificateur intégré & Bloquant & Celery Beat disponible mais service séparé & \cmark \\
+\hline
+Supervision via admin Django & Secondaire & \xmark & \cmark \\
+\hline
+Adapté au volume du projet & Bloquant & Surdimensionné pour ce volume de tâches & \cmark \\
+\hline
+Maturité et communauté & Secondaire & \cmark & Communauté plus restreinte que Celery \\
+\hline
+Intégration native avec Django & Secondaire & Nécessite une configuration supplémentaire & \cmark \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Décision}
+
+\textbf{Django-Q2 avec PostgreSQL} est retenu. Il réutilise la base de
+données déjà en place comme file d'attente, ce qui évite d'introduire
+un service supplémentaire dans l'infrastructure. Le volume de tâches
+du projet ne justifie pas la complexité opérationnelle de Celery. La
+supervision des traitements depuis l'interface d'administration Django
+existante simplifie également le suivi quotidien pour le service RI.
+
+
+% ─────────────────────────────────────────────────────────────
+\section{Choix du stockage de fichiers}
+% ─────────────────────────────────────────────────────────────
+
+Cette section présente les besoins en stockage de fichiers du projet,
+évalue les solutions disponibles, puis justifie le choix retenu.
+
+\subsection{Besoins spécifiques}
+
+Le projet requiert un mécanisme de dépôt et de stockage de fichiers pour
+les justificatifs soumis par les étudiants lors de la déclaration de
+mobilités complémentaires. Ces fichiers doivent être stockés de manière
+sécurisée et chiffrée, accessibles uniquement par le service RI et
+l'étudiant concerné, avec une suppression automatique conforme au RGPD.
+
+\subsection{Alternatives évaluées}
+
+Deux approches ont été évaluées pour répondre à ces besoins.
+
+\subsubsection{Système de fichiers local}
+
+Le stockage local consiste à enregistrer les fichiers directement sur
+le système de fichiers du serveur hébergeant l'application Django,
+dans un répertoire dédié.
+
+\textit{Avantages :}
+\begin{itemize}
+  \item Simple à configurer, sans dépendance supplémentaire
+\end{itemize}
+
+\textit{Limites :}
+\begin{itemize}
+  \item Aucun chiffrement natif des fichiers stockés
+  \item Non portable entre environnements (développement, staging,
+        production)
+  \item Difficile à sauvegarder et à migrer indépendamment
+        de la base de données
+\end{itemize}
+
+\subsubsection{MinIO (stockage objet S3-compatible)}
+
+MinIO est une solution de stockage objet open source, auto-hébergeable
+et compatible avec l'API S3 d'Amazon ~\cite{minio_dev}. Elle s'intègre
+nativement dans une infrastructure Docker et ne nécessite aucun service
+cloud externe.
+
+\textit{Avantages :}
+\begin{itemize}
+  \item Stockage objet auto-hébergé, compatible avec l'API S3 standard
+  \item Chiffrement côté serveur (SSE-S3) des fichiers stockés
+  \item Génération d'URLs pré-signées pour un accès temporaire
+        et sécurisé, sans exposer les fichiers directement
+  \item Déployable comme container Docker interne,
+        sans aucune dépendance externe ni service cloud
+  \item Politique de rétention et suppression automatique configurables,
+        conformes aux exigences RGPD
+\end{itemize}
+
+\textit{Limites :}
+\begin{itemize}
+  \item Configuration initiale plus complexe qu'un stockage local
+\end{itemize}
+
+\subsection{Synthèse comparative}
+
+Le tableau~\ref{tab:comparaison_stockage} récapitule les critères évalués pour chacune des deux
+solutions, afin de faciliter la comparaison et de justifier le choix retenu.
+
+\renewcommand{\arraystretch}{1.35}
+\begin{table}[H]
+\centering
+\caption{Comparaison des solutions de stockage de fichiers}
+\label{tab:comparaison_stockage}
+\footnotesize
+\begin{tabular}{|p{4.3cm}|>{\centering\arraybackslash}p{1.7cm}|>{\centering\arraybackslash}p{3cm}|>{\centering\arraybackslash}p{3cm}|}
+\hline
+\rowcolor{gray!20}
+\textbf{Critère} & \textbf{Poids} & \textbf{Fichiers local} & \textbf{MinIO} \\
+\hline
+Chiffrement natif (SSE-S3) & Bloquant & \xmark & \cmark \\
+\hline
+URLs pré-signées (accès sécurisé) & Bloquant & \xmark & \cmark \\
+\hline
+Portabilité multi-environnements & Secondaire & \xmark & \cmark \\
+\hline
+Suppression automatique (RGPD) & Bloquant & \xmark & \cmark \\
+\hline
+Déploiement Docker intégré & Secondaire & \xmark & \cmark \\
+\hline
+Simplicité de configuration & Secondaire & \cmark & Plus complexe qu'un stockage local \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Décision}
+
+\textbf{MinIO} est retenu. MinIO peut être déployé selon deux modes :
+\textbf{standalone} (instance unique sur un seul serveur) ou
+\textbf{distributed} (plusieurs nœuds pour la haute disponibilité et
+la tolérance aux pannes). Le mode distribué est destiné aux
+infrastructures multi-serveurs nécessitant une réplication des données.
+
+Dans le cadre de ce projet, le déploiement cible un \textbf{serveur
+unique on-premise} au sein de l'établissement. Le mode standalone
+est donc retenu : il correspond exactement à cette topologie, sans
+surcharger l'infrastructure avec des mécanismes de distribution
+inutiles. MinIO répond ainsi directement aux exigences de sécurité
+(chiffrement SSE-S3) et de conformité RGPD (rétention et suppression
+automatiques), tout en s'intégrant de façon transparente dans
+Docker Compose sans aucun service externe.
+
+
+% ─────────────────────────────────────────────────────────────
+\section{Couche de routage des requêtes}
+% ─────────────────────────────────────────────────────────────
+
+Cette section présente les besoins en matière de routage réseau,
+évalue les deux approches disponibles, puis justifie le choix retenu.
+
+\subsection{Besoins spécifiques}
+
+Le système doit disposer d'un composant chargé de recevoir les
+requêtes HTTP entrantes, d'assurer la terminaison SSL, de router
+le trafic vers le frontend Next.js et l'API Django Ninja, et de
+servir directement les fichiers statiques sans les faire transiter par l'application. Ce composant
+sera administré par
+les équipes IT de Toulouse INP ; sa configuration doit donc être
+lisible et maintenable sans expertise Docker particulière.
+
+\subsection{Alternatives évaluées}
+
+Deux approches ont été évaluées pour assurer ce rôle.
+
+\subsubsection{Reverse proxy}
+
+Un reverse proxy est un composant qui se place entre les clients et
+les services internes. Il reçoit les requêtes HTTP entrantes, assure
+la terminaison SSL, les achemine vers le service approprié selon des
+règles de routage, et sert les fichiers statiques directement sans
+solliciter l'application.
+
+\textit{Avantages :}
+\begin{itemize}
+  \item Composant léger, dédié au routage et à la terminaison SSL
+  \item Configuration statique (Nginx) ou dynamique (Traefik) selon
+        le besoin
+  \item Bien adapté à une architecture monolithique sur un seul serveur
+  \item Maturité et documentation abondantes pour les deux outils
+\end{itemize}
+
+\textit{Limites :}
+\begin{itemize}
+  \item Ne centralise pas l'authentification ni le contrôle de débit
+        (ce qui n'est pas requis ici)
+\end{itemize}
+
+\subsubsection{API Gateway}
+
+Une API Gateway est un composant qui, en plus du routage, centralise
+la gestion de l'authentification, du contrôle de débit et de la
+transformation des requêtes. Elle est conçue pour exposer plusieurs
+microservices à des clients externes variés.
+
+\textit{Avantages :}
+\begin{itemize}
+  \item Gestion centralisée de l'authentification et du contrôle de débit
+  \item Adapté aux architectures microservices exposées à l'externe
+\end{itemize}
+
+\textit{Limites :}
+\begin{itemize}
+  \item Complexité et surcoût injustifiés pour une architecture
+        déployée sur un seul serveur
+  \item Le projet consomme des APIs externes, il n'en expose pas
+        à des clients variés ; ce cas d'usage ne s'applique pas
+\end{itemize}
+
+\subsection{Synthèse comparative}
+
+Le tableau~\ref{tab:comparaison_proxy} récapitule les critères évalués pour chacune des
+deux approches, afin de faciliter la comparaison et de justifier
+le choix retenu.
+
+\renewcommand{\arraystretch}{1.35}
+\begin{table}[H]
+\centering
+\caption{Comparaison des approches de routage des requêtes}
+\label{tab:comparaison_proxy}
+\footnotesize
+\begin{tabular}{|p{4.3cm}|>{\centering\arraybackslash}p{1.7cm}|>{\centering\arraybackslash}p{3cm}|>{\centering\arraybackslash}p{3cm}|}
+\hline
+\rowcolor{gray!20}
+\textbf{Critère} & \textbf{Poids} & \textbf{Reverse proxy} & \textbf{API Gateway} \\
+\hline
+Adapté à un seul serveur & Bloquant & \cmark & \xmark \\
+\hline
+Terminaison SSL & Bloquant & \cmark & \cmark \\
+\hline
+Routage vers services internes & Bloquant & \cmark & \cmark \\
+\hline
+Gestion auth. centralisée & Secondaire & \xmark & \cmark \\
+\hline
+Complexité d'exploitation & Secondaire & Faible & Élevée \\
+\hline
+Pertinent pour ce projet & Bloquant & \cmark & \xmark \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Décision}
+
+Le \textbf{reverse proxy} est retenu. L'architecture est déployée sur
+un seul serveur et le système consomme des APIs externes sans en
+exposer à des clients variés. Une API Gateway introduirait une
+complexité sans aucun bénéfice fonctionnel dans ce contexte.
+
+\subsection{Choix de l'implémentation : Nginx vs Traefik}
+
+Une fois le reverse proxy retenu, il reste à choisir l'outil
+d'implémentation. Cette partie évalue les deux solutions
+les plus utilisées dans l'écosystème Docker et justifie le choix retenu.
+
+\subsubsection{Besoins spécifiques}
+
+L'outil retenu doit assurer la terminaison SSL, le routage vers
+le frontend Next.js et l'API Django Ninja, et la distribution des
+fichiers statiques. Sa configuration doit être lisible et auditable
+par les équipes IT de Toulouse INP qui administreront le serveur,
+sans expertise Docker avancée.
+
+\subsubsection{Alternatives évaluées}
+
+Deux outils open source ont été comparés pour implémenter le reverse proxy.
+
+\paragraph{Nginx}
+
+Nginx est un serveur web et reverse proxy très répandu, reconnu pour
+sa stabilité et la lisibilité de ses fichiers de
+configuration~\cite{nginx_dev}.
+
+\textit{Avantages :}
+\begin{itemize}
+  \item Très stable et bien documenté, avec un comportement prévisible
+  \item Configuration dans des fichiers texte simples, lisibles
+        et faciles à auditer par n'importe quel administrateur système
+  \item Gestion SSL/TLS fiable, excellentes performances sur
+        le routage des requêtes
+\end{itemize}
+
+\textit{Limites :}
+\begin{itemize}
+  \item La gestion des certificats SSL nécessite un outil externe
+        (Certbot)
+  \item Configuration manuelle à mettre à jour lors de changements
+        de services
+\end{itemize}
+
+\paragraph{Traefik}
+
+Traefik est un reverse proxy conçu pour les environnements
+conteneurisés. Il se configure dynamiquement à partir des labels
+des conteneurs Docker actifs~\cite{traefik_dev}.
+
+\textit{Avantages :}
+\begin{itemize}
+  \item Configuration automatique à partir des conteneurs Docker actifs
+  \item Gestion native des certificats SSL via Let's Encrypt
+  \item Interface de supervision intégrée
+\end{itemize}
+
+\textit{Limites :}
+\begin{itemize}
+  \item Configuration déclarative moins lisible pour des équipes IT
+        non familières avec Docker
+  \item Comportement moins prévisible dans un environnement
+        institutionnel avec des contraintes réseau spécifiques
+\end{itemize}
+
+\subsubsection{Synthèse comparative}
+
+Le tableau~\ref{tab:comparaison_proxy_outil} récapitule les critères évalués pour chacun des
+deux outils, afin de faciliter la comparaison et de justifier le
+choix retenu.
+
+\renewcommand{\arraystretch}{1.35}
+\begin{table}[H]
+\centering
+\caption{Comparaison des outils de reverse proxy}
+\label{tab:comparaison_proxy_outil}
+\footnotesize
+\begin{tabular}{|p{4.3cm}|>{\centering\arraybackslash}p{1.7cm}|>{\centering\arraybackslash}p{3cm}|>{\centering\arraybackslash}p{3cm}|}
+\hline
+\rowcolor{gray!20}
+\textbf{Critère} & \textbf{Poids} & \textbf{Nginx} & \textbf{Traefik} \\
+\hline
+Configuration lisible (fichiers texte) & Bloquant & \cmark & Labels Docker, moins lisible pour les équipes IT \\
+\hline
+Gestion SSL native & Secondaire & Nécessite Certbot pour les certificats & \cmark \\
+\hline
+Automatisation Docker & Secondaire & Configuration manuelle à chaque changement & \cmark \\
+\hline
+Prévisibilité en environnement institutionnel & Bloquant & \cmark & Moins prévisible avec des contraintes réseau institutionnelles \\
+\hline
+Maintenabilité par équipes IT générales & Bloquant & \cmark & \xmark \\
+\hline
+Maturité et documentation & Secondaire & \cmark & \cmark \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsubsection{Décision}
+
+\textbf{Nginx} est retenu. Le serveur sera administré par les équipes
+IT de Toulouse INP. Disposer d'une configuration statique dans des
+fichiers texte qu'un administrateur système peut lire et modifier
+sans expertise Docker est, dans ce contexte institutionnel, plus
+important que l'automatisation dynamique proposée par Traefik.
+
+% ─────────────────────────────────────────────────────────────
+\section{Stratégie de performance base de données}
+% ─────────────────────────────────────────────────────────────
+
+Cette section présente les enjeux de performance liés à la croissance
+des données, évalue les deux approches disponibles, puis justifie
+la stratégie retenue.
+
+\subsection{Contexte et enjeux}
+
+Plusieurs tables du projet, telles que les mobilités, les affectations ou les imports,
+grossissent d'une campagne à l'autre. Le système doit pouvoir les
+filtrer rapidement par année universitaire, que ce soit pour afficher
+le tableau de bord RI, calculer les durées CTI ou lancer l'algorithme
+d'affectation. Deux approches ont été évaluées pour répondre à cet
+enjeu.
+
+\subsection{Alternatives évaluées}
+
+\subsubsection{Partitionnement par année}
+
+Le partitionnement consiste à découper physiquement une table en
+sous-tables, une par valeur de la colonne de partition, ici par
+année universitaire. PostgreSQL ne lit alors que la partition
+concernée lors d'une requête filtrée.
+
+\textit{Avantages :}
+\begin{itemize}
+  \item Réduction significative du volume scanné pour les requêtes
+        filtrées par année
+  \item Efficace lorsque les tables atteignent plusieurs millions
+        de lignes
+\end{itemize}
+
+\textit{Limites :}
+\begin{itemize}
+  \item La colonne de partitionnement doit être incluse dans toutes
+        les contraintes d'unicité, ce qui peut créer des conflits
+        avec les migrations Django au fil des sprints
+  \item Complexité supplémentaire du schéma pour un volume qui
+        ne le justifie pas
+\end{itemize}
+
+\subsubsection{Indexation ciblée}
+
+L'indexation ciblée consiste à créer des index sur les colonnes
+les plus utilisées dans les filtres, sans modifier la structure
+physique des tables.
+
+\textit{Avantages :}
+\begin{itemize}
+  \item Aucune modification du schéma ni des migrations Django
+  \item Index déclarés directement dans les modèles, visibles
+        dans le code et versionnés avec lui
+  \item Transparent pour l'ORM, sans configuration PostgreSQL séparée
+\end{itemize}
+
+\textit{Limites :}
+\begin{itemize}
+  \item Moins efficace que le partitionnement pour des volumes
+        de plusieurs millions de lignes, sans incidence ici
+\end{itemize}
+
+\subsection{Synthèse comparative}
+
+Le tableau~\ref{tab:comparaison_perf_bdd} récapitule les critères évalués pour chacune des
+deux approches, afin de faciliter la comparaison et de justifier
+la stratégie retenue.
+
+\renewcommand{\arraystretch}{1.35}
+\begin{table}[H]
+\centering
+\caption{Comparaison des stratégies de performance base de données}
+\label{tab:comparaison_perf_bdd}
+\footnotesize
+\begin{tabular}{|p{4.3cm}|>{\centering\arraybackslash}p{1.7cm}|>{\centering\arraybackslash}p{3cm}|>{\centering\arraybackslash}p{3cm}|}
+\hline
+\rowcolor{gray!20}
+\textbf{Critère} & \textbf{Poids} & \textbf{Partitionnement} & \textbf{Indexation ciblée} \\
+\hline
+Adapté au volume du projet & Bloquant & \xmark & \cmark \\
+\hline
+Compatible avec les migrations Django & Bloquant & Contraintes d'unicité incompatibles avec certaines migrations & \cmark \\
+\hline
+Déclaration dans les modèles & Secondaire & \xmark & \cmark \\
+\hline
+Aucune configuration PostgreSQL séparée & Secondaire & \xmark & \cmark \\
+\hline
+Efficacité à très grande échelle & Secondaire & \cmark & Moins efficace pour plusieurs millions de lignes \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Décision}
+
+\textbf{L'indexation ciblée} est retenue. L'ENSEEIHT compte environ
+\textbf{300 étudiants en mobilité par an}. Même en projetant ce volume
+sur dix ans, les tables restent très loin du seuil où le partitionnement
+apporterait un gain mesurable. Des index sont créés sur
+\texttt{academic\_year\_id} et sur la combinaison
+\texttt{(academic\_year\_id, student\_id)} pour les tables les plus
+sollicitées, directement dans les modèles Django concernés.
+
+% ─────────────────────────────────────────────────────────────
+\section{Synthèse des choix technologiques}
+% ─────────────────────────────────────────────────────────────
+
+\renewcommand{\arraystretch}{1.4}
+
+\begin{longtable}{|p{3cm}|p{3.5cm}|p{8.5cm}|}
+\caption{Synthèse des choix technologiques} \\
+\hline
+\rowcolor{gray!20}
+\textbf{Composant} & \textbf{Technologie retenue} & \textbf{Justification principale} \\
+\hline
+\endfirsthead
+
+\hline
+\rowcolor{gray!20}
+\textbf{Composant} & \textbf{Technologie retenue} & \textbf{Justification principale} \\
+\hline
+\endhead
+
+Méthodologie de développement & Scrum & Développement itératif et adaptation progressive aux besoins du service RI \\
+\hline
+
+Frontend & Next.js 16 & Rendu hybride SSR/CSR, séparation sécurisée des espaces RI et étudiant \\
+\hline
+
+Backend framework & Django 5 & ORM, administration, gestion des droits et logique métier intégrés \\
+\hline
+
+Couche API & Django Ninja & Support natif de l'asynchrone, validation Pydantic, documentation automatique \\
+\hline
+
+Base de données & PostgreSQL 16 & Transactions robustes, support JSON et bonne intégration avec Django \\
+\hline
+
+Gestionnaire de tâches asynchrones & Django-Q2 + PostgreSQL & Aucun service supplémentaire et supervision intégrée à Django \\
+\hline
+
+Stockage fichiers & MinIO (S3-compatible) & Stockage objet auto-hébergé, chiffrement SSE-S3, conforme RGPD, intégré comme container Docker sans service externe \\
+\hline
+
+Reverse proxy & Nginx & Configuration simple, stable et adaptée à un environnement institutionnel \\
+\hline
+
+Stratégie de performance BDD & Indexation ciblée & Solution simple et suffisante pour le volume de données du projet \\
+\hline
+
+Conteneurisation & Docker + Docker Compose & Déploiement reproductible et simplification de l'environnement \\
+\hline
+
+Gestion des états métier & django-fsm & Transitions sécurisées et intégration directe avec Django ORM \\
+\hline
+
+Journalisation et audit & Module d'audit applicatif développé en interne (\texttt{app/audit/logger.py}) & Traçabilité ciblée des actions administratives via \texttt{log\_action()} \\
+\hline
+
+Authentification & CAS/OIDC & Exigence institutionnelle : SSO Toulouse INP avec détection automatique du rôle depuis le token \\
+\hline
+
+\end{longtable}
+
+
+\section*{Conclusion}
+\justifying
+\phantomsection
+\addcontentsline{toc}{section}{Conclusion}
+
+Ce chapitre a précisé les besoins fonctionnels et non fonctionnels du système, les profils utilisateurs et le périmètre retenu, puis justifié l'ensemble des choix technologiques qui structurent la plateforme, en privilégiant la cohérence de l'ensemble et la simplicité d'exploitation. Ces choix forment le socle sur lequel repose la conception détaillée du système, présentée au chapitre suivant.

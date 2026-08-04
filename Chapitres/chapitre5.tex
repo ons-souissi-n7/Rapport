@@ -15,10 +15,10 @@
 \phantomsection
 \addcontentsline{toc}{section}{Introduction}
 
-Le chapitre précédent a établi la conception complète du système : backlog, architecture et modèle de données. Ce chapitre couvre la phase de réalisation du projet, organisée en sprints successifs, où le backlog, la conception détaillée, l'implémentation et les tests de chaque sprint sont présentés conformément à la définition of done.
+Le chapitre précédent a justifié les choix algorithmiques et détaillé les machines à états qui structurent la logique métier du système. Ce chapitre couvre la phase de réalisation du projet, organisée en sprints successifs, où le backlog, la conception détaillée, l'implémentation et les tests de chaque sprint sont présentés conformément à la définition of done.
 
 % ─────────────────────────────────────────────────────────────
-\section{{Sprint 1 — Socle technique et référentiels}}
+\section{{Sprint 1 : Socle technique et référentiels}}
 % ─────────────────────────────────────────────────────────────
 
 Cette section présente la réalisation du Sprint 1, dédié à la mise en place du socle technique et des référentiels. Elle couvre successivement l'objectif du sprint, le backlog, la conception UML, l'implémentation et les tests.
@@ -42,17 +42,17 @@ Le Sprint 1 a pour objectif d'implémenter les fondations irréversibles du syst
 \newcommand{\usheadergreen}[2]{%
   \multicolumn{6}{|p{\uswidth}|}{%
     \cellcolor{green!8}%
-    \textbf{#1} — \small\textit{#2}%
+    \textbf{#1} : \small\textit{#2}%
   } \\ \hline
 }
 \newcommand{\usheader}[2]{%
   \multicolumn{6}{|p{\uswidth}|}{%
     \cellcolor{blue!8}%
-    \textbf{#1} — \small\textit{#2}%
+    \textbf{#1} : \small\textit{#2}%
   } \\ \hline
 }
 
-\subsection{Sprint Backlog — Sprint 1}
+\subsection{Sprint Backlog : Sprint 1}
 
 \begingroup
 \footnotesize
@@ -76,7 +76,7 @@ Le Sprint 1 a pour objectif d'implémenter les fondations irréversibles du syst
 \endfoot
 
 % ── US-01 ─────────────────────────────────────────────────────────────────────
-\usheadergreen{US-01 — Référentiels de base}{%
+\usheadergreen{US-01 : Référentiels de base}{%
   En tant qu'\textbf{administrateur RI}, je veux disposer d'un référentiel
   stable des pays, départements et universités partenaires afin que toutes
   les entités du système s'appuient sur des données de référence cohérentes.}
@@ -111,7 +111,7 @@ Haute & 2 \\
 \hline
 
 % ── US-02 ─────────────────────────────────────────────────────────────────────
-\usheadergreen{US-02 — Année universitaire et cycle de vie}{%
+\usheadergreen{US-02 : Année universitaire et cycle de vie}{%
   En tant qu'\textbf{administrateur RI}, je veux que le système gère
   le cycle de vie de l'année universitaire via une machine à états
   afin de contrôler chaque phase de la campagne de manière sécurisée.}
@@ -132,7 +132,7 @@ Les invalides lèvent
 \texttt{TransitionNotAllowed}.
 \texttt{start\_\allowbreak date > end\_\allowbreak date}
 lève \texttt{ValidationError}. &
-Haute & 2 \\
+Haute & 3 \\
 \hline
 
 \nexttask &
@@ -151,7 +151,7 @@ Haute & 2 \\
 \hline
 
 % ── US-03 ─────────────────────────────────────────────────────────────────────
-\usheadergreen{US-03 — Accords et quotas — modèle de données}{%
+\usheadergreen{US-03 : Accords et quotas, modèle de données}{%
   En tant qu'\textbf{administrateur RI}, je veux disposer d'un modèle
   de données complet pour les accords et leurs quotas afin d'avoir
   une base fiable pour l'algorithme d'affectation.}
@@ -224,15 +224,15 @@ Cette section présente la conception UML détaillée des entités métier du Sp
 
 % Le diagramme de la figure~\ref{fig:diag-class-sprint1} modélise le domaine de gestion des accords de mobilité internationale de l'ENSEEIHT. L'entité centrale est \texttt{Agreement}, qui représente un accord entre l'ENSEEIHT et une université partenaire (\texttt{PartnerUniversity}), qualifiée par un cadre de mobilité (\texttt{MobilityCategory}) et des niveaux d'études (\texttt{Level}).
 
-% La hiérarchie des quotas — INP $\to$ N7 $\to$ département — est portée par trois classes. \texttt{AgreementDepartment} liste les départements autorisés par accord, indépendamment de l'année, et constitue la contrainte référentielle qui interdit d'allouer un quota à un département non autorisé. \texttt{AgreementYear} matérialise la déclinaison annuelle d'un accord : elle fige un instantané du quota INP (\texttt{inp\_total\_places}) au moment de la validation et porte le quota N7 global (\texttt{n7\_places}) qui en est déduit. \texttt{AgreementYearDepartment} distribue enfin ce quota N7 par département autorisé, avec deux niveaux de valeur : \texttt{estimated\_places}, calculé automatiquement (méthode Hamilton, cf. Sprint 4 — US-11), et \texttt{adjusted\_places}, un ajustement manuel optionnel qui prévaut dès qu'il est renseigné (\texttt{get\_\allowbreak effective\_\allowbreak quota()}).
+% La hiérarchie des quotas, INP $\to$ N7 $\to$ département, est portée par trois classes. \texttt{AgreementDepartment} liste les départements autorisés par accord, indépendamment de l'année, et constitue la contrainte référentielle qui interdit d'allouer un quota à un département non autorisé. \texttt{AgreementYear} matérialise la déclinaison annuelle d'un accord : elle fige un instantané du quota INP (\texttt{inp\_total\_places}) au moment de la validation et porte le quota N7 global (\texttt{n7\_places}) qui en est déduit. \texttt{AgreementYearDepartment} distribue enfin ce quota N7 par département autorisé, avec deux niveaux de valeur : \texttt{estimated\_places}, calculé automatiquement (méthode Hamilton, cf. Sprint 4 : US-11), et \texttt{adjusted\_places}, un ajustement manuel optionnel qui prévaut dès qu'il est renseigné (\texttt{get\_\allowbreak effective\_\allowbreak quota()}).
 
-% \texttt{AcademicYear} pilote le cycle de vie de la campagne via une machine à états à neuf phases (cf. chapitre~\ref{cha:conception}, section FSM). Toutes les classes portent les champs d'audit \texttt{created\_at}, \texttt{updated\_at}, \texttt{created\_by} et \texttt{updated\_by}, hérités de \texttt{TimeStampedModel} et omis de la figure par souci de lisibilité.
+% \texttt{AcademicYear} pilote le cycle de vie de la campagne via une machine à états à neuf phases (cf. chapitre~\ref{cha:algo-fsm}, section FSM). Toutes les classes portent les champs d'audit \texttt{created\_at}, \texttt{updated\_at}, \texttt{created\_by} et \texttt{updated\_by}, hérités de \texttt{TimeStampedModel} et omis de la figure par souci de lisibilité.
 
 % \begin{landscape}
 % \begin{figure}[H]
 %   \centering
 %   \includegraphics[width=\linewidth,height=0.9\textheight,keepaspectratio]{figures/conception/Sprint1/Diagramme_de_classe_sprint1.png}
-%   \caption{Diagramme de classes — Sprint 1}
+%   \caption{Diagramme de classes : Sprint 1}
 %   \label{fig:diag-class-sprint1}
 % \end{figure}
 % \end{landscape}
@@ -247,7 +247,7 @@ Cette section présente la conception UML détaillée des entités métier du Sp
 
 
 % ─────────────────────────────────────────────────────────────
-\section{Sprint 2 — Données et traçabilité}
+\section{Sprint 2 : Données et traçabilité}
 % ─────────────────────────────────────────────────────────────
 
 Cette section présente la réalisation du Sprint 2, consacré à la gestion des étudiants, de leurs inscriptions annuelles et de leurs vœux de mobilité. Elle couvre successivement l'objectif du sprint, le backlog, la conception UML, l'implémentation et les tests.
@@ -260,7 +260,7 @@ Le Sprint 2 a pour objectif de rendre le système opérationnel pour la collecte
 
 \setcounter{tasknum}{1}
 
-\subsection{Sprint Backlog — Sprint 2}
+\subsection{Sprint Backlog : Sprint 2}
 
 \begingroup
 \footnotesize
@@ -284,7 +284,7 @@ Le Sprint 2 a pour objectif de rendre le système opérationnel pour la collecte
 \endfoot
 
 % ── US-04 ────────────────────────────────────────────────────────────────────
-\usheader{US-04 — Audit log et traçabilité}{%
+\usheader{US-04 : Audit log et traçabilité}{%
   En tant qu'\textbf{administrateur RI}, je veux que chaque action importante
   (import, transition FSM, modification, validation) soit enregistrée avec
   l'auteur et l'horodatage, afin de garantir la traçabilité complète des
@@ -320,7 +320,7 @@ Haute & 1 \\
 \hline
 
 % ── US-05 ────────────────────────────────────────────────────────────────────
-\usheader{US-05 — Données étudiants}{%
+\usheader{US-05 : Données étudiants}{%
   En tant qu'\textbf{administrateur RI}, je veux importer et synchroniser
   les données académiques des étudiants (INE, GPA, département, niveau)
   depuis Pégase, afin d'alimenter l'algorithme d'affectation avec des
@@ -389,7 +389,7 @@ Haute & 1 \\
 \hline
 
 % ── US-06 ────────────────────────────────────────────────────────────────────
-\usheader{US-06 — Vœux étudiants}{%
+\usheader{US-06 : Vœux étudiants}{%
   En tant qu'\textbf{administrateur RI}, je veux importer les vœux ordonnés
   des étudiants depuis MoveON, et les consulter par étudiant, afin de les
   intégrer dans le système d'affectation.}
@@ -438,7 +438,7 @@ Haute & 1 \\
 \hline
 
 % ── US-07 ────────────────────────────────────────────────────────────────────
-\usheader{US-07 — Rapport d'import}{%
+\usheader{US-07 : Rapport d'import}{%
   En tant qu'\textbf{administrateur RI}, je veux consulter un rapport détaillé
   après chaque import (succès, erreurs, doublons) avec la raison précise
   de chaque rejet, afin de corriger les anomalies rapidement.}
@@ -495,7 +495,7 @@ Haute & 2 \\
 % \begin{figure}[H]
 %   \centering
 %   \includegraphics[width=\linewidth]{figures/conception/Sprint2/Diagramme_de_classe_sprint2.png}
-%   \caption{Diagramme de classes — Sprint 2}
+%   \caption{Diagramme de classes : Sprint 2}
 %   \label{fig:diag-class-sprint2}
 % \end{figure}
 
@@ -510,7 +510,7 @@ Haute & 2 \\
 
 
 % ─────────────────────────────────────────────────────────────
-\section{Sprint 3 — Algorithme d'affectation}
+\section{Sprint 3 : Algorithme d'affectation}
 % ─────────────────────────────────────────────────────────────
 
 Cette section présente la réalisation du Sprint 3, consacré à l'algorithme d'affectation et à la publication des résultats. Elle couvre successivement l'objectif du sprint, le backlog, la conception UML, l'implémentation et les tests.
@@ -528,11 +528,11 @@ Ce sprint constitue le cœur fonctionnel du système : toutes les données colle
 \newcommand{\usheaderorange}[2]{%
   \multicolumn{6}{|p{\uswidth}|}{%
     \cellcolor{orange!8}%
-    \textbf{#1} — \small\textit{#2}%
+    \textbf{#1} : \small\textit{#2}%
   } \\ \hline
 }
 
-\subsection{Sprint Backlog — Sprint 3}
+\subsection{Sprint Backlog : Sprint 3}
 
 \begingroup
 \footnotesize
@@ -556,7 +556,7 @@ Ce sprint constitue le cœur fonctionnel du système : toutes les données colle
 \endfoot
 
 % ── US-08 ─────────────────────────────────────────────────────────────────────
-\usheaderorange{US-08 — Algorithme Gale-Shapley}{%
+\usheaderorange{US-08 : Algorithme Gale-Shapley}{%
   En tant qu'\textbf{administrateur RI}, je veux lancer l'algorithme d'affectation
   (Deferred Acceptance) qui affecte chaque étudiant à son meilleur vœu
   disponible en respectant les quotas par département, afin de produire
@@ -565,7 +565,7 @@ Ce sprint constitue le cœur fonctionnel du système : toutes les données colle
 \nexttask &
 Créer les modèles \texttt{Assignment}
 et \texttt{AssignmentResult} &
-Définir \texttt{Assignment} — un run
+Définir \texttt{Assignment} : un run
 d'affectation par année universitaire,
 avec \texttt{status} (FSM :
 \texttt{proposed} $\to$
@@ -573,7 +573,7 @@ avec \texttt{status} (FSM :
 \texttt{published}, \texttt{cancel}
 depuis \texttt{proposed} ou
 \texttt{validated} vers \texttt{cancelled})
-et \texttt{override\_reason} — et
+et \texttt{override\_reason}, et
 \texttt{AssignmentResult}, le résultat
 individuel par étudiant (inscription
 annuelle, accord retenu, rang,
@@ -656,7 +656,7 @@ Haute & 2 \\
 \hline
 
 % ── US-09 ─────────────────────────────────────────────────────────────────────
-\usheaderorange{US-09 — Supervision des affectations}{%
+\usheaderorange{US-09 : Supervision des affectations}{%
   En tant qu'\textbf{administrateur RI}, je veux consulter les propositions
   d'affectation, les ajuster manuellement pour les cas particuliers et tracer
   chaque modification avec un motif, avant de valider et publier les résultats.}
@@ -705,7 +705,7 @@ Haute & 3 \\
 \hline
 
 % ── US-10 ─────────────────────────────────────────────────────────────────────
-\usheaderorange{US-10 — Consultation des résultats}{%
+\usheaderorange{US-10 : Consultation des résultats}{%
   En tant qu'\textbf{étudiant}, je veux consulter mon affectation une fois les
   résultats publiés afin de connaître ma destination et les démarches à suivre.}
 
@@ -749,7 +749,7 @@ Haute & 2 \\
 % \begin{figure}[H]
 %   \centering
 %   \includegraphics[width=\linewidth]{figures/conception/Sprint3/Diagramme_de_classe_sprint3.png}
-%   \caption{Diagramme de classes — Sprint 3}
+%   \caption{Diagramme de classes : Sprint 3}
 %   \label{fig:diag-class-sprint3}
 % \end{figure}
 
@@ -763,7 +763,7 @@ Haute & 2 \\
 
 
 % ─────────────────────────────────────────────────────────────
-\section{Sprint 4 — Sources complémentaires et mobilités}
+\section{Sprint 4 : Sources complémentaires et mobilités}
 % ─────────────────────────────────────────────────────────────
 
 Cette section présente la réalisation du Sprint 4, consacré à l'intégration des sources de données complémentaires (Eudonet, Excel) et à la déclaration des mobilités hors cursus. Elle couvre successivement l'objectif du sprint, le backlog, la conception UML, l'implémentation et les tests.
@@ -779,11 +779,11 @@ Le Sprint 4 a pour objectif d'élargir le système au-delà des mobilités sorta
 \newcommand{\usheaderteal}[2]{%
   \multicolumn{6}{|p{\uswidth}|}{%
     \cellcolor{teal!8}%
-    \textbf{#1} — \small\textit{#2}%
+    \textbf{#1} : \small\textit{#2}%
   } \\ \hline
 }
 
-\subsection{Sprint Backlog — Sprint 4}
+\subsection{Sprint Backlog : Sprint 4}
 
 \begingroup
 \footnotesize
@@ -807,7 +807,7 @@ Le Sprint 4 a pour objectif d'élargir le système au-delà des mobilités sorta
 \endfoot
 
 % ── US-11 ─────────────────────────────────────────────────────────────────────
-\usheaderteal{US-11 — Répartition des quotas par département}{%
+\usheaderteal{US-11 : Répartition des quotas par département}{%
   En tant qu'\textbf{administrateur RI}, je veux que le système calcule
   automatiquement la répartition des places de chaque accord entre les
   départements pédagogiques selon la méthode Hamilton (plus grands restes),
@@ -860,7 +860,7 @@ Haute & 1 \\
 \hline
 
 % ── US-12 ─────────────────────────────────────────────────────────────────────
-\usheaderteal{US-12 — Stages internationaux (Eudonet)}{%
+\usheaderteal{US-12 : Stages internationaux (Eudonet)}{%
   En tant qu'\textbf{administrateur RI}, je veux importer et synchroniser
   les conventions de stages internationaux depuis Eudonet afin de les
   comptabiliser dans le calcul CTI de chaque étudiant.}
@@ -868,12 +868,16 @@ Haute & 1 \\
 \nexttask &
 Créer l'adaptateur \texttt{eudonet.py} &
 Implémenter le client HTTP Eudonet dans \texttt{integrations/\allowbreak eudonet.py}
-avec retry exponentiel (3 tentatives) et repli sur des points
-d'entrée alternatifs. &
+avec fallback sur des points d'entrée alternatifs
+(\texttt{/internships} puis \texttt{/api/internships}). En cas
+d'échec sur tous les endpoints, lever une \texttt{EudonetClientError}
+capturée par Django-Q2. &
 Les stages sont extraits
 sous forme d'objets \texttt{EudonetInternship}.
-Les échecs déclenchent
-le retry. &
+Si tous les endpoints
+échouent, une exception est
+propagée et consignée dans
+l'\texttt{ImportReport}. &
 Haute & 2 \\
 \hline
 
@@ -913,7 +917,7 @@ Haute & 2 \\
 \hline
 
 % ── US-13 ─────────────────────────────────────────────────────────────────────
-\usheaderteal{US-13 — Mobilités entrantes (Excel)}{%
+\usheaderteal{US-13 : Mobilités entrantes (Excel)}{%
   En tant qu'\textbf{administrateur RI}, je veux importer les mobilités
   entrantes via un gabarit Excel standardisé afin de centraliser le
   suivi des étudiants internationaux accueillis à l'ENSEEIHT.}
@@ -974,7 +978,7 @@ Haute & 1 \\
 \hline
 
 % ── US-14 ─────────────────────────────────────────────────────────────────────
-\usheaderteal{US-14 — Réconciliation sans INE}{%
+\usheaderteal{US-14 : Réconciliation sans INE}{%
   En tant qu'\textbf{administrateur RI}, je veux que le système me
   propose des correspondances pour les enregistrements sans INE valide
   (via nom et prénom) afin de résoudre manuellement les cas ambigus.}
@@ -1030,7 +1034,7 @@ Moyenne & 1 \\
 \hline
 
 % ── US-15 ─────────────────────────────────────────────────────────────────────
-\usheaderteal{US-15 — Déclaration mobilité complémentaire}{%
+\usheaderteal{US-15 : Déclaration mobilité complémentaire}{%
   En tant qu'\textbf{étudiant}, je veux déclarer une expérience
   internationale hors cursus (summer school, séjour linguistique,
   programme court) avec dépôt de justificatif, afin qu'elle soit prise
@@ -1084,7 +1088,7 @@ Haute & 2 \\
 \hline
 
 % ── US-16 ─────────────────────────────────────────────────────────────────────
-\usheaderteal{US-16 — Validation des mobilités complémentaires}{%
+\usheaderteal{US-16 : Validation des mobilités complémentaires}{%
   En tant qu'\textbf{administrateur RI}, je veux consulter les
   justificatifs soumis, valider ou rejeter chaque demande avec un
   motif, afin de maintenir la qualité des données comptabilisées dans
@@ -1131,20 +1135,20 @@ Cette section présente la conception UML détaillée des entités métier du Sp
 
 \subsubsection{Diagramme de classes}
 
-% Le diagramme de la figure~\ref{fig:diag-class-sprint4} regroupe les trois nouvelles entités métier du sprint autour des classes de référence déjà établies. \texttt{Internship} et \texttt{IncomingStudent} sont deux entités d'import, sans machine à états, rattachées à l'étudiant ou à l'année universitaire selon le sens de la mobilité (sortante pour un stage, entrante pour un étudiant accueilli) ; \texttt{IncomingStudent} référence en outre plusieurs référentiels du Sprint 1 (département, niveau, parcours, cadre de mobilité, université d'origine), omis de la figure par souci de lisibilité. \texttt{ComplementaryMobility} est la seule des trois à porter un cycle de vie propre, avec sa FSM à trois états \texttt{pending} $\to$ \texttt{validated} \textbar{} \texttt{rejected} — la troisième machine à états du système avec celles d'\texttt{AcademicYear} et d'\texttt{Assignment} (chapitre~\ref{cha:conception}, section FSM). La répartition Hamilton des quotas (US-11), pour sa part, n'introduit aucune nouvelle classe : elle recalcule les valeurs de \texttt{AgreementYearDepartment.estimated\_\allowbreak places}, déjà modélisée au Sprint 1.
+% Le diagramme de la figure~\ref{fig:diag-class-sprint4} regroupe les trois nouvelles entités métier du sprint autour des classes de référence déjà établies. \texttt{Internship} et \texttt{IncomingStudent} sont deux entités d'import, sans machine à états, rattachées à l'étudiant ou à l'année universitaire selon le sens de la mobilité (sortante pour un stage, entrante pour un étudiant accueilli) ; \texttt{IncomingStudent} référence en outre plusieurs référentiels du Sprint 1 (département, niveau, parcours, cadre de mobilité, université d'origine), omis de la figure par souci de lisibilité. \texttt{ComplementaryMobility} est la seule des trois à porter un cycle de vie propre, avec sa FSM à trois états \texttt{pending} $\to$ \texttt{validated} \textbar{} \texttt{rejected}, la troisième machine à états du système avec celles d'\texttt{AcademicYear} et d'\texttt{Assignment} (chapitre~\ref{cha:algo-fsm}, section FSM). La répartition Hamilton des quotas (US-11), pour sa part, n'introduit aucune nouvelle classe : elle recalcule les valeurs de \texttt{AgreementYearDepartment.estimated\_\allowbreak places}, déjà modélisée au Sprint 1.
 
 % \begin{landscape}
 % \begin{figure}[H]
 %   \centering
 %   \includegraphics[width=\linewidth,height=0.9\textheight,keepaspectratio]{figures/conception/Sprint4/Diagramme_de_classe_sprint4.png}
-%   \caption{Diagramme de classes — Sprint 4}
+%   \caption{Diagramme de classes : Sprint 4}
 %   \label{fig:diag-class-sprint4}
 % \end{figure}
 % \end{landscape}
 
 \subsection{Implémentation}
 
-% Les US-11 à US-15 sont implémentées et mergées sur la branche de développement ; l'US-16 est en cours de finalisation (les endpoints de validation/rejet existent déjà côté API, l'interface d'administration reste à livrer). La méthode Hamilton est isolée dans un service pur (\texttt{\_hamilton()}), testable indépendamment de l'ORM, et pondérée par l'historique des cinq dernières années de vœux et d'affectations par département. Les intégrations Eudonet et Excel suivent le même pipeline en cinq étapes que Pégase et MoveON (récupération, nettoyage, persistance, déclenchement, supervision — cf. chapitre~\ref{cha:conception}). La réconciliation sans INE réutilise le statut \texttt{FAILED} du modèle \texttt{RawImport} existant plutôt que d'introduire un nouveau statut dédié, et s'appuie sur \texttt{difflib.SequenceMatcher} pour le score de similarité. Le dépôt de justificatifs (US-15) s'appuie sur MinIO avec chiffrement côté serveur (SSE-S3) et URLs présignées à durée limitée pour la consultation.
+% Les US-11 à US-15 sont implémentées et mergées sur la branche de développement ; l'US-16 est en cours de finalisation (les endpoints de validation/rejet existent déjà côté API, l'interface d'administration reste à livrer). La méthode Hamilton est isolée dans un service pur (\texttt{\_hamilton()}), testable indépendamment de l'ORM, et pondérée par l'historique des cinq dernières années de vœux et d'affectations par département. Les intégrations Eudonet et Excel suivent le même pipeline en cinq étapes que Pégase et MoveON (récupération, nettoyage, persistance, déclenchement, supervision, cf. chapitre~\ref{cha:conception}). La réconciliation sans INE réutilise le statut \texttt{FAILED} du modèle \texttt{RawImport} existant plutôt que d'introduire un nouveau statut dédié, et s'appuie sur \texttt{difflib.SequenceMatcher} pour le score de similarité. Le dépôt de justificatifs (US-15) s'appuie sur MinIO avec chiffrement côté serveur (SSE-S3) et URLs présignées à durée limitée pour la consultation.
 
 \subsection{Tests}
 
@@ -1152,10 +1156,10 @@ Cette section présente la conception UML détaillée des entités métier du Sp
 
 
 % ─────────────────────────────────────────────────────────────
-\section{Sprint 5 — Conformité CTI et authentification}
+\section{Sprint 5 : Conformité CTI et authentification}
 % ─────────────────────────────────────────────────────────────
 
-Le Sprint 5 n'a pas encore débuté à la date de rédaction de ce rapport ; le backlog ci-dessous constitue donc une planification, présentée selon le même niveau de détail que les sprints précédents, et non un compte rendu de réalisation. Sa conception détaillée, son implémentation et ses tests seront documentés à l'issue du sprint.
+Le Sprint 5 a été réalisé durant la période de stage. Les user stories US-17 (calcul des durées CTI), US-18 (consultation par l'étudiant), US-19 (export Excel VII.D3) et US-20 (tableaux de bord analytiques) ont été implémentées et déployées. La user story US-21 (authentification SSO/CAS) est reportée à une version ultérieure.
 
 \subsection{Objectif du sprint}
 
@@ -1168,23 +1172,23 @@ Le Sprint 5 a pour objectif de fermer la boucle réglementaire de conformité CT
 \newcommand{\usheaderyellow}[2]{%
   \multicolumn{6}{|p{\uswidth}|}{%
     \cellcolor{yellow!15}%
-    \textbf{#1} — \small\textit{#2}%
+    \textbf{#1} : \small\textit{#2}%
   } \\ \hline
 }
 \newcommand{\usheadercyan}[2]{%
   \multicolumn{6}{|p{\uswidth}|}{%
     \cellcolor{cyan!10}%
-    \textbf{#1} — \small\textit{#2}%
+    \textbf{#1} : \small\textit{#2}%
   } \\ \hline
 }
 \newcommand{\usheaderred}[2]{%
   \multicolumn{6}{|p{\uswidth}|}{%
     \cellcolor{red!8}%
-    \textbf{#1} — \small\textit{#2}%
+    \textbf{#1} : \small\textit{#2}%
   } \\ \hline
 }
 
-\subsection{Sprint Backlog — Sprint 5 (planifié)}
+\subsection{Sprint Backlog : Sprint 5 (planifié)}
 
 \begingroup
 \footnotesize
@@ -1208,7 +1212,7 @@ Le Sprint 5 a pour objectif de fermer la boucle réglementaire de conformité CT
 \endfoot
 
 % ── US-17 ─────────────────────────────────────────────────────────────────────
-\usheaderyellow{US-17 — Calcul automatique des durées CTI}{%
+\usheaderyellow{US-17 : Calcul automatique des durées CTI}{%
   En tant qu'\textbf{administrateur RI}, je veux que le système calcule
   automatiquement la durée totale de mobilité de chaque étudiant (séjours
   académiques, stages internationaux, mobilités complémentaires validées)
@@ -1259,7 +1263,7 @@ Haute & 1 \\
 \hline
 
 % ── US-18 ─────────────────────────────────────────────────────────────────────
-\usheaderyellow{US-18 — Affichage des durées de mobilité dans le tableau de bord étudiant}{%
+\usheaderyellow{US-18 : Affichage des durées de mobilité dans le tableau de bord étudiant}{%
   En tant qu'\textbf{étudiant}, je veux visualiser ma durée cumulée de
   mobilité afin de suivre mon avancement.}
 
@@ -1292,7 +1296,7 @@ Haute & 1 \\
 \hline
 
 % ── US-19 ─────────────────────────────────────────────────────────────────────
-\usheaderyellow{US-19 — Export rapport CTI}{%
+\usheaderyellow{US-19 : Export rapport CTI}{%
   En tant qu'\textbf{administrateur RI}, je veux exporter un rapport
   CTI pour l'ensemble des étudiants de la promotion afin de le
   soumettre lors des audits.}
@@ -1336,7 +1340,7 @@ Moyenne & 1 \\
 \hline
 
 % ── US-20 ─────────────────────────────────────────────────────────────────────
-\usheadercyan{US-20 — Tableaux de bord analytiques}{%
+\usheadercyan{US-20 : Tableaux de bord analytiques}{%
   En tant qu'\textbf{administrateur RI}, je veux disposer de tableaux
   de bord analytiques (taux d'affectation par département, évolution
   des flux entrants/sortants, destinations les plus demandées,
@@ -1356,7 +1360,7 @@ Moyenne & 3 \\
 
 \nexttask &
 Page tableaux de bord analytiques &
-Implémenter \texttt{frontend/\allowbreak app/\allowbreak admin/\allowbreak statistiques/\allowbreak page.tsx}
+Implémenter \texttt{frontend/\allowbreak app/\allowbreak admin/\allowbreak analytiques/\allowbreak page.tsx}
 avec les graphiques correspondants. &
 Les graphiques se chargent
 depuis les endpoints
@@ -1383,7 +1387,7 @@ Moyenne & 1 \\
 \hline
 
 % ── US-21 ─────────────────────────────────────────────────────────────────────
-\usheaderred{US-21 — Authentification SSO}{%
+\usheaderred{US-21 : Authentification SSO}{%
   En tant qu'\textbf{utilisateur}, je veux m'authentifier via le SSO
   institutionnel (CAS/OIDC) afin d'accéder à mon espace personnalisé
   (étudiant ou administrateur) sans créer de compte séparé.}
@@ -1440,8 +1444,163 @@ Haute & 1 \\
 \end{longtable}
 \endgroup
 
+% ─────────────────────────────────────────────────────────────
+\section{Sprint 6 : Fonctionnalités intelligentes (V2)}
+% ─────────────────────────────────────────────────────────────
+
+Le Sprint 6 n'a pas encore débuté à la date de rédaction de ce rapport ; le backlog ci-dessous constitue donc une planification, présentée selon le même niveau de détail que les sprints précédents, et non un compte rendu de réalisation. Contrairement aux cinq premiers sprints, il ne fait pas partie de l'engagement MVP : classé \textit{Could Have} dans le product backlog, il n'est engagé qu'une fois les sprints MVP livrés et validés, la capacité disponible le permettant.
+
+\subsection{Objectif du sprint}
+
+Le Sprint 6 couvre les deux fonctionnalités intelligentes identifiées dès le chapitre~\ref{cha:besoins-technologies} comme secondaires : un moteur de recommandation de destinations pour orienter l'étudiant avant la saisie de ses vœux dans MoveON (US-22), et un assistant virtuel sous forme de chatbot RAG répondant aux questions procédurales à partir de la documentation institutionnelle (US-23). Ces deux fonctionnalités s'appuient directement sur les choix justifiés au chapitre~\ref{cha:algo-fsm} : régression logistique pour la recommandation, LlamaIndex~+~ChromaDB~+~Mistral pour le RAG.
+
+\textbf{Définition of Done.} À l'issue de ce sprint, l'étudiant reçoit un classement de destinations recommandées avant la saisie de ses vœux, et peut interroger un assistant virtuel qui répond à partir de la documentation institutionnelle sans jamais transmettre de données personnelles au modèle de langage.
+
+\setcounter{tasknum}{1}
+
+\subsection{Sprint Backlog : Sprint 6 (planifié)}
+
+\begingroup
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.6}
+
+\begin{longtable}{|p{0.5cm}|p{3.5cm}|p{5cm}|p{4cm}|p{1.5cm}|p{0.5cm}|}
+\hline
+\rowcolor{gray!20}
+\textbf{\#} & \textbf{Tâche} & \textbf{Description} &
+\textbf{Critères d'acceptation} & \textbf{Prior.} & \textbf{SP} \\
+\hline
+\endfirsthead
+\hline
+\rowcolor{gray!20}
+\textbf{\#} & \textbf{Tâche} & \textbf{Description} &
+\textbf{Critères d'acceptation} & \textbf{Prior.} & \textbf{SP} \\
+\hline
+\endhead
+\hline
+\endfoot
+
+% ── US-22 ─────────────────────────────────────────────────────────────────────
+\usheadercyan{US-22 : Moteur de recommandation}{%
+  En tant qu'\textbf{étudiant}, je veux recevoir des suggestions de destinations
+  adaptées à mon profil (GPA, département, historique des affectations similaires)
+  afin de cibler mes vœux de manière réaliste avant la saisie dans MoveON.}
+
+\nexttask &
+Agrégat du taux historique par destination &
+Calculer, pour chaque destination, le taux d'affectation observé sur
+les campagnes précédentes à partir des données d'\texttt{Assignment}. &
+Le taux se recalcule
+correctement après chaque
+clôture de campagne. &
+Moyenne & 2 \\
+\hline
+
+\nexttask &
+Entraîner le modèle de régression logistique &
+Entraîner le modèle sur les trois variables retenues (GPA, département,
+taux historique par destination), sans terme d'interaction. &
+Le modèle s'entraîne sans
+erreur sur l'historique
+disponible. &
+Moyenne & 3 \\
+\hline
+
+\nexttask &
+Endpoint de recommandation &
+Exposer \texttt{GET /\allowbreak api/\allowbreak student/\allowbreak \{ine\}/\allowbreak recommendations/\allowbreak }
+retournant les destinations classées par probabilité décroissante. &
+La réponse liste les
+destinations éligibles,
+classées par score. &
+Moyenne & 3 \\
+\hline
+
+\nexttask &
+Page recommandations (espace étudiant) &
+Créer une page Next.js affichant le classement des destinations
+recommandées avant la saisie des vœux. &
+Le classement affiché
+correspond à la réponse de
+l'API. &
+Moyenne & 3 \\
+\hline
+
+\nexttask &
+Tests unitaires &
+Couvrir le calcul du taux historique, l'entraînement du modèle et
+l'endpoint de recommandation. &
+Les tests passent sur les
+cas avec et sans historique
+(démarrage à froid). &
+Moyenne & 2 \\
+\hline
+
+% ── US-23 ─────────────────────────────────────────────────────────────────────
+\usheadercyan{US-23 : Assistant virtuel (chatbot RAG)}{%
+  En tant qu'\textbf{étudiant}, je veux poser des questions sur les procédures,
+  critères d'éligibilité et démarches à un assistant virtuel afin d'obtenir
+  des réponses immédiates sans solliciter le service RI.}
+
+\nexttask &
+Ingestion de la documentation institutionnelle &
+Découper (chunking) et indexer les guides, critères d'éligibilité et
+démarches administratives dans ChromaDB via LlamaIndex. &
+La base vectorielle contient
+l'ensemble des documents
+institutionnels fournis. &
+Basse & 5 \\
+\hline
+
+\nexttask &
+Pipeline RAG &
+Implémenter la chaîne retrieval~+~construction du prompt~+~appel à
+l'API Mistral via LlamaIndex. &
+Une question de test
+retourne une réponse
+ancrée dans les documents
+source. &
+Basse & 5 \\
+\hline
+
+\nexttask &
+Endpoint du chatbot &
+Exposer \texttt{POST /\allowbreak api/\allowbreak student/\allowbreak chatbot/\allowbreak } recevant la
+question de l'étudiant telle que saisie, sans enrichissement avec des
+données de dossier. &
+La requête envoyée au
+modèle ne contient aucune
+donnée personnelle de
+l'étudiant. &
+Basse & 3 \\
+\hline
+
+\nexttask &
+Interface du chatbot (espace étudiant) &
+Créer un composant de conversation Next.js accessible depuis l'espace
+étudiant. &
+L'échange question/réponse
+s'affiche correctement dans
+le fil de conversation. &
+Basse & 5 \\
+\hline
+
+\nexttask &
+Tests du pipeline RAG &
+Couvrir l'ingestion, le retrieval et l'endpoint sur un jeu de questions
+de référence. &
+Les réponses restent
+ancrées dans les documents
+source sur le jeu de test. &
+Basse & 1 \\
+\hline
+
+\end{longtable}
+\endgroup
+
 % % ─────────────────────────────────────────────────────────────
-% \section{Sprint 6 — Finalisation, tests et déploiement}
+% \section{Sprint 7 : Finalisation, tests et déploiement}
 % % ─────────────────────────────────────────────────────────────
 
 % \subsection{Objectifs et périmètre du sprint}
@@ -1454,7 +1613,7 @@ Haute & 1 \\
 
 % \subsection{Tests de non-régression}
 % % [Vérification que les résultats des campagnes passées sont inchangés
-% %  après chaque déploiement — description du mécanisme et des résultats]
+% %  après chaque déploiement, description du mécanisme et des résultats]
 
 % \subsection{Audit de sécurité}
 % % [Résultats OWASP ZAP, vulnérabilités détectées et corrections appliquées]
