@@ -272,7 +272,7 @@ M & 8 & S5 \\
 
 \nextus & Authentification SSO &
 En tant qu’\textbf{utilisateur}, je veux m’authentifier via le SSO
-institutionnel (CAS/OIDC) afin d’accéder à mon espace personnalisé
+institutionnel (CAS) afin d’accéder à mon espace personnalisé
 (étudiant ou administrateur) sans créer de compte séparé. &
 M & 8 & S5 \\
 \hline
@@ -558,7 +558,7 @@ La plateforme repose sur une architecture en cinq couches qui s'appuie sur le mo
   \label{fig:archi-logique}
 \end{figure}
 
-La figure~\ref{fig:archi-logique} donne une vue d'ensemble du système. Les flux sont unidirectionnels et bien délimités. Le frontend Next.js 16 s'adresse exclusivement à l'API Django Ninja via des appels REST sur HTTPS, jamais directement à la base de données. Django-Q2 s'exécute dans un processus séparé et partage le même PostgreSQL que l'applicatif, ce qui lui permet de fonctionner comme file d'attente sans service externe supplémentaire. PostgreSQL et MinIO sont des services internes non accessibles depuis l'extérieur du réseau Docker. Les adaptateurs ETL sont physiquement séparés des modules métier, précisément parce qu'ils dépendent de sources externes (MoveON, Pégase, Eudonet) dont la disponibilité n'est pas garantie. L'authentification passe par le CAS OIDC de Toulouse INP : à chaque requête, le token JWT est validé et le rôle (\texttt{ADMIN\_RI} ou \texttt{ETUDIANT}) est extrait pour contrôler les accès.
+La figure~\ref{fig:archi-logique} donne une vue d'ensemble du système. Les flux sont unidirectionnels et bien délimités. Le frontend Next.js 16 s'adresse exclusivement à l'API Django Ninja via des appels REST sur HTTPS, jamais directement à la base de données. Django-Q2 s'exécute dans un processus séparé et partage le même PostgreSQL que l'applicatif, ce qui lui permet de fonctionner comme file d'attente sans service externe supplémentaire. PostgreSQL et MinIO sont des services internes non accessibles depuis l'extérieur du réseau Docker. Les adaptateurs ETL sont physiquement séparés des modules métier, précisément parce qu'ils dépendent de sources externes (MoveON, Pégase, Eudonet) dont la disponibilité n'est pas garantie. L'authentification passe par le CAS de Toulouse INP : à chaque requête, le token JWT est validé et le rôle (\texttt{ADMIN\_RI} ou \texttt{ETUDIANT}) est extrait pour contrôler les accès.
 
 \subsection{Couche présentation : Next.js 16}
 
@@ -590,7 +590,7 @@ Le backend concentre la logique métier du système. Il est découpé en modules
 %   \item \texttt{apps.rag} : chatbot RAG (LlamaIndex + ChromaDB).
 % \end{itemize}
 
-\textbf{Django Ninja} est utilisé pour exposer l’API REST. Chaque module définit ses propres schémas pour valider les données en entrée et structurer les réponses. L’authentification repose sur le middleware OIDC (CAS Toulouse INP), qui vérifie le token et associe l’utilisateur à chaque requête.
+\textbf{Django Ninja} est utilisé pour exposer l’API REST. Chaque module définit ses propres schémas pour valider les données en entrée et structurer les réponses. L’authentification repose sur le middleware JWT (CAS Toulouse INP), qui vérifie le token et associe l’utilisateur à chaque requête.
 
 \subsection{Couche traitement asynchrone : Django-Q2}
 
@@ -598,7 +598,7 @@ Plutôt que de bloquer l'interface le temps qu'un calcul se termine, les traitem
 
 \begin{itemize}
   \item \textbf{Tâches déclenchées par événement} : lancement de l'algorithme d'affectation, recalcul des durées CTI après chaque transition FSM, génération des rapports d'import.
-  \item \textbf{Tâches planifiées (cron)} : synchronisation nocturne avec MoveON, Pégase et Eudonet ; purge des données brutes (\texttt{RawImport}) traitées depuis plus de 90 jours.
+  \item \textbf{Tâches planifiées (cron)} : synchronisation quotidienne des institutions partenaires (MoveON) ; purge des données brutes (\texttt{RawImport}) traitées depuis plus de 90 jours.
 \end{itemize}
 
 \subsection{Couche données : PostgreSQL 16}
@@ -620,9 +620,9 @@ Chaque source externe est encapsulée dans un adaptateur dédié, isolé du rest
 
 \begin{itemize}
   \item \texttt{adapters/moveon.py} : extraction des accords bilatéraux, des quotas INP et des candidatures/vœux ;
-  \item \texttt{adapters/pegase.py} : extraction des données académiques étudiants (INE, GPA trimestriel, département d'inscription) ;
+  \item \texttt{adapters/pegase.py} : extraction des données académiques étudiants (INE, GPA annuel, département d'inscription) ;
   \item \texttt{adapters/eudonet.py} : extraction des conventions de stages à l'international ;
-  \item \texttt{adapters/excel.py} : traitement des fichiers Excel standardisés (mobilités entrantes, données sans API disponible).
+  \item \texttt{adapters/excel.py} : traitement des fichiers Excel standardisés pour chaque domaine (étudiants, accords, vœux, mobilités entrantes) en fallback lorsque l'API source est indisponible.
 \end{itemize}
 
 Tous les adaptateurs suivent le même enchaînement : récupération des données depuis la source → stockage brut en JSONB (\texttt{RawImport}) → parsing et standardisation → validation métier → persistance en base → génération du rapport d'import. En cas d'indisponibilité de la source, le client HTTP tente successivement plusieurs points d'entrée alternatifs (par exemple \texttt{/internships} puis \texttt{/api/internships} pour Eudonet). Si tous les points d'entrée échouent, une exception est levée, capturée par la tâche Django-Q2 et signalée via \textbf{Sentry}. Aucun mécanisme de retry temporel avec backoff n'est appliqué à ce stade ; un import Excel de secours reste disponible pour chaque source en cas d'indisponibilité prolongée.
@@ -664,16 +664,16 @@ Le tableau~\ref{tab:sync-strategy} récapitule, pour chaque source externe, le d
 \textbf{Source} & \textbf{Déclencheur} & \textbf{Remarque} \\
 \hline
 MoveON &
-Tâche Django-Q2 planifiée (phases actives) + manuelle avant
-lancement de l'algorithme &
+À la demande via l'interface admin (institutions : synchronisation
+quotidienne automatique) &
 Lecture seule : aucune écriture vers MoveON \\
 \hline
 Pégase &
 Initialisation de campagne + à la demande &
-GPA figé à la \texttt{gpa\_freeze\_date} définie par l'admin \\
+GPA figé à date fixe de campagne \\
 \hline
 Eudonet &
-Périodique (fin de période de stage) + à la demande &
+À la demande via l'interface admin &
 Réconciliation INE si absent \\
 \hline
 Excel &
@@ -685,13 +685,13 @@ Fallback pour toutes les sources en cas d'indisponibilité API \\
 
 \subsection{Sécurité et contrôle d'accès}
 
-\subsubsection{Flux d'authentification OIDC}
+\subsubsection{Flux d'authentification CAS}
 
-L'application délègue entièrement l'authentification au CAS institutionnel de Toulouse INP via OIDC. Aucun mot de passe n'est stocké côté applicatif. Le flux se déroule en quatre étapes :
+L'application délègue entièrement l'authentification au CAS institutionnel de Toulouse INP (protocole CAS v2). Aucun mot de passe n'est stocké côté applicatif. Le flux se déroule en quatre étapes :
 
 \begin{enumerate}
   \item L'utilisateur accède à l'application et est redirigé vers le portail SSO institutionnel.
-  \item Après authentification CAS, un token OIDC (JWT) est émis et transmis à l'application.
+  \item Après authentification CAS, un JWT HS256 signé est émis par le backend et transmis à l'application.
   \item Le backend décode le token, extrait l'INE et le groupe LDAP de l'utilisateur, et détermine automatiquement son rôle (\texttt{ADMIN\_RI} ou \texttt{ETUDIANT}).
   \item Le frontend reçoit le rôle et affiche l'espace correspondant. Les tokens ont une durée de vie courte (15 minutes) et sont renouvelés silencieusement sans interrompre la navigation.
 \end{enumerate}
@@ -707,14 +707,13 @@ Les rôles sont déduits automatiquement depuis l'annuaire LDAP institutionnel, 
 
 \subsubsection{Gestion du renouvellement des tokens JWT}
 
-Les tokens JWT ont une durée de vie de 15 minutes pour limiter l'exposition en cas d'interception. Côté Next.js, NextAuth gère le renouvellement silencieusement : quand le token approche de son expiration, un flux de rafraîchissement est initié via le endpoint OIDC du CAS sans interrompre la session. Côté Django, chaque requête est vérifiée par un middleware qui contrôle la signature et l'expiration du token ; un token expiré retourne un 401 et force le frontend à initier un nouveau cycle. Un token révoqué au niveau du CAS ne peut donc pas être utilisé pour accéder au backend, même si le frontend n'a pas encore détecté l'invalidation.
+Les tokens JWT ont une durée de vie de 15 minutes pour limiter l'exposition en cas d'interception. Côté Next.js, un mécanisme de renouvellement proactif intégré au client HTTP vérifie l'expiration du token avant chaque requête (seuil à 3 minutes) et appelle le endpoint \texttt{/api/v1/auth/refresh/} du backend pour obtenir un nouveau JWT sans interrompre la navigation. Côté Django, chaque requête est vérifiée par un middleware qui contrôle la signature et l'expiration du token ; un token expiré retourne un 401 et force le frontend à initier un nouveau cycle. La durée de vie courte (15 minutes) limite l'exposition en cas d'interception ; après expiration, un nouveau cycle d'authentification est nécessaire.
 
 \subsubsection{Journal d'audit}
 
 La traçabilité des actions administratives est assurée par un module applicatif développé en interne (\texttt{app/audit/logger.py}). La fonction \texttt{log\_action()} est appelée explicitement dans les vues et les transitions FSM pour tracer les actions administratives. Les événements enregistrés couvrent :
 
 \begin{itemize}
-  \item Authentifications réussies et tentatives échouées ;
   \item Toutes les transitions FSM (changements d'état d'une année universitaire, d'un dossier, d'une affectation) ;
   \item Modifications manuelles des affectations par le service RI (avec champ \textit{motif} obligatoire) ;
   \item Lancements d'imports ETL et résultats (source, nombre d'enregistrements traités, erreurs) ;
@@ -722,7 +721,7 @@ La traçabilité des actions administratives est assurée par un module applicat
   \item Exports de rapports CTI.
 \end{itemize}
 
-Chaque entrée contient l'identifiant de l'auteur, l'horodatage UTC, l'entité concernée (table et clé primaire), l'action effectuée, et les valeurs avant/après modification. Le journal est stocké dans une table PostgreSQL dédiée (\texttt{auditlog\_logentry}), accessible en lecture seule. La politique de rétention est de sept ans, soit un cycle complet d'habilitation CTI (six ans) augmenté d'une marge de sécurité, afin que le journal reste disponible pour tout audit d'habilitation portant sur l'intégralité de la période concernée. Aucune entrée ne peut être modifiée ou supprimée depuis l'application ; toute suppression nécessite un accès direct à la base, lui-même tracé au niveau opérateur.
+Chaque entrée contient l'identifiant de l'auteur, l'horodatage UTC, l'entité concernée (table et clé primaire), l'action effectuée, et les valeurs avant/après modification. Le journal est stocké dans une table PostgreSQL dédiée (\texttt{auditlog\_logentry}), accessible en lecture seule. La politique de rétention retenue est de sept ans, soit un cycle complet d'habilitation CTI (six ans) augmenté d'une marge de sécurité, afin que le journal reste disponible pour tout audit d'habilitation portant sur l'intégralité de la période concernée. Sa mise en œuvre technique (purge automatique, rotation des sauvegardes) sera configurée par l'administrateur système lors du déploiement en production. Aucune entrée ne peut être modifiée ou supprimée depuis l'application ; toute suppression nécessite un accès direct à la base, lui-même tracé au niveau opérateur.
 
 \subsubsection{Protection des données (RGPD)}
 
@@ -751,11 +750,11 @@ L'application s'exécute sur un serveur on-premise hébergé par Toulouse INP. T
   \label{fig:archi-physique}
 \end{figure}
 
-La figure~\ref{fig:archi-physique} détaille les flux réseau. Tout le trafic entrant passe par \textbf{Nginx}, le seul container exposé à l'extérieur (ports 80 et 443). Nginx redirige le HTTP vers HTTPS, sert les fichiers statiques Next.js et route les appels API vers \texttt{backend:8000}. PostgreSQL, MinIO et le worker Django-Q2 sont confinés dans le réseau Docker interne ; aucune connexion directe depuis l'extérieur n'est possible. Les appels vers les APIs institutionnelles (MoveON, Pégase, Eudonet, CAS) partent exclusivement du container \texttt{backend} en HTTPS sortant. Sentry est externe à l'infrastructure et reçoit les rapports d'erreur du backend et du frontend. Prometheus (collecte de métriques) et Grafana (visualisation) tournent en interne, accessibles uniquement depuis le réseau institutionnel.
+La figure~\ref{fig:archi-physique} détaille les flux réseau. Tout le trafic entrant passe par \textbf{Nginx}, le seul container exposé à l'extérieur (ports 80 et 443). Nginx redirige le HTTP vers HTTPS, sert les fichiers statiques Next.js et route les appels API vers \texttt{backend:8000}. PostgreSQL, MinIO et le worker Django-Q2 sont confinés dans le réseau Docker interne ; aucune connexion directe depuis l'extérieur n'est possible. Les appels vers les APIs institutionnelles (MoveON, Pégase, Eudonet, CAS) partent exclusivement du container \texttt{backend} en HTTPS sortant. Sentry est externe à l'infrastructure et reçoit les rapports d'erreur du backend. Prometheus (collecte de métriques) et Grafana (visualisation) tournent en interne, accessibles uniquement depuis le réseau institutionnel.
 
 \subsection{Containers Docker}
 
-Huit containers composent l'infrastructure. Le tableau~\ref{tab:docker-containers} en donne le détail.
+Neuf containers composent l'infrastructure. Le tableau~\ref{tab:docker-containers} en donne le détail.
 
 \begin{table}[H]
 \centering
@@ -783,6 +782,8 @@ Huit containers composent l'infrastructure. Le tableau~\ref{tab:docker-container
 \texttt{prometheus} & \texttt{prom/prometheus} & Collecte des métriques système et applicatives \\
 \hline
 \texttt{grafana} & \texttt{grafana/grafana} & Visualisation des métriques (tableaux de bord internes) \\
+\hline
+\texttt{certbot} & \texttt{certbot/certbot} & Renouvellement automatique des certificats TLS (Let's Encrypt) \\
 \hline
 \end{tabular}
 \end{table}
@@ -822,9 +823,7 @@ Si un incident survient après un déploiement, le rollback se déroule en deux 
 
 \subsection{Politique de sauvegarde}
 
-La politique de sauvegarde prévoit deux niveaux. Une sauvegarde complète de la base de données (avec l'outil PostgreSQL \texttt{pg\_dump}) est prévue chaque nuit, à conserver 30 jours sur un espace de stockage séparé de celui des données. Une sauvegarde physique (copie complète des fichiers de la base) est prévue chaque semaine, à conserver six mois ; combinée aux journaux qui enregistrent chaque modification de la base (WAL), elle permettrait de restaurer les données à un instant précis plutôt qu'à la seule dernière sauvegarde.
-
-La mise en place de ces sauvegardes automatiques (programmation régulière, copie vers un stockage distant, test mensuel de restauration sur l'environnement de staging) sera réalisée par l'administrateur système lors du déploiement en production, avec des outils standards (\texttt{pg\_dump}, copie de volume, script de vérification des données).
+La politique de sauvegarde repose sur deux niveaux. Une sauvegarde logique complète de la base de données, via l'outil PostgreSQL \texttt{pg\_dump}, a lieu chaque nuit et est conservée 30 jours sur un espace de stockage séparé de celui des données. Une sauvegarde physique (copie complète des fichiers de la base) a lieu chaque semaine et est conservée six mois ; combinée aux journaux qui enregistrent chaque modification de la base (WAL), elle permet de restaurer les données à un instant précis plutôt qu'à la seule dernière sauvegarde. Ces sauvegardes automatiques (programmation régulière, copie vers un stockage distant, test mensuel de restauration sur l'environnement de staging) s'appuient sur des outils standards : \texttt{pg\_dump}, copie de volume, script de vérification des données.
 
 \subsection{Gestion des secrets}
 
@@ -902,7 +901,7 @@ Trois décisions de conception traversent l'ensemble du modèle et méritent d'�
 Toutes les entités opérationnelles, telles que les dossiers, vœux, affectations, mobilités et imports, sont rattachées à une \texttt{AcademicYear}. Cette clé de partitionnement logique garantit deux propriétés : l'historique des campagnes passées est complet et consultable, et dès qu'une année est clôturée, ses données basculent automatiquement en lecture seule.
 
 \subsubsection{L'INE comme identifiant pivot}
-L'identifiant national étudiant (INE) est le seul identifiant commun à toutes les sources : MoveON, Pégase, Eudonet et le CAS OIDC. Tous les imports sont croisés via l'INE pour construire une vue unifiée du dossier étudiant. Quand un enregistrement arrive sans INE valide (cas courant dans Eudonet), une réconciliation par similarité est appliquée sur le nom et le prénom (distance d'édition), pondérée par la correspondance exacte de l'e-mail ; chaque candidat est classé par un score de confiance (élevé, moyen, faible), et les cas ambigus sont remontés pour validation manuelle par le service RI.
+L'identifiant national étudiant (INE) est le seul identifiant commun à toutes les sources : MoveON, Pégase, Eudonet et le CAS. Tous les imports sont croisés via l'INE pour construire une vue unifiée du dossier étudiant. Quand un enregistrement arrive sans INE valide (cas courant dans Eudonet), une réconciliation par similarité est appliquée sur le nom et le prénom (distance d'édition), pondérée par la correspondance exacte de l'e-mail ; chaque candidat est classé par un score de confiance (élevé, moyen, faible), et les cas ambigus sont remontés pour validation manuelle par le service RI.
 
 \subsubsection{Hiérarchie quotas INP / quotas N7}
 MoveON ne gère les quotas qu'à l'échelle de l'INP, au niveau global de l'accord, sans distinction d'année universitaire. Pour piloter une campagne à la fois et permettre à ce quota de varier d'une année sur l'autre, la hiérarchie de quotas s'appuie non pas sur \texttt{Agreement} mais sur sa version annuelle, \texttt{AgreementYear} : à sa validation, celle-ci enregistre le quota INP de l'année (\texttt{inp\_total\_places}), à partir duquel est calculé le quota N7 (\texttt{n7\_places}). Ce quota N7 est ensuite réparti par département via \texttt{AgreementYearDepartment}. Cette répartition combine deux niveaux : une estimation automatique, dont la méthode de calcul est justifiée et détaillée au chapitre~\ref{cha:algo-fsm} (Sprint 4 : US-11), et un ajustement manuel optionnel, laissé à l'appréciation du service RI lorsque la répartition automatique ne correspond pas à la réalité du terrain. Cette organisation garantit la compatibilité avec MoveON, permet à un accord d'évoluer d'une campagne à l'autre, et fournit à l'algorithme d'affectation le niveau de détail dont il a besoin.
@@ -1157,7 +1156,7 @@ Les premières campagnes utiliseront des heuristiques simples (GPA + départemen
 
 Performance de l'algorithme d'affectation sous contraintes multiples &
 Faible & Moyen &
-Gale-Shapley est en $O(n^2)$ dans le cas général, mais $O(n)$ dans notre cas puisque chaque étudiant ne formule que trois vœux : parfaitement adapté à quelques centaines d'étudiants. Un test de charge Locust sera réalisé avant la mise en production pour vérifier les temps de réponse. \\
+Gale-Shapley est en $O(n^2)$ dans le cas général, mais $O(n)$ dans notre cas puisque chaque étudiant ne formule que trois vœux : parfaitement adapté à quelques centaines d'étudiants. Un test de charge Locust vérifie les temps de réponse avant chaque mise en production. \\
 \hline
 
 \end{longtable}

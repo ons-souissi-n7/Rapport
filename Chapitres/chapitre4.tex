@@ -182,7 +182,8 @@ arrondis.
 
 Trois méthodes de répartition proportionnelle ont été comparées. Toutes
 partent du même principe : chaque département reçoit une quote-part
-proportionnelle à son nombre d'étudiants. La différence porte sur la
+proportionnelle à l'historique des vœux et des affectations le concernant
+sur les dernières années universitaires clôturées. La différence porte sur la
 manière de distribuer les places entières lorsque la division produit
 des résultats décimaux.
 
@@ -758,7 +759,7 @@ ComplementaryMobility & \texttt{pending} → \texttt{validated} \textbar{} \text
 \end{tabular}
 \end{table}
 
-La transition \texttt{cancel} d'\texttt{Assignment} n'est, à ce stade, exposée par aucun endpoint ni aucune interface d'administration : elle existe dans le modèle pour un usage futur d'annulation, mais n'est pas encore atteignable en pratique. Les autres entités du système (\texttt{StudentWish}, \texttt{IncomingStudent}, \texttt{Internship}) n'ont volontairement pas de cycle de vie propre : leur statut se déduit de leurs relations (à un \texttt{Assignment} publié, à une année universitaire) plutôt que d'être piloté par une FSM dédiée. Le calcul consolidé de la durée de mobilité CTI, qui agrégera automatiquement les mobilités sortantes publiées, les stages internationaux et les mobilités complémentaires validées, est prévu pour le Sprint 5 (US-17) et n'est pas encore implémenté.
+La transition \texttt{cancel} d'\texttt{Assignment} n'est, à ce stade, exposée par aucun endpoint ni aucune interface d'administration : elle existe dans le modèle pour un usage futur d'annulation, mais n'est pas encore atteignable en pratique. Les autres entités du système (\texttt{StudentWish}, \texttt{IncomingStudent}, \texttt{Internship}) n'ont volontairement pas de cycle de vie propre : leur statut se déduit de leurs relations (à un \texttt{Assignment} publié, à une année universitaire) plutôt que d'être piloté par une FSM dédiée. Le calcul consolidé de la durée de mobilité CTI, qui agrège automatiquement les mobilités sortantes publiées, les stages internationaux et les mobilités complémentaires validées, a été réalisé dans le Sprint 5 (US-17) : le modèle \texttt{MobilityDuration} persiste la durée totale en semaines, le service \texttt{compute\_cti\_duration()} effectue l'agrégation, et la tâche asynchrone \texttt{enqueue\_refresh\_cti\_durations()} recalcule automatiquement les durées après chaque transition FSM pertinente.
 
 
 \section*{Conclusion}

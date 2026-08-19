@@ -28,6 +28,7 @@
 \newacro{CTI}[\AC@hyperlink{CTI}{CTI}]{Commission des Titres d'Ingénieur}
 \newacro{DDD}[\AC@hyperlink{DDD}{DDD}]{Domain-Driven Design}
 \newacro{DRF}[\AC@hyperlink{DRF}{DRF}]{Django REST Framework}
+\newacro{E2E}[\AC@hyperlink{E2E}{E2E}]{End-to-End}
 \newacro{ETL}[\AC@hyperlink{ETL}{ETL}]{Extract, Transform, Load}
 \newacro{FSM}[\AC@hyperlink{FSM}{FSM}]{Finite State Machine}
 \newacro{GPA}[\AC@hyperlink{GPA}{GPA}]{Grade Point Average}
@@ -199,24 +200,24 @@
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.3.1}Besoins spécifiques}{33}{subsubsection.2.3.3.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.3.2}Alternatives évaluées}{33}{subsubsection.2.3.3.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {paragraph}{\numberline {2.3.3.2.1}Django REST Framework (DRF)}{33}{paragraph.2.3.3.2.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{\numberline {2.3.3.2.2}Django Ninja}{34}{paragraph.2.3.3.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\numberline {2.3.3.2.2}Django Ninja}{33}{paragraph.2.3.3.2.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.3.3}Synthèse comparative}{34}{subsubsection.2.3.3.3}\protected@file@percent }
 \@writefile{lot}{\contentsline {table}{\numberline {2.3}{\ignorespaces Comparaison DRF et Django Ninja}}{34}{table.caption.20}\protected@file@percent }
 \newlabel{tab:comparaison_api}{{2.3}{34}{Comparaison DRF et Django Ninja}{table.caption.20}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.3.4}Décision}{34}{subsubsection.2.3.3.4}\protected@file@percent }
 \abx@aux@cite{0}{mysql_dev}
 \abx@aux@segm{0}{0}{mysql_dev}
+\abx@aux@cite{0}{mongodb_dev}
+\abx@aux@segm{0}{0}{mongodb_dev}
 \@writefile{toc}{\contentsline {section}{\numberline {2.4}Choix de la base de données}{35}{section.2.4}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.4.1}Besoins spécifiques}{35}{subsection.2.4.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.4.2}Alternatives évaluées}{35}{subsection.2.4.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.4.2.1}MySQL}{35}{subsubsection.2.4.2.1}\protected@file@percent }
-\abx@aux@cite{0}{mongodb_dev}
-\abx@aux@segm{0}{0}{mongodb_dev}
 \abx@aux@cite{0}{postgresql_dev}
 \abx@aux@segm{0}{0}{postgresql_dev}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.4.2.2}MongoDB}{36}{subsubsection.2.4.2.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.4.2.3}PostgreSQL 16}{36}{subsubsection.2.4.2.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.4.3}Synthèse comparative}{37}{subsection.2.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4.3}Synthèse comparative}{36}{subsection.2.4.3}\protected@file@percent }
 \@writefile{lot}{\contentsline {table}{\numberline {2.4}{\ignorespaces Comparaison des systèmes de gestion de base de données}}{37}{table.caption.21}\protected@file@percent }
 \newlabel{tab:comparaison_bdd}{{2.4}{37}{Comparaison des systèmes de gestion de base de données}{table.caption.21}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.4.4}Décision}{37}{subsection.2.4.4}\protected@file@percent }
@@ -374,7 +375,7 @@
 \@writefile{lot}{\contentsline {table}{\numberline {3.6}{\ignorespaces Stratégie de synchronisation par source}}{67}{table.caption.33}\protected@file@percent }
 \newlabel{tab:sync-strategy}{{3.6}{67}{Stratégie de synchronisation par source}{table.caption.33}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.4.7}Sécurité et contrôle d'accès}{67}{subsection.3.4.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.7.1}Flux d'authentification OIDC}{67}{subsubsection.3.4.7.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.7.1}Flux d'authentification CAS}{67}{subsubsection.3.4.7.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.7.2}Contrôle d'accès (RBAC)}{68}{subsubsection.3.4.7.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.7.3}Gestion du renouvellement des tokens JWT}{68}{subsubsection.3.4.7.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.7.4}Journal d'audit}{68}{subsubsection.3.4.7.4}\protected@file@percent }
@@ -393,7 +394,7 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.5.5}CI/CD}{72}{subsection.3.5.5}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.5.6}Stratégie de migration de schéma}{72}{subsection.3.5.6}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.5.7}Stratégie de rollback}{72}{subsection.3.5.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.8}Politique de sauvegarde}{72}{subsection.3.5.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5.8}Politique de sauvegarde}{73}{subsection.3.5.8}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.5.9}Gestion des secrets}{73}{subsection.3.5.9}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {3.6}Modèle de données}{73}{section.3.6}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.6.1}Organisation par packages}{73}{subsection.3.6.1}\protected@file@percent }
@@ -528,9 +529,11 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.1.3}Conception détaillée}{102}{subsection.5.1.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.3.1}Diagramme de classes}{102}{subsubsection.5.1.3.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.1.4}Implémentation}{102}{subsection.5.1.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.5}Tests}{102}{subsection.5.1.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5.2}Sprint 2 : Données et traçabilité}{102}{section.5.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.1}Objectif du sprint}{102}{subsection.5.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.5}Tests et validation du sprint}{102}{subsection.5.1.5}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5.2}{\ignorespaces Validation du Sprint 1}}{103}{table.caption.51}\protected@file@percent }
+\newlabel{tab:validation-sprint1}{{5.2}{103}{Validation du Sprint 1}{table.caption.51}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.2}Sprint 2 : Données et traçabilité}{103}{section.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.1}Objectif du sprint}{103}{subsection.5.2.1}\protected@file@percent }
 \gdef \LT@viii {\LT@entry 
     {1}{21.82637pt}\LT@entry 
     {1}{106.38464pt}\LT@entry 
@@ -538,13 +541,12 @@
     {1}{120.61102pt}\LT@entry 
     {1}{49.47913pt}\LT@entry 
     {4}{21.02641pt}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.2}Sprint Backlog : Sprint 2}{103}{subsection.5.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.3}Conception détaillée}{105}{subsection.5.2.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.4}Implémentation}{105}{subsection.5.2.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.5}Tests}{105}{subsection.5.2.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5.3}Sprint 3 : Algorithme d'affectation}{105}{section.5.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.1}Objectif du sprint}{105}{subsection.5.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.2}Sprint Backlog : Sprint 3}{105}{subsection.5.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.2}Sprint Backlog : Sprint 2}{104}{subsection.5.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.3}Conception détaillée}{106}{subsection.5.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.4}Implémentation}{106}{subsection.5.2.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.5}Tests et validation du sprint}{106}{subsection.5.2.5}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5.4}{\ignorespaces Validation du Sprint 2}}{106}{table.caption.52}\protected@file@percent }
+\newlabel{tab:validation-sprint2}{{5.4}{106}{Validation du Sprint 2}{table.caption.52}{}}
 \gdef \LT@ix {\LT@entry 
     {1}{21.82637pt}\LT@entry 
     {1}{106.38464pt}\LT@entry 
@@ -552,12 +554,17 @@
     {1}{120.61102pt}\LT@entry 
     {1}{49.47913pt}\LT@entry 
     {4}{21.02641pt}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.3}Conception détaillée}{108}{subsection.5.3.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.3.3.1}Diagramme de classes}{108}{subsubsection.5.3.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.4}Implémentation}{108}{subsection.5.3.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.5}Tests}{108}{subsection.5.3.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5.4}Sprint 4 : Sources complémentaires et mobilités}{108}{section.5.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.1}Objectif du sprint}{108}{subsection.5.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.3}Sprint 3 : Algorithme d'affectation}{107}{section.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.1}Objectif du sprint}{107}{subsection.5.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.2}Sprint Backlog : Sprint 3}{107}{subsection.5.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.3}Conception détaillée}{109}{subsection.5.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.3.3.1}Diagramme de classes}{109}{subsubsection.5.3.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.4}Implémentation}{109}{subsection.5.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.5}Tests et validation du sprint}{109}{subsection.5.3.5}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5.6}{\ignorespaces Validation du Sprint 3}}{110}{table.caption.53}\protected@file@percent }
+\newlabel{tab:validation-sprint3}{{5.6}{110}{Validation du Sprint 3}{table.caption.53}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.4}Sprint 4 : Sources complémentaires et mobilités}{110}{section.5.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.1}Objectif du sprint}{110}{subsection.5.4.1}\protected@file@percent }
 \gdef \LT@x {\LT@entry 
     {1}{21.82637pt}\LT@entry 
     {1}{106.38464pt}\LT@entry 
@@ -565,13 +572,15 @@
     {1}{120.61102pt}\LT@entry 
     {1}{49.47913pt}\LT@entry 
     {4}{21.02641pt}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.2}Sprint Backlog : Sprint 4}{109}{subsection.5.4.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.3}Conception détaillée}{113}{subsection.5.4.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.4.3.1}Diagramme de classes}{113}{subsubsection.5.4.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.4}Implémentation}{113}{subsection.5.4.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.5}Tests}{113}{subsection.5.4.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5.5}Sprint 5 : Conformité CTI et authentification}{113}{section.5.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.1}Objectif du sprint}{113}{subsection.5.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.2}Sprint Backlog : Sprint 4}{111}{subsection.5.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.3}Conception détaillée}{115}{subsection.5.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.4.3.1}Diagramme de classes}{115}{subsubsection.5.4.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.4}Implémentation}{115}{subsection.5.4.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.5}Tests et validation du sprint}{115}{subsection.5.4.5}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5.8}{\ignorespaces Validation du Sprint 4}}{116}{table.caption.54}\protected@file@percent }
+\newlabel{tab:validation-sprint4}{{5.8}{116}{Validation du Sprint 4}{table.caption.54}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.5}Sprint 5 : Conformité CTI et authentification}{116}{section.5.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.1}Objectif du sprint}{116}{subsection.5.5.1}\protected@file@percent }
 \gdef \LT@xi {\LT@entry 
     {1}{21.82637pt}\LT@entry 
     {1}{106.38464pt}\LT@entry 
@@ -579,8 +588,13 @@
     {1}{120.61102pt}\LT@entry 
     {1}{49.47913pt}\LT@entry 
     {4}{21.02641pt}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.2}Sprint Backlog : Sprint 5 (planifié)}{114}{subsection.5.5.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5.6}Sprint 6 : Fonctionnalités intelligentes (V2)}{116}{section.5.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.2}Sprint Backlog : Sprint 5}{117}{subsection.5.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.3}Tests et validation du sprint}{119}{subsection.5.5.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5.10}{\ignorespaces Validation du Sprint 5}}{120}{table.caption.55}\protected@file@percent }
+\newlabel{tab:validation-sprint5}{{5.10}{120}{Validation du Sprint 5}{table.caption.55}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.6}Sprint 6 : Fonctionnalités intelligentes (V2)}{120}{section.5.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.6.1}Objectif du sprint}{120}{subsection.5.6.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.6.2}Sprint Backlog : Sprint 6}{120}{subsection.5.6.2}\protected@file@percent }
 \gdef \LT@xii {\LT@entry 
     {1}{21.82637pt}\LT@entry 
     {1}{106.38464pt}\LT@entry 
@@ -588,10 +602,54 @@
     {1}{120.61102pt}\LT@entry 
     {1}{49.47913pt}\LT@entry 
     {4}{21.02641pt}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.6.1}Objectif du sprint}{117}{subsection.5.6.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.6.2}Sprint Backlog : Sprint 6 (planifié)}{117}{subsection.5.6.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{Conclusion générale}{119}{chapter*.51}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{Bibliographie}{120}{chapter*.52}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {6}Tests et validation du système}{123}{chapter.6}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{cha:tests-validation}{{6}{123}{Tests et validation du système}{chapter.6}{}}
+\ttl@writefile{ptc}{\ttl@stoptoc{chapters@5}}
+\ttl@writefile{ptc}{\ttl@starttoc{chapters@6}}
+\@writefile{toc}{\contentsline {section}{Introduction}{124}{section*.56}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6.1}Stratégie de validation}{124}{section.6.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6.2}Synthèse des tests réalisés}{124}{section.6.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {6.1}{\ignorespaces Synthèse des tests disponibles par couche}}{125}{table.caption.57}\protected@file@percent }
+\newlabel{tab:synthese-tests}{{6.1}{125}{Synthèse des tests disponibles par couche}{table.caption.57}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.3}Validation End-to-End}{125}{section.6.3}\protected@file@percent }
+\newlabel{sec:e2e-global}{{6.3}{125}{Validation End-to-End}{section.6.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {6.2}{\ignorespaces Couverture End-to-End du parcours métier}}{126}{table.caption.58}\protected@file@percent }
+\newlabel{tab:e2e-parcours}{{6.2}{126}{Couverture End-to-End du parcours métier}{table.caption.58}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.4}Validation des machines à états}{126}{section.6.4}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {6.3}{\ignorespaces Couverture de test des machines à états}}{127}{table.caption.59}\protected@file@percent }
+\newlabel{tab:validation-fsm}{{6.3}{127}{Couverture de test des machines à états}{table.caption.59}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.5}Imports, exports et intégrations}{127}{section.6.5}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {6.4}{\ignorespaces Validation des imports, exports et intégrations externes}}{127}{table.caption.60}\protected@file@percent }
+\newlabel{tab:imports-exports}{{6.4}{127}{Validation des imports, exports et intégrations externes}{table.caption.60}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.6}Alertes et tâches programmées}{127}{section.6.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6.7}Statistiques et tableaux de bord}{127}{section.6.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6.8}Sécurité}{128}{section.6.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6.9}Performance et charge}{128}{section.6.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6.10}Intégration continue et Docker}{128}{section.6.10}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6.11}Couverture des besoins non fonctionnels}{128}{section.6.11}\protected@file@percent }
+\gdef \LT@xiii {\LT@entry 
+    {1}{70.50551pt}\LT@entry 
+    {1}{115.23009pt}\LT@entry 
+    {1}{81.08644pt}\LT@entry 
+    {1}{137.99194pt}\LT@entry 
+    {1}{81.08644pt}}
+\@writefile{lot}{\contentsline {table}{\numberline {6.5}{\ignorespaces Couverture des besoins non fonctionnels (BNF01--BNF08)}}{129}{table.6.5}\protected@file@percent }
+\newlabel{tab:couverture-bnf}{{6.5}{129}{Couverture des besoins non fonctionnels (BNF01--BNF08)}{table.6.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.12}Matrice de couverture fonctionnelle}{131}{section.6.12}\protected@file@percent }
+\gdef \LT@xiv {\LT@entry 
+    {1}{127.41103pt}\LT@entry 
+    {1}{58.32458pt}\LT@entry 
+    {1}{58.32458pt}\LT@entry 
+    {1}{58.32458pt}\LT@entry 
+    {1}{58.32458pt}\LT@entry 
+    {1}{143.68285pt}}
+\@writefile{lot}{\contentsline {table}{\numberline {6.6}{\ignorespaces Matrice de couverture fonctionnelle}}{132}{table.6.6}\protected@file@percent }
+\newlabel{tab:matrice-couverture}{{6.6}{132}{Matrice de couverture fonctionnelle}{table.6.6}{}}
+\@writefile{toc}{\contentsline {section}{Conclusion}{134}{section*.61}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{Conclusion générale}{135}{chapter*.62}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{Bibliographie}{136}{chapter*.63}\protected@file@percent }
 \ttl@finishall
 \abx@aux@read@bbl@mdfivesum{3A9A119A236F037EB5FB2122C4AF0318}
 \abx@aux@defaultrefcontext{0}{enseeiht_presentation}{none/global//global/global/global}
@@ -627,4 +685,4 @@
 \abx@aux@defaultrefcontext{0}{langchain_dev}{none/global//global/global/global}
 \abx@aux@defaultrefcontext{0}{LlamaIndex_dev}{none/global//global/global/global}
 \abx@aux@defaultrefcontext{0}{haystack_dev}{none/global//global/global/global}
-\gdef \@abspage@last{132}
+\gdef \@abspage@last{149}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.6.14)  4 AUG 2026 13:18
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.6.14)  19 AUG 2026 19:26
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1599,23 +1599,24 @@ al/texlive/2026/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}]
 Package babel Info: 'french' activates 'french' shorthands.
 (babel)             Reported on input line 77.
  [2] [3] [4] [5]
-[6])
+[6] [7])
 \tf@toc=\write6
 \openout6 = `main.toc'.
 
- [7] (./main.lof)
+ [8] (./main.lof)
 \tf@lof=\write7
 \openout7 = `main.lof'.
 
- [8
+ [9
 
-] (./main.lot)
+] (./main.lot [10
+
+])
 \tf@lot=\write8
 \openout8 = `main.lot'.
 
- [9
-
-] [10] (./Chapitres/abreviations.tex
+ [11]
+(./Chapitres/abreviations.tex
 
 LaTeX Warning: Hyper reference `acro:ACID' on page 1 undefined on input line 7.
 
@@ -1743,319 +1744,327 @@ LaTeX Warning: Hyper reference `acro:DRF' on page 1 undefined on input line 22.
 
 
 
-LaTeX Warning: Hyper reference `acro:ETL' on page 1 undefined on input line 23.
+LaTeX Warning: Hyper reference `acro:E2E' on page 1 undefined on input line 23.
 
 
 
-LaTeX Warning: Hyper reference `acro:ETL' on page 1 undefined on input line 23.
+LaTeX Warning: Hyper reference `acro:E2E' on page 1 undefined on input line 23.
 
 
 
-LaTeX Warning: Hyper reference `acro:FSM' on page 1 undefined on input line 24.
+LaTeX Warning: Hyper reference `acro:ETL' on page 1 undefined on input line 24.
 
 
 
-LaTeX Warning: Hyper reference `acro:FSM' on page 1 undefined on input line 24.
+LaTeX Warning: Hyper reference `acro:ETL' on page 1 undefined on input line 24.
 
 
 
-LaTeX Warning: Hyper reference `acro:GPA' on page 1 undefined on input line 25.
+LaTeX Warning: Hyper reference `acro:FSM' on page 1 undefined on input line 25.
 
 
 
-LaTeX Warning: Hyper reference `acro:GPA' on page 1 undefined on input line 25.
+LaTeX Warning: Hyper reference `acro:FSM' on page 1 undefined on input line 25.
 
 
 
-LaTeX Warning: Hyper reference `acro:HTTP' on page 1 undefined on input line 26
+LaTeX Warning: Hyper reference `acro:GPA' on page 1 undefined on input line 26.
+
+
+
+LaTeX Warning: Hyper reference `acro:GPA' on page 1 undefined on input line 26.
+
+
+
+LaTeX Warning: Hyper reference `acro:HTTP' on page 1 undefined on input line 27
 .
 
 
-LaTeX Warning: Hyper reference `acro:HTTP' on page 1 undefined on input line 26
+LaTeX Warning: Hyper reference `acro:HTTP' on page 1 undefined on input line 27
 .
 
 
 LaTeX Warning: Hyper reference `acro:HTTPS' on page 1 undefined on input line 2
-7.
+8.
 
 
 LaTeX Warning: Hyper reference `acro:HTTPS' on page 1 undefined on input line 2
-7.
+8.
 
 
-LaTeX Warning: Hyper reference `acro:IA' on page 1 undefined on input line 28.
+LaTeX Warning: Hyper reference `acro:IA' on page 1 undefined on input line 29.
 
 
-LaTeX Warning: Hyper reference `acro:IA' on page 1 undefined on input line 28.
+LaTeX Warning: Hyper reference `acro:IA' on page 1 undefined on input line 29.
 
 
-LaTeX Warning: Hyper reference `acro:INE' on page 1 undefined on input line 29.
-
-
-
-LaTeX Warning: Hyper reference `acro:INE' on page 1 undefined on input line 29.
+LaTeX Warning: Hyper reference `acro:INE' on page 1 undefined on input line 30.
 
 
 
-LaTeX Warning: Hyper reference `acro:INP' on page 1 undefined on input line 30.
+LaTeX Warning: Hyper reference `acro:INE' on page 1 undefined on input line 30.
 
 
 
-LaTeX Warning: Hyper reference `acro:INP' on page 1 undefined on input line 30.
+LaTeX Warning: Hyper reference `acro:INP' on page 1 undefined on input line 31.
 
 
 
-LaTeX Warning: Hyper reference `acro:ISO' on page 1 undefined on input line 31.
+LaTeX Warning: Hyper reference `acro:INP' on page 1 undefined on input line 31.
 
 
 
-LaTeX Warning: Hyper reference `acro:ISO' on page 1 undefined on input line 31.
+LaTeX Warning: Hyper reference `acro:ISO' on page 1 undefined on input line 32.
 
 
 
-LaTeX Warning: Hyper reference `acro:JSON' on page 1 undefined on input line 32
+LaTeX Warning: Hyper reference `acro:ISO' on page 1 undefined on input line 32.
+
+
+
+LaTeX Warning: Hyper reference `acro:JSON' on page 1 undefined on input line 33
 .
 
 
-LaTeX Warning: Hyper reference `acro:JSON' on page 1 undefined on input line 32
+LaTeX Warning: Hyper reference `acro:JSON' on page 1 undefined on input line 33
 .
 
 
 LaTeX Warning: Hyper reference `acro:JSONB' on page 1 undefined on input line 3
-3.
+4.
 
 
 LaTeX Warning: Hyper reference `acro:JSONB' on page 1 undefined on input line 3
-3.
+4.
 
 
-LaTeX Warning: Hyper reference `acro:JWT' on page 1 undefined on input line 34.
-
-
-
-LaTeX Warning: Hyper reference `acro:JWT' on page 1 undefined on input line 34.
+LaTeX Warning: Hyper reference `acro:JWT' on page 1 undefined on input line 35.
 
 
 
-LaTeX Warning: Hyper reference `acro:KPI' on page 1 undefined on input line 35.
+LaTeX Warning: Hyper reference `acro:JWT' on page 1 undefined on input line 35.
 
 
 
-LaTeX Warning: Hyper reference `acro:KPI' on page 1 undefined on input line 35.
+LaTeX Warning: Hyper reference `acro:KPI' on page 1 undefined on input line 36.
 
 
 
-LaTeX Warning: Hyper reference `acro:LDAP' on page 1 undefined on input line 36
+LaTeX Warning: Hyper reference `acro:KPI' on page 1 undefined on input line 36.
+
+
+
+LaTeX Warning: Hyper reference `acro:LDAP' on page 1 undefined on input line 37
 .
 
 
-LaTeX Warning: Hyper reference `acro:LDAP' on page 1 undefined on input line 36
+LaTeX Warning: Hyper reference `acro:LDAP' on page 1 undefined on input line 37
 .
 
 
-LaTeX Warning: Hyper reference `acro:MVP' on page 1 undefined on input line 37.
+LaTeX Warning: Hyper reference `acro:MVP' on page 1 undefined on input line 38.
 
 
 
-LaTeX Warning: Hyper reference `acro:MVP' on page 1 undefined on input line 37.
+LaTeX Warning: Hyper reference `acro:MVP' on page 1 undefined on input line 38.
 
 
 
-LaTeX Warning: Hyper reference `acro:OIDC' on page 1 undefined on input line 38
+LaTeX Warning: Hyper reference `acro:OIDC' on page 1 undefined on input line 39
 .
 
 
-LaTeX Warning: Hyper reference `acro:OIDC' on page 1 undefined on input line 38
+LaTeX Warning: Hyper reference `acro:OIDC' on page 1 undefined on input line 39
 .
-
-
-LaTeX Warning: Hyper reference `acro:ORM' on page 1 undefined on input line 39.
-
-
-
-LaTeX Warning: Hyper reference `acro:ORM' on page 1 undefined on input line 39.
-
 
 [1
 
 
 ]
 
+LaTeX Warning: Hyper reference `acro:ORM' on page 2 undefined on input line 40.
+
+
+
+LaTeX Warning: Hyper reference `acro:ORM' on page 2 undefined on input line 40.
+
+
+
 LaTeX Warning: Hyper reference `acro:OWASP' on page 2 undefined on input line 4
-0.
+1.
 
 
 LaTeX Warning: Hyper reference `acro:OWASP' on page 2 undefined on input line 4
-0.
+1.
 
 
-LaTeX Warning: Hyper reference `acro:PFE' on page 2 undefined on input line 41.
-
-
-
-LaTeX Warning: Hyper reference `acro:PFE' on page 2 undefined on input line 41.
+LaTeX Warning: Hyper reference `acro:PFE' on page 2 undefined on input line 42.
 
 
 
-LaTeX Warning: Hyper reference `acro:RAG' on page 2 undefined on input line 42.
+LaTeX Warning: Hyper reference `acro:PFE' on page 2 undefined on input line 42.
 
 
 
-LaTeX Warning: Hyper reference `acro:RAG' on page 2 undefined on input line 42.
+LaTeX Warning: Hyper reference `acro:RAG' on page 2 undefined on input line 43.
 
 
 
-LaTeX Warning: Hyper reference `acro:RBAC' on page 2 undefined on input line 43
+LaTeX Warning: Hyper reference `acro:RAG' on page 2 undefined on input line 43.
+
+
+
+LaTeX Warning: Hyper reference `acro:RBAC' on page 2 undefined on input line 44
 .
 
 
-LaTeX Warning: Hyper reference `acro:RBAC' on page 2 undefined on input line 43
+LaTeX Warning: Hyper reference `acro:RBAC' on page 2 undefined on input line 44
 .
 
 
-LaTeX Warning: Hyper reference `acro:REST' on page 2 undefined on input line 44
+LaTeX Warning: Hyper reference `acro:REST' on page 2 undefined on input line 45
 .
 
 
-LaTeX Warning: Hyper reference `acro:REST' on page 2 undefined on input line 44
+LaTeX Warning: Hyper reference `acro:REST' on page 2 undefined on input line 45
 .
 
 
-LaTeX Warning: Hyper reference `acro:RGPD' on page 2 undefined on input line 45
+LaTeX Warning: Hyper reference `acro:RGPD' on page 2 undefined on input line 46
 .
 
 
-LaTeX Warning: Hyper reference `acro:RGPD' on page 2 undefined on input line 45
+LaTeX Warning: Hyper reference `acro:RGPD' on page 2 undefined on input line 46
 .
 
 
-LaTeX Warning: Hyper reference `acro:RI' on page 2 undefined on input line 46.
+LaTeX Warning: Hyper reference `acro:RI' on page 2 undefined on input line 47.
 
 
-LaTeX Warning: Hyper reference `acro:RI' on page 2 undefined on input line 46.
+LaTeX Warning: Hyper reference `acro:RI' on page 2 undefined on input line 47.
 
 
-LaTeX Warning: Hyper reference `acro:RTO' on page 2 undefined on input line 47.
-
-
-
-LaTeX Warning: Hyper reference `acro:RTO' on page 2 undefined on input line 47.
+LaTeX Warning: Hyper reference `acro:RTO' on page 2 undefined on input line 48.
 
 
 
-LaTeX Warning: Hyper reference `acro:SGBD' on page 2 undefined on input line 48
+LaTeX Warning: Hyper reference `acro:RTO' on page 2 undefined on input line 48.
+
+
+
+LaTeX Warning: Hyper reference `acro:SGBD' on page 2 undefined on input line 49
 .
 
 
-LaTeX Warning: Hyper reference `acro:SGBD' on page 2 undefined on input line 48
+LaTeX Warning: Hyper reference `acro:SGBD' on page 2 undefined on input line 49
 .
 
 
-LaTeX Warning: Hyper reference `acro:SP' on page 2 undefined on input line 49.
+LaTeX Warning: Hyper reference `acro:SP' on page 2 undefined on input line 50.
 
 
-LaTeX Warning: Hyper reference `acro:SP' on page 2 undefined on input line 49.
+LaTeX Warning: Hyper reference `acro:SP' on page 2 undefined on input line 50.
 
 
-LaTeX Warning: Hyper reference `acro:SQL' on page 2 undefined on input line 50.
+LaTeX Warning: Hyper reference `acro:SQL' on page 2 undefined on input line 51.
 
 
 
-LaTeX Warning: Hyper reference `acro:SQL' on page 2 undefined on input line 50.
+LaTeX Warning: Hyper reference `acro:SQL' on page 2 undefined on input line 51.
 
 
 
-LaTeX Warning: Hyper reference `acro:SSE' on page 2 undefined on input line 51.
+LaTeX Warning: Hyper reference `acro:SSE' on page 2 undefined on input line 52.
 
 
 
-LaTeX Warning: Hyper reference `acro:SSE' on page 2 undefined on input line 51.
+LaTeX Warning: Hyper reference `acro:SSE' on page 2 undefined on input line 52.
 
 
 
-LaTeX Warning: Hyper reference `acro:SSL' on page 2 undefined on input line 52.
+LaTeX Warning: Hyper reference `acro:SSL' on page 2 undefined on input line 53.
 
 
 
-LaTeX Warning: Hyper reference `acro:SSL' on page 2 undefined on input line 52.
+LaTeX Warning: Hyper reference `acro:SSL' on page 2 undefined on input line 53.
 
 
 
-LaTeX Warning: Hyper reference `acro:SSO' on page 2 undefined on input line 53.
+LaTeX Warning: Hyper reference `acro:SSO' on page 2 undefined on input line 54.
 
 
 
-LaTeX Warning: Hyper reference `acro:SSO' on page 2 undefined on input line 53.
+LaTeX Warning: Hyper reference `acro:SSO' on page 2 undefined on input line 54.
 
 
 
-LaTeX Warning: Hyper reference `acro:SSR' on page 2 undefined on input line 54.
+LaTeX Warning: Hyper reference `acro:SSR' on page 2 undefined on input line 55.
 
 
 
-LaTeX Warning: Hyper reference `acro:SSR' on page 2 undefined on input line 54.
+LaTeX Warning: Hyper reference `acro:SSR' on page 2 undefined on input line 55.
 
 
 
-LaTeX Warning: Hyper reference `acro:TLS' on page 2 undefined on input line 55.
+LaTeX Warning: Hyper reference `acro:TLS' on page 2 undefined on input line 56.
 
 
 
-LaTeX Warning: Hyper reference `acro:TLS' on page 2 undefined on input line 55.
+LaTeX Warning: Hyper reference `acro:TLS' on page 2 undefined on input line 56.
 
 
 
-LaTeX Warning: Hyper reference `acro:UAT' on page 2 undefined on input line 56.
+LaTeX Warning: Hyper reference `acro:UAT' on page 2 undefined on input line 57.
 
 
 
-LaTeX Warning: Hyper reference `acro:UAT' on page 2 undefined on input line 56.
+LaTeX Warning: Hyper reference `acro:UAT' on page 2 undefined on input line 57.
 
 
 
-LaTeX Warning: Hyper reference `acro:UML' on page 2 undefined on input line 57.
+LaTeX Warning: Hyper reference `acro:UML' on page 2 undefined on input line 58.
 
 
 
-LaTeX Warning: Hyper reference `acro:UML' on page 2 undefined on input line 57.
+LaTeX Warning: Hyper reference `acro:UML' on page 2 undefined on input line 58.
 
 
 
-LaTeX Warning: Hyper reference `acro:URL' on page 2 undefined on input line 58.
+LaTeX Warning: Hyper reference `acro:URL' on page 2 undefined on input line 59.
 
 
 
-LaTeX Warning: Hyper reference `acro:URL' on page 2 undefined on input line 58.
+LaTeX Warning: Hyper reference `acro:URL' on page 2 undefined on input line 59.
 
 
 
-LaTeX Warning: Hyper reference `acro:US' on page 2 undefined on input line 59.
+LaTeX Warning: Hyper reference `acro:US' on page 2 undefined on input line 60.
 
 
-LaTeX Warning: Hyper reference `acro:US' on page 2 undefined on input line 59.
+LaTeX Warning: Hyper reference `acro:US' on page 2 undefined on input line 60.
 
 
-LaTeX Warning: Hyper reference `acro:UTC' on page 2 undefined on input line 60.
+LaTeX Warning: Hyper reference `acro:UTC' on page 2 undefined on input line 61.
 
 
 
-LaTeX Warning: Hyper reference `acro:UTC' on page 2 undefined on input line 60.
+LaTeX Warning: Hyper reference `acro:UTC' on page 2 undefined on input line 61.
 
 
 
-LaTeX Warning: Hyper reference `acro:WAL' on page 2 undefined on input line 61.
+LaTeX Warning: Hyper reference `acro:WAL' on page 2 undefined on input line 62.
 
 
 
-LaTeX Warning: Hyper reference `acro:WAL' on page 2 undefined on input line 61.
+LaTeX Warning: Hyper reference `acro:WAL' on page 2 undefined on input line 62.
 
 
 
-LaTeX Warning: Hyper reference `acro:XML' on page 2 undefined on input line 62.
+LaTeX Warning: Hyper reference `acro:XML' on page 2 undefined on input line 63.
 
 
 
-LaTeX Warning: Hyper reference `acro:XML' on page 2 undefined on input line 62.
+LaTeX Warning: Hyper reference `acro:XML' on page 2 undefined on input line 63.
 
 
 ) [2] (./Chapitres/introduction.tex) [3
@@ -2068,14 +2077,14 @@ Chapitre 1.
 
 
 ] [5] [6]
-<figures/systemes/systeme-existant.png, id=1579, 755.32187pt x 425.08812pt>
+<figures/systemes/systeme-existant.png, id=1687, 755.32187pt x 425.08812pt>
 File: figures/systemes/systeme-existant.png Graphic file (type png)
 <use figures/systemes/systeme-existant.png>
 Package pdftex.def Info: figures/systemes/systeme-existant.png  used on input l
 ine 82.
 (pdftex.def)             Requested size: 419.95967pt x 236.34831pt.
  [7 <./figures/systemes/systeme-existant.png>]
-<figures/systemes/bpmn-as-is-duree-mobilite.png, id=1590, 4050.13126pt x 6061.6
+<figures/systemes/bpmn-as-is-duree-mobilite.png, id=1698, 4050.13126pt x 6061.6
 4626pt>
 File: figures/systemes/bpmn-as-is-duree-mobilite.png Graphic file (type png)
 <use figures/systemes/bpmn-as-is-duree-mobilite.png>
@@ -2087,7 +2096,7 @@ Overfull \vbox (8.65932pt too high) has occurred while \output is active []
 
 
 [9 <./figures/systemes/bpmn-as-is-duree-mobilite.png (PNG copy)>]
-<figures/systemes/bpmn-as-is-enquete-cti.png, id=1600, 5618.9925pt x 7329.3825p
+<figures/systemes/bpmn-as-is-enquete-cti.png, id=1708, 5618.9925pt x 7329.3825p
 t>
 File: figures/systemes/bpmn-as-is-enquete-cti.png Graphic file (type png)
 <use figures/systemes/bpmn-as-is-enquete-cti.png>
@@ -2242,7 +2251,7 @@ Overfull \hbox (1.15846pt too wide) in paragraph at lines 672--672
  []|\T1/cmr/m/n/10 Secondaire| 
  []
 
-[36] [37] [38]
+[36] [37]
 Overfull \hbox (1.15846pt too wide) in paragraph at lines 779--779
  []|\T1/cmr/m/n/10 Secondaire| 
  []
@@ -2257,125 +2266,125 @@ Overfull \hbox (1.15846pt too wide) in paragraph at lines 783--783
  []|\T1/cmr/m/n/10 Secondaire| 
  []
 
-[39] [40]
-Underfull \hbox (badness 1565) in paragraph at lines 892--892
+[38] [39] [40]
+Underfull \hbox (badness 1565) in paragraph at lines 890--890
 []|\T1/cmr/m/n/10 Aucun ser-vice sup-plé-men-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 896--896
+Underfull \hbox (badness 10000) in paragraph at lines 894--894
 []|\T1/cmr/m/n/10 Supervision via ad-min
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 902--902
+Underfull \hbox (badness 10000) in paragraph at lines 900--900
 []|\T1/cmr/m/n/10 Intégration na-tive avec
  []
 
 [41] [42]
-Underfull \hbox (badness 10000) in paragraph at lines 1000--1000
+Underfull \hbox (badness 10000) in paragraph at lines 998--998
 []|\T1/cmr/m/n/10 Portabilité multi-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1002--1002
+Underfull \hbox (badness 10000) in paragraph at lines 1000--1000
 []|\T1/cmr/m/n/10 Suppression au-to-ma-tique
  []
 
 [43]
-Underfull \hbox (badness 2173) in paragraph at lines 1115--1115
+Underfull \hbox (badness 2173) in paragraph at lines 1113--1113
 []|\T1/cmr/m/n/10 Routage vers ser-vices in-
  []
 
 [44]
-Underfull \hbox (badness 10000) in paragraph at lines 1151--1152
+Underfull \hbox (badness 10000) in paragraph at lines 1149--1150
 
  []
 
 [45]
-Underfull \hbox (badness 10000) in paragraph at lines 1174--1175
+Underfull \hbox (badness 10000) in paragraph at lines 1172--1173
 
  []
 
 
-Overfull \hbox (17.03731pt too wide) in paragraph at lines 1191--1193
+Overfull \hbox (17.03731pt too wide) in paragraph at lines 1189--1191
 []\T1/cmr/m/n/12 Comportement moins pré-vi-sible dans un en-vi-ron-ne-ment ins-
 ti-tu-tion-nel avec des contraintes
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1212--1212
+Underfull \hbox (badness 10000) in paragraph at lines 1210--1210
 []|\T1/cmr/m/n/10 Configuration li-sible (fi-
  []
 
 
-Underfull \hbox (badness 1360) in paragraph at lines 1218--1218
+Underfull \hbox (badness 1360) in paragraph at lines 1216--1216
 []|\T1/cmr/m/n/10 Prévisibilité en en-vi-ron-ne-
  []
 
 [46] [47]
-Underfull \hbox (badness 2213) in paragraph at lines 1319--1319
+Underfull \hbox (badness 2213) in paragraph at lines 1317--1317
 []|\T1/cmr/m/n/10 Déclaration dans les mo-
  []
 
 
-Underfull \hbox (badness 8019) in paragraph at lines 1323--1323
+Underfull \hbox (badness 8019) in paragraph at lines 1321--1321
 []|\T1/cmr/m/n/10 Efficacité à très grande
  []
 
 
-Overfull \hbox (2.9603pt too wide) in paragraph at lines 1330--1337
+Overfull \hbox (2.9603pt too wide) in paragraph at lines 1328--1335
 \T1/cmtt/m/n/12 academic_year_id \T1/cmr/m/n/12 et sur la com-bi-nai-son \T1/cm
 tt/m/n/12 (academic_year_id, student_id) \T1/cmr/m/n/12 pour les tables
  []
 
 [48]
-Underfull \hbox (badness 1924) in paragraph at lines 1364--1364
+Underfull \hbox (badness 1924) in paragraph at lines 1362--1362
 []|\T1/cmr/m/n/12 Backend fra-me-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1373--1373
+Underfull \hbox (badness 10000) in paragraph at lines 1371--1371
 []|\T1/cmr/m/n/12 Gestionnaire
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1376--1376
+Underfull \hbox (badness 10000) in paragraph at lines 1374--1374
 []|\T1/cmr/m/n/12 MinIO (S3-
  []
 
 
-Overfull \hbox (1.83154pt too wide) in paragraph at lines 1385--1385
+Overfull \hbox (1.83154pt too wide) in paragraph at lines 1383--1383
 []|\T1/cmr/m/n/12 Conteneurisation| 
  []
 
 
-Underfull \hbox (badness 2310) in paragraph at lines 1385--1385
+Underfull \hbox (badness 2310) in paragraph at lines 1383--1383
 []|\T1/cmr/m/n/12 Docker + Do-cker
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1388--1388
+Underfull \hbox (badness 10000) in paragraph at lines 1386--1386
 []|\T1/cmr/m/n/12 Gestion des
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1391--1391
+Underfull \hbox (badness 10000) in paragraph at lines 1389--1389
 []|\T1/cmr/m/n/12 Module d'au-dit
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1391--1391
+Underfull \hbox (badness 10000) in paragraph at lines 1389--1389
 \T1/cmr/m/n/12 ap-pli-ca-tif dé-ve-
  []
 
 
-Underfull \hbox (badness 7740) in paragraph at lines 1391--1391
+Underfull \hbox (badness 7740) in paragraph at lines 1389--1389
 \T1/cmr/m/n/12 loppé en in-terne
  []
 
 
-Overfull \hbox (26.84837pt too wide) in paragraph at lines 1391--1391
+Overfull \hbox (26.84837pt too wide) in paragraph at lines 1389--1389
 \T1/cmr/m/n/12 (\T1/cmtt/m/n/12 app/audit/logger.py\T1/cmr/m/n/12 )| 
  []
 
@@ -2557,7 +2566,7 @@ r/bx/n/12 Mo-veON\T1/cmr/m/n/12 , \T1/cmr/bx/n/12 Pé-gase\T1/cmr/m/n/12 , \T1/c
 mr/bx/n/12 Eu-do-net\T1/cmr/m/n/12 ) : gère la connexion
  []
 
-<figures/architecture/Architecture-Logicielle.png, id=2042, 727.21687pt x 545.0
+<figures/architecture/Architecture-Logicielle.png, id=2151, 727.21687pt x 545.0
 3625pt>
 File: figures/architecture/Architecture-Logicielle.png Graphic file (type png)
 <use figures/architecture/Architecture-Logicielle.png>
@@ -2565,113 +2574,99 @@ Package pdftex.def Info: figures/architecture/Architecture-Logicielle.png  used
  on input line 556.
 (pdftex.def)             Requested size: 466.62503pt x 349.73683pt.
 [63] [64 <./figures/architecture/Architecture-Logicielle.png>] [65] [66]
-Underfull \hbox (badness 10000) in paragraph at lines 667--668
-[]|\T1/cmr/m/n/10 Tâche Django-Q2 pla-ni-fiée
- []
-
-
-Underfull \hbox (badness 6575) in paragraph at lines 667--668
-\T1/cmr/m/n/10 (phases ac-tives) + ma-nuelle
- []
-
-
-Underfull \hbox (badness 1173) in paragraph at lines 676--676
-[]|\T1/cmr/m/n/10 Périodique (fin de pé-riode de
- []
-
-[67] [68] [69]
-<figures/architecture/Architecture-Physique.png, id=2083, 1219.55624pt x 730.98
+[67] [68]
+<figures/architecture/Architecture-Physique.png, id=2185, 1219.55624pt x 730.98
 094pt>
 File: figures/architecture/Architecture-Physique.png Graphic file (type png)
 <use figures/architecture/Architecture-Physique.png>
 Package pdftex.def Info: figures/architecture/Architecture-Physique.png  used o
-n input line 749.
+n input line 748.
 (pdftex.def)             Requested size: 466.62503pt x 279.68295pt.
-
-Underfull \hbox (badness 6477) in paragraph at lines 773--774
+ [69]
+Underfull \hbox (badness 6477) in paragraph at lines 772--773
 []|\T1/cmr/m/n/10.95 Application Next.js (SSR + API
  []
 
 [70 <./figures/architecture/Architecture-Physique.png>] [71] [72]
-Overfull \hbox (5.45068pt too wide) in paragraph at lines 831--832
+Overfull \hbox (5.45068pt too wide) in paragraph at lines 830--831
 []\T1/cmr/m/n/12 Aucun se-cret n'est pré-sent dans le dé-pôt git. Les va-riable
 s sen-sibles, telles que \T1/cmtt/m/n/12 SECRET_KEY\T1/cmr/m/n/12 ,
  []
 
 
-Underfull \hbox (badness 4505) in paragraph at lines 866--869
+Underfull \hbox (badness 4505) in paragraph at lines 865--868
 []|\T1/cmr/m/n/10 Données aca-dé-miques des étu-diants im-por-tées de-puis Pé-g
 ase :
  []
 
 
-Underfull \hbox (badness 3219) in paragraph at lines 881--888
+Underfull \hbox (badness 3219) in paragraph at lines 880--887
 \T1/cmr/m/n/10 or-don-nés sai-sis par l'étu-diant (\T1/cmtt/m/n/10 StudentWish\
 T1/cmr/m/n/10 ) et les af-fec-ta-tions
  []
 
 [73] [74] [75]
-Overfull \hbox (52.36812pt too wide) in paragraph at lines 928--929
+Overfull \hbox (52.36812pt too wide) in paragraph at lines 927--928
  [][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 940--942
+Underfull \hbox (badness 10000) in paragraph at lines 939--941
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 956--958
+Underfull \hbox (badness 10000) in paragraph at lines 955--957
 
  []
 
 [76]
-Underfull \hbox (badness 10000) in paragraph at lines 972--974
+Underfull \hbox (badness 10000) in paragraph at lines 971--973
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 981--983
+Underfull \hbox (badness 10000) in paragraph at lines 980--982
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 994--996
+Underfull \hbox (badness 10000) in paragraph at lines 993--995
 
  []
 
 [77]
-Underfull \hbox (badness 10000) in paragraph at lines 1001--1003
+Underfull \hbox (badness 10000) in paragraph at lines 1000--1002
 
  []
 
 [78]
-Underfull \hbox (badness 10000) in paragraph at lines 1127--1127
+Underfull \hbox (badness 10000) in paragraph at lines 1126--1126
 []|\T1/cmr/m/n/12 API ex-terne in-dis-
  []
 
 
-Overfull \hbox (3.00002pt too wide) in paragraph at lines 1128--1128
+Overfull \hbox (3.00002pt too wide) in paragraph at lines 1127--1127
 []|\T1/cmr/m/n/12 Moyenne| 
  []
 
 
-Underfull \hbox (badness 1946) in paragraph at lines 1133--1133
+Underfull \hbox (badness 1946) in paragraph at lines 1132--1132
 []|\T1/cmr/m/n/12 Dérive du pé-ri-mètre
  []
 
 
-Overfull \hbox (3.00002pt too wide) in paragraph at lines 1141--1141
+Overfull \hbox (3.00002pt too wide) in paragraph at lines 1140--1140
 []|\T1/cmr/m/n/12 Moyenne| 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1147--1147
+Underfull \hbox (badness 10000) in paragraph at lines 1146--1146
 []|\T1/cmr/m/n/12 Très
  []
 
 
-Underfull \hbox (badness 1946) in paragraph at lines 1158--1158
+Underfull \hbox (badness 1946) in paragraph at lines 1157--1157
 []|\T1/cmr/m/n/12 Performance de l'al-
  []
 
@@ -2686,208 +2681,208 @@ Underfull \hbox (badness 3557) in paragraph at lines 121--121
  []
 
 [84] [85] [86]
-Overfull \hbox (1.15846pt too wide) in paragraph at lines 262--262
+Overfull \hbox (1.15846pt too wide) in paragraph at lines 263--263
  []|\T1/cmr/m/n/10 Secondaire| 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 264--264
+Underfull \hbox (badness 10000) in paragraph at lines 265--265
 []|\T1/cmr/m/n/10 Vérification ma-nuelle
  []
 
 
-Underfull \hbox (badness 1917) in paragraph at lines 266--266
+Underfull \hbox (badness 1917) in paragraph at lines 267--267
 []|\T1/cmr/m/n/10 Équité entre dé-par-te-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 270--270
+Underfull \hbox (badness 10000) in paragraph at lines 271--271
 []|\T1/cmr/m/n/10 Adapté à un pe-tit
  []
 
 
-Overfull \hbox (1.15846pt too wide) in paragraph at lines 270--270
+Overfull \hbox (1.15846pt too wide) in paragraph at lines 271--271
  []|\T1/cmr/m/n/10 Secondaire| 
  []
 
 [87] [88]
-Underfull \hbox (badness 10000) in paragraph at lines 352--353
+Underfull \hbox (badness 10000) in paragraph at lines 353--354
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 370--371
+Underfull \hbox (badness 10000) in paragraph at lines 371--372
 
  []
 
 [89]
-Overfull \hbox (4.00392pt too wide) in paragraph at lines 405--405
+Overfull \hbox (4.00392pt too wide) in paragraph at lines 406--406
  []|\T1/cmr/m/n/10 Secondaire| 
  []
 
 
-Overfull \hbox (4.00392pt too wide) in paragraph at lines 409--409
+Overfull \hbox (4.00392pt too wide) in paragraph at lines 410--410
  []|\T1/cmr/m/n/10 Secondaire| 
  []
 
 
-Underfull \hbox (badness 4713) in paragraph at lines 411--411
+Underfull \hbox (badness 4713) in paragraph at lines 412--412
 []|\T1/cmr/m/n/10 Risque de sur-ap-
  []
 
 
-Overfull \hbox (4.00392pt too wide) in paragraph at lines 413--413
+Overfull \hbox (4.00392pt too wide) in paragraph at lines 414--414
  []|\T1/cmr/m/n/10 Secondaire| 
  []
 
 
-Underfull \hbox (badness 3168) in paragraph at lines 437--437
+Underfull \hbox (badness 3168) in paragraph at lines 438--438
 []|\T1/cmr/m/n/10 Département pé-da-go-
  []
 
 [90] [91] [92]
-Overfull \hbox (2.43417pt too wide) in paragraph at lines 587--587
+Overfull \hbox (2.43417pt too wide) in paragraph at lines 588--588
  []|\T1/cmr/bx/n/10 LlamaIndex| 
  []
 
 
-Overfull \hbox (1.15846pt too wide) in paragraph at lines 589--589
+Overfull \hbox (1.15846pt too wide) in paragraph at lines 590--590
  []|\T1/cmr/m/n/10 Secondaire| 
  []
 
 
-Underfull \hbox (badness 6300) in paragraph at lines 595--595
+Underfull \hbox (badness 6300) in paragraph at lines 596--596
 []|\T1/cmr/m/n/10 Adapté à un cas
  []
 
 
-Underfull \hbox (badness 3118) in paragraph at lines 638--638
+Underfull \hbox (badness 3118) in paragraph at lines 639--639
 []|\T1/cmr/m/n/12 Répartition des
  []
 
 
-Underfull \hbox (badness 5119) in paragraph at lines 641--641
+Underfull \hbox (badness 5119) in paragraph at lines 642--642
 []|\T1/cmr/m/n/12 Moteur de re-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 641--641
+Underfull \hbox (badness 10000) in paragraph at lines 642--642
 []|\T1/cmr/m/n/12 Régression lo-gis-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 644--644
+Underfull \hbox (badness 10000) in paragraph at lines 645--645
 []|\T1/cmr/m/n/12 Orchestration
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 644--644
+Underfull \hbox (badness 10000) in paragraph at lines 645--645
 []|\T1/cmr/m/n/12 LlamaIndex +
  []
 
 
-Underfull \hbox (badness 1215) in paragraph at lines 647--647
+Underfull \hbox (badness 1215) in paragraph at lines 648--648
 []|\T1/cmr/m/n/12 Modèle de lan-
  []
 
 [93]
-Overfull \hbox (79.82674pt too wide) in paragraph at lines 689--690
+Overfull \hbox (79.82674pt too wide) in paragraph at lines 690--691
  [][] 
  []
 
 [94]
-Underfull \hbox (badness 10000) in paragraph at lines 718--718
+Underfull \hbox (badness 10000) in paragraph at lines 719--719
 []|\T1/cmr/bx/n/10 Préconditions (guard
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 720--720
+Underfull \hbox (badness 10000) in paragraph at lines 721--721
 []|\T1/cmr/m/n/10 Dates d'ou-ver-ture/clôture
  []
 
 
-Underfull \hbox (badness 6078) in paragraph at lines 720--720
+Underfull \hbox (badness 6078) in paragraph at lines 721--721
 \T1/cmr/m/n/10 im-porté pour l'an-née, au
  []
 
 
-Underfull \hbox (badness 1173) in paragraph at lines 722--723
+Underfull \hbox (badness 1173) in paragraph at lines 723--724
 []|\T1/cmtt/m/n/10 TransitionNotAllowed \T1/cmr/m/n/10 si l'an-née
  []
 
 
-Underfull \hbox (badness 1173) in paragraph at lines 724--725
+Underfull \hbox (badness 1173) in paragraph at lines 725--726
 []|\T1/cmtt/m/n/10 TransitionNotAllowed \T1/cmr/m/n/10 si l'an-née
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 726--726
+Underfull \hbox (badness 10000) in paragraph at lines 727--727
 []|\T1/cmr/m/n/10 Aucune pré-con-di-tion blo-
  []
 
 
-Underfull \hbox (badness 1308) in paragraph at lines 726--726
+Underfull \hbox (badness 1308) in paragraph at lines 727--727
 \T1/cmr/m/n/10 est créée mais l'al-go-rithme
  []
 
 
-Underfull \hbox (badness 1394) in paragraph at lines 726--726
+Underfull \hbox (badness 1394) in paragraph at lines 727--727
 \T1/cmr/m/n/10 est tout de même exé-cuté
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 726--727
+Underfull \hbox (badness 10000) in paragraph at lines 727--728
 []|\T1/cmtt/m/n/10 TransitionNotAllowed\T1/cmr/m/n/10 , tâche
  []
 
 
-Underfull \hbox (badness 1824) in paragraph at lines 728--728
+Underfull \hbox (badness 1824) in paragraph at lines 729--729
 \T1/cmr/m/n/10 est ré-servé aux an-nées en
  []
 
 
-Underfull \hbox (badness 1769) in paragraph at lines 728--729
+Underfull \hbox (badness 1769) in paragraph at lines 729--730
 []|\T1/cmr/m/n/10 Transition re-fu-sée hors de l'état
  []
 
 
-Underfull \hbox (badness 1173) in paragraph at lines 730--731
+Underfull \hbox (badness 1173) in paragraph at lines 731--732
 []|\T1/cmtt/m/n/10 TransitionNotAllowed \T1/cmr/m/n/10 si l'an-née
  []
 
 
-Underfull \hbox (badness 1173) in paragraph at lines 732--733
+Underfull \hbox (badness 1173) in paragraph at lines 733--734
 []|\T1/cmtt/m/n/10 TransitionNotAllowed \T1/cmr/m/n/10 si l'an-née
  []
 
 
-Underfull \hbox (badness 5260) in paragraph at lines 732--733
+Underfull \hbox (badness 5260) in paragraph at lines 733--734
 \T1/cmr/m/n/10 n'est pas en \T1/cmtt/m/n/10 published\T1/cmr/m/n/10 , tâche
  []
 
 
-Underfull \hbox (badness 1173) in paragraph at lines 734--735
+Underfull \hbox (badness 1173) in paragraph at lines 735--736
 []|\T1/cmtt/m/n/10 TransitionNotAllowed \T1/cmr/m/n/10 si l'an-née
  []
 
 [95]
-Underfull \hbox (badness 4805) in paragraph at lines 754--755
+Underfull \hbox (badness 4805) in paragraph at lines 755--756
 []|\T1/cmtt/m/n/10.95 proposed \TS1/cmr/m/n/10.95 ^^Y \T1/cmtt/m/n/10.95 valida
 ted \TS1/cmr/m/n/10.95 ^^Y \T1/cmtt/m/n/10.95 published \T1/cmr/m/n/10.95 (tran
 -si-tion
  []
 
 
-Overfull \hbox (2.0198pt too wide) in paragraph at lines 756--756
+Overfull \hbox (2.0198pt too wide) in paragraph at lines 757--757
 []|\T1/cmr/m/n/10.95 ComplementaryMobility| 
  []
 
 [96]) [97] (./Chapitres/chapitre5.tex
 Chapitre 5.
-(./main.ptc) [98
+(./main.ptc [98
 
 
-] [99]
+]) [99]
 \c@tasknum=\count549
 \uswidth=\skip123
 
@@ -3113,1528 +3108,2086 @@ Overfull \hbox (1.76633pt too wide) in alignment at lines 76--216
  [] [] [] [] [] [] 
  []
 
-[100] [101] [102]
-Overfull \hbox (1.76633pt too wide) in alignment at lines 270--276
+[100] [101]
+Underfull \hbox (badness 1762) in paragraph at lines 259--259
+[]|\T1/cmr/m/n/10 Cycle de vie de
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 259--259
+\T1/cmr/m/n/10 l'an-née uni-ver-si-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 263--263
+[]|\T1/cmr/m/n/10 Cohérence des
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 263--263
+\T1/cmr/m/n/10 dates de cam-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 267--267
+[]|\T1/cmr/m/n/10 Référentiels
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 267--267
+\T1/cmr/m/n/10 de base (pays,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 267--267
+\T1/cmr/m/n/10 dé-par-te-ments,
+ []
+
+
+Underfull \hbox (badness 1342) in paragraph at lines 267--267
+\T1/cmr/m/n/10 uni-ver-si-tés par-te-
+ []
+
+
+Underfull \hbox (badness 4805) in paragraph at lines 271--271
+[]|\T1/cmr/m/n/10 Calcul des quo-
+ []
+
+[102]
+Overfull \hbox (1.76633pt too wide) in alignment at lines 306--312
  [] [] [] [] [] [] 
  []
 
 
-Overfull \hbox (1.76633pt too wide) in alignment at lines 276--282
+Overfull \hbox (1.76633pt too wide) in alignment at lines 312--318
  [] [] [] [] [] [] 
  []
 
 
-Overfull \hbox (1.76633pt too wide) in alignment at lines 282--284
+Overfull \hbox (1.76633pt too wide) in alignment at lines 318--320
  [] [] [] [] [] [] 
  []
 
 
-Underfull \hbox (badness 4995) in paragraph at lines 295--301
+Underfull \hbox (badness 4995) in paragraph at lines 331--337
 []|\T1/cmr/m/n/10 Créer le mo-dèle avec \T1/cmtt/m/n/10 user\T1/cmr/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 295--301
+Underfull \hbox (badness 10000) in paragraph at lines 331--337
 \T1/cmtt/m/n/10 action\T1/cmr/m/n/10 , \T1/cmtt/m/n/10 entity_type\T1/cmr/m/n/1
 0 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 295--301
+Underfull \hbox (badness 10000) in paragraph at lines 331--337
 \T1/cmtt/m/n/10 entity_id\T1/cmr/m/n/10 , \T1/cmtt/m/n/10 payload \T1/cmr/m/n/1
 0 JSONB
  []
 
 
-Underfull \hbox (badness 3503) in paragraph at lines 295--301
+Underfull \hbox (badness 3503) in paragraph at lines 331--337
 \T1/cmr/m/n/10 et \T1/cmtt/m/n/10 timestamp\T1/cmr/m/n/10 . Connec-ter via
  []
 
 
-Underfull \hbox (badness 5832) in paragraph at lines 302--306
+Underfull \hbox (badness 5832) in paragraph at lines 338--342
 []|\T1/cmr/m/n/10 Le mo-dèle migre sans
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 302--306
+Underfull \hbox (badness 10000) in paragraph at lines 338--342
 \T1/cmr/m/n/10 er-reur. Chaque tran-
  []
 
 
-Underfull \hbox (badness 6691) in paragraph at lines 302--306
+Underfull \hbox (badness 6691) in paragraph at lines 338--342
 \T1/cmr/m/n/10 si-tion FSM et chaque
  []
 
 
-Underfull \hbox (badness 1371) in paragraph at lines 312--314
+Underfull \hbox (badness 1371) in paragraph at lines 348--350
 []|\T1/cmr/m/n/10 Exposer \T1/cmtt/m/n/10 GET /api/audit-logs
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 315--318
+Underfull \hbox (badness 10000) in paragraph at lines 351--354
 \T1/cmr/m/n/10 s'af-fichent en moins
  []
 
 
-Underfull \hbox (badness 3229) in paragraph at lines 315--318
+Underfull \hbox (badness 3229) in paragraph at lines 351--354
 \T1/cmr/m/n/10 de 200 ms. Les filtres
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 315--318
+Underfull \hbox (badness 10000) in paragraph at lines 351--354
 \T1/cmr/m/n/10 date/auteur/type fonc-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 330--330
+Underfull \hbox (badness 10000) in paragraph at lines 366--366
 []|\T1/cmr/m/n/10 Créer adap-ta-teur
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 331--336
+Underfull \hbox (badness 10000) in paragraph at lines 367--372
 []|\T1/cmr/m/n/10 Implémenter l'ex-trac-tion des
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 331--336
+Underfull \hbox (badness 10000) in paragraph at lines 367--372
 \T1/cmr/m/n/10 don-nées aca-dé-miques (INE,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 331--336
+Underfull \hbox (badness 10000) in paragraph at lines 367--372
 \T1/cmr/m/n/10 GPA, dé-par-te-ment, ni-veau)
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 337--340
+Underfull \hbox (badness 10000) in paragraph at lines 373--380
 []|\T1/cmr/m/n/10 La ré-ponse brute
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 337--340
+Underfull \hbox (badness 10000) in paragraph at lines 373--380
 \T1/cmr/m/n/10 est sto-ckée avec
  []
 
 
-Underfull \hbox (badness 1448) in paragraph at lines 337--340
-\T1/cmtt/m/n/10 source="pegase"\T1/cmr/m/n/10 . Re-try
+Underfull \hbox (badness 10000) in paragraph at lines 373--380
+\T1/cmr/m/n/10 re-gis-tre-ment \T1/cmtt/m/n/10 RawImport
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 345--346
+Underfull \hbox (badness 10000) in paragraph at lines 373--380
+\T1/cmr/m/n/10 est conservé à l'état
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 373--380
+\T1/cmtt/m/n/10 FAILED\T1/cmr/m/n/10 . L'opé-ra-teur
+ []
+
+
+Underfull \hbox (badness 1231) in paragraph at lines 373--380
+\T1/cmr/m/n/10 peut dé-clen-cher une ré-
+ []
+
+
+Underfull \hbox (badness 5519) in paragraph at lines 373--380
+\T1/cmr/m/n/10 tentative via l'in-ter-face
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 385--386
 []|\T1/cmr/m/n/10 Définir \T1/cmtt/m/n/10 Student \T1/cmr/m/n/10 et
  []
 
 
-Underfull \hbox (badness 1348) in paragraph at lines 347--353
+Underfull \hbox (badness 1348) in paragraph at lines 387--393
 \T1/cmr/m/n/10 comme clé unique, nom, pré-
  []
 
 
-Underfull \hbox (badness 3701) in paragraph at lines 347--353
+Underfull \hbox (badness 3701) in paragraph at lines 387--393
 \T1/cmr/m/n/10 nom, email ins-ti-tu-tion-nel) et
  []
 
 
-Underfull \hbox (badness 2503) in paragraph at lines 347--353
+Underfull \hbox (badness 2503) in paragraph at lines 387--393
 \T1/cmtt/m/n/10 AnnualEnrollment \T1/cmr/m/n/10 (ins-crip-tion
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 347--353
+Underfull \hbox (badness 10000) in paragraph at lines 387--393
 \T1/cmr/m/n/10 an-nuelle avec GPA, dé-par-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 347--353
+Underfull \hbox (badness 10000) in paragraph at lines 387--393
 \T1/cmr/m/n/10 te-ment, ni-veau, rat-ta-ché à
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 354--358
+Underfull \hbox (badness 10000) in paragraph at lines 394--398
 []|\T1/cmr/m/n/10 Les mo-dèles migrent
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 354--358
+Underfull \hbox (badness 10000) in paragraph at lines 394--398
 \T1/cmr/m/n/10 peut avoir plu-sieurs
  []
 
 
-Underfull \hbox (badness 1540) in paragraph at lines 354--358
+Underfull \hbox (badness 1540) in paragraph at lines 394--398
 \T1/cmr/m/n/10 ins-crip-tions sur des an-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 364--369
+Underfull \hbox (badness 10000) in paragraph at lines 404--409
 []|\T1/cmr/m/n/10 Transformer les don-nées
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 364--369
+Underfull \hbox (badness 10000) in paragraph at lines 404--409
 \T1/cmr/m/n/10 brutes en en-ti-tés \T1/cmtt/m/n/10 Student
  []
 
 
-Underfull \hbox (badness 3826) in paragraph at lines 364--369
+Underfull \hbox (badness 3826) in paragraph at lines 404--409
 \T1/cmr/m/n/10 et \T1/cmtt/m/n/10 AnnualEnrollment\T1/cmr/m/n/10 . Up-sert
  []
 
 
-Underfull \hbox (badness 2384) in paragraph at lines 379--379
+Underfull \hbox (badness 2384) in paragraph at lines 419--419
 []|\T1/cmr/m/n/10 Interface consul-ta-tion
  []
 
 
-Underfull \hbox (badness 5741) in paragraph at lines 380--383
+Underfull \hbox (badness 5741) in paragraph at lines 420--423
 []|\T1/cmr/m/n/10 Créer une page Next.js lis-
  []
 
 
-Underfull \hbox (badness 2495) in paragraph at lines 384--387
+Underfull \hbox (badness 2495) in paragraph at lines 424--427
 \T1/cmr/m/n/10 par dé-par-te-ment et ni-
  []
 
 
-Underfull \hbox (badness 2229) in paragraph at lines 384--387
+Underfull \hbox (badness 2229) in paragraph at lines 424--427
 \T1/cmr/m/n/10 veau. Les don-nées pro-
  []
 
 
-Underfull \hbox (badness 1577) in paragraph at lines 399--405
+Underfull \hbox (badness 1577) in paragraph at lines 439--445
 []|\T1/cmr/m/n/10 Créer le mo-dèle \T1/cmtt/m/n/10 StudentWish
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 399--405
+Underfull \hbox (badness 10000) in paragraph at lines 439--445
 \T1/cmr/m/n/10 (rang, ac-cord visé via
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 399--405
+Underfull \hbox (badness 10000) in paragraph at lines 439--445
 \T1/cmtt/m/n/10 AgreementYear\T1/cmr/m/n/10 ), rat-ta-ché à
  []
 
 
-Underfull \hbox (badness 1360) in paragraph at lines 399--405
+Underfull \hbox (badness 1360) in paragraph at lines 439--445
 \T1/cmr/m/n/10 l'ins-crip-tion an-nuelle de l'étu-
  []
 
 
-Underfull \hbox (badness 5832) in paragraph at lines 406--410
+Underfull \hbox (badness 5832) in paragraph at lines 446--450
 []|\T1/cmr/m/n/10 Le mo-dèle migre sans
  []
 
 
-Underfull \hbox (badness 1077) in paragraph at lines 406--410
+Underfull \hbox (badness 1077) in paragraph at lines 446--450
 \T1/cmr/m/n/10 er-reur. Un \T1/cmtt/m/n/10 StudentWish
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 406--410
+Underfull \hbox (badness 10000) in paragraph at lines 446--450
 \T1/cmr/m/n/10 ne peut exis-ter sans
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 406--410
+Underfull \hbox (badness 10000) in paragraph at lines 446--450
 \T1/cmtt/m/n/10 AnnualEnrollment\T1/cmr/m/n/10 .
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 406--410
+Underfull \hbox (badness 10000) in paragraph at lines 446--450
 \T1/cmr/m/n/10 La contrainte unique
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 406--410
+Underfull \hbox (badness 10000) in paragraph at lines 446--450
 \T1/cmr/m/n/10 (ins-crip-tion, rang) est
  []
 
 
-Underfull \hbox (badness 6842) in paragraph at lines 415--415
+Underfull \hbox (badness 6842) in paragraph at lines 455--455
 []|\T1/cmr/m/n/10 Pipeline ETL v÷ux
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 420--424
+Underfull \hbox (badness 10000) in paragraph at lines 460--464
 \T1/cmr/m/n/10 Les INE in-trou-vables
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 420--424
+Underfull \hbox (badness 10000) in paragraph at lines 460--464
 \T1/cmr/m/n/10 sont consi-gnés dans
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 420--424
+Underfull \hbox (badness 10000) in paragraph at lines 460--464
 \T1/cmr/m/n/10 le rap-port avec mo-tif
  []
 
 
-Underfull \hbox (badness 2384) in paragraph at lines 429--429
+Underfull \hbox (badness 2384) in paragraph at lines 469--469
 []|\T1/cmr/m/n/10 Interface consul-ta-tion
  []
 
 
-Underfull \hbox (badness 3323) in paragraph at lines 433--436
+Underfull \hbox (badness 3323) in paragraph at lines 473--476
 \T1/cmr/m/n/10 par étu-diant. Les don-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 448--455
+Underfull \hbox (badness 10000) in paragraph at lines 488--495
 \T1/cmtt/m/n/10 total\T1/cmr/m/n/10 , \T1/cmtt/m/n/10 success_count\T1/cmr/m/n/
 10 ,
  []
 
 
-Underfull \hbox (badness 3029) in paragraph at lines 448--455
+Underfull \hbox (badness 3029) in paragraph at lines 488--495
 \T1/cmr/m/n/10 et \T1/cmtt/m/n/10 errors \T1/cmr/m/n/10 JSONB (mo-tif et
  []
 
 
-Underfull \hbox (badness 1264) in paragraph at lines 448--455
+Underfull \hbox (badness 1264) in paragraph at lines 488--495
 \T1/cmr/m/n/10 iden-ti-fiant par en-trée re-je-tée),
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 456--460
+Underfull \hbox (badness 10000) in paragraph at lines 496--500
 []|\T1/cmr/m/n/10 Chaque pi-pe-line ETL
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 456--460
+Underfull \hbox (badness 10000) in paragraph at lines 496--500
 \T1/cmr/m/n/10 crée au-to-ma-ti-que-ment
  []
 
 
-Underfull \hbox (badness 1389) in paragraph at lines 456--460
+Underfull \hbox (badness 1389) in paragraph at lines 496--500
 \T1/cmr/m/n/10 un rap-port. Les er-reurs
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 456--460
+Underfull \hbox (badness 10000) in paragraph at lines 496--500
 \T1/cmr/m/n/10 contiennent mo-tif et
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 456--460
+Underfull \hbox (badness 10000) in paragraph at lines 496--500
 \T1/cmr/m/n/10 nu-méro de ligne ou
  []
 
 
-Underfull \hbox (badness 4765) in paragraph at lines 471--475
+Underfull \hbox (badness 4765) in paragraph at lines 511--515
 []|\T1/cmr/m/n/10 Les rap-ports s'af-fichent
  []
 
 
-Overfull \hbox (1.76633pt too wide) in alignment at lines 284--479
+Overfull \hbox (1.76633pt too wide) in alignment at lines 320--519
  [] [] [] [] [] [] 
  []
 
-[103] [104]
-Overfull \hbox (1.76633pt too wide) in alignment at lines 542--548
- [] [] [] [] [] [] 
+[103] [104] [105]
+Underfull \hbox (badness 10000) in paragraph at lines 566--566
+\T1/cmr/m/n/10 (rat-ta-che-ment,
  []
 
-
-Overfull \hbox (1.76633pt too wide) in alignment at lines 548--554
- [] [] [] [] [] [] 
- []
-
-
-Overfull \hbox (1.76633pt too wide) in alignment at lines 554--556
+[106]
+Overfull \hbox (1.76633pt too wide) in alignment at lines 618--624
  [] [] [] [] [] [] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 566--567
+Overfull \hbox (1.76633pt too wide) in alignment at lines 624--630
+ [] [] [] [] [] [] 
+ []
+
+
+Overfull \hbox (1.76633pt too wide) in alignment at lines 630--632
+ [] [] [] [] [] [] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 642--643
 []|\T1/cmr/m/n/10 Créer les mo-dèles
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 566--567
+Underfull \hbox (badness 10000) in paragraph at lines 642--643
 \T1/cmtt/m/n/10 Assignment \T1/cmr/m/n/10 et
  []
 
 
-Underfull \hbox (badness 2698) in paragraph at lines 568--581
+Underfull \hbox (badness 2698) in paragraph at lines 644--657
 \OMS/cmsy/m/n/10 !$ \T1/cmtt/m/n/10 validated $\OMS/cmsy/m/n/10 !$ \T1/cmtt/m/n
 /10 published\T1/cmr/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 6792) in paragraph at lines 568--581
+Underfull \hbox (badness 6792) in paragraph at lines 644--657
 \T1/cmtt/m/n/10 cancel \T1/cmr/m/n/10 de-puis \T1/cmtt/m/n/10 proposed \T1/cmr/
 m/n/10 ou
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 568--581
+Underfull \hbox (badness 10000) in paragraph at lines 644--657
 \T1/cmtt/m/n/10 validated \T1/cmr/m/n/10 vers \T1/cmtt/m/n/10 cancelled\T1/cmr/
 m/n/10 )
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 568--581
+Underfull \hbox (badness 10000) in paragraph at lines 644--657
 \T1/cmr/m/n/10 et \T1/cmtt/m/n/10 override_reason\T1/cmr/m/n/10 , et
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 568--581
+Underfull \hbox (badness 10000) in paragraph at lines 644--657
 \T1/cmtt/m/n/10 AssignmentResult\T1/cmr/m/n/10 , le ré-sul-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 568--581
+Underfull \hbox (badness 10000) in paragraph at lines 644--657
 \T1/cmr/m/n/10 tat in-di-vi-duel par étu-diant
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 582--586
+Underfull \hbox (badness 10000) in paragraph at lines 658--662
 []|\T1/cmr/m/n/10 Les mo-dèles migrent
  []
 
 
-Underfull \hbox (badness 5954) in paragraph at lines 582--586
+Underfull \hbox (badness 5954) in paragraph at lines 658--662
 \T1/cmr/m/n/10 sans er-reur. Contrainte
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 582--586
+Underfull \hbox (badness 10000) in paragraph at lines 658--662
 \T1/cmtt/m/n/10 annual_enrollment)\T1/cmr/m/n/10 .
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 582--586
+Underfull \hbox (badness 10000) in paragraph at lines 658--662
 \T1/cmr/m/n/10 Les tran-si-tions FSM
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 582--586
+Underfull \hbox (badness 10000) in paragraph at lines 658--662
 \T1/cmr/m/n/10 in-va-lides lèvent
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 591--592
+Underfull \hbox (badness 10000) in paragraph at lines 667--668
 []|\T1/cmr/m/n/10 Implémenter l'al-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 591--592
+Underfull \hbox (badness 10000) in paragraph at lines 667--668
 \T1/cmr/m/n/10 go-rithme De-fer-red
  []
 
 
-Underfull \hbox (badness 1107) in paragraph at lines 593--604
+Underfull \hbox (badness 1107) in paragraph at lines 669--680
 \T1/cmr/m/n/10 les deux ni-veaux de quo-tas :
  []
 
 
-Underfull \hbox (badness 2111) in paragraph at lines 593--604
+Underfull \hbox (badness 2111) in paragraph at lines 669--680
 \T1/cmtt/m/n/10 NO_WISH\T1/cmr/m/n/10 ). En post-traitement,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 605--610
+Underfull \hbox (badness 10000) in paragraph at lines 681--686
 []|\T1/cmr/m/n/10 Les af-fec-ta-tions sont
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 605--610
+Underfull \hbox (badness 10000) in paragraph at lines 681--686
 \T1/cmr/m/n/10 stables (au-cune paire
  []
 
 
-Underfull \hbox (badness 7558) in paragraph at lines 605--610
+Underfull \hbox (badness 7558) in paragraph at lines 681--686
 \T1/cmr/m/n/10 blo-quante). Les quo-tas
  []
 
 
-Underfull \hbox (badness 1077) in paragraph at lines 605--610
+Underfull \hbox (badness 1077) in paragraph at lines 681--686
 \T1/cmr/m/n/10 Exé-cu-tion $\OML/cmm/m/it/10 <$ \T1/cmr/m/n/10 30 s pour
  []
 
 
-Underfull \hbox (badness 2189) in paragraph at lines 615--615
+Underfull \hbox (badness 2189) in paragraph at lines 691--691
 []|\T1/cmr/m/n/10 Encapsuler dans une
  []
 
 
-Underfull \hbox (badness 1762) in paragraph at lines 616--624
+Underfull \hbox (badness 1762) in paragraph at lines 692--700
 \T1/cmr/m/n/10 ment la tran-si-tion \T1/cmtt/m/n/10 complete_
  []
 
 
-Underfull \hbox (badness 3088) in paragraph at lines 625--627
+Underfull \hbox (badness 3088) in paragraph at lines 701--703
 []|\T1/cmr/m/n/10 La tran-si-tion FSM dé-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 634--638
+Underfull \hbox (badness 10000) in paragraph at lines 710--714
 []|\T1/cmr/m/n/10 Créer \T1/cmtt/m/n/10 GET /api/outgoing/
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 634--638
+Underfull \hbox (badness 10000) in paragraph at lines 710--714
 \T1/cmtt/m/n/10 assignments/\T1/cmr/m/n/10 , \T1/cmtt/m/n/10 GET /api/
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 634--638
+Underfull \hbox (badness 10000) in paragraph at lines 710--714
 \T1/cmtt/m/n/10 outgoing/assignments/
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 634--638
+Underfull \hbox (badness 10000) in paragraph at lines 710--714
 \T1/cmtt/m/n/10 {id}/\T1/cmr/m/n/10 , \T1/cmtt/m/n/10 GET /api/outgoing/
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 634--638
+Underfull \hbox (badness 10000) in paragraph at lines 710--714
 \T1/cmtt/m/n/10 assignments/{id}/results/
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 634--638
+Underfull \hbox (badness 10000) in paragraph at lines 710--714
 \T1/cmr/m/n/10 et \T1/cmtt/m/n/10 GET /api/outgoing/
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 634--638
+Underfull \hbox (badness 10000) in paragraph at lines 710--714
 \T1/cmtt/m/n/10 assignments/{id}/stats/
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 639--641
+Underfull \hbox (badness 10000) in paragraph at lines 715--717
 []|\T1/cmr/m/n/10 Réponses pa-gi-nées.
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 639--641
+Underfull \hbox (badness 10000) in paragraph at lines 715--717
 \T1/cmr/m/n/10 Non-affectés re-tour-nés
  []
 
 
-Underfull \hbox (badness 4366) in paragraph at lines 639--641
+Underfull \hbox (badness 4366) in paragraph at lines 715--717
 \T1/cmr/m/n/10 avec mo-tif. Sta-tis-tiques
  []
 
 
-Underfull \hbox (badness 1325) in paragraph at lines 648--651
+Underfull \hbox (badness 1325) in paragraph at lines 724--727
 \T1/cmr/m/n/10 le ta-bleau des af-fec-ta-tions, le
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 652--654
+Underfull \hbox (badness 10000) in paragraph at lines 728--730
 []|\T1/cmr/m/n/10 Le ta-bleau se charge
  []
 
 
-Underfull \hbox (badness 1708) in paragraph at lines 652--654
+Underfull \hbox (badness 1708) in paragraph at lines 728--730
 \T1/cmr/m/n/10 de-puis l'API. Le sta-tut
  []
 
 
-Underfull \hbox (badness 1509) in paragraph at lines 652--654
+Underfull \hbox (badness 1509) in paragraph at lines 728--730
 \T1/cmr/m/n/10 d'exé-cu-tion (en cours /
  []
 
 
-Underfull \hbox (badness 5847) in paragraph at lines 665--666
+Underfull \hbox (badness 5847) in paragraph at lines 741--742
 []|\T1/cmr/m/n/10 Page de su-per-vi-sion
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 672--674
+Underfull \hbox (badness 10000) in paragraph at lines 748--750
 []|\T1/cmr/m/n/10 Liste pa-gi-née char-gée
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 672--674
+Underfull \hbox (badness 10000) in paragraph at lines 748--750
 \T1/cmr/m/n/10 de-puis l'API. Sta-tuts
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 672--674
+Underfull \hbox (badness 10000) in paragraph at lines 748--750
 \T1/cmtt/m/n/10 published \T1/cmr/m/n/10 vi-suel-le-ment
  []
 
 
-Underfull \hbox (badness 6204) in paragraph at lines 681--685
+Underfull \hbox (badness 6204) in paragraph at lines 757--761
 []|\T1/cmr/m/n/10 Permettre à l'ad-min RI de
  []
 
 
-Underfull \hbox (badness 6625) in paragraph at lines 681--685
+Underfull \hbox (badness 6625) in paragraph at lines 757--761
 \T1/cmr/m/n/10 chan-ger l'uni-ver-sité cible ou
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 686--689
+Underfull \hbox (badness 10000) in paragraph at lines 762--765
 []|\T1/cmr/m/n/10 Modification re-fu-sée
  []
 
 
-Underfull \hbox (badness 7344) in paragraph at lines 686--689
+Underfull \hbox (badness 7344) in paragraph at lines 762--765
 \T1/cmr/m/n/10 dit créée avec va-leurs
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 696--700
+Underfull \hbox (badness 10000) in paragraph at lines 772--776
 []|\T1/cmr/m/n/10 Exposer \T1/cmtt/m/n/10 POST /api/
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 696--700
+Underfull \hbox (badness 10000) in paragraph at lines 772--776
 \T1/cmtt/m/n/10 assignments/validate-all/
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 696--700
+Underfull \hbox (badness 10000) in paragraph at lines 772--776
 \T1/cmr/m/n/10 et \T1/cmtt/m/n/10 POST /api/assignments/
  []
 
 
-Underfull \hbox (badness 1308) in paragraph at lines 701--703
+Underfull \hbox (badness 1308) in paragraph at lines 777--779
 []|\T1/cmr/m/n/10 Publication dé-clenche la
  []
 
 
-Underfull \hbox (badness 1852) in paragraph at lines 713--714
+Underfull \hbox (badness 1852) in paragraph at lines 789--790
 []|\T1/cmr/m/n/10 Endpoint ré-sul-tat de
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 715--718
+Underfull \hbox (badness 10000) in paragraph at lines 791--794
 []|\T1/cmr/m/n/10 Exposer \T1/cmtt/m/n/10 GET /api/students/
  []
 
 
-Underfull \hbox (badness 1817) in paragraph at lines 715--718
+Underfull \hbox (badness 1817) in paragraph at lines 791--794
 \T1/cmtt/m/n/10 me/assignment/ \T1/cmr/m/n/10 avec contrôle
  []
 
 
-Underfull \hbox (badness 3364) in paragraph at lines 715--718
+Underfull \hbox (badness 3364) in paragraph at lines 791--794
 \T1/cmr/m/n/10 d'ac-cès par ob-jet : un étu-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 726--727
+Underfull \hbox (badness 10000) in paragraph at lines 802--803
 []|\T1/cmr/m/n/10 Page consul-ta-tion
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 726--727
+Underfull \hbox (badness 10000) in paragraph at lines 802--803
 \T1/cmr/m/n/10 ré-sul-tats (es-pace
  []
 
 
-Underfull \hbox (badness 4569) in paragraph at lines 733--736
+Underfull \hbox (badness 4569) in paragraph at lines 809--812
 []|\T1/cmr/m/n/10 Page ac-ces-sible uni-que-
  []
 
 
-Underfull \hbox (badness 3302) in paragraph at lines 733--736
+Underfull \hbox (badness 3302) in paragraph at lines 809--812
 \T1/cmr/m/n/10 ment après pu-bli-ca-tion.
  []
 
 
-Overfull \hbox (1.76633pt too wide) in alignment at lines 556--740
+Overfull \hbox (1.76633pt too wide) in alignment at lines 632--816
  [] [] [] [] [] [] 
  []
 
-[105] [106] [107] [108]
-Overfull \hbox (1.76633pt too wide) in alignment at lines 793--799
+[107] [108]
+Underfull \hbox (badness 10000) in paragraph at lines 851--851
+[]|\T1/cmr/m/n/10 Algorithme d'af-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 851--851
+\T1/cmr/m/n/10 fec-ta-tion (Gale-
+ []
+
+
+Underfull \hbox (badness 2591) in paragraph at lines 855--855
+\T1/cmr/m/n/10 af-fec-ta-tion (tran-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 859--859
+[]|\T1/cmr/m/n/10 Correction ma-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 860--860
+[]|\T1/cmr/m/n/10 Vérifier qu'une mo-di-fi-ca-
+ []
+
+
+Underfull \hbox (badness 3128) in paragraph at lines 860--860
+\T1/cmr/m/n/10 est tra-cée dans le jour-nal
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 863--863
+[]|\T1/cmr/m/n/10 Statistiques et
+ []
+
+
+Underfull \hbox (badness 4084) in paragraph at lines 863--863
+\T1/cmr/m/n/10 consul-ta-tion étu-
+ []
+
+[109] [110]
+Overfull \hbox (1.76633pt too wide) in alignment at lines 901--907
  [] [] [] [] [] [] 
  []
 
 
-Overfull \hbox (1.76633pt too wide) in alignment at lines 799--805
+Overfull \hbox (1.76633pt too wide) in alignment at lines 907--913
  [] [] [] [] [] [] 
  []
 
 
-Overfull \hbox (1.76633pt too wide) in alignment at lines 805--807
+Overfull \hbox (1.76633pt too wide) in alignment at lines 913--915
  [] [] [] [] [] [] 
  []
 
 
-Underfull \hbox (badness 7433) in paragraph at lines 818--818
+Underfull \hbox (badness 7433) in paragraph at lines 926--926
 []|\T1/cmr/m/n/10 Implémenter la mé-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 819--822
+Underfull \hbox (badness 10000) in paragraph at lines 927--930
 []|\T1/cmr/m/n/10 Coder \T1/cmtt/m/n/10 redistribute_
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 819--822
+Underfull \hbox (badness 10000) in paragraph at lines 927--930
 \T1/cmtt/m/n/10 department_quotas()
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 819--822
+Underfull \hbox (badness 10000) in paragraph at lines 927--930
 \T1/cmr/m/n/10 et \T1/cmtt/m/n/10 _hamilton() \T1/cmr/m/n/10 dans
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 819--822
+Underfull \hbox (badness 10000) in paragraph at lines 927--930
 \T1/cmtt/m/n/10 mobility/services/quota_
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 819--822
+Underfull \hbox (badness 10000) in paragraph at lines 927--930
 \T1/cmtt/m/n/10 estimator.py \T1/cmr/m/n/10 : dis-tri-bu-tion
  []
 
 
-Underfull \hbox (badness 3635) in paragraph at lines 819--822
+Underfull \hbox (badness 3635) in paragraph at lines 927--930
 \T1/cmr/m/n/10 au plus fort reste, pon-dé-rée
  []
 
 
-Underfull \hbox (badness 2653) in paragraph at lines 819--822
+Underfull \hbox (badness 2653) in paragraph at lines 927--930
 \T1/cmr/m/n/10 par l'his-to-rique des v÷ux et
  []
 
 
-Underfull \hbox (badness 6316) in paragraph at lines 823--826
+Underfull \hbox (badness 6316) in paragraph at lines 931--934
 []|\T1/cmr/m/n/10 La somme des quo-tas
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 832--833
+Underfull \hbox (badness 10000) in paragraph at lines 940--941
 []|\T1/cmr/m/n/10 Créer \T1/cmtt/m/n/10 POST /api/mobility/
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 832--833
+Underfull \hbox (badness 10000) in paragraph at lines 940--941
 \T1/cmtt/m/n/10 agreement-years/{id}/
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 834--835
+Underfull \hbox (badness 10000) in paragraph at lines 942--943
 \T1/cmr/m/n/10 re-tourne les nou-veaux
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 841--843
+Underfull \hbox (badness 10000) in paragraph at lines 949--951
 []|\T1/cmr/m/n/10 Appeler \T1/cmtt/m/n/10 redistribute_
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 841--843
+Underfull \hbox (badness 10000) in paragraph at lines 949--951
 \T1/cmtt/m/n/10 department_quotas() \T1/cmr/m/n/10 lors
  []
 
 
-Underfull \hbox (badness 3746) in paragraph at lines 841--843
+Underfull \hbox (badness 3746) in paragraph at lines 949--951
 \T1/cmr/m/n/10 de la va-li-da-tion au-to-ma-tique
  []
 
 
-Underfull \hbox (badness 1748) in paragraph at lines 841--843
+Underfull \hbox (badness 1748) in paragraph at lines 949--951
 \T1/cmr/m/n/10 tion \T1/cmtt/m/n/10 open_recommendation \T1/cmr/m/n/10 de
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 855--858
+Underfull \hbox (badness 10000) in paragraph at lines 963--966
 \T1/cmr/m/n/10 dé-par-te-ment. Un écart
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 869--869
+Underfull \hbox (badness 10000) in paragraph at lines 977--977
 []|\T1/cmr/m/n/10 Créer l'adap-ta-teur
  []
 
 
-Underfull \hbox (badness 4416) in paragraph at lines 870--874
+Underfull \hbox (badness 4416) in paragraph at lines 978--982
 []|\T1/cmr/m/n/10 Implémenter le client HTTP
  []
 
 
-Underfull \hbox (badness 3138) in paragraph at lines 870--874
+Underfull \hbox (badness 3138) in paragraph at lines 978--982
 \T1/cmr/m/n/10 Eu-do-net dans \T1/cmtt/m/n/10 integrations/
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 870--874
+Underfull \hbox (badness 10000) in paragraph at lines 978--982
 \T1/cmtt/m/n/10 eudonet.py \T1/cmr/m/n/10 avec fall-back
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 870--874
+Underfull \hbox (badness 10000) in paragraph at lines 978--982
 \T1/cmr/m/n/10 sur des points d'en-trée al-
  []
 
 
-Underfull \hbox (badness 8113) in paragraph at lines 870--874
+Underfull \hbox (badness 8113) in paragraph at lines 978--982
 \T1/cmr/m/n/10 ter-na-tifs (\T1/cmtt/m/n/10 /internships \T1/cmr/m/n/10 puis
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 870--874
+Underfull \hbox (badness 10000) in paragraph at lines 978--982
 \T1/cmtt/m/n/10 /api/internships\T1/cmr/m/n/10 ). En cas
  []
 
 
-Underfull \hbox (badness 1286) in paragraph at lines 875--880
+Underfull \hbox (badness 1286) in paragraph at lines 983--988
 []|\T1/cmr/m/n/10 Les stages sont ex-traits
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 875--880
+Underfull \hbox (badness 10000) in paragraph at lines 983--988
 \T1/cmr/m/n/10 sous forme d'ob-jets
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 875--880
+Underfull \hbox (badness 10000) in paragraph at lines 983--988
 \T1/cmtt/m/n/10 EudonetInternship\T1/cmr/m/n/10 .
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 875--880
+Underfull \hbox (badness 10000) in paragraph at lines 983--988
 \T1/cmr/m/n/10 Si tous les end-points
  []
 
 
-Underfull \hbox (badness 2035) in paragraph at lines 875--880
+Underfull \hbox (badness 2035) in paragraph at lines 983--988
 \T1/cmr/m/n/10 échouent, une ex-cep-tion
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 885--885
+Underfull \hbox (badness 10000) in paragraph at lines 993--993
 []|\T1/cmr/m/n/10 Définir le mo-dèle
  []
 
 
-Underfull \hbox (badness 2111) in paragraph at lines 886--888
+Underfull \hbox (badness 2111) in paragraph at lines 994--996
 \T1/cmr/m/n/10 stage, tu-teurs pé-da-go-gique et
  []
 
 
-Underfull \hbox (badness 3029) in paragraph at lines 886--888
+Underfull \hbox (badness 3029) in paragraph at lines 994--996
 \T1/cmr/m/n/10 en-tre-prise, sta-tut Eu-do-net et
  []
 
 
-Underfull \hbox (badness 5832) in paragraph at lines 889--891
+Underfull \hbox (badness 5832) in paragraph at lines 997--999
 []|\T1/cmr/m/n/10 Le mo-dèle migre sans
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 889--891
+Underfull \hbox (badness 10000) in paragraph at lines 997--999
 \T1/cmtt/m/n/10 (student, company_
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 897--899
+Underfull \hbox (badness 10000) in paragraph at lines 1005--1007
 []|\T1/cmr/m/n/10 Exposer \T1/cmtt/m/n/10 POST /api/
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 897--899
+Underfull \hbox (badness 10000) in paragraph at lines 1005--1007
 \T1/cmtt/m/n/10 internships/sync/ \T1/cmr/m/n/10 dé-clen-
  []
 
 
-Underfull \hbox (badness 1590) in paragraph at lines 909--911
+Underfull \hbox (badness 1590) in paragraph at lines 1017--1019
 \T1/cmr/m/n/10 tant les stages im-por-tés avec
  []
 
 
-Underfull \hbox (badness 6188) in paragraph at lines 912--915
+Underfull \hbox (badness 6188) in paragraph at lines 1020--1023
 \T1/cmr/m/n/10 filtres fonc-tion-nels. Les
  []
 
 
-Underfull \hbox (badness 3838) in paragraph at lines 912--915
+Underfull \hbox (badness 3838) in paragraph at lines 1020--1023
 \T1/cmr/m/n/10 don-nées pro-viennent de
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 927--929
+Underfull \hbox (badness 10000) in paragraph at lines 1035--1037
 []|\T1/cmr/m/n/10 Exposer \T1/cmtt/m/n/10 GET /api/incoming/
  []
 
 
-Underfull \hbox (badness 5939) in paragraph at lines 927--929
+Underfull \hbox (badness 5939) in paragraph at lines 1035--1037
 \T1/cmr/m/n/10 (uni-ver-sité d'ori-gine, iden-tité,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 938--939
+Underfull \hbox (badness 10000) in paragraph at lines 1046--1047
 []|\T1/cmr/m/n/10 Implémenter \T1/cmtt/m/n/10 incoming/
  []
 
 
-Underfull \hbox (badness 5460) in paragraph at lines 938--939
+Underfull \hbox (badness 5460) in paragraph at lines 1046--1047
 \T1/cmr/m/n/10 lec-ture ligne par ligne avec
  []
 
 
-Underfull \hbox (badness 1546) in paragraph at lines 938--939
+Underfull \hbox (badness 1546) in paragraph at lines 1046--1047
 \T1/cmr/m/n/10 va-li-da-tion et consi-gna-tion des
  []
 
 
-Underfull \hbox (badness 1430) in paragraph at lines 940--943
+Underfull \hbox (badness 1430) in paragraph at lines 1048--1051
 \T1/cmr/m/n/10 re-je-tées avec mo-tif. Les
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 948--948
+Underfull \hbox (badness 10000) in paragraph at lines 1056--1056
 []|\T1/cmr/m/n/10 Définir le mo-dèle
  []
 
 
-Underfull \hbox (badness 5417) in paragraph at lines 949--951
+Underfull \hbox (badness 5417) in paragraph at lines 1057--1059
 []|\T1/cmr/m/n/10 Créer le mo-dèle dans l'app
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 949--951
+Underfull \hbox (badness 10000) in paragraph at lines 1057--1059
 \T1/cmtt/m/n/10 incoming\T1/cmr/m/n/10 , avec ré-fé-ren-tiels
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 949--951
+Underfull \hbox (badness 10000) in paragraph at lines 1057--1059
 \T1/cmr/m/n/10 par-te-ment, ni-veau, par-cours,
  []
 
 
-Underfull \hbox (badness 1199) in paragraph at lines 949--951
+Underfull \hbox (badness 1199) in paragraph at lines 1057--1059
 \T1/cmr/m/n/10 cadre de mo-bi-lité) et champs
  []
 
 
-Underfull \hbox (badness 5832) in paragraph at lines 952--954
+Underfull \hbox (badness 5832) in paragraph at lines 1060--1062
 []|\T1/cmr/m/n/10 Le mo-dèle migre sans
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 952--954
+Underfull \hbox (badness 10000) in paragraph at lines 1060--1062
 \T1/cmr/m/n/10 er-reur. Contrainte
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 952--954
+Underfull \hbox (badness 10000) in paragraph at lines 1060--1062
 \T1/cmr/m/n/10 unique \T1/cmtt/m/n/10 (academic_
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 952--954
+Underfull \hbox (badness 10000) in paragraph at lines 1060--1062
 \T1/cmtt/m/n/10 year, nom, prénom,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 959--959
+Underfull \hbox (badness 10000) in paragraph at lines 1067--1067
 []|\T1/cmr/m/n/10 Endpoint d'im-port
  []
 
 
-Underfull \hbox (badness 1371) in paragraph at lines 960--961
+Underfull \hbox (badness 1371) in paragraph at lines 1068--1069
 []|\T1/cmr/m/n/10 Exposer \T1/cmtt/m/n/10 POST /api/incoming/
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 962--965
+Underfull \hbox (badness 10000) in paragraph at lines 1070--1073
 []|\T1/cmr/m/n/10 L'import re-tourne un
  []
 
 
-Underfull \hbox (badness 7379) in paragraph at lines 971--973
+Underfull \hbox (badness 7379) in paragraph at lines 1079--1081
 \T1/cmr/m/n/10 giné des mo-bi-li-tés en-trantes
  []
 
 
-Underfull \hbox (badness 7099) in paragraph at lines 971--973
+Underfull \hbox (badness 7099) in paragraph at lines 1079--1081
 \T1/cmr/m/n/10 et ex-port Ex-cel (\T1/cmtt/m/n/10 GET /api/
  []
 
 
-Underfull \hbox (badness 1052) in paragraph at lines 974--976
+Underfull \hbox (badness 1052) in paragraph at lines 1082--1084
 []|\T1/cmr/m/n/10 L'upload dé-clenche l'im-
  []
 
 
-Underfull \hbox (badness 1810) in paragraph at lines 988--990
+Underfull \hbox (badness 1810) in paragraph at lines 1096--1098
 \T1/cmr/m/n/10 pé-rer les en-re-gis-tre-ments étu-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 991--994
+Underfull \hbox (badness 10000) in paragraph at lines 1099--1102
 []|\T1/cmr/m/n/10 Les im-ports en échec
  []
 
 
-Underfull \hbox (badness 7273) in paragraph at lines 991--994
+Underfull \hbox (badness 7273) in paragraph at lines 1099--1102
 \T1/cmr/m/n/10 de rap-pro-che-ment INE
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 991--994
+Underfull \hbox (badness 10000) in paragraph at lines 1099--1102
 \T1/cmr/m/n/10 sont consul-tables via
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 991--994
+Underfull \hbox (badness 10000) in paragraph at lines 1099--1102
 \T1/cmtt/m/n/10 GET /api/students/
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 999--999
+Underfull \hbox (badness 10000) in paragraph at lines 1107--1107
 []|\T1/cmr/m/n/10 Implémenter \T1/cmtt/m/n/10 find_
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 999--999
+Underfull \hbox (badness 10000) in paragraph at lines 1107--1107
 \T1/cmtt/m/n/10 reconciliation_
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1014--1015
+Underfull \hbox (badness 10000) in paragraph at lines 1122--1123
 []|\T1/cmr/m/n/10 Créer \T1/cmtt/m/n/10 GET /api/students/
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1014--1015
+Underfull \hbox (badness 10000) in paragraph at lines 1122--1123
 \T1/cmtt/m/n/10 import-errors/{id}/
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1014--1015
+Underfull \hbox (badness 10000) in paragraph at lines 1122--1123
 \T1/cmtt/m/n/10 candidates/ \T1/cmr/m/n/10 re-tour-nant les
  []
 
 
-Underfull \hbox (badness 2809) in paragraph at lines 1016--1018
+Underfull \hbox (badness 2809) in paragraph at lines 1124--1126
 []|\T1/cmr/m/n/10 Les can-di-dats re-tour-nés
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1023--1023
+Underfull \hbox (badness 10000) in paragraph at lines 1131--1131
 []|\T1/cmr/m/n/10 Résolution ma-nuelle
  []
 
 
-Underfull \hbox (badness 1102) in paragraph at lines 1028--1032
+Underfull \hbox (badness 1102) in paragraph at lines 1136--1140
 []|\T1/cmr/m/n/10 Les can-di-dats s'af-fichent
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1044--1044
+Underfull \hbox (badness 10000) in paragraph at lines 1152--1152
 []|\T1/cmr/m/n/10 Définir
  []
 
 
-Overfull \hbox (10.63844pt too wide) in paragraph at lines 1044--1044
+Overfull \hbox (10.63844pt too wide) in paragraph at lines 1152--1152
 \T1/cmtt/m/n/10 ComplementaryMobility| 
  []
 
 
-Underfull \hbox (badness 5832) in paragraph at lines 1049--1051
+Underfull \hbox (badness 5832) in paragraph at lines 1157--1159
 []|\T1/cmr/m/n/10 Le mo-dèle migre sans
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1049--1051
+Underfull \hbox (badness 10000) in paragraph at lines 1157--1159
 \T1/cmr/m/n/10 er-reur. Les tran-si-tions
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1049--1051
+Underfull \hbox (badness 10000) in paragraph at lines 1157--1159
 \T1/cmr/m/n/10 FSM in-va-lides lèvent
  []
 
 
-Underfull \hbox (badness 2951) in paragraph at lines 1056--1056
+Underfull \hbox (badness 2951) in paragraph at lines 1164--1164
 []|\T1/cmr/m/n/10 Stockage sé-cu-risé du
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1057--1060
+Underfull \hbox (badness 10000) in paragraph at lines 1165--1168
 []|\T1/cmr/m/n/10 Implémenter \T1/cmtt/m/n/10 complementary/
  []
 
 
-Underfull \hbox (badness 2591) in paragraph at lines 1057--1060
+Underfull \hbox (badness 2591) in paragraph at lines 1165--1168
 \T1/cmtt/m/n/10 services/minio_service.py \T1/cmr/m/n/10 :
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1057--1060
+Underfull \hbox (badness 10000) in paragraph at lines 1165--1168
 \T1/cmr/m/n/10 dé-pôt chif-fré (SSE-S3) sur
  []
 
 
-Underfull \hbox (badness 6445) in paragraph at lines 1057--1060
+Underfull \hbox (badness 6445) in paragraph at lines 1165--1168
 \T1/cmr/m/n/10 Mi-nIO et gé-né-ra-tion d'URL
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1069--1071
+Underfull \hbox (badness 10000) in paragraph at lines 1177--1179
 []|\T1/cmr/m/n/10 Exposer \T1/cmtt/m/n/10 POST /api/
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1069--1071
+Underfull \hbox (badness 10000) in paragraph at lines 1177--1179
 \T1/cmtt/m/n/10 complementary/student/
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1069--1071
+Underfull \hbox (badness 10000) in paragraph at lines 1177--1179
 \T1/cmtt/m/n/10 {ine}/ \T1/cmr/m/n/10 (dé-cla-ra-tion avec
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1069--1071
+Underfull \hbox (badness 10000) in paragraph at lines 1177--1179
 \T1/cmr/m/n/10 upload) et \T1/cmtt/m/n/10 GET /api/
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1069--1071
+Underfull \hbox (badness 10000) in paragraph at lines 1177--1179
 \T1/cmtt/m/n/10 complementary/student/
  []
 
 
-Underfull \hbox (badness 1189) in paragraph at lines 1072--1075
+Underfull \hbox (badness 1189) in paragraph at lines 1180--1183
 []|\T1/cmr/m/n/10 La dé-cla-ra-tion crée une
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1072--1075
+Underfull \hbox (badness 10000) in paragraph at lines 1180--1183
 \T1/cmr/m/n/10 Une \T1/cmtt/m/n/10 SystemAlert \T1/cmr/m/n/10 est
  []
 
 
-Underfull \hbox (badness 6792) in paragraph at lines 1080--1080
+Underfull \hbox (badness 6792) in paragraph at lines 1188--1188
 []|\T1/cmr/m/n/10 Page de dé-cla-ra-tion
  []
 
 
-Underfull \hbox (badness 1454) in paragraph at lines 1081--1082
+Underfull \hbox (badness 1454) in paragraph at lines 1189--1190
 \T1/cmr/m/n/10 lec-teur d'an-née, for-mu-laire de
  []
 
 
-Underfull \hbox (badness 1448) in paragraph at lines 1083--1086
+Underfull \hbox (badness 1448) in paragraph at lines 1191--1194
 []|\T1/cmr/m/n/10 Le for-mu-laire va-lide les
  []
 
 
-Underfull \hbox (badness 1895) in paragraph at lines 1083--1086
+Underfull \hbox (badness 1895) in paragraph at lines 1191--1194
 \T1/cmr/m/n/10 mis-sions s'af-fichent avec
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1099--1101
+Underfull \hbox (badness 10000) in paragraph at lines 1207--1209
 []|\T1/cmr/m/n/10 Exposer \T1/cmtt/m/n/10 GET /api/
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1099--1101
+Underfull \hbox (badness 10000) in paragraph at lines 1207--1209
 \T1/cmtt/m/n/10 complementary/ \T1/cmr/m/n/10 lis-tant les
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1099--1101
+Underfull \hbox (badness 10000) in paragraph at lines 1207--1209
 \T1/cmr/m/n/10 de-mandes, fil-trable par sta-
  []
 
 
-Underfull \hbox (badness 4120) in paragraph at lines 1099--1101
+Underfull \hbox (badness 4120) in paragraph at lines 1207--1209
 \T1/cmr/m/n/10 tut, avec URL pré-si-gnée de
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1109--1111
+Underfull \hbox (badness 10000) in paragraph at lines 1217--1219
 []|\T1/cmr/m/n/10 Exposer \T1/cmtt/m/n/10 POST /api/
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1109--1111
+Underfull \hbox (badness 10000) in paragraph at lines 1217--1219
 \T1/cmtt/m/n/10 complementary/{id}/
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1109--1111
+Underfull \hbox (badness 10000) in paragraph at lines 1217--1219
 \T1/cmtt/m/n/10 validate/ \T1/cmr/m/n/10 et \T1/cmtt/m/n/10 POST /api/
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1109--1111
+Underfull \hbox (badness 10000) in paragraph at lines 1217--1219
 \T1/cmtt/m/n/10 complementary/{id}/reject/
  []
 
 
-Overfull \hbox (1.76633pt too wide) in alignment at lines 807--1129
+Overfull \hbox (1.76633pt too wide) in alignment at lines 915--1237
  [] [] [] [] [] [] 
  []
 
-[109] [110] [111] [112] [113]
-Overfull \hbox (1.76633pt too wide) in alignment at lines 1198--1204
+[111] [112] [113] [114]
+Underfull \hbox (badness 10000) in paragraph at lines 1276--1276
+[]|\T1/cmr/m/n/10 Répartition des
+ []
+
+
+Underfull \hbox (badness 2221) in paragraph at lines 1276--1276
+\T1/cmr/m/n/10 te-ment (mé-thode
+ []
+
+
+Underfull \hbox (badness 1953) in paragraph at lines 1277--1277
+[]|\T1/cmr/m/n/10 Vérifier que la somme des
+ []
+
+
+Underfull \hbox (badness 1072) in paragraph at lines 1277--1277
+\T1/cmr/m/n/10 quota glo-bal, y com-pris en
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1280--1280
+[]|\T1/cmr/m/n/10 Nettoyage et
+ []
+
+
+Underfull \hbox (badness 1490) in paragraph at lines 1284--1284
+\T1/cmr/m/n/10 in-ter-na-tio-naux et
+ []
+
+
+Underfull \hbox (badness 1057) in paragraph at lines 1285--1285
+\T1/cmr/m/n/10 nées et la consi-gna-tion des
+ []
+
+
+Underfull \hbox (badness 2503) in paragraph at lines 1288--1288
+\T1/cmr/m/n/10 men-taires (dé-cla-
+ []
+
+[115] [116]
+Overfull \hbox (1.76633pt too wide) in alignment at lines 1338--1344
  [] [] [] [] [] [] 
  []
 
 
-Overfull \hbox (1.76633pt too wide) in alignment at lines 1204--1210
+Overfull \hbox (1.76633pt too wide) in alignment at lines 1344--1350
  [] [] [] [] [] [] 
  []
 
 
-Overfull \hbox (1.76633pt too wide) in alignment at lines 1210--1212
+Overfull \hbox (1.76633pt too wide) in alignment at lines 1350--1352
  [] [] [] [] [] [] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1222--1222
+Underfull \hbox (badness 10000) in paragraph at lines 1362--1362
 []|\T1/cmr/m/n/10 Définir
  []
 
 
-Underfull \hbox (badness 5563) in paragraph at lines 1230--1231
+Underfull \hbox (badness 5563) in paragraph at lines 1370--1371
 []|\T1/cmr/m/n/10 Implémenter le ser-vice agré-
  []
 
 
-Underfull \hbox (badness 2809) in paragraph at lines 1232--1233
+Underfull \hbox (badness 2809) in paragraph at lines 1372--1373
 []|\T1/cmr/m/n/10 La du-rée to-tale est la
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1239--1240
+Underfull \hbox (badness 10000) in paragraph at lines 1379--1380
 []|\T1/cmr/m/n/10 Exposer \T1/cmtt/m/n/10 GET /api/cti/
  []
 
 
-Underfull \hbox (badness 2310) in paragraph at lines 1247--1247
+Underfull \hbox (badness 2310) in paragraph at lines 1387--1387
 []|\T1/cmr/m/n/10 Recalcul au-to-ma-tique
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1248--1251
+Underfull \hbox (badness 10000) in paragraph at lines 1388--1391
 []|\T1/cmr/m/n/10 Déclencher, via une tâche
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1248--1251
+Underfull \hbox (badness 10000) in paragraph at lines 1388--1391
 \T1/cmr/m/n/10 Django-Q2, le re-cal-cul de
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1248--1251
+Underfull \hbox (badness 10000) in paragraph at lines 1388--1391
 \T1/cmtt/m/n/10 MobilityDuration \T1/cmr/m/n/10 à chaque
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1248--1251
+Underfull \hbox (badness 10000) in paragraph at lines 1388--1391
 \T1/cmr/m/n/10 tran-si-tion FSM des en-ti-tés
  []
 
 
-Underfull \hbox (badness 3930) in paragraph at lines 1260--1261
+Underfull \hbox (badness 3930) in paragraph at lines 1400--1401
 []|\T1/cmr/m/n/10 Couverture de tests $\OMS/cmsy/m/n/10 ^^U$
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1272--1273
+Underfull \hbox (badness 10000) in paragraph at lines 1412--1413
 []|\T1/cmr/m/n/10 Implémenter \T1/cmtt/m/n/10 frontend/app/
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1272--1273
+Underfull \hbox (badness 10000) in paragraph at lines 1412--1413
 \T1/cmtt/m/n/10 student/[ine]/tableau-de-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1272--1273
+Underfull \hbox (badness 10000) in paragraph at lines 1412--1413
 \T1/cmtt/m/n/10 bord/page.tsx \T1/cmr/m/n/10 consom-mant
  []
 
 
-Underfull \hbox (badness 3907) in paragraph at lines 1282--1283
+Underfull \hbox (badness 3907) in paragraph at lines 1422--1423
 \T1/cmr/m/n/10 pond à la ré-ponse de
  []
 
 
-Underfull \hbox (badness 3029) in paragraph at lines 1289--1291
+Underfull \hbox (badness 3029) in paragraph at lines 1429--1431
 []|\T1/cmr/m/n/10 Afficher le dé-tail des contri-
  []
 
 
-Underfull \hbox (badness 1803) in paragraph at lines 1289--1291
+Underfull \hbox (badness 1803) in paragraph at lines 1429--1431
 \T1/cmr/m/n/10 bu-tions par type de mo-bi-lité
  []
 
 
-Underfull \hbox (badness 2573) in paragraph at lines 1289--1291
+Underfull \hbox (badness 2573) in paragraph at lines 1429--1431
 \T1/cmr/m/n/10 (échanges aca-dé-miques, stages
  []
 
 
-Underfull \hbox (badness 1552) in paragraph at lines 1289--1291
+Underfull \hbox (badness 1552) in paragraph at lines 1429--1431
 \T1/cmr/m/n/10 in-ter-na-tio-naux, mo-bi-li-tés com-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1306--1307
+Underfull \hbox (badness 10000) in paragraph at lines 1446--1447
 []|\T1/cmr/m/n/10 Exposer \T1/cmtt/m/n/10 GET /api/cti/
  []
 
 
-Underfull \hbox (badness 6876) in paragraph at lines 1306--1307
+Underfull \hbox (badness 6876) in paragraph at lines 1446--1447
 \T1/cmtt/m/n/10 export/ \T1/cmr/m/n/10 gé-né-rant un fi-chier
  []
 
 
-Underfull \hbox (badness 1308) in paragraph at lines 1318--1320
+Underfull \hbox (badness 1308) in paragraph at lines 1458--1460
 \T1/cmr/m/n/10 co-lonnes at-ten-dues pour
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1326--1327
+Underfull \hbox (badness 10000) in paragraph at lines 1466--1467
 []|\T1/cmr/m/n/10 Ajouter le bou-ton d'ex-port
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1326--1327
+Underfull \hbox (badness 10000) in paragraph at lines 1466--1467
 \T1/cmr/m/n/10 dans \T1/cmtt/m/n/10 frontend/app/admin/
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1336--1338
+Underfull \hbox (badness 10000) in paragraph at lines 1476--1478
 []|\T1/cmr/m/n/10 Le fi-chier ex-porté ne
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1363--1364
+Underfull \hbox (badness 10000) in paragraph at lines 1503--1504
 []|\T1/cmr/m/n/10 Implémenter \T1/cmtt/m/n/10 frontend/app/
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1363--1364
+Underfull \hbox (badness 10000) in paragraph at lines 1503--1504
 \T1/cmtt/m/n/10 admin/analytiques/page.tsx
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1365--1367
+Underfull \hbox (badness 10000) in paragraph at lines 1505--1507
 []|\T1/cmr/m/n/10 Les gra-phiques se
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1365--1367
+Underfull \hbox (badness 10000) in paragraph at lines 1505--1507
 \T1/cmr/m/n/10 chargent de-puis les
  []
 
 
-Underfull \hbox (badness 2762) in paragraph at lines 1372--1372
+Underfull \hbox (badness 2762) in paragraph at lines 1512--1512
 []|\T1/cmr/m/n/10 Indicateurs CTI glo-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1374--1376
+Underfull \hbox (badness 10000) in paragraph at lines 1514--1516
 []|\T1/cmr/m/n/10 L'indicateur re-flète les
  []
 
 
-Underfull \hbox (badness 2635) in paragraph at lines 1383--1385
+Underfull \hbox (badness 2635) in paragraph at lines 1523--1525
 \T1/cmr/m/n/10 pond aux don-nées af-fi-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1396--1396
-[]|\T1/cmr/m/n/10 Intégrer le client
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1418--1420
+Underfull \hbox (badness 10000) in paragraph at lines 1558--1560
 []|\T1/cmr/m/n/10 L'utilisateur ar-rive sur
  []
 
 
-Underfull \hbox (badness 1297) in paragraph at lines 1428--1431
+Underfull \hbox (badness 1297) in paragraph at lines 1568--1571
 \T1/cmr/m/n/10 jettent les re-quêtes non
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1436--1436
+Underfull \hbox (badness 10000) in paragraph at lines 1576--1576
 []|\T1/cmr/m/n/10 Tests d'in-té-gra-tion
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1439--1440
+Underfull \hbox (badness 10000) in paragraph at lines 1579--1580
 []|\T1/cmr/m/n/10 Les tests d'in-té-gra-tion
  []
 
 
-Overfull \hbox (1.76633pt too wide) in alignment at lines 1212--1444
+Overfull \hbox (1.76633pt too wide) in alignment at lines 1352--1584
  [] [] [] [] [] [] 
  []
 
-[114] [115] [116]
-Overfull \hbox (1.76633pt too wide) in alignment at lines 1468--1474
+[117] [118]
+Underfull \hbox (badness 10000) in paragraph at lines 1602--1602
+[]|\T1/cmr/m/n/10 Authentification
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1602--1602
+\T1/cmr/m/n/10 (je-ton ab-sent,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1606--1606
+[]|\T1/cmr/m/n/10 Autorisation ^^V
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1606--1606
+\T1/cmr/m/n/10 étu-diant vers
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1606--1606
+\T1/cmr/m/n/10 res-source ad-mi-
+ []
+
+
+Underfull \hbox (badness 1902) in paragraph at lines 1607--1607
+[]|\T1/cmr/m/n/10 Vérifier qu'un étu-diant au-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1610--1610
+[]|\T1/cmr/m/n/10 Autorisation ^^V
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1610--1610
+\T1/cmr/m/n/10 étu-diant vers
+ []
+
+
+Underfull \hbox (badness 1902) in paragraph at lines 1611--1611
+[]|\T1/cmr/m/n/10 Vérifier qu'un étu-diant au-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1614--1614
+[]|\T1/cmr/m/n/10 Authentification
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1614--1614
+\T1/cmr/m/n/10 par co-okie et
+ []
+
+
+Underfull \hbox (badness 1590) in paragraph at lines 1615--1615
+\T1/cmr/m/n/10 l'au-then-ti-fi-ca-tion par co-okie
+ []
+
+[119]
+Overfull \hbox (1.76633pt too wide) in alignment at lines 1643--1649
  [] [] [] [] [] [] 
  []
 
 
-Overfull \hbox (1.76633pt too wide) in alignment at lines 1474--1480
+Overfull \hbox (1.76633pt too wide) in alignment at lines 1649--1655
  [] [] [] [] [] [] 
  []
 
 
-Overfull \hbox (1.76633pt too wide) in alignment at lines 1480--1482
+Overfull \hbox (1.76633pt too wide) in alignment at lines 1655--1657
  [] [] [] [] [] [] 
  []
 
 
-Underfull \hbox (badness 1997) in paragraph at lines 1492--1493
+Underfull \hbox (badness 1997) in paragraph at lines 1667--1668
 \T1/cmr/m/n/10 servé sur les cam-pagnes pré-
  []
 
 
-Underfull \hbox (badness 3815) in paragraph at lines 1494--1496
+Underfull \hbox (badness 3815) in paragraph at lines 1669--1671
 \T1/cmr/m/n/10 rec-te-ment après chaque
  []
 
 
-Underfull \hbox (badness 5622) in paragraph at lines 1511--1511
+Underfull \hbox (badness 5622) in paragraph at lines 1686--1686
 []|\T1/cmr/m/n/10 Endpoint de re-com-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1512--1513
+Underfull \hbox (badness 10000) in paragraph at lines 1687--1688
 []|\T1/cmr/m/n/10 Exposer \T1/cmtt/m/n/10 GET /api/student/
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1512--1513
+Underfull \hbox (badness 10000) in paragraph at lines 1687--1688
 \T1/cmtt/m/n/10 {ine}/recommendations/ \T1/cmr/m/n/10 re-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1521--1521
+Underfull \hbox (badness 10000) in paragraph at lines 1696--1696
 []|\T1/cmr/m/n/10 Page re-com-man-da-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1550--1552
+Underfull \hbox (badness 10000) in paragraph at lines 1725--1727
 []|\T1/cmr/m/n/10 La base vec-to-rielle
  []
 
 
-Underfull \hbox (badness 6559) in paragraph at lines 1550--1552
+Underfull \hbox (badness 6559) in paragraph at lines 1725--1727
 \T1/cmr/m/n/10 contient l'en-semble des
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1558--1559
+Underfull \hbox (badness 10000) in paragraph at lines 1733--1734
 []|\T1/cmr/m/n/10 Implémenter la chaîne re-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1558--1559
+Underfull \hbox (badness 10000) in paragraph at lines 1733--1734
 \T1/cmr/m/n/10 trie-val + construc-tion du
  []
 
 
-Underfull \hbox (badness 1708) in paragraph at lines 1560--1563
+Underfull \hbox (badness 1708) in paragraph at lines 1735--1738
 \T1/cmr/m/n/10 tourne une ré-ponse an-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1569--1571
+Underfull \hbox (badness 10000) in paragraph at lines 1744--1746
 []|\T1/cmr/m/n/10 Exposer \T1/cmtt/m/n/10 POST /api/student/
  []
 
 
-Underfull \hbox (badness 1881) in paragraph at lines 1569--1571
+Underfull \hbox (badness 1881) in paragraph at lines 1744--1746
 \T1/cmr/m/n/10 de l'étu-diant telle que sai-sie,
  []
 
 
-Underfull \hbox (badness 4518) in paragraph at lines 1569--1571
+Underfull \hbox (badness 4518) in paragraph at lines 1744--1746
 \T1/cmr/m/n/10 sans en-ri-chis-se-ment avec des
  []
 
 
-Underfull \hbox (badness 3735) in paragraph at lines 1572--1575
+Underfull \hbox (badness 3735) in paragraph at lines 1747--1750
 []|\T1/cmr/m/n/10 La re-quête en-voyée au
  []
 
 
-Underfull \hbox (badness 2245) in paragraph at lines 1572--1575
+Underfull \hbox (badness 2245) in paragraph at lines 1747--1750
 \T1/cmr/m/n/10 mo-dèle ne contient au-
  []
 
 
-Underfull \hbox (badness 1337) in paragraph at lines 1572--1575
+Underfull \hbox (badness 1337) in paragraph at lines 1747--1750
 \T1/cmr/m/n/10 cune don-née per-son-nelle
  []
 
 
-Underfull \hbox (badness 3039) in paragraph at lines 1580--1580
+Underfull \hbox (badness 3039) in paragraph at lines 1755--1755
 []|\T1/cmr/m/n/10 Interface du chat-bot
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1583--1585
+Underfull \hbox (badness 10000) in paragraph at lines 1758--1760
 []|\T1/cmr/m/n/10 L'échange ques-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1583--1585
+Underfull \hbox (badness 10000) in paragraph at lines 1758--1760
 \T1/cmr/m/n/10 tion/réponse s'af-fiche
  []
 
 
-Overfull \hbox (1.76633pt too wide) in alignment at lines 1482--1599
+Overfull \hbox (1.76633pt too wide) in alignment at lines 1657--1774
  [] [] [] [] [] [] 
  []
 
-[117]) [118] (./Chapitres/conclusion.tex) [119
+[120] [121]) [122] (./Chapitres/chapitre6.tex
+Chapitre 6.
+(./main.ptc) [123
 
 
 ]
-Overfull \hbox (35.96822pt too wide) in paragraph at lines 268--268
+Underfull \hbox (badness 10000) in paragraph at lines 45--45
+[]|\T1/cmr/m/n/10 Backend (uni-taire,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 45--45
+[]|\T1/cmr/m/n/10 pytest, pytest-django,
+ []
+
+
+Underfull \hbox (badness 1953) in paragraph at lines 45--46
+[]|\T1/cmr/m/n/10 Couverture me-su-rée :
+ []
+
+
+Underfull \hbox (badness 1953) in paragraph at lines 47--48
+[]|\T1/cmr/m/n/10 Couverture me-su-rée :
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 47--48
+\T1/cmr/m/n/10 12,84% (sta-te-ments),
+ []
+
+
+Underfull \hbox (badness 2961) in paragraph at lines 51--52
+\T1/cmr/m/n/10 ca-tion et le contrôle
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 53--53
+[]|\T1/cmr/m/n/10 Performance /
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 53--54
+[]|\T1/cmr/m/n/10 Implémentés, ré-sul-tat
+ []
+
+[124]
+Underfull \hbox (badness 2020) in paragraph at lines 78--78
+[]|\T1/cmr/m/n/10 Authentification (ad-
+ []
+
+
+Underfull \hbox (badness 1127) in paragraph at lines 80--80
+[]|\T1/cmr/m/n/10 Contrôle d'ac-cès par
+ []
+
+
+Underfull \hbox (badness 4940) in paragraph at lines 82--82
+\T1/cmr/m/n/10 de l'an-née uni-ver-si-
+ []
+
+
+Underfull \hbox (badness 1215) in paragraph at lines 84--84
+[]|\T1/cmr/m/n/10 Scénario dé-dié aux alertes
+ []
+
+
+Underfull \hbox (badness 1694) in paragraph at lines 86--86
+[]|\T1/cmr/m/n/10 Scénario du par-cours étu-
+ []
+
+
+Underfull \hbox (badness 3895) in paragraph at lines 88--88
+\T1/cmr/m/n/10 mo-bi-lité com-plé-men-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 94--94
+[]|\T1/cmr/m/n/10 Dashboard ana-ly-tics
+ []
+
+[125]
+Underfull \hbox (badness 10000) in paragraph at lines 118--118
+[]|\T1/cmr/bx/n/10 Transitions
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 120--120
+[]|\T1/cmtt/m/n/10 AcademicYear
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 120--120
+[]|\T1/cmr/m/n/10 Cycle com-plet,
+ []
+
+
+Underfull \hbox (badness 1748) in paragraph at lines 120--120
+\T1/cmr/m/n/10 va-lides et in-va-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 122--122
+[]|\T1/cmtt/m/n/10 Assignment
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 122--122
+[]|\T1/cmtt/m/n/10 validate\T1/cmr/m/n/10 ,
+ []
+
+
+Overfull \hbox (36.24576pt too wide) in paragraph at lines 124--124
+[]|\T1/cmtt/m/n/10 ComplementaryMobility
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 124--124
+[]|\T1/cmr/m/n/10 Déclaration
+ []
+
+[126]
+Underfull \hbox (badness 5652) in paragraph at lines 146--146
+[]|\T1/cmr/m/n/10 Synchronisation Mo-
+ []
+
+
+Underfull \hbox (badness 2698) in paragraph at lines 146--146
+[]|\T1/cmr/m/n/10 Testée avec dou-blure des clients
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 148--148
+[]|\T1/cmr/m/n/10 Import Ex-cel (étu-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 148--148
+\T1/cmr/m/n/10 diants, mo-bi-li-tés
+ []
+
+[127] [128]
+Underfull \hbox (badness 3375) in paragraph at lines 204--204
+[]|\T1/cmr/bx/n/12 Validation réa-li-
+ []
+
+
+Underfull \hbox (badness 3375) in paragraph at lines 209--209
+[]|\T1/cmr/bx/n/12 Validation réa-li-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 215--215
+[]|\T1/cmr/m/n/12 BNF01 --
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 215--215
+\T1/cmr/m/n/12 In-ter-opé-
+ []
+
+
+Underfull \hbox (badness 3250) in paragraph at lines 216--216
+[]|\T1/cmr/m/n/12 Tests des adap-ta-
+ []
+
+
+Underfull \hbox (badness 2582) in paragraph at lines 216--216
+\T1/cmr/m/n/12 sa-tion par source,
+ []
+
+
+Underfull \hbox (badness 2409) in paragraph at lines 216--216
+\T1/cmr/m/n/12 avec dou-blure des
+ []
+
+
+Underfull \hbox (badness 2486) in paragraph at lines 218--218
+[]|\T1/cmr/m/n/12 Adaptateurs tes-tés ; le
+ []
+
+
+Underfull \hbox (badness 3158) in paragraph at lines 218--218
+\T1/cmr/m/n/12 fall-back Ex-cel est un
+ []
+
+
+Underfull \hbox (badness 2818) in paragraph at lines 219--220
+[]|\T1/cmr/m/n/12 Validé (avec
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 222--222
+[]|\T1/cmr/m/n/12 BNF02
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 222--222
+\T1/cmr/m/n/12 -- In-té-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 222--222
+\T1/cmr/m/n/12 grité des
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 223--223
+\T1/cmr/m/n/12 d'im-port (va-li-da-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 223--223
+\T1/cmr/m/n/12 tion, dou-blons,
+ []
+
+
+Underfull \hbox (badness 4108) in paragraph at lines 225--225
+[]|\T1/cmr/m/n/12 Validation stricte, dé-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 229--229
+[]|\T1/cmr/m/n/12 BNF03 --
+ []
+
+
+Underfull \hbox (badness 2213) in paragraph at lines 230--230
+[]|\T1/cmr/m/n/12 Suite dé-diée sé-cu-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 236--236
+[]|\T1/cmr/m/n/12 BNF04
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 236--236
+\T1/cmr/m/n/12 -- Per-for-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 239--239
+[]|\T1/cmr/m/n/12 Script im-plé-menté et
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 239--239
+\T1/cmr/m/n/12 cor-rec-te-ment pa-ra-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 239--239
+\T1/cmr/m/n/12 mé-tré ; ré-sul-tat non
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 239--239
+\T1/cmr/m/n/12 dis-po-nible dans les
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 243--243
+[]|\T1/cmr/m/n/12 BNF05 --
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 243--243
+\T1/cmr/m/n/12 Dis-po-ni-bi-
+ []
+
+
+Underfull \hbox (badness 1237) in paragraph at lines 246--246
+[]|\T1/cmr/m/n/12 Aucune preuve de va-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 250--250
+[]|\T1/cmr/m/n/12 BNF06 --
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 257--257
+[]|\T1/cmr/m/n/12 BNF07 --
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 259--259
+[]|\T1/cmr/m/n/12 Playwright,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 264--264
+[]|\T1/cmr/m/n/12 BNF08 --
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 266--266
+[]|\T1/cmr/m/n/12 pytest, Vi-
+ []
+
+
+Underfull \hbox (badness 4805) in paragraph at lines 267--267
+[]|\T1/cmr/m/n/12 Auteur et ho-ro-da-tage
+ []
+
+[129
+
+] [130] [131
+
+]
+Overfull \hbox (3.32457pt too wide) in paragraph at lines 287--287
+ []|\T1/cmr/bx/n/12 Unitaire| 
+ []
+
+
+Overfull \hbox (7.62213pt too wide) in paragraph at lines 287--287
+ []|\T1/cmr/bx/n/12 Frontend| 
+ []
+
+
+Overfull \hbox (3.32457pt too wide) in paragraph at lines 292--292
+ []|\T1/cmr/bx/n/12 Unitaire| 
+ []
+
+
+Overfull \hbox (7.62213pt too wide) in paragraph at lines 292--292
+ []|\T1/cmr/bx/n/12 Frontend| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 306--306
+[]|\T1/cmr/m/n/12 Accords & quo-tas
+ []
+
+
+Underfull \hbox (badness 2644) in paragraph at lines 310--310
+[]|\T1/cmr/m/n/12 V÷ux et af-fec-ta-tion
+ []
+
+
+Underfull \hbox (badness 1845) in paragraph at lines 312--313
+[]|\T1/cmr/m/n/12 Couplée au cycle FSM
+ []
+
+
+Underfull \hbox (badness 1881) in paragraph at lines 322--323
+[]|\T1/cmr/m/n/12 Aucune preuve de test
+ []
+
+[132
+
+] [133]) [134
+
+] (./Chapitres/conclusion.tex) [135
+
+
+]
+Overfull \hbox (35.96822pt too wide) in paragraph at lines 271--271
 []\T1/cmr/m/it/12 International -- Tou-louse INP-ENSEEIHT\T1/cmr/m/n/12 . [][]$
 \T1/cmtt/m/n/12 https : / / www . enseeiht . fr / fr / international .
  []
 
 
-Overfull \hbox (37.07637pt too wide) in paragraph at lines 268--268
+Overfull \hbox (37.07637pt too wide) in paragraph at lines 271--271
 []\T1/cmr/m/it/12 Django -- The web fra-me-work for per-fec-tio-nists with dead
 -lines\T1/cmr/m/n/12 . [][]$\T1/cmtt/m/n/12 https : / / www . djangoproject .
  []
 
-[120
+[136
 
 
 ]
-Overfull \hbox (22.56335pt too wide) in paragraph at lines 268--268
+Overfull \hbox (22.56335pt too wide) in paragraph at lines 271--271
 []\T1/cmr/m/it/12 Django Q2 -- A mul-ti-pro-ces-sing task queue for Django\T1/c
 mr/m/n/12 . [][]$\T1/cmtt/m/n/12 https : / / django -[] q2 . readthedocs .
  []
 
 
-Overfull \hbox (5.27025pt too wide) in paragraph at lines 268--268
+Overfull \hbox (5.27025pt too wide) in paragraph at lines 271--271
 []\T1/cmr/m/it/12 LangChain -- Build context-aware rea-so-ning ap-pli-ca-tions\
 T1/cmr/m/n/12 . [][]$\T1/cmtt/m/n/12 https : / / python . langchain .
  []
 
 
-Overfull \hbox (2.2904pt too wide) in paragraph at lines 268--268
+Overfull \hbox (2.2904pt too wide) in paragraph at lines 271--271
 []\T1/cmr/m/it/12 LlamaIndex -- Py-thon Fra-me-work Do-cu-men-ta-tion\T1/cmr/m/
 n/12 . [][]$\T1/cmtt/m/n/12 https : / / developers . llamaindex .
  []
 
-[121]
+[137]
 \tf@ptc=\write9
 \openout9 = `main.ptc'.
 
- [122] (./main.aux)
+ [138] (./main.aux)
  ***********
 LaTeX2e <2026-06-01>
 L3 programming layer <2026-05-26>
@@ -4644,19 +5197,19 @@ L3 programming layer <2026-05-26>
 LaTeX Warning: There were undefined references.
 
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 400E2DF545E43F270652AB8BEA8FB781;48639.
+(rerunfilecheck)             Checksum: 8ECA10BAA61326195A683F758E06B595;52127.
 Package logreq Info: Writing requests to 'main.run.xml'.
 \openout1 = `main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 41873 strings out of 467167
- 794335 string characters out of 5409454
- 1843542 words of memory out of 5000000
- 69922 multiletter control sequences out of 15000+600000
- 652095 words of font info for 99 fonts, out of 8000000 for 9000
+ 41963 strings out of 467167
+ 795594 string characters out of 5409454
+ 1844600 words of memory out of 5000000
+ 69961 multiletter control sequences out of 15000+600000
+ 652859 words of font info for 100 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 103i,12n,108p,1250b,2395s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 103i,12n,108p,1274b,2395s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb
 ></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb>
 </usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></
@@ -4672,20 +5225,21 @@ e/2026/texmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb></usr/local/texlive/
 2026/texmf-dist/fonts/type1/public/cm-super/sfbx2488.pfb></usr/local/texlive/20
 26/texmf-dist/fonts/type1/public/cm-super/sfcc1200.pfb></usr/local/texlive/2026
 /texmf-dist/fonts/type1/public/cm-super/sfrm0600.pfb></usr/local/texlive/2026/t
-exmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb></usr/local/texlive/2026/tex
-mf-dist/fonts/type1/public/cm-super/sfrm1095.pfb></usr/local/texlive/2026/texmf
--dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2026/texmf-d
-ist/fonts/type1/public/cm-super/sfrm1728.pfb></usr/local/texlive/2026/texmf-dis
-t/fonts/type1/public/cm-super/sfti1095.pfb></usr/local/texlive/2026/texmf-dist/
-fonts/type1/public/cm-super/sfti1200.pfb></usr/local/texlive/2026/texmf-dist/fo
-nts/type1/public/cm-super/sftt1000.pfb></usr/local/texlive/2026/texmf-dist/font
-s/type1/public/cm-super/sftt1095.pfb></usr/local/texlive/2026/texmf-dist/fonts/
-type1/public/cm-super/sftt1200.pfb></usr/local/texlive/2026/texmf-dist/fonts/ty
-pe1/urw/zapfding/uzdr.pfb>
-Output written on main.pdf (132 pages, 4880936 bytes).
+exmf-dist/fonts/type1/public/cm-super/sfrm0800.pfb></usr/local/texlive/2026/tex
+mf-dist/fonts/type1/public/cm-super/sfrm1000.pfb></usr/local/texlive/2026/texmf
+-dist/fonts/type1/public/cm-super/sfrm1095.pfb></usr/local/texlive/2026/texmf-d
+ist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2026/texmf-dis
+t/fonts/type1/public/cm-super/sfrm1728.pfb></usr/local/texlive/2026/texmf-dist/
+fonts/type1/public/cm-super/sfti1095.pfb></usr/local/texlive/2026/texmf-dist/fo
+nts/type1/public/cm-super/sfti1200.pfb></usr/local/texlive/2026/texmf-dist/font
+s/type1/public/cm-super/sftt1000.pfb></usr/local/texlive/2026/texmf-dist/fonts/
+type1/public/cm-super/sftt1095.pfb></usr/local/texlive/2026/texmf-dist/fonts/ty
+pe1/public/cm-super/sftt1200.pfb></usr/local/texlive/2026/texmf-dist/fonts/type
+1/urw/zapfding/uzdr.pfb>
+Output written on main.pdf (149 pages, 4923691 bytes).
 PDF statistics:
- 2716 PDF objects out of 2984 (max. 8388607)
- 2496 compressed objects within 25 object streams
- 542 named destinations out of 1000 (max. 500000)
- 2118 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 2937 PDF objects out of 2984 (max. 8388607)
+ 2696 compressed objects within 27 object streams
+ 587 named destinations out of 1000 (max. 500000)
+ 2246 words of extra memory for PDF output out of 10000 (max. 10000000)
 

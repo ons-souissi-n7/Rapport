@@ -15,7 +15,7 @@
 \phantomsection
 \addcontentsline{toc}{section}{Introduction}
 
-Le chapitre précédent a justifié les choix algorithmiques et détaillé les machines à états qui structurent la logique métier du système. Ce chapitre couvre la phase de réalisation du projet, organisée en sprints successifs, où le backlog, la conception détaillée, l'implémentation et les tests de chaque sprint sont présentés conformément à la définition of done.
+Le chapitre précédent a justifié les choix algorithmiques et détaillé les machines à états qui structurent la logique métier du système. Ce chapitre couvre la phase de réalisation du projet, organisée en sprints successifs, où le backlog, la conception détaillée, l'implémentation et les tests de chaque sprint sont présentés conformément à la définition of done. Les tests présentés ici valident l'incrément livré par chaque sprint ; la validation transversale du système intégré (tests de bout en bout, performance, sécurité, couverture des besoins non fonctionnels) fait l'objet du chapitre~\ref{cha:tests-validation}.
 
 % ─────────────────────────────────────────────────────────────
 \section{{Sprint 1 : Socle technique et référentiels}}
@@ -25,7 +25,7 @@ Cette section présente la réalisation du Sprint 1, dédié à la mise en place
 
 \subsection{Objectif du sprint}
 
-Le Sprint 1 a pour objectif d'implémenter les fondations irréversibles du système : référentiels stables (\texttt{Country}, \texttt{Department}), universités partenaires (\texttt{PartnerUniversity}), année universitaire avec sa machine à états à 8 phases (\texttt{AcademicYear}), accords et quotas (\texttt{Agreement}, \texttt{AgreementYear}, \texttt{AgreementYearDepartment}) et stockage brut des imports (\texttt{RawImport}). Ces composants constituent la colonne vertébrale du système ; toute fonctionnalité des sprints suivants en dépend directement.
+Le Sprint 1 a pour objectif d'implémenter les fondations irréversibles du système : référentiels stables (\texttt{Country}, \texttt{Department}), universités partenaires (\texttt{PartnerUniversity}), année universitaire avec sa machine à états à 9 états (\texttt{AcademicYear}), accords et quotas (\texttt{Agreement}, \texttt{AgreementYear}, \texttt{AgreementYearDepartment}) et stockage brut des imports (\texttt{RawImport}). Ces composants constituent la colonne vertébrale du système ; toute fonctionnalité des sprints suivants en dépend directement.
 
 \textbf{Définition of Done.} À l'issue de ce sprint, le système doit être exécutable via \texttt{docker compose up}, toutes les migrations Django doivent s'appliquer sans erreur, les tests unitaires doivent passer avec une couverture supérieure à 80\,\%, et le pipeline CI/CD doit être opérationnel sur GitHub Actions.
 
@@ -239,11 +239,47 @@ Cette section présente la conception UML détaillée des entités métier du Sp
 
 \subsection{Implémentation}
 
-% Le modèle de données est implémenté dans trois apps Django : \texttt{reference} (\texttt{Country}, \texttt{Department}, \texttt{Level}, \texttt{Parcours}), \texttt{institutions} (\texttt{PartnerUniversity}) et \texttt{mobility} (\texttt{MobilityCategory}, \texttt{Agreement}, \texttt{AgreementDepartment}, \texttt{AgreementYear}, \texttt{AgreementYearDepartment}), tandis que \texttt{AcademicYear} vit dans l'app \texttt{academic}. La FSM de \texttt{AcademicYear} est protégée (\texttt{protected=True}) et expose sept transitions (\texttt{open\_\allowbreak recommendation}, \texttt{start\_candidature}, \texttt{close\_wishes}, \texttt{launch\_assignment}, \texttt{complete\_\allowbreak assignment}, \texttt{publish\_results}, \texttt{close}), routées par l'API \texttt{academic/\allowbreak api.py}. Les référentiels et les accords sont synchronisés depuis Pégase et MoveON par des adaptateurs dédiés (\texttt{integrations/\allowbreak pegase.py}, \texttt{integrations/\allowbreak moveon.py}), et les pages Next.js correspondantes (\texttt{admin/\allowbreak references}, \texttt{admin/\allowbreak academic-years}, \texttt{admin/\allowbreak mobility}) consomment ces données via l'API Django Ninja.
+% Le modèle de données est implémenté dans trois apps Django : \texttt{reference} (\texttt{Country}, \texttt{Department}, \texttt{Level}, \texttt{Parcours}), \texttt{institutions} (\texttt{PartnerUniversity}) et \texttt{mobility} (\texttt{MobilityCategory}, \texttt{Agreement}, \texttt{AgreementDepartment}, \texttt{AgreementYear}, \texttt{AgreementYearDepartment}), tandis que \texttt{AcademicYear} vit dans l'app \texttt{academic}. La FSM de \texttt{AcademicYear} est protégée (\texttt{protected=True}) et expose huit transitions (\texttt{open\_\allowbreak recommendation}, \texttt{start\_candidature}, \texttt{close\_wishes}, \texttt{launch\_assignment}, \texttt{complete\_\allowbreak assignment}, \texttt{publish\_results}, \texttt{finalize\_cti}, \texttt{close}), routées par l'API \texttt{academic/\allowbreak api.py}. Les référentiels et les accords sont synchronisés depuis Pégase et MoveON par des adaptateurs dédiés (\texttt{integrations/\allowbreak pegase.py}, \texttt{integrations/\allowbreak moveon.py}), et les pages Next.js correspondantes (\texttt{admin/\allowbreak references}, \texttt{admin/\allowbreak academic-years}, \texttt{admin/\allowbreak mobility}) consomment ces données via l'API Django Ninja.
 
-\subsection{Tests}
+\subsection{Tests et validation du sprint}
 
-% Chaque app dispose d'une suite de tests dédiée (\texttt{academic/tests}, \texttt{mobility/tests}, \texttt{institutions/tests}, \texttt{reference/tests}), couvrant en particulier les transitions FSM valides et invalides de \texttt{AcademicYear} (\texttt{TransitionNotAllowed} attendu hors séquence), la validation des dates (\texttt{clean()}), et le calcul de \texttt{get\_\allowbreak effective\_\allowbreak quota()} sur les différentes combinaisons de quota estimé et ajusté.
+Ce sprint pose les fondations du système en introduisant le cycle de vie de l'année universitaire, les référentiels de base et la gestion des quotas. La validation porte sur les principales règles métier associées à ces fondations, dont dépend l'ensemble des sprints suivants, au moyen de tests unitaires et de tests API.
+
+\renewcommand{\arraystretch}{1.3}
+\begin{table}[H]
+\centering
+\caption{Validation du Sprint 1}
+\label{tab:validation-sprint1}
+\footnotesize
+\begin{tabular}{|p{2.8cm}|p{4.6cm}|p{1.5cm}|p{1.4cm}|p{1.8cm}|p{1.4cm}|}
+\hline
+\rowcolor{gray!20}
+\textbf{Élément / fonctionnalité} & \textbf{Objectif du test} & \textbf{Type} & \textbf{Outil} & \textbf{Résultat} & \textbf{État} \\
+\hline
+Cycle de vie de l'année universitaire &
+Vérifier les transitions autorisées et le rejet des transitions hors séquence &
+Unitaire & pytest & Conforme & Validé \\
+\hline
+Cohérence des dates de campagne &
+Vérifier le rejet d'une incohérence entre date de début et date de fin &
+Unitaire & pytest & Conforme & Validé \\
+\hline
+Référentiels de base (pays, départements, universités partenaires) &
+Vérifier la création et l'unicité des données de référence &
+API & pytest & Conforme & Validé \\
+\hline
+Calcul des quotas (accords et années) &
+Vérifier le calcul du quota effectif selon la configuration retenue (quota estimé ou ajusté) &
+Unitaire & pytest & Conforme & Validé \\
+\hline
+Validité et éligibilité d'un accord &
+Vérifier qu'un accord expiré est écarté pour l'année considérée et que l'éligibilité d'un département est correctement évaluée &
+Unitaire & pytest & Conforme & Validé \\
+\hline
+\end{tabular}
+\end{table}
+
+L'incrément du Sprint 1 est ainsi validé au regard des règles métier couvertes par les tests disponibles.
 
 
 % ─────────────────────────────────────────────────────────────
@@ -336,8 +372,12 @@ Stocker la réponse brute en JSONB
 dans \texttt{RawImport}. &
 La réponse brute est stockée
 avec \texttt{source="pegase"}.
-Retry exponentiel (3 tentatives)
-en cas d'échec. &
+En cas d'échec d'import, un
+enregistrement \texttt{RawImport}
+est conservé à l'état
+\texttt{FAILED}. L'opérateur peut
+déclencher une ré-tentative via
+l'interface d'administration. &
 Haute & 2 \\
 \hline
 
@@ -504,9 +544,45 @@ Haute & 2 \\
 
 % L'audit log s'appuie sur le paquet tiers \texttt{django-auditlog} plutôt que sur un modèle métier développé en interne : il journalise automatiquement les créations, modifications et suppressions des modèles enregistrés, avec l'auteur et l'horodatage, et un utilitaire \texttt{audit/\allowbreak logger.py} permet de tracer explicitement les actions qui ne correspondent pas à une sauvegarde de modèle (synchronisations, imports par lot). Les pipelines d'import (\texttt{students/\allowbreak services/\allowbreak student\_\allowbreak importer.py} pour Pégase, \texttt{students/\allowbreak services/\allowbreak sync\_\allowbreak moveon.py} pour les vœux) upsertent sur l'INE et produisent systématiquement un \texttt{ImportReport} détaillant succès, erreurs et doublons.
 
-\subsection{Tests}
+\subsection{Tests et validation du sprint}
 
-% Les suites \texttt{students/tests} et \texttt{audit/tests} couvrent l'upsert sur INE, le rejet des vœux sans correspondance INE (motif \texttt{INE\_NOT\_FOUND}), la contrainte d'unicité \texttt{(annual\_\allowbreak enrollment, rank)} sur \texttt{StudentWish}, et la présence d'une entrée d'audit après chaque import.
+Ce sprint rend le système opérationnel pour la collecte des données étudiants et de leurs vœux de mobilité, ainsi que pour leur traçabilité. La validation porte sur la fiabilité du rattachement des données importées et sur le respect des règles de gestion associées, au moyen de tests API et de tests de composants frontend.
+
+\renewcommand{\arraystretch}{1.3}
+\begin{table}[H]
+\centering
+\caption{Validation du Sprint 2}
+\label{tab:validation-sprint2}
+\footnotesize
+\begin{tabular}{|p{2.8cm}|p{4.6cm}|p{1.5cm}|p{1.4cm}|p{1.8cm}|p{1.4cm}|}
+\hline
+\rowcolor{gray!20}
+\textbf{Élément / fonctionnalité} & \textbf{Objectif du test} & \textbf{Type} & \textbf{Outil} & \textbf{Résultat} & \textbf{État} \\
+\hline
+Import et mise à jour des données étudiants &
+Vérifier l'identification unique par identifiant national, sans création de doublon lors des imports successifs &
+API & pytest & Conforme & Validé \\
+\hline
+Vœux de mobilité (rattachement, unicité, rejet) &
+Vérifier le rattachement à un étudiant existant, l'unicité par rang et le rejet des vœux sans correspondance valide &
+API & pytest & Conforme & Validé \\
+\hline
+Traçabilité des actions (audit) &
+Vérifier la création d'une entrée d'audit associant l'auteur et l'horodatage à chaque import &
+API & pytest & Conforme & Validé \\
+\hline
+Journal d'audit — affichage &
+Vérifier le rendu et le filtrage des entrées d'audit côté interface &
+Frontend & Vitest & Conforme & Validé \\
+\hline
+Rapport d'import &
+Vérifier que chaque import génère un rapport détaillant le nombre de succès, d'erreurs et de doublons &
+Unitaire & pytest & Conforme & Validé \\
+\hline
+\end{tabular}
+\end{table}
+
+L'incrément du Sprint 2 est ainsi validé au regard des règles de gestion des données étudiants et de leur traçabilité.
 
 
 % ─────────────────────────────────────────────────────────────
@@ -757,9 +833,41 @@ Haute & 2 \\
 
 % L'algorithme Deferred Acceptance est implémenté en Python pur dans \texttt{outgoing/\allowbreak services/\allowbreak gale\_\allowbreak shapley.py}, encapsulé dans une tâche Django-Q2 (\texttt{outgoing/\allowbreak services/\allowbreak task\_\allowbreak runners.py}) qui persiste les résultats et déclenche automatiquement la transition FSM \texttt{complete\_\allowbreak assignment} de l'année universitaire à la fin du calcul. Les endpoints de \texttt{outgoing/\allowbreak api.py} exposent la liste des affectations, les statistiques par département, la validation et la publication (\texttt{/assignments/\allowbreak\{id\}/\allowbreak validate/}, \texttt{/assignments/\allowbreak\{id\}/\allowbreak publish/}), ainsi que la correction manuelle d'un résultat individuel (\texttt{PATCH /\allowbreak assignments/\allowbreak\{id\}/\allowbreak results/\allowbreak \{id\}/\allowbreak }), bloquée dès que l'affectation quitte l'état \texttt{proposed}.
 
-\subsection{Tests}
+\subsection{Tests et validation du sprint}
 
-% La suite \texttt{outgoing/\allowbreak tests/\allowbreak test\_\allowbreak gale\_\allowbreak shapley.py} vérifie la stabilité des affectations produites (absence de paire bloquante) et le respect des quotas par département sur des jeux de données synthétiques. La suite \texttt{outgoing/\allowbreak tests/\allowbreak test\_\allowbreak api.py}, la plus fournie du projet, couvre les transitions FSM valides et invalides, la correction manuelle avec et sans motif, et la cohérence des statistiques exposées par l'API.
+Ce sprint constitue le cœur fonctionnel du système : il produit et publie les propositions d'affectation issues des vœux et des quotas définis. La validation porte sur la fiabilité de l'algorithme et sur le respect du cycle de supervision avant publication, au moyen de tests unitaires sur l'algorithme et de tests API sur les règles de gestion.
+
+\renewcommand{\arraystretch}{1.3}
+\begin{table}[H]
+\centering
+\caption{Validation du Sprint 3}
+\label{tab:validation-sprint3}
+\footnotesize
+\begin{tabular}{|p{2.8cm}|p{4.6cm}|p{1.5cm}|p{1.4cm}|p{1.8cm}|p{1.4cm}|}
+\hline
+\rowcolor{gray!20}
+\textbf{Élément / fonctionnalité} & \textbf{Objectif du test} & \textbf{Type} & \textbf{Outil} & \textbf{Résultat} & \textbf{État} \\
+\hline
+Algorithme d'affectation (Gale-Shapley) &
+Vérifier la stabilité des affectations, le respect des quotas et le comportement sur un volume représentatif &
+Unitaire & pytest & Conforme & Validé \\
+\hline
+Cycle de vie d'une affectation (transitions) &
+Vérifier que seules les transitions autorisées entre les statuts (proposé, validé, publié) sont acceptées &
+API & pytest & Conforme & Validé \\
+\hline
+Correction manuelle des affectations &
+Vérifier qu'une modification manuelle n'est acceptée qu'avec un motif, et qu'elle est tracée dans le journal d'audit &
+API & pytest & Conforme & Validé \\
+\hline
+Statistiques et consultation étudiant &
+Vérifier la cohérence des statistiques agrégées exposées au service RI et l'accès restreint de l'étudiant à son propre résultat &
+API & pytest & Conforme & Validé \\
+\hline
+\end{tabular}
+\end{table}
+
+L'incrément du Sprint 3 est ainsi validé au regard des règles de gestion de l'affectation et de sa supervision.
 
 
 % ─────────────────────────────────────────────────────────────
@@ -1148,24 +1256,56 @@ Cette section présente la conception UML détaillée des entités métier du Sp
 
 \subsection{Implémentation}
 
-% Les US-11 à US-15 sont implémentées et mergées sur la branche de développement ; l'US-16 est en cours de finalisation (les endpoints de validation/rejet existent déjà côté API, l'interface d'administration reste à livrer). La méthode Hamilton est isolée dans un service pur (\texttt{\_hamilton()}), testable indépendamment de l'ORM, et pondérée par l'historique des cinq dernières années de vœux et d'affectations par département. Les intégrations Eudonet et Excel suivent le même pipeline en cinq étapes que Pégase et MoveON (récupération, nettoyage, persistance, déclenchement, supervision, cf. chapitre~\ref{cha:conception}). La réconciliation sans INE réutilise le statut \texttt{FAILED} du modèle \texttt{RawImport} existant plutôt que d'introduire un nouveau statut dédié, et s'appuie sur \texttt{difflib.SequenceMatcher} pour le score de similarité. Le dépôt de justificatifs (US-15) s'appuie sur MinIO avec chiffrement côté serveur (SSE-S3) et URLs présignées à durée limitée pour la consultation.
+% Les US-11 à US-15 sont implémentées et mergées sur la branche de développement. Lors du dépôt d'une mobilité complémentaire, une \texttt{SystemAlert} est automatiquement créée à destination du service RI (\texttt{complementary/api.py}). La méthode Hamilton est isolée dans un service pur (\texttt{\_hamilton()}), testable indépendamment de l'ORM, et pondérée par l'historique des cinq dernières années de vœux et d'affectations par département. Les intégrations Eudonet et Excel suivent le même pipeline en cinq étapes que Pégase et MoveON (récupération, nettoyage, persistance, déclenchement, supervision, cf. chapitre~\ref{cha:conception}). La réconciliation sans INE réutilise le statut \texttt{FAILED} du modèle \texttt{RawImport} existant plutôt que d'introduire un nouveau statut dédié, et s'appuie sur \texttt{difflib.SequenceMatcher} pour le score de similarité. Le dépôt de justificatifs (US-15) s'appuie sur MinIO avec chiffrement côté serveur (SSE-S3) et URLs présignées à durée limitée pour la consultation.
 
-\subsection{Tests}
+\subsection{Tests et validation du sprint}
 
-% Les suites \texttt{mobility/\allowbreak tests/\allowbreak test\_\allowbreak mobility\_\allowbreak services.py} (répartition Hamilton, y compris le cas sans historique), \texttt{internships/tests}, \texttt{incoming/tests} et \texttt{students/\allowbreak tests/\allowbreak test\_\allowbreak reconciliation.py} couvrent respectivement l'algorithme de répartition, les pipelines d'import Eudonet et Excel, et le scoring de réconciliation sur des cas d'homonymie. Les tests de \texttt{ComplementaryMobility} (transitions FSM, contrôle de format et de taille du justificatif) sont en cours de complétion en cohérence avec l'avancement de l'US-16.
+Ce sprint élargit le système à des sources de données complémentaires ainsi qu'à la déclaration d'expériences hors cursus. La validation porte sur la fiabilité des nouveaux imports, sur le calcul de répartition des quotas par département et sur le cycle de vie des déclarations complémentaires, au moyen de tests unitaires et de tests API.
+
+\renewcommand{\arraystretch}{1.3}
+\begin{table}[H]
+\centering
+\caption{Validation du Sprint 4}
+\label{tab:validation-sprint4}
+\footnotesize
+\begin{tabular}{|p{2.8cm}|p{4.6cm}|p{1.5cm}|p{1.4cm}|p{1.8cm}|p{1.4cm}|}
+\hline
+\rowcolor{gray!20}
+\textbf{Élément / fonctionnalité} & \textbf{Objectif du test} & \textbf{Type} & \textbf{Outil} & \textbf{Résultat} & \textbf{État} \\
+\hline
+Répartition des quotas par département (méthode Hamilton) &
+Vérifier que la somme des quotas répartis correspond au quota global, y compris en l'absence d'historique &
+Unitaire & pytest & Conforme & Validé \\
+\hline
+Nettoyage et normalisation des données importées &
+Vérifier la détection de doublons et la normalisation des données issues des différentes sources &
+Unitaire & pytest & Conforme & Validé \\
+\hline
+Import des stages internationaux et des mobilités entrantes &
+Vérifier la validation des données et la consignation des anomalies détectées &
+Unitaire & pytest & Conforme & Validé \\
+\hline
+Mobilités complémentaires (déclaration, justificatif, validation/rejet) &
+Vérifier le cycle de vie de la déclaration et le contrôle du justificatif déposé &
+API & pytest & Conforme & Validé \\
+\hline
+\end{tabular}
+\end{table}
+
+L'incrément du Sprint 4 est ainsi validé au regard des règles de gestion des sources complémentaires et des mobilités hors cursus.
 
 
 % ─────────────────────────────────────────────────────────────
 \section{Sprint 5 : Conformité CTI et authentification}
 % ─────────────────────────────────────────────────────────────
 
-Le Sprint 5 a été réalisé durant la période de stage. Les user stories US-17 (calcul des durées CTI), US-18 (consultation par l'étudiant), US-19 (export Excel VII.D3) et US-20 (tableaux de bord analytiques) ont été implémentées et déployées. La user story US-21 (authentification SSO/CAS) est reportée à une version ultérieure.
+Le Sprint 5 a été réalisé durant la période de stage. Les user stories US-17 (calcul des durées CTI), US-18 (consultation par l'étudiant), US-19 (export Excel VII.D3), US-20 (tableaux de bord analytiques) et US-21 (authentification CAS) ont été implémentées et déployées. Le flux d'authentification repose sur le protocole CAS v2 : le backend valide le ticket via un appel \texttt{serviceValidate} (réponse XML), puis émet un JWT HS256 (durée de vie : 15 minutes). Le middleware frontend (\texttt{middleware.ts}) protège les routes et déclenche un rafraîchissement proactif du token 3 minutes avant son expiration.
 
 \subsection{Objectif du sprint}
 
 Le Sprint 5 a pour objectif de fermer la boucle réglementaire de conformité CTI et d'ouvrir l'authentification institutionnelle du système : calcul consolidé de la durée de mobilité CTI à partir des séjours académiques, des stages internationaux et des mobilités complémentaires validées, avec indicateur pour l'étudiant et export pour le service RI (US-17 à US-19) ; tableaux de bord analytiques pour le pilotage opérationnel (US-20) ; et authentification SSO institutionnelle pour sécuriser l'accès aux deux espaces (US-21).
 
-\textbf{Définition of Done.} À l'issue de ce sprint, la durée CTI de chaque étudiant est calculée automatiquement et consultable par l'étudiant, un rapport CTI est exportable pour l'ensemble de la promotion, les tableaux de bord analytiques sont alimentés par les données réelles des sprints précédents, et l'authentification institutionnelle (SSO CAS/OIDC) protège l'ensemble des routes API et des pages Next.js selon le rôle de l'utilisateur.
+\textbf{Définition of Done.} À l'issue de ce sprint, la durée CTI de chaque étudiant est calculée automatiquement et consultable par l'étudiant, un rapport CTI est exportable pour l'ensemble de la promotion, les tableaux de bord analytiques sont alimentés par les données réelles des sprints précédents, et l'authentification institutionnelle (SSO CAS v2) protège l'ensemble des routes API et des pages Next.js selon le rôle de l'utilisateur.
 
 \setcounter{tasknum}{1}
 
@@ -1188,7 +1328,7 @@ Le Sprint 5 a pour objectif de fermer la boucle réglementaire de conformité CT
   } \\ \hline
 }
 
-\subsection{Sprint Backlog : Sprint 5 (planifié)}
+\subsection{Sprint Backlog : Sprint 5}
 
 \begingroup
 \footnotesize
@@ -1389,13 +1529,13 @@ Moyenne & 1 \\
 % ── US-21 ─────────────────────────────────────────────────────────────────────
 \usheaderred{US-21 : Authentification SSO}{%
   En tant qu'\textbf{utilisateur}, je veux m'authentifier via le SSO
-  institutionnel (CAS/OIDC) afin d'accéder à mon espace personnalisé
+  institutionnel (CAS v2) afin d'accéder à mon espace personnalisé
   (étudiant ou administrateur) sans créer de compte séparé.}
 
 \nexttask &
-Intégrer le client CAS/OIDC &
+Intégrer le client CAS &
 Configurer l'authentification institutionnelle côté Django (middleware
-OIDC) et exposer un flux de connexion pour le frontend Next.js. &
+JWT) et exposer un flux de connexion pour le frontend Next.js. &
 La connexion SSO aboutit et
 une session valide est
 établie. &
@@ -1444,11 +1584,46 @@ Haute & 1 \\
 \end{longtable}
 \endgroup
 
+\subsection{Tests et validation du sprint}
+
+Ce sprint introduit le calcul de conformité CTI, les tableaux de bord analytiques et l'authentification institutionnelle du système. Les artefacts disponibles permettent de confirmer la validation de l'authentification et du contrôle d'accès par rôle, au moyen de tests API dédiés à la sécurité.
+
+\renewcommand{\arraystretch}{1.3}
+\begin{table}[H]
+\centering
+\caption{Validation du Sprint 5}
+\label{tab:validation-sprint5}
+\footnotesize
+\begin{tabular}{|p{2.8cm}|p{4.6cm}|p{1.5cm}|p{1.4cm}|p{1.8cm}|p{1.4cm}|}
+\hline
+\rowcolor{gray!20}
+\textbf{Élément / fonctionnalité} & \textbf{Objectif du test} & \textbf{Type} & \textbf{Outil} & \textbf{Résultat} & \textbf{État} \\
+\hline
+Authentification (jeton absent, expiré ou falsifié) &
+Vérifier le refus d'accès pour toute requête sans jeton valide, avec un jeton expiré ou avec un jeton altéré &
+API & pytest & Conforme & Validé \\
+\hline
+Autorisation — étudiant vers ressource administrateur &
+Vérifier qu'un étudiant authentifié ne peut pas accéder à un endpoint réservé à l'administrateur &
+API & pytest & Conforme & Validé \\
+\hline
+Autorisation — étudiant vers dossier d'un autre étudiant &
+Vérifier qu'un étudiant authentifié ne peut accéder qu'à son propre dossier, et non à celui d'un autre étudiant &
+API & pytest & Conforme & Validé \\
+\hline
+Authentification par cookie et endpoints publics &
+Vérifier le comportement de l'authentification par cookie ainsi que l'accès sans restriction aux endpoints publics &
+API & pytest & Conforme & Validé \\
+\hline
+\end{tabular}
+\end{table}
+
+Les contrôles d'accès testés respectent les règles d'autorisation définies ; l'incrément du Sprint 5 est ainsi validé, sur ce périmètre, au regard des tests disponibles.
+
 % ─────────────────────────────────────────────────────────────
 \section{Sprint 6 : Fonctionnalités intelligentes (V2)}
 % ─────────────────────────────────────────────────────────────
 
-Le Sprint 6 n'a pas encore débuté à la date de rédaction de ce rapport ; le backlog ci-dessous constitue donc une planification, présentée selon le même niveau de détail que les sprints précédents, et non un compte rendu de réalisation. Contrairement aux cinq premiers sprints, il ne fait pas partie de l'engagement MVP : classé \textit{Could Have} dans le product backlog, il n'est engagé qu'une fois les sprints MVP livrés et validés, la capacité disponible le permettant.
 
 \subsection{Objectif du sprint}
 
@@ -1458,7 +1633,7 @@ Le Sprint 6 couvre les deux fonctionnalités intelligentes identifiées dès le 
 
 \setcounter{tasknum}{1}
 
-\subsection{Sprint Backlog : Sprint 6 (planifié)}
+\subsection{Sprint Backlog : Sprint 6}
 
 \begingroup
 \footnotesize

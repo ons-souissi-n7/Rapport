@@ -38,4 +38,16 @@
 \contentsline {table}{\numberline {4.7}{\ignorespaces Conditions préalables (guard conditions) des transitions FSM}}{96}{table.caption.47}%
 \contentsline {table}{\numberline {4.8}{\ignorespaces FSM des entités métier}}{96}{table.caption.48}%
 \addvspace {10\p@ }
+\contentsline {table}{\numberline {5.2}{\ignorespaces Validation du Sprint 1}}{103}{table.caption.51}%
+\contentsline {table}{\numberline {5.4}{\ignorespaces Validation du Sprint 2}}{106}{table.caption.52}%
+\contentsline {table}{\numberline {5.6}{\ignorespaces Validation du Sprint 3}}{110}{table.caption.53}%
+\contentsline {table}{\numberline {5.8}{\ignorespaces Validation du Sprint 4}}{116}{table.caption.54}%
+\contentsline {table}{\numberline {5.10}{\ignorespaces Validation du Sprint 5}}{120}{table.caption.55}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {6.1}{\ignorespaces Synthèse des tests disponibles par couche}}{125}{table.caption.57}%
+\contentsline {table}{\numberline {6.2}{\ignorespaces Couverture End-to-End du parcours métier}}{126}{table.caption.58}%
+\contentsline {table}{\numberline {6.3}{\ignorespaces Couverture de test des machines à états}}{127}{table.caption.59}%
+\contentsline {table}{\numberline {6.4}{\ignorespaces Validation des imports, exports et intégrations externes}}{127}{table.caption.60}%
+\contentsline {table}{\numberline {6.5}{\ignorespaces Couverture des besoins non fonctionnels (BNF01--BNF08)}}{129}{table.6.5}%
+\contentsline {table}{\numberline {6.6}{\ignorespaces Matrice de couverture fonctionnelle}}{132}{table.6.6}%
 \contentsfinish 

@@ -223,7 +223,7 @@ et rendu côté client selon les besoins de chaque page ~\cite{nextjs_dev}.
   \item App Router et React Server Components : chaque composant est rendu
         côté serveur par défaut, avec des layouts partagés par espace
         (RI, étudiant) qui structurent naturellement la séparation des interfaces
-  \item TypeScript, Tailwind CSS et intégration SSO CAS/OIDC bien documentés
+  \item TypeScript, Tailwind CSS et intégration SSO CAS bien documentés
 \end{itemize}
 
 \textit{Limites :}
@@ -255,7 +255,7 @@ Données sensibles côté serveur & Bloquant & \xmark & \xmark & \cmark \\
 \hline
 TypeScript natif & Secondaire & Optionnel & \cmark & \cmark \\
 \hline
-Intégration SSO CAS/OIDC & Bloquant & \cmark & Peu d'exemples avec le SSO CAS de Toulouse INP & \cmark \\
+Intégration SSO CAS & Bloquant & \cmark & Peu d'exemples avec le SSO CAS de Toulouse INP & \cmark \\
 \hline
 Rendu hybride SSR + CSR & Bloquant & \xmark & \xmark & \cmark \\
 \hline
@@ -281,7 +281,7 @@ alternatives disponibles, puis justifie le choix retenu.
 
 Le backend de ce projet ne se limite pas à une simple gestion de données. Il doit orchestrer de nombreuses entités métier liées entre elles et gérer des processus parfois complexes, comme le suivi des candidatures, des affectations ou des mobilités étudiantes.
 
-L'application doit également assurer plusieurs fonctions essentielles : gérer les droits d'accès selon les profils (étudiants et administrateurs RI), conserver une trace des actions importantes via un journal d'audit, accompagner l'évolution de la base de données pendant le développement, et s'intégrer au système d'authentification institutionnel CAS/OIDC de Toulouse INP.
+L'application doit également assurer plusieurs fonctions essentielles : gérer les droits d'accès selon les profils (étudiants et administrateurs RI), conserver une trace des actions importantes via un journal d'audit, accompagner l'évolution de la base de données pendant le développement, et s'intégrer au système d'authentification institutionnel CAS de Toulouse INP.
 
 Dans ce contexte, le choix du framework ne repose pas uniquement sur les performances, mais aussi sur la qualité des outils qu'il apporte pour structurer, sécuriser et faire évoluer l'application.
 
@@ -361,7 +361,7 @@ de logique interne ~\cite{django_dev}.
   \item La gestion des évolutions de schéma
         est intégrée nativement, ce qui
         facilite les changements à chaque sprint
-  \item S'intègre facilement avec le SSO CAS/OIDC
+  \item S'intègre facilement avec le SSO CAS
         via des bibliothèques existantes et maintenues
 \end{itemize}
 
@@ -812,9 +812,7 @@ le lancement de l'algorithme d'affectation, le recalcul des durées
 après modification d'un état, et le traitement des imports qui peuvent
 durer plusieurs secondes.
 
-La seconde catégorie regroupe les tâches planifiées : les synchronisations
-nocturnes avec MoveON, Pégase et Eudonet, ainsi que la suppression
-automatique des imports bruts anciens.
+La seconde catégorie regroupe les tâches planifiées : la synchronisation quotidienne des institutions partenaires (MoveON), ainsi que la suppression automatique des imports bruts anciens. Les synchronisations des données métier (accords, vœux, étudiants, stages) sont déclenchées à la demande depuis l'interface d'administration.
 
 Le volume reste modéré : quelques dizaines de tâches par jour en
 fonctionnement normal, quelques centaines lors des périodes de traitement,

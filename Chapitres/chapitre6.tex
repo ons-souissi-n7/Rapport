@@ -1,0 +1,339 @@
+% !TEX root = ../main.tex
+% ══════════════════════════════════════════════════════════════
+\chapter{Tests et validation du système}
+\label{cha:tests-validation}
+% ══════════════════════════════════════════════════════════════
+\begingroup
+\let\clearpage\relax
+\startcontents[chapters]
+\printcontents[chapters]{}{1}{\section*{Plan}}
+\endgroup
+\newpage
+
+\section*{Introduction}
+\justifying
+\phantomsection
+\addcontentsline{toc}{section}{Introduction}
+
+Le chapitre précédent a présenté, pour chaque sprint, la validation de l'incrément fonctionnel livré. Ce chapitre regroupe la validation transversale du système intégré : elle ne porte pas sur un sprint en particulier mais sur le système dans son ensemble — parcours complets, machines à états, imports/exports, sécurité, performance, intégration continue — ainsi que sur la couverture des huit besoins non fonctionnels définis au chapitre~\ref{cha:besoins-technologies}.
+
+Les résultats présentés ici proviennent des artefacts de test réellement disponibles pour le projet (suites de tests, rapports de couverture, résultats d'exécution). Une fonctionnalité implémentée n'est présentée comme validée que si un test correspondant est effectivement documenté ; dans le cas contraire, l'état est indiqué comme non disponible plutôt que supposé.
+
+% ─────────────────────────────────────────────────────────────
+\section{Stratégie de validation}
+% ─────────────────────────────────────────────────────────────
+
+La validation du système repose sur deux niveaux complémentaires. Le premier, présenté au chapitre~\ref{cha:realisation}, valide chaque incrément à la fin de son sprint au moyen de tests unitaires et de tests API ciblés sur les règles de gestion nouvellement introduites. Le second, objet de ce chapitre, valide le système intégré : parcours utilisateur complets, comportement combiné de plusieurs modules, résistance aux accès non autorisés et fiabilité du pipeline de mise en production.
+
+% ─────────────────────────────────────────────────────────────
+\section{Synthèse des tests réalisés}
+% ─────────────────────────────────────────────────────────────
+
+Le tableau~\ref{tab:synthese-tests} récapitule, par couche, l'outillage utilisé et le volume de tests disponible.
+
+\renewcommand{\arraystretch}{1.3}
+\begin{table}[H]
+\centering
+\caption{Synthèse des tests disponibles par couche}
+\label{tab:synthese-tests}
+\footnotesize
+\begin{tabular}{|p{3.2cm}|p{3.6cm}|p{2.6cm}|p{3.6cm}|}
+\hline
+\rowcolor{gray!20}
+\textbf{Couche} & \textbf{Outil} & \textbf{Nombre} & \textbf{Constat} \\
+\hline
+Backend (unitaire, API) & pytest, pytest-django, pytest-cov & 856 tests & Couverture mesurée : 84,71\,\% (seuil CI 80\,\% respecté) \\
+\hline
+Frontend (unitaire) & Vitest, Testing Library & 131 tests & Couverture mesurée : 12,84\,\% (statements), inégale selon les composants \\
+\hline
+Bout en bout (E2E) & Playwright & 113 tests & 4 spécifications, contre la vraie stack applicative \\
+\hline
+Sécurité applicative & pytest (suite dédiée) & 42 tests & Ciblés sur l'authentification et le contrôle d'accès \\
+\hline
+Performance / charge & k6 & 2 scripts & Implémentés, résultat non disponible dans les artefacts fournis \\
+\hline
+\end{tabular}
+\end{table}
+
+% ─────────────────────────────────────────────────────────────
+\section{Validation End-to-End}
+\label{sec:e2e-global}
+% ─────────────────────────────────────────────────────────────
+
+La suite E2E s'exécute avec Playwright contre la vraie stack applicative (Next.js, Django, mock CAS), sans mock réseau, sur deux profils (administrateur et étudiant). L'authentification est réalisée une fois via un script d'amorçage qui persiste une session par rôle, réutilisée par l'ensemble des scénarios.
+
+Le tableau~\ref{tab:e2e-parcours} confronte le parcours métier global du système aux preuves de test disponibles.
+
+\renewcommand{\arraystretch}{1.35}
+\begin{table}[H]
+\centering
+\caption{Couverture End-to-End du parcours métier}
+\label{tab:e2e-parcours}
+\footnotesize
+\begin{tabular}{|p{3.4cm}|p{4.4cm}|p{2cm}|p{1cm}|}
+\hline
+\rowcolor{gray!20}
+\textbf{Étape} & \textbf{Test existant} & \textbf{Outil} & \textbf{État} \\
+\hline
+Authentification (admin et étudiant) & Script d'amorçage global (login CAS réel) & Playwright & \cmark \\
+\hline
+Contrôle d'accès par rôle & Vérification qu'un étudiant ne peut pas utiliser l'espace administrateur & Playwright & $\sim$ \\
+\hline
+Cycle de vie complet de l'année universitaire (9 états) & Scénario sérialisé parcourant l'intégralité des transitions & Playwright & \cmark \\
+\hline
+Lancement de l'affectation (alerte si vœux vides) & Scénario dédié aux alertes système & Playwright & \cmark \\
+\hline
+Déclaration d'une mobilité complémentaire (étudiant) & Scénario du parcours étudiant, validations de champs incluses & Playwright & \cmark \\
+\hline
+Validation/rejet d'une mobilité complémentaire (administrateur) & Non trouvé dans les artefacts fournis & --- & --- \\
+\hline
+Import Excel (dépôt réel d'un fichier) & Non trouvé ; seule la présence de la page est testée & --- & --- \\
+\hline
+Export CTI (téléchargement réel) & Non trouvé ; seule la présence du bouton est testée & --- & --- \\
+\hline
+Dashboard analytics (chargement) & Scénario du parcours administrateur & Playwright & $\sim$ \\
+\hline
+Mobilités entrantes / stages internationaux & Testé uniquement via la navigation générique du menu & Playwright & $\sim$ \\
+\hline
+\end{tabular}
+\end{table}
+
+Le dernier run capturé pour le profil administrateur ne signale qu'un incident lié à un sélecteur de test ambigu sur le scénario du cycle de vie de l'année universitaire — un défaut du test, non un défaut applicatif — sans autre échec relevé sur le reste des scénarios exécutés. L'historique des rapports Playwright confirme que l'ensemble des spécifications, y compris le parcours étudiant, ont été exécutées à d'autres occasions. La suite E2E n'est pas intégrée au pipeline CI : elle s'exécute manuellement ou via un harnais Docker dédié.
+
+% ─────────────────────────────────────────────────────────────
+\section{Validation des machines à états}
+% ─────────────────────────────────────────────────────────────
+
+Le système repose sur trois machines à états protégées (\texttt{protected=True}), détaillées au chapitre~\ref{cha:algo-fsm}. Le tableau~\ref{tab:validation-fsm} synthétise leur couverture de test.
+
+\renewcommand{\arraystretch}{1.35}
+\begin{table}[H]
+\centering
+\caption{Couverture de test des machines à états}
+\label{tab:validation-fsm}
+\footnotesize
+\begin{tabular}{|p{2.6cm}|p{2.6cm}|p{4.8cm}|p{2cm}|}
+\hline
+\rowcolor{gray!20}
+\textbf{FSM} & \textbf{Transitions testées} & \textbf{Constat} & \textbf{Outil} \\
+\hline
+\texttt{AcademicYear} (9 états) & Cycle complet, valides et invalides & Testée unitairement et couverte par un scénario E2E sérialisé & pytest, Playwright \\
+\hline
+\texttt{Assignment} (proposé / validé / publié) & \texttt{validate}, \texttt{publish} & Testée en API ; la transition \texttt{cancel} n'est exposée par aucun endpoint ni interface admin et n'est donc pas exercée & pytest \\
+\hline
+\texttt{ComplementaryMobility} (en attente / validée / rejetée) & Déclaration étudiant ; validation/rejet admin & Déclaration testée en API et en E2E ; validation/rejet admin testée en API uniquement & pytest, Playwright \\
+\hline
+\end{tabular}
+\end{table}
+
+% ─────────────────────────────────────────────────────────────
+\section{Imports, exports et intégrations}
+% ─────────────────────────────────────────────────────────────
+
+Le tableau~\ref{tab:imports-exports} présente les validations disponibles pour les différentes sources de données du système.
+
+\renewcommand{\arraystretch}{1.35}
+\begin{table}[H]
+\centering
+\caption{Validation des imports, exports et intégrations externes}
+\label{tab:imports-exports}
+\footnotesize
+\begin{tabular}{|p{3.4cm}|p{5.6cm}|p{1.6cm}|p{1.4cm}|}
+\hline
+\rowcolor{gray!20}
+\textbf{Fonction} & \textbf{Constat} & \textbf{Type} & \textbf{Outil} \\
+\hline
+Synchronisation MoveOn / Pégase & Testée avec doublure des clients HTTP externes & Unitaire & pytest \\
+\hline
+Import Excel (étudiants, mobilités entrantes) & Testée : validation stricte, détection de doublons & Unitaire & pytest \\
+\hline
+Export CTI (VII.D3) et export analytics & Non détaillé dans les artefacts fournis pour le contenu généré ; téléchargement réel non couvert en E2E (tableau~\ref{tab:e2e-parcours}) & --- & --- \\
+\hline
+\end{tabular}
+\end{table}
+
+% ─────────────────────────────────────────────────────────────
+\section{Alertes et tâches programmées}
+% ─────────────────────────────────────────────────────────────
+
+Le déclenchement d'une alerte système lors d'un lancement d'affectation sans vœu disponible est couvert par un scénario E2E dédié (tableau~\ref{tab:e2e-parcours}). Le calcul d'affectation, exécuté en tâche asynchrone, est validé indirectement au travers des tests de l'algorithme et de l'API présentés au chapitre~\ref{cha:realisation} (Sprint 3). Les autres tâches planifiées identifiées dans le système ne disposent pas d'une preuve de test dédiée dans les artefacts fournis.
+
+% ─────────────────────────────────────────────────────────────
+\section{Statistiques et tableaux de bord}
+% ─────────────────────────────────────────────────────────────
+
+Le chargement du tableau de bord analytique est couvert par un scénario du parcours administrateur (tableau~\ref{tab:e2e-parcours}, état $\sim$). Les filtres et l'export du tableau de bord ne sont pas couverts par ce scénario. Aucune preuve de test unitaire dédiée au calcul des indicateurs n'est disponible dans les artefacts fournis.
+
+% ─────────────────────────────────────────────────────────────
+\section{Sécurité}
+% ─────────────────────────────────────────────────────────────
+
+La sécurité applicative dispose d'une suite de tests dédiée (42 tests, pytest) couvrant : accès non authentifié, jeton expiré, jeton altéré, étudiant sur un endpoint administrateur, étudiant sur les données d'un autre étudiant, accès administrateur, authentification par cookie, endpoints publics.
+
+Aucun test d'injection SQL, XSS ou CSRF n'est disponible dans les artefacts fournis. Le pipeline CI/CD intègre un scan de vulnérabilités (Trivy) bloquant sur les sévérités critiques et élevées, exécuté sur les images Docker construites.
+
+% ─────────────────────────────────────────────────────────────
+\section{Performance et charge}
+% ─────────────────────────────────────────────────────────────
+
+Un script de charge cible explicitement le besoin BNF04 (temps de réponse au 95\textsuperscript{e} percentile sous une charge d'utilisateurs simultanés, sur les endpoints les plus sollicités, avec authentification générée automatiquement). Un second script vérifie la santé de base de l'API. Ces deux scripts sont implémentés et exécutables via k6, mais aucun résultat (temps de réponse, taux d'erreur, débit) n'est disponible dans les artefacts fournis.
+
+Une suite de tests complémentaire mesure des temps de réponse en process via le client de test Django ; elle est explicitement documentée comme complémentaire au script de charge, non comme un substitut à une mesure sous charge concurrente réelle.
+
+% ─────────────────────────────────────────────────────────────
+\section{Intégration continue et Docker}
+% ─────────────────────────────────────────────────────────────
+
+Le pipeline d'intégration continue enchaîne : analyse statique (lint), tests backend contre une base PostgreSQL réelle avec seuil de couverture bloquant, tests frontend, puis construction des images Docker suivie d'un scan de vulnérabilités bloquant. Ce pipeline est actif et s'applique à chaque changement.
+
+La suite E2E, bien que disponible et substantielle, n'est pas intégrée à ce pipeline (section~\ref{sec:e2e-global}). Le déploiement en environnement de préproduction s'exécute via une connexion SSH réelle (récupération du code, reconstruction des conteneurs, migrations).
+
+% ─────────────────────────────────────────────────────────────
+\section{Couverture des besoins non fonctionnels}
+% ─────────────────────────────────────────────────────────────
+
+Le tableau~\ref{tab:couverture-bnf} présente, pour chacun des huit besoins non fonctionnels définis au chapitre~\ref{cha:besoins-technologies}, la validation disponible, l'outil utilisé, le résultat obtenu et l'état correspondant.
+
+\begin{landscape}
+\renewcommand{\arraystretch}{1.4}
+\begin{longtable}{|p{2cm}|p{3.6cm}|p{2.4cm}|p{4.4cm}|p{2.4cm}|}
+\caption{Couverture des besoins non fonctionnels (BNF01--BNF08)}
+\label{tab:couverture-bnf} \\
+\hline
+\rowcolor{gray!20}
+\textbf{Besoin} & \textbf{Validation réalisée} & \textbf{Outil} & \textbf{Résultat} & \textbf{État} \\
+\hline
+\endfirsthead
+\hline
+\rowcolor{gray!20}
+\textbf{Besoin} & \textbf{Validation réalisée} & \textbf{Outil} & \textbf{Résultat} & \textbf{État} \\
+\hline
+\endhead
+\hline
+\endfoot
+
+BNF01 -- Interopérabilité &
+Tests des adaptateurs de synchronisation par source, avec doublure des API externes &
+pytest &
+Adaptateurs testés ; le fallback Excel est un choix manuel de l'administrateur, pas un basculement automatique &
+Validé (avec nuance) \\
+\hline
+
+BNF02 -- Intégrité des données &
+Tests des pipelines d'import (validation, doublons, rapport tracé) &
+pytest &
+Validation stricte, détection de doublons et traçabilité effectivement testées &
+Validé \\
+\hline
+
+BNF03 -- Sécurité et RGPD &
+Suite dédiée sécurité / contrôle d'accès (42 tests) &
+pytest &
+Ensemble des scénarios d'accès testés &
+Validé \\
+\hline
+
+BNF04 -- Performance &
+Script de charge ciblé + suite de mesure en process &
+k6, pytest &
+Script implémenté et correctement paramétré ; résultat non disponible dans les artefacts fournis &
+Non mesuré \\
+\hline
+
+BNF05 -- Disponibilité &
+--- &
+--- &
+Aucune preuve de validation disponible dans les artefacts fournis &
+Non testé \\
+\hline
+
+BNF06 -- Scalabilité &
+--- &
+--- &
+Aucun test dédié disponible dans les artefacts fournis &
+Non testé \\
+\hline
+
+BNF07 -- Ergonomie &
+Tests de navigation E2E et tests de composants frontend &
+Playwright, Vitest &
+Contrôle d'accès par rôle testé en E2E &
+Partiellement validé \\
+\hline
+
+BNF08 -- Traçabilité &
+Tests de l'API d'audit et des composants associés &
+pytest, Vitest &
+Auteur et horodatage vérifiés pour les événements testés &
+Validé \\
+\hline
+
+\end{longtable}
+\end{landscape}
+
+% ─────────────────────────────────────────────────────────────
+\section{Matrice de couverture fonctionnelle}
+% ─────────────────────────────────────────────────────────────
+
+Le tableau~\ref{tab:matrice-couverture} relie les principales fonctionnalités du système à leur niveau de validation disponible.
+
+\begin{landscape}
+\renewcommand{\arraystretch}{1.3}
+\begin{longtable}{|p{4cm}|>{\centering\arraybackslash}p{1.6cm}|>{\centering\arraybackslash}p{1.6cm}|>{\centering\arraybackslash}p{1.6cm}|>{\centering\arraybackslash}p{1.6cm}|p{4.6cm}|}
+\caption{Matrice de couverture fonctionnelle}
+\label{tab:matrice-couverture} \\
+\hline
+\rowcolor{gray!20}
+\textbf{Fonctionnalité} & \textbf{Unitaire} & \textbf{API} & \textbf{Frontend} & \textbf{E2E} & \textbf{Observation} \\
+\hline
+\endfirsthead
+\hline
+\rowcolor{gray!20}
+\textbf{Fonctionnalité} & \textbf{Unitaire} & \textbf{API} & \textbf{Frontend} & \textbf{E2E} & \textbf{Observation} \\
+\hline
+\endhead
+\hline
+\endfoot
+
+Authentification CAS + JWT & --- & \cmark & --- & \cmark & Session persistée une fois par rôle (script d'amorçage) \\
+\hline
+RBAC admin / étudiant & --- & \cmark & --- & $\sim$ & Contrôle réel côté API, absence de garde de route dédiée côté frontend \\
+\hline
+Cycle de vie AcademicYear (FSM) & \cmark & --- & --- & \cmark & Cycle complet couvert en E2E \\
+\hline
+Référentiels de base & --- & \cmark & --- & --- & Suite API dédiée \\
+\hline
+Accords \& quotas (Hamilton) & \cmark & --- & --- & --- & Testé au niveau service \\
+\hline
+Import étudiants (Pégase / Excel) & --- & \cmark & --- & --- & Upload réel non couvert en E2E \\
+\hline
+Vœux et affectation (Gale-Shapley) & \cmark & \cmark & --- & \cmark & Algorithme et API testés, cycle couvert en E2E \\
+\hline
+Validation / publication de l'affectation & --- & \cmark & --- & \cmark & Couplée au cycle FSM académique \\
+\hline
+Mobilités entrantes & --- & --- & --- & $\sim$ & Testé via navigation générique uniquement \\
+\hline
+Stages internationaux & --- & --- & --- & $\sim$ & Testé via navigation générique uniquement \\
+\hline
+Mobilités complémentaires (déclaration) & --- & \cmark & --- & \cmark & Bien couverte \\
+\hline
+Mobilités complémentaires (validation admin) & --- & \cmark & --- & --- & Non couverte en E2E \\
+\hline
+Export CTI (VII.D3) & --- & --- & --- & --- & Aucune preuve de test disponible \\
+\hline
+Dashboard analytics & --- & --- & --- & $\sim$ & Chargement testé, filtres et export non couverts \\
+\hline
+Journal d'audit & --- & \cmark & \cmark & --- & Couvert côté API et composants \\
+\hline
+Alertes système & --- & --- & --- & \cmark & Scénario dédié au déclenchement \\
+\hline
+
+\end{longtable}
+\end{landscape}
+
+\section*{Conclusion}
+\justifying
+\phantomsection
+\addcontentsline{toc}{section}{Conclusion}
+
+La validation transversale du système montre une couverture solide sur son cœur fonctionnel : le cycle de vie complet de l'année universitaire, l'algorithme d'affectation et le contrôle d'accès par rôle sont vérifiés à la fois au niveau unitaire, API et bout en bout. La couverture est plus partielle sur les flux d'upload et de téléchargement réels, sur la validation administrateur des mobilités complémentaires, et sur les besoins non fonctionnels de performance, de disponibilité et de scalabilité, pour lesquels les artefacts actuellement disponibles ne permettent pas d'affirmer un résultat mesuré. Ces constats reflètent l'état des validations disponibles à ce jour, appelées à être complétées au fur et à mesure de l'avancement du projet.

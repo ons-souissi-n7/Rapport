@@ -64,7 +64,7 @@
 \contentsline {subsubsection}{\numberline {2.3.3.1}Besoins spécifiques}{33}{subsubsection.2.3.3.1}%
 \contentsline {subsubsection}{\numberline {2.3.3.2}Alternatives évaluées}{33}{subsubsection.2.3.3.2}%
 \contentsline {paragraph}{\numberline {2.3.3.2.1}Django REST Framework (DRF)}{33}{paragraph.2.3.3.2.1}%
-\contentsline {paragraph}{\numberline {2.3.3.2.2}Django Ninja}{34}{paragraph.2.3.3.2.2}%
+\contentsline {paragraph}{\numberline {2.3.3.2.2}Django Ninja}{33}{paragraph.2.3.3.2.2}%
 \contentsline {subsubsection}{\numberline {2.3.3.3}Synthèse comparative}{34}{subsubsection.2.3.3.3}%
 \contentsline {subsubsection}{\numberline {2.3.3.4}Décision}{34}{subsubsection.2.3.3.4}%
 \contentsline {section}{\numberline {2.4}Choix de la base de données}{35}{section.2.4}%
@@ -73,7 +73,7 @@
 \contentsline {subsubsection}{\numberline {2.4.2.1}MySQL}{35}{subsubsection.2.4.2.1}%
 \contentsline {subsubsection}{\numberline {2.4.2.2}MongoDB}{36}{subsubsection.2.4.2.2}%
 \contentsline {subsubsection}{\numberline {2.4.2.3}PostgreSQL 16}{36}{subsubsection.2.4.2.3}%
-\contentsline {subsection}{\numberline {2.4.3}Synthèse comparative}{37}{subsection.2.4.3}%
+\contentsline {subsection}{\numberline {2.4.3}Synthèse comparative}{36}{subsection.2.4.3}%
 \contentsline {subsection}{\numberline {2.4.4}Décision}{37}{subsection.2.4.4}%
 \contentsline {section}{\numberline {2.5}Choix du format de stockage des imports bruts}{37}{section.2.5}%
 \contentsline {subsection}{\numberline {2.5.1}Besoins spécifiques}{37}{subsection.2.5.1}%
@@ -145,7 +145,7 @@
 \contentsline {subsubsection}{\numberline {3.4.6.2}Clé de jointure : l'INE}{66}{subsubsection.3.4.6.2}%
 \contentsline {subsubsection}{\numberline {3.4.6.3}Stratégie de synchronisation}{67}{subsubsection.3.4.6.3}%
 \contentsline {subsection}{\numberline {3.4.7}Sécurité et contrôle d'accès}{67}{subsection.3.4.7}%
-\contentsline {subsubsection}{\numberline {3.4.7.1}Flux d'authentification OIDC}{67}{subsubsection.3.4.7.1}%
+\contentsline {subsubsection}{\numberline {3.4.7.1}Flux d'authentification CAS}{67}{subsubsection.3.4.7.1}%
 \contentsline {subsubsection}{\numberline {3.4.7.2}Contrôle d'accès (RBAC)}{68}{subsubsection.3.4.7.2}%
 \contentsline {subsubsection}{\numberline {3.4.7.3}Gestion du renouvellement des tokens JWT}{68}{subsubsection.3.4.7.3}%
 \contentsline {subsubsection}{\numberline {3.4.7.4}Journal d'audit}{68}{subsubsection.3.4.7.4}%
@@ -158,7 +158,7 @@
 \contentsline {subsection}{\numberline {3.5.5}CI/CD}{72}{subsection.3.5.5}%
 \contentsline {subsection}{\numberline {3.5.6}Stratégie de migration de schéma}{72}{subsection.3.5.6}%
 \contentsline {subsection}{\numberline {3.5.7}Stratégie de rollback}{72}{subsection.3.5.7}%
-\contentsline {subsection}{\numberline {3.5.8}Politique de sauvegarde}{72}{subsection.3.5.8}%
+\contentsline {subsection}{\numberline {3.5.8}Politique de sauvegarde}{73}{subsection.3.5.8}%
 \contentsline {subsection}{\numberline {3.5.9}Gestion des secrets}{73}{subsection.3.5.9}%
 \contentsline {section}{\numberline {3.6}Modèle de données}{73}{section.3.6}%
 \contentsline {subsection}{\numberline {3.6.1}Organisation par packages}{73}{subsection.3.6.1}%
@@ -230,33 +230,49 @@
 \contentsline {subsection}{\numberline {5.1.3}Conception détaillée}{102}{subsection.5.1.3}%
 \contentsline {subsubsection}{\numberline {5.1.3.1}Diagramme de classes}{102}{subsubsection.5.1.3.1}%
 \contentsline {subsection}{\numberline {5.1.4}Implémentation}{102}{subsection.5.1.4}%
-\contentsline {subsection}{\numberline {5.1.5}Tests}{102}{subsection.5.1.5}%
-\contentsline {section}{\numberline {5.2}Sprint 2 : Données et traçabilité}{102}{section.5.2}%
-\contentsline {subsection}{\numberline {5.2.1}Objectif du sprint}{102}{subsection.5.2.1}%
-\contentsline {subsection}{\numberline {5.2.2}Sprint Backlog : Sprint 2}{103}{subsection.5.2.2}%
-\contentsline {subsection}{\numberline {5.2.3}Conception détaillée}{105}{subsection.5.2.3}%
-\contentsline {subsection}{\numberline {5.2.4}Implémentation}{105}{subsection.5.2.4}%
-\contentsline {subsection}{\numberline {5.2.5}Tests}{105}{subsection.5.2.5}%
-\contentsline {section}{\numberline {5.3}Sprint 3 : Algorithme d'affectation}{105}{section.5.3}%
-\contentsline {subsection}{\numberline {5.3.1}Objectif du sprint}{105}{subsection.5.3.1}%
-\contentsline {subsection}{\numberline {5.3.2}Sprint Backlog : Sprint 3}{105}{subsection.5.3.2}%
-\contentsline {subsection}{\numberline {5.3.3}Conception détaillée}{108}{subsection.5.3.3}%
-\contentsline {subsubsection}{\numberline {5.3.3.1}Diagramme de classes}{108}{subsubsection.5.3.3.1}%
-\contentsline {subsection}{\numberline {5.3.4}Implémentation}{108}{subsection.5.3.4}%
-\contentsline {subsection}{\numberline {5.3.5}Tests}{108}{subsection.5.3.5}%
-\contentsline {section}{\numberline {5.4}Sprint 4 : Sources complémentaires et mobilités}{108}{section.5.4}%
-\contentsline {subsection}{\numberline {5.4.1}Objectif du sprint}{108}{subsection.5.4.1}%
-\contentsline {subsection}{\numberline {5.4.2}Sprint Backlog : Sprint 4}{109}{subsection.5.4.2}%
-\contentsline {subsection}{\numberline {5.4.3}Conception détaillée}{113}{subsection.5.4.3}%
-\contentsline {subsubsection}{\numberline {5.4.3.1}Diagramme de classes}{113}{subsubsection.5.4.3.1}%
-\contentsline {subsection}{\numberline {5.4.4}Implémentation}{113}{subsection.5.4.4}%
-\contentsline {subsection}{\numberline {5.4.5}Tests}{113}{subsection.5.4.5}%
-\contentsline {section}{\numberline {5.5}Sprint 5 : Conformité CTI et authentification}{113}{section.5.5}%
-\contentsline {subsection}{\numberline {5.5.1}Objectif du sprint}{113}{subsection.5.5.1}%
-\contentsline {subsection}{\numberline {5.5.2}Sprint Backlog : Sprint 5 (planifié)}{114}{subsection.5.5.2}%
-\contentsline {section}{\numberline {5.6}Sprint 6 : Fonctionnalités intelligentes (V2)}{116}{section.5.6}%
-\contentsline {subsection}{\numberline {5.6.1}Objectif du sprint}{117}{subsection.5.6.1}%
-\contentsline {subsection}{\numberline {5.6.2}Sprint Backlog : Sprint 6 (planifié)}{117}{subsection.5.6.2}%
-\contentsline {chapter}{Conclusion générale}{119}{chapter*.51}%
-\contentsline {chapter}{Bibliographie}{120}{chapter*.52}%
+\contentsline {subsection}{\numberline {5.1.5}Tests et validation du sprint}{102}{subsection.5.1.5}%
+\contentsline {section}{\numberline {5.2}Sprint 2 : Données et traçabilité}{103}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Objectif du sprint}{103}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Sprint Backlog : Sprint 2}{104}{subsection.5.2.2}%
+\contentsline {subsection}{\numberline {5.2.3}Conception détaillée}{106}{subsection.5.2.3}%
+\contentsline {subsection}{\numberline {5.2.4}Implémentation}{106}{subsection.5.2.4}%
+\contentsline {subsection}{\numberline {5.2.5}Tests et validation du sprint}{106}{subsection.5.2.5}%
+\contentsline {section}{\numberline {5.3}Sprint 3 : Algorithme d'affectation}{107}{section.5.3}%
+\contentsline {subsection}{\numberline {5.3.1}Objectif du sprint}{107}{subsection.5.3.1}%
+\contentsline {subsection}{\numberline {5.3.2}Sprint Backlog : Sprint 3}{107}{subsection.5.3.2}%
+\contentsline {subsection}{\numberline {5.3.3}Conception détaillée}{109}{subsection.5.3.3}%
+\contentsline {subsubsection}{\numberline {5.3.3.1}Diagramme de classes}{109}{subsubsection.5.3.3.1}%
+\contentsline {subsection}{\numberline {5.3.4}Implémentation}{109}{subsection.5.3.4}%
+\contentsline {subsection}{\numberline {5.3.5}Tests et validation du sprint}{109}{subsection.5.3.5}%
+\contentsline {section}{\numberline {5.4}Sprint 4 : Sources complémentaires et mobilités}{110}{section.5.4}%
+\contentsline {subsection}{\numberline {5.4.1}Objectif du sprint}{110}{subsection.5.4.1}%
+\contentsline {subsection}{\numberline {5.4.2}Sprint Backlog : Sprint 4}{111}{subsection.5.4.2}%
+\contentsline {subsection}{\numberline {5.4.3}Conception détaillée}{115}{subsection.5.4.3}%
+\contentsline {subsubsection}{\numberline {5.4.3.1}Diagramme de classes}{115}{subsubsection.5.4.3.1}%
+\contentsline {subsection}{\numberline {5.4.4}Implémentation}{115}{subsection.5.4.4}%
+\contentsline {subsection}{\numberline {5.4.5}Tests et validation du sprint}{115}{subsection.5.4.5}%
+\contentsline {section}{\numberline {5.5}Sprint 5 : Conformité CTI et authentification}{116}{section.5.5}%
+\contentsline {subsection}{\numberline {5.5.1}Objectif du sprint}{116}{subsection.5.5.1}%
+\contentsline {subsection}{\numberline {5.5.2}Sprint Backlog : Sprint 5}{117}{subsection.5.5.2}%
+\contentsline {subsection}{\numberline {5.5.3}Tests et validation du sprint}{119}{subsection.5.5.3}%
+\contentsline {section}{\numberline {5.6}Sprint 6 : Fonctionnalités intelligentes (V2)}{120}{section.5.6}%
+\contentsline {subsection}{\numberline {5.6.1}Objectif du sprint}{120}{subsection.5.6.1}%
+\contentsline {subsection}{\numberline {5.6.2}Sprint Backlog : Sprint 6}{120}{subsection.5.6.2}%
+\contentsline {chapter}{\numberline {6}Tests et validation du système}{123}{chapter.6}%
+\contentsline {section}{Introduction}{124}{section*.56}%
+\contentsline {section}{\numberline {6.1}Stratégie de validation}{124}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Synthèse des tests réalisés}{124}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Validation End-to-End}{125}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Validation des machines à états}{126}{section.6.4}%
+\contentsline {section}{\numberline {6.5}Imports, exports et intégrations}{127}{section.6.5}%
+\contentsline {section}{\numberline {6.6}Alertes et tâches programmées}{127}{section.6.6}%
+\contentsline {section}{\numberline {6.7}Statistiques et tableaux de bord}{127}{section.6.7}%
+\contentsline {section}{\numberline {6.8}Sécurité}{128}{section.6.8}%
+\contentsline {section}{\numberline {6.9}Performance et charge}{128}{section.6.9}%
+\contentsline {section}{\numberline {6.10}Intégration continue et Docker}{128}{section.6.10}%
+\contentsline {section}{\numberline {6.11}Couverture des besoins non fonctionnels}{128}{section.6.11}%
+\contentsline {section}{\numberline {6.12}Matrice de couverture fonctionnelle}{131}{section.6.12}%
+\contentsline {section}{Conclusion}{134}{section*.61}%
+\contentsline {chapter}{Conclusion générale}{135}{chapter*.62}%
+\contentsline {chapter}{Bibliographie}{136}{chapter*.63}%
 \contentsfinish 
