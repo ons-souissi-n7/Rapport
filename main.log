@@ -1,11 +1,11 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.6.14)  23 AUG 2026 13:46
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.7.19)  23 AUG 2026 18:11
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **main.tex
 (./main.tex
 LaTeX2e <2026-06-01>
-L3 programming layer <2026-05-26>
+L3 programming layer <2026-06-18>
 (/usr/local/texlive/2026/texmf-dist/tex/latex/base/report.cls
 Document Class: report 2025/01/22 v1.4n Standard LaTeX document class
 (/usr/local/texlive/2026/texmf-dist/tex/latex/base/size12.clo
@@ -25,7 +25,7 @@ File: size12.clo 2025/01/22 v1.4n Standard LaTeX file (size option)
 \bibindent=\dimen150
 )
 (/usr/local/texlive/2026/texmf-dist/tex/generic/babel/babel.sty
-Package: babel 2026/05/20 v26.8 The multilingual framework for LuaLaTeX, pdfLaT
+Package: babel 2026/06/14 v26.9 The multilingual framework for LuaLaTeX, pdfLaT
 eX and XeLaTeX
 \babel@savecnt=\count285
 LaTeX Encoding Info:    Redeclaring text command \ij (encoding OT1) on input li
@@ -51,8 +51,8 @@ on input line 2117.
 
 (/usr/local/texlive/2026/texmf-dist/tex/generic/babel/locale/fr/babel-french.te
 x)
-Package babel Info: Importing font and identification data for french
-(babel)             from babel-fr.ini. Reported on input line 4356.
+Package babel Info: Importing font and identification data for 'french'
+(babel)             from babel-fr.ini. Reported on input line 4380.
  (/usr/local/texlive/2026/texmf-dist/tex/generic/babel-french/french.ldf
 Language: french 2026-06-06 v4.1a French support from the babel system
 
@@ -755,14 +755,14 @@ Package biblatex Info: Input encoding 'utf8' detected.
 Package biblatex Info: Document encoding is UTF8 ....
 
 (/usr/local/texlive/2026/texmf-dist/tex/latex/l3kernel/expl3.sty
-Package: expl3 2026-05-26 L3 programming layer (loader) 
+Package: expl3 2026-06-18 L3 programming layer (loader) 
 
 (/usr/local/texlive/2026/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2026-02-18 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count467
 ))
 Package biblatex Info: ... and expl3
-(biblatex)             2026-05-26 L3 programming layer (loader) 
+(biblatex)             2026-06-18 L3 programming layer (loader) 
 (biblatex)             is new enough (at least 2020/04/06),
 (biblatex)             setting 'casechanger=expl3'.
 
@@ -1152,7 +1152,7 @@ File: pgfcalendar.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 \gtt@left@slot=\count522
 \gtt@right@slot=\count523
 ) (/usr/local/texlive/2026/texmf-dist/tex/latex/hyperref/hyperref.sty
-Package: hyperref 2026-04-24 v7.01q Hypertext links for LaTeX
+Package: hyperref 2026-06-17 v7.01r Hypertext links for LaTeX
 
 (/usr/local/texlive/2026/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
 Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
@@ -1183,7 +1183,7 @@ Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO
 \Hy@pagecounter=\count526
 
 (/usr/local/texlive/2026/texmf-dist/tex/latex/hyperref/pd1enc.def
-File: pd1enc.def 2026-04-24 v7.01q Hyperref: PDFDocEncoding definition (HO)
+File: pd1enc.def 2026-06-17 v7.01r Hyperref: PDFDocEncoding definition (HO)
 Now handling font encoding PD1 ...
 ... no UTF-8 mapping file for font encoding PD1
 )
@@ -1193,7 +1193,7 @@ Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
 \Hy@SavedSpaceFactor=\count527
 
 (/usr/local/texlive/2026/texmf-dist/tex/latex/hyperref/puenc.def
-File: puenc.def 2026-04-24 v7.01q Hyperref: PDF Unicode definition (HO)
+File: puenc.def 2026-06-17 v7.01r Hyperref: PDF Unicode definition (HO)
 Now handling font encoding PU ...
 ... no UTF-8 mapping file for font encoding PU
 )
@@ -1233,7 +1233,7 @@ Package hyperref Info: PDF/A mode OFF on input line 6121.
 Package hyperref Info: Driver (autodetected): hpdftex.
 
 (/usr/local/texlive/2026/texmf-dist/tex/latex/hyperref/hpdftex.def
-File: hpdftex.def 2026-04-24 v7.01q Hyperref driver for pdfTeX
+File: hpdftex.def 2026-06-17 v7.01r Hyperref driver for pdfTeX
 \Fld@listcount=\count533
 \c@bookmark@seq@number=\count534
 
@@ -1579,6 +1579,7 @@ Package hyperref Info: Link coloring ON on input line 177.
 \@outlinefile=\write5
 \openout5 = `main.out'.
 
+Package babel Info: Main language set to 'french'.
  (./main.toc
 LaTeX Font Info:    Trying to load font information for U+msa on input line 5.
 
@@ -2589,17 +2590,14 @@ Overfull \hbox (1.76633pt too wide) in alignment at lines 106--276
  []
 
 [105] [106] [107]
-<figures/conception/Sprint1/Diagramme_de_classe_sprint1.png, id=2607, 1967.35pt
- x 3079.505pt>
-File: figures/conception/Sprint1/Diagramme_de_classe_sprint1.png Graphic file (
-type png)
-<use figures/conception/Sprint1/Diagramme_de_classe_sprint1.png>
-Package pdftex.def Info: figures/conception/Sprint1/Diagramme_de_classe_sprint1
-.png  used on input line 290.
-(pdftex.def)             Requested size: 466.62009pt x 642.72105pt.
- [108] [109 <./figures/conception/Sprint1/Diagramme_de_classe_sprint1.png (PNG 
-copy)>]
-<figures/captures/sprint1/sprint1-referentiels.png, id=2618, 947.54pt x 434.623
+<figures/conception/Diag_classe/Sprint1.png, id=2607, 752.8125pt x 478.03593pt>
+
+File: figures/conception/Diag_classe/Sprint1.png Graphic file (type png)
+<use figures/conception/Diag_classe/Sprint1.png>
+Package pdftex.def Info: figures/conception/Diag_classe/Sprint1.png  used on in
+put line 290.
+(pdftex.def)             Requested size: 466.62503pt x 296.31357pt.
+<figures/captures/sprint1/sprint1-referentiels.png, id=2609, 947.54pt x 434.623
 75pt>
 File: figures/captures/sprint1/sprint1-referentiels.png Graphic file (type png)
 
@@ -2607,7 +2605,8 @@ File: figures/captures/sprint1/sprint1-referentiels.png Graphic file (type png)
 Package pdftex.def Info: figures/captures/sprint1/sprint1-referentiels.png  use
 d on input line 313.
 (pdftex.def)             Requested size: 419.95967pt x 192.62772pt.
-<figures/captures/sprint1/sprint1-annees-universitaires.png, id=2620, 948.04187
+ [108 <./figures/conception/Diag_classe/Sprint1.png>]
+<figures/captures/sprint1/sprint1-annees-universitaires.png, id=2616, 948.04187
 pt x 434.62375pt>
 File: figures/captures/sprint1/sprint1-annees-universitaires.png Graphic file (
 type png)
@@ -2615,8 +2614,7 @@ type png)
 Package pdftex.def Info: figures/captures/sprint1/sprint1-annees-universitaires
 .png  used on input line 324.
 (pdftex.def)             Requested size: 419.95967pt x 192.52824pt.
- [110 <./figures/captures/sprint1/sprint1-referentiels.png>]
-<figures/captures/sprint1/sprint1-accords-quotas.png, id=2627, 948.54375pt x 43
+<figures/captures/sprint1/sprint1-accords-quotas.png, id=2618, 948.54375pt x 43
 6.63126pt>
 File: figures/captures/sprint1/sprint1-accords-quotas.png Graphic file (type pn
 g)
@@ -2624,7 +2622,8 @@ g)
 Package pdftex.def Info: figures/captures/sprint1/sprint1-accords-quotas.png  u
 sed on input line 335.
 (pdftex.def)             Requested size: 419.95967pt x 193.31091pt.
-
+ [109 <./figures/captures/sprint1/sprint1-referentiels.png> <./figures/captures
+/sprint1/sprint1-annees-universitaires.png>]
 Underfull \hbox (badness 1762) in paragraph at lines 357--357
 []|\T1/cmr/m/n/10 Cycle de vie de
  []
@@ -2674,8 +2673,7 @@ Underfull \hbox (badness 4805) in paragraph at lines 369--369
 []|\T1/cmr/m/n/10 Calcul des quo-
  []
 
-[111 <./figures/captures/sprint1/sprint1-annees-universitaires.png> <./figures/
-captures/sprint1/sprint1-accords-quotas.png>] [112]
+[110 <./figures/captures/sprint1/sprint1-accords-quotas.png>]
 Overfull \hbox (1.76633pt too wide) in alignment at lines 413--432
  [] [] [] [] [] [] 
  []
@@ -2770,17 +2768,16 @@ Overfull \hbox (1.76633pt too wide) in alignment at lines 451--619
  [] [] [] [] [] [] 
  []
 
-[113] [114]
-<figures/conception/Sprint2/Diagramme_de_classe_sprint2.png, id=2650, 1967.35pt
- x 1510.64375pt>
-File: figures/conception/Sprint2/Diagramme_de_classe_sprint2.png Graphic file (
-type png)
-<use figures/conception/Sprint2/Diagramme_de_classe_sprint2.png>
-Package pdftex.def Info: figures/conception/Sprint2/Diagramme_de_classe_sprint2
-.png  used on input line 634.
-(pdftex.def)             Requested size: 466.62503pt x 358.29756pt.
- [115]
-<figures/conception/sequences/sequence-data-import.png, id=2657, 3565.32pt x 21
+[111] [112]
+<figures/conception/Diag_classe/Sprint2.png, id=2642, 778.40813pt x 472.76625pt
+>
+File: figures/conception/Diag_classe/Sprint2.png Graphic file (type png)
+<use figures/conception/Diag_classe/Sprint2.png>
+Package pdftex.def Info: figures/conception/Diag_classe/Sprint2.png  used on in
+put line 634.
+(pdftex.def)             Requested size: 466.62503pt x 283.40945pt.
+ [113]
+<figures/conception/sequences/sequence-data-import.png, id=2649, 3565.32pt x 21
 83.15625pt>
 File: figures/conception/sequences/sequence-data-import.png Graphic file (type 
 png)
@@ -2788,23 +2785,22 @@ png)
 Package pdftex.def Info: figures/conception/sequences/sequence-data-import.png 
  used on input line 645.
 (pdftex.def)             Requested size: 466.62503pt x 285.71907pt.
- [116 <./figures/conception/Sprint2/Diagramme_de_classe_sprint2.png (PNG copy)>
-]
-<figures/captures/sprint2/sprint2-audit.png, id=2663, 942.52126pt x 433.62pt>
+ [114 <./figures/conception/Diag_classe/Sprint2.png> <./figures/conception/sequ
+ences/sequence-data-import.png (PNG copy)>]
+<figures/captures/sprint2/sprint2-audit.png, id=2656, 942.52126pt x 433.62pt>
 File: figures/captures/sprint2/sprint2-audit.png Graphic file (type png)
 <use figures/captures/sprint2/sprint2-audit.png>
 Package pdftex.def Info: figures/captures/sprint2/sprint2-audit.png  used on in
 put line 666.
 (pdftex.def)             Requested size: 419.95967pt x 193.2084pt.
- [117 <./figures/conception/sequences/sequence-data-import.png (PNG copy)>]
-<figures/captures/sprint2/sprint2-etudiants.png, id=2669, 944.52875pt x 440.144
+<figures/captures/sprint2/sprint2-etudiants.png, id=2658, 944.52875pt x 440.144
 38pt>
 File: figures/captures/sprint2/sprint2-etudiants.png Graphic file (type png)
 <use figures/captures/sprint2/sprint2-etudiants.png>
 Package pdftex.def Info: figures/captures/sprint2/sprint2-etudiants.png  used o
 n input line 677.
 (pdftex.def)             Requested size: 419.95967pt x 195.69908pt.
-
+ [115 <./figures/captures/sprint2/sprint2-audit.png>]
 Overfull \hbox (5.67018pt too wide) in paragraph at lines 701--701
 []|\T1/cmr/m/n/10 Intégration| 
  []
@@ -2829,8 +2825,7 @@ Overfull \hbox (6.80879pt too wide) in paragraph at lines 713--713
 []|\T1/cmr/m/n/10 Composant| 
  []
 
-[118 <./figures/captures/sprint2/sprint2-audit.png> <./figures/captures/sprint2
-/sprint2-etudiants.png>] [119]
+[116 <./figures/captures/sprint2/sprint2-etudiants.png>]
 Overfull \hbox (1.76633pt too wide) in alignment at lines 762--780
  [] [] [] [] [] [] 
  []
@@ -2955,17 +2950,15 @@ Overfull \hbox (1.76633pt too wide) in alignment at lines 798--996
  [] [] [] [] [] [] 
  []
 
-[120] [121]
-<figures/conception/Sprint3/Diagramme_de_classe_sprint3.png, id=2692, 1967.35pt
- x 1553.805pt>
-File: figures/conception/Sprint3/Diagramme_de_classe_sprint3.png Graphic file (
-type png)
-<use figures/conception/Sprint3/Diagramme_de_classe_sprint3.png>
-Package pdftex.def Info: figures/conception/Sprint3/Diagramme_de_classe_sprint3
-.png  used on input line 1010.
-(pdftex.def)             Requested size: 466.62503pt x 368.53462pt.
- [122]
-<figures/conception/sequences/sequence-assignment-generation.png, id=2698, 3565
+[117] [118] [119]
+<figures/conception/Diag_classe/Sprint3.png, id=2685, 631.60968pt x 367.3725pt>
+
+File: figures/conception/Diag_classe/Sprint3.png Graphic file (type png)
+<use figures/conception/Diag_classe/Sprint3.png>
+Package pdftex.def Info: figures/conception/Diag_classe/Sprint3.png  used on in
+put line 1010.
+(pdftex.def)             Requested size: 466.62503pt x 271.41414pt.
+<figures/conception/sequences/sequence-assignment-generation.png, id=2687, 3565
 .32pt x 2062.70625pt>
 File: figures/conception/sequences/sequence-assignment-generation.png Graphic f
 ile (type png)
@@ -2973,9 +2966,8 @@ ile (type png)
 Package pdftex.def Info: figures/conception/sequences/sequence-assignment-gener
 ation.png  used on input line 1021.
 (pdftex.def)             Requested size: 466.62503pt x 269.95526pt.
- [123 <./figures/conception/Sprint3/Diagramme_de_classe_sprint3.png (PNG copy)>
-]
-<figures/conception/sequences/sequence-assignment-validation.png, id=2704, 3565
+ [120 <./figures/conception/Diag_classe/Sprint3.png>]
+<figures/conception/sequences/sequence-assignment-validation.png, id=2694, 3565
 .32pt x 3209.9925pt>
 File: figures/conception/sequences/sequence-assignment-validation.png Graphic f
 ile (type png)
@@ -2983,10 +2975,11 @@ ile (type png)
 Package pdftex.def Info: figures/conception/sequences/sequence-assignment-valid
 ation.png  used on input line 1032.
 (pdftex.def)             Requested size: 466.62503pt x 420.10556pt.
- [124 <./figures/conception/sequences/sequence-assignment-generation.png (PNG c
-opy)>] [125 <./figures/conception/sequences/sequence-assignment-validation.png 
-(PNG copy)>]
-<figures/captures/sprint3/sprint3-tableau-de-bord.png, id=2714, 1899.095pt x 86
+ [121 <./figures/conception/sequences/sequence-assignment-generation.png (PNG c
+opy)>]
+[122 <./figures/conception/sequences/sequence-assignment-validation.png (PNG co
+py)>]
+<figures/captures/sprint3/sprint3-tableau-de-bord.png, id=2705, 1899.095pt x 86
 3.225pt>
 File: figures/captures/sprint3/sprint3-tableau-de-bord.png Graphic file (type p
 ng)
@@ -2994,14 +2987,14 @@ ng)
 Package pdftex.def Info: figures/captures/sprint3/sprint3-tableau-de-bord.png  
 used on input line 1049.
 (pdftex.def)             Requested size: 466.62503pt x 212.10446pt.
-<figures/captures/sprint3/sprint3-supervision.png, id=2716, 946.03438pt x 433.1
+<figures/captures/sprint3/sprint3-supervision.png, id=2707, 946.03438pt x 433.1
 1812pt>
 File: figures/captures/sprint3/sprint3-supervision.png Graphic file (type png)
 <use figures/captures/sprint3/sprint3-supervision.png>
 Package pdftex.def Info: figures/captures/sprint3/sprint3-supervision.png  used
  on input line 1060.
 (pdftex.def)             Requested size: 466.62503pt x 213.63081pt.
-<figures/captures/sprint3/sprint3-statistiques.png, id=2718, 949.5475pt x 438.6
+<figures/captures/sprint3/sprint3-statistiques.png, id=2709, 949.5475pt x 438.6
 3875pt>
 File: figures/captures/sprint3/sprint3-statistiques.png Graphic file (type png)
 
@@ -3009,9 +3002,9 @@ File: figures/captures/sprint3/sprint3-statistiques.png Graphic file (type png)
 Package pdftex.def Info: figures/captures/sprint3/sprint3-statistiques.png  use
 d on input line 1071.
 (pdftex.def)             Requested size: 466.62503pt x 215.55731pt.
- [126 <./figures/captures/sprint3/sprint3-tableau-de-bord.png (PNG copy)> <./fi
+ [123 <./figures/captures/sprint3/sprint3-tableau-de-bord.png (PNG copy)> <./fi
 gures/captures/sprint3/sprint3-supervision.png>]
-<figures/captures/sprint3/sprint3-mobilite-etudiant.png, id=2725, 963.6pt x 434
+<figures/captures/sprint3/sprint3-mobilite-etudiant.png, id=2716, 963.6pt x 434
 .12187pt>
 File: figures/captures/sprint3/sprint3-mobilite-etudiant.png Graphic file (type
  png)
@@ -3019,9 +3012,8 @@ File: figures/captures/sprint3/sprint3-mobilite-etudiant.png Graphic file (type
 Package pdftex.def Info: figures/captures/sprint3/sprint3-mobilite-etudiant.png
   used on input line 1082.
 (pdftex.def)             Requested size: 466.62503pt x 210.22426pt.
-
-[127 <./figures/captures/sprint3/sprint3-statistiques.png> <./figures/captures/
-sprint3/sprint3-mobilite-etudiant.png>]
+ [124 <./figures/captures/sprint3/sprint3-statistiques.png> <./figures/captures
+/sprint3/sprint3-mobilite-etudiant.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 1104--1104
 []|\T1/cmr/m/n/10 Algorithme d'af-
  []
@@ -3076,7 +3068,7 @@ Overfull \hbox (5.67018pt too wide) in paragraph at lines 1118--1118
 []|\T1/cmr/m/n/10 Intégration| 
  []
 
-[128]
+[125]
 Overfull \hbox (1.76633pt too wide) in alignment at lines 1161--1176
  [] [] [] [] [] [] 
  []
@@ -3361,17 +3353,16 @@ Overfull \hbox (1.76633pt too wide) in alignment at lines 1191--1582
  [] [] [] [] [] [] 
  []
 
-[129] [130] [131] [132]
-<figures/conception/Sprint4/Diagramme_de_classe_sprint4.png, id=2757, 1955.305p
-t x 3230.0675pt>
-File: figures/conception/Sprint4/Diagramme_de_classe_sprint4.png Graphic file (
-type png)
-<use figures/conception/Sprint4/Diagramme_de_classe_sprint4.png>
-Package pdftex.def Info: figures/conception/Sprint4/Diagramme_de_classe_sprint4
-.png  used on input line 1596.
-(pdftex.def)             Requested size: 466.62743pt x 642.74915pt.
- [133]
-<figures/conception/sequences/sequence-reconciliation.png, id=2764, 3565.32pt x
+[126] [127] [128] [129]
+<figures/conception/Diag_classe/Sprint4.png, id=2747, 866.48718pt x 444.91219pt
+>
+File: figures/conception/Diag_classe/Sprint4.png Graphic file (type png)
+<use figures/conception/Diag_classe/Sprint4.png>
+Package pdftex.def Info: figures/conception/Diag_classe/Sprint4.png  used on in
+put line 1596.
+(pdftex.def)             Requested size: 466.62503pt x 239.59726pt.
+ [130]
+<figures/conception/sequences/sequence-reconciliation.png, id=2754, 3565.32pt x
  2183.15625pt>
 File: figures/conception/sequences/sequence-reconciliation.png Graphic file (ty
 pe png)
@@ -3379,9 +3370,9 @@ pe png)
 Package pdftex.def Info: figures/conception/sequences/sequence-reconciliation.p
 ng  used on input line 1607.
 (pdftex.def)             Requested size: 466.62503pt x 285.71907pt.
- [134 <./figures/conception/Sprint4/Diagramme_de_classe_sprint4.png (PNG copy)>
-]
-<figures/conception/sequences/sequence-complementary-mobility.png, id=2770, 356
+ [131 <./figures/conception/Diag_classe/Sprint4.png> <./figures/conception/sequ
+ences/sequence-reconciliation.png (PNG copy)>]
+<figures/conception/sequences/sequence-complementary-mobility.png, id=2761, 356
 5.32pt x 2095.83pt>
 File: figures/conception/sequences/sequence-complementary-mobility.png Graphic 
 file (type png)
@@ -3389,24 +3380,24 @@ file (type png)
 Package pdftex.def Info: figures/conception/sequences/sequence-complementary-mo
 bility.png  used on input line 1618.
 (pdftex.def)             Requested size: 466.62503pt x 274.29031pt.
- [135 <./figures/conception/sequences/sequence-reconciliation.png (PNG copy)>]
-<figures/captures/sprint4/sprint4-stages.png, id=2776, 948.04187pt x 435.6275pt
+<figures/captures/sprint4/sprint4-stages.png, id=2763, 948.04187pt x 435.6275pt
 >
 File: figures/captures/sprint4/sprint4-stages.png Graphic file (type png)
 <use figures/captures/sprint4/sprint4-stages.png>
 Package pdftex.def Info: figures/captures/sprint4/sprint4-stages.png  used on i
 nput line 1637.
 (pdftex.def)             Requested size: 396.63411pt x 182.25105pt.
- [136 <./figures/conception/sequences/sequence-complementary-mobility.png (PNG 
-copy)>]
-<figures/captures/sprint4/sprint4-entrantes.png, id=2782, 950.55125pt x 439.140
+
+[132 <./figures/conception/sequences/sequence-complementary-mobility.png (PNG c
+opy)>]
+<figures/captures/sprint4/sprint4-entrantes.png, id=2769, 950.55125pt x 439.140
 63pt>
 File: figures/captures/sprint4/sprint4-entrantes.png Graphic file (type png)
 <use figures/captures/sprint4/sprint4-entrantes.png>
 Package pdftex.def Info: figures/captures/sprint4/sprint4-entrantes.png  used o
 n input line 1652.
 (pdftex.def)             Requested size: 396.63411pt x 183.23836pt.
-<figures/captures/sprint4/sprint4-reconciliation.png, id=2784, 919.435pt x 437.
+<figures/captures/sprint4/sprint4-reconciliation.png, id=2771, 919.435pt x 437.
 635pt>
 File: figures/captures/sprint4/sprint4-reconciliation.png Graphic file (type pn
 g)
@@ -3414,9 +3405,9 @@ g)
 Package pdftex.def Info: figures/captures/sprint4/sprint4-reconciliation.png  u
 sed on input line 1667.
 (pdftex.def)             Requested size: 396.63411pt x 188.79373pt.
- [137 <./figures/captures/sprint4/sprint4-stages.png> <./figures/captures/sprin
+ [133 <./figures/captures/sprint4/sprint4-stages.png> <./figures/captures/sprin
 t4/sprint4-entrantes.png>]
-<figures/captures/sprint4/sprint4-declaration-etudiant.png, id=2792, 948.04187p
+<figures/captures/sprint4/sprint4-declaration-etudiant.png, id=2780, 948.04187p
 t x 439.6425pt>
 File: figures/captures/sprint4/sprint4-declaration-etudiant.png Graphic file (t
 ype png)
@@ -3424,7 +3415,7 @@ ype png)
 Package pdftex.def Info: figures/captures/sprint4/sprint4-declaration-etudiant.
 png  used on input line 1683.
 (pdftex.def)             Requested size: 396.63411pt x 183.93079pt.
-<figures/captures/sprint4/sprint4-mobilite-complementaire.png, id=2794, 940.011
+<figures/captures/sprint4/sprint4-mobilite-complementaire.png, id=2782, 940.011
 87pt x 436.12938pt>
 File: figures/captures/sprint4/sprint4-mobilite-complementaire.png Graphic file
  (type png)
@@ -3432,7 +3423,7 @@ File: figures/captures/sprint4/sprint4-mobilite-complementaire.png Graphic file
 Package pdftex.def Info: figures/captures/sprint4/sprint4-mobilite-complementai
 re.png  used on input line 1700.
 (pdftex.def)             Requested size: 396.63411pt x 184.01825pt.
- [138 <./figures/captures/sprint4/sprint4-reconciliation.png> <./figures/captur
+ [134 <./figures/captures/sprint4/sprint4-reconciliation.png> <./figures/captur
 es/sprint4/sprint4-declaration-etudiant.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 1722--1722
 []|\T1/cmr/m/n/10 Répartition des
@@ -3478,7 +3469,7 @@ Overfull \hbox (5.67018pt too wide) in paragraph at lines 1736--1736
 []|\T1/cmr/m/n/10 Intégration| 
  []
 
-[139 <./figures/captures/sprint4/sprint4-mobilite-complementaire.png>]
+[135 <./figures/captures/sprint4/sprint4-mobilite-complementaire.png>]
 Overfull \hbox (1.76633pt too wide) in alignment at lines 1797--1812
  [] [] [] [] [] [] 
  []
@@ -3693,8 +3684,8 @@ Overfull \hbox (1.76633pt too wide) in alignment at lines 1827--2114
  [] [] [] [] [] [] 
  []
 
-[140] [141] [142] [143]
-<figures/conception/sequences/sequence-cti-finalization.png, id=2826, 3565.32pt
+[136] [137] [138] [139]
+<figures/conception/sequences/sequence-cti-finalization.png, id=2814, 3565.32pt
  x 1535.7375pt>
 File: figures/conception/sequences/sequence-cti-finalization.png Graphic file (
 type png)
@@ -3702,7 +3693,7 @@ type png)
 Package pdftex.def Info: figures/conception/sequences/sequence-cti-finalization
 .png  used on input line 2132.
 (pdftex.def)             Requested size: 466.62503pt x 200.98859pt.
-<figures/captures/sprint5/sprint5-tableau-bord-etudiant.png, id=2828, 956.07187
+<figures/captures/sprint5/sprint5-tableau-bord-etudiant.png, id=2816, 956.07187
 pt x 440.14438pt>
 File: figures/captures/sprint5/sprint5-tableau-bord-etudiant.png Graphic file (
 type png)
@@ -3710,16 +3701,16 @@ type png)
 Package pdftex.def Info: figures/captures/sprint5/sprint5-tableau-bord-etudiant
 .png  used on input line 2147.
 (pdftex.def)             Requested size: 396.63411pt x 182.59605pt.
- [144 <./figures/conception/sequences/sequence-cti-finalization.png (PNG copy)>
+ [140 <./figures/conception/sequences/sequence-cti-finalization.png (PNG copy)>
 ]
-<figures/captures/sprint5/sprint5-rapport-cti.png, id=2834, 947.03813pt x 433.6
+<figures/captures/sprint5/sprint5-rapport-cti.png, id=2822, 947.03813pt x 433.6
 2pt>
 File: figures/captures/sprint5/sprint5-rapport-cti.png Graphic file (type png)
 <use figures/captures/sprint5/sprint5-rapport-cti.png>
 Package pdftex.def Info: figures/captures/sprint5/sprint5-rapport-cti.png  used
  on input line 2162.
 (pdftex.def)             Requested size: 396.63411pt x 181.60307pt.
-<figures/captures/sprint5/sprint5-dashboard-flux-globaux.png, id=2836, 944.5287
+<figures/captures/sprint5/sprint5-dashboard-flux-globaux.png, id=2824, 944.5287
 5pt x 434.62375pt>
 File: figures/captures/sprint5/sprint5-dashboard-flux-globaux.png Graphic file 
 (type png)
@@ -3727,9 +3718,9 @@ File: figures/captures/sprint5/sprint5-dashboard-flux-globaux.png Graphic file
 Package pdftex.def Info: figures/captures/sprint5/sprint5-dashboard-flux-globau
 x.png  used on input line 2173.
 (pdftex.def)             Requested size: 396.63411pt x 182.51419pt.
- [145 <./figures/captures/sprint5/sprint5-tableau-bord-etudiant.png> <./figures
+ [141 <./figures/captures/sprint5/sprint5-tableau-bord-etudiant.png> <./figures
 /captures/sprint5/sprint5-rapport-cti.png>]
-<figures/captures/sprint5/sprint5-dashboard-departement.png, id=2845, 944.02687
+<figures/captures/sprint5/sprint5-dashboard-departement.png, id=2832, 944.02687
 pt x 437.13312pt>
 File: figures/captures/sprint5/sprint5-dashboard-departement.png Graphic file (
 type png)
@@ -3743,7 +3734,7 @@ Overfull \hbox (6.13713pt too wide) in paragraph at lines 2187--2188
 se-ments les plus sol-li-ci-tés (fi-gure [][]5.29[][]). 
  []
 
-<figures/captures/sprint5/sprint5-dashboard-universite.png, id=2847, 942.01938p
+<figures/captures/sprint5/sprint5-dashboard-universite.png, id=2834, 942.01938p
 t x 435.6275pt>
 File: figures/captures/sprint5/sprint5-dashboard-universite.png Graphic file (t
 ype png)
@@ -3751,9 +3742,9 @@ ype png)
 Package pdftex.def Info: figures/captures/sprint5/sprint5-dashboard-universite.
 png  used on input line 2191.
 (pdftex.def)             Requested size: 396.63411pt x 183.42094pt.
-[146 <./figures/captures/sprint5/sprint5-dashboard-flux-globaux.png> <./figures
+[142 <./figures/captures/sprint5/sprint5-dashboard-flux-globaux.png> <./figures
 /captures/sprint5/sprint5-dashboard-departement.png>]
-<figures/captures/sprint5/sprint5-dashboard-pays.png, id=2855, 944.52875pt x 43
+<figures/captures/sprint5/sprint5-dashboard-pays.png, id=2842, 944.52875pt x 43
 8.63875pt>
 File: figures/captures/sprint5/sprint5-dashboard-pays.png Graphic file (type pn
 g)
@@ -3911,8 +3902,8 @@ Overfull \hbox (5.67018pt too wide) in paragraph at lines 2264--2264
 []|\T1/cmr/m/n/10 Intégration| 
  []
 
-[147 <./figures/captures/sprint5/sprint5-dashboard-universite.png> <./figures/c
-aptures/sprint5/sprint5-dashboard-pays.png>] [148]
+[143 <./figures/captures/sprint5/sprint5-dashboard-universite.png> <./figures/c
+aptures/sprint5/sprint5-dashboard-pays.png>] [144]
 Overfull \hbox (1.76633pt too wide) in alignment at lines 2297--2312
  [] [] [] [] [] [] 
  []
@@ -4032,8 +4023,8 @@ Overfull \hbox (1.76633pt too wide) in alignment at lines 2327--2494
  [] [] [] [] [] [] 
  []
 
-[149] [150] [151]
-<figures/conception/sequences/sequence-recommendation.png, id=2884, 3565.32pt x
+[145] [146] [147]
+<figures/conception/sequences/sequence-recommendation.png, id=2871, 3565.32pt x
  1954.30125pt>
 File: figures/conception/sequences/sequence-recommendation.png Graphic file (ty
 pe png)
@@ -4041,8 +4032,8 @@ pe png)
 Package pdftex.def Info: figures/conception/sequences/sequence-recommendation.p
 ng  used on input line 2512.
 (pdftex.def)             Requested size: 466.62503pt x 255.76784pt.
- [152 <./figures/conception/sequences/sequence-recommendation.png (PNG copy)>]
-<figures/captures/sprint6/sprint6-recommandations-etudiant.png, id=2890, 945.53
+ [148 <./figures/conception/sequences/sequence-recommendation.png (PNG copy)>]
+<figures/captures/sprint6/sprint6-recommandations-etudiant.png, id=2877, 945.53
 25pt x 409.02812pt>
 File: figures/captures/sprint6/sprint6-recommandations-etudiant.png Graphic fil
 e (type png)
@@ -4100,10 +4091,10 @@ Overfull \hbox (5.67018pt too wide) in paragraph at lines 2565--2565
 []|\T1/cmr/m/n/10 Intégration| 
  []
 
-[153 <./figures/captures/sprint6/sprint6-recommandations-etudiant.png>])
-[154] (./Chapitres/chapitre6.tex
+[149 <./figures/captures/sprint6/sprint6-recommandations-etudiant.png>])
+[150] (./Chapitres/chapitre6.tex
 Chapitre 6.
-(./main.ptc) [155
+(./main.ptc) [151
 
 
 ]
@@ -4141,9 +4132,9 @@ Underfull \hbox (badness 4441) in paragraph at lines 114--115
 \T1/cmr/m/n/10 au-cun ré-sul-tat d'exé-cu-
  []
 
-[156]
+[152]
 
-LaTeX Warning: Reference `fig:cap-coverage-backend' on page 157 undefined on in
+LaTeX Warning: Reference `fig:cap-coverage-backend' on page 153 undefined on in
 put line 122.
 
 
@@ -4166,9 +4157,9 @@ Underfull \hbox (badness 10000) in paragraph at lines 241--241
 []|\T1/cmr/m/n/10 Mobilités en-trantes
  []
 
-[157]
+[153]
 
-LaTeX Warning: Reference `fig:cap-playwright-report' on page 158 undefined on i
+LaTeX Warning: Reference `fig:cap-playwright-report' on page 154 undefined on i
 nput line 256.
 
 
@@ -4191,7 +4182,7 @@ Underfull \hbox (badness 1983) in paragraph at lines 325--325
 []|\T1/cmr/m/n/10 Déclaration, va-li-
  []
 
-[158]
+[154]
 Underfull \hbox (badness 10000) in paragraph at lines 372--372
 []|\T1/cmr/m/n/10 Synchronisation
  []
@@ -4211,13 +4202,13 @@ Overfull \hbox (2.82472pt too wide) in paragraph at lines 395--395
 []|\T1/cmr/m/n/10 Intégration| 
  []
 
-[159]
+[155]
 Overfull \hbox (4.96117pt too wide) in paragraph at lines 458--459
 []\T1/cmr/m/n/12 Ces tests per-mettent de va-li-der les prin-ci-paux mé-ca-nism
 es d'au-then-ti-fi-ca-tion et de contrôle
  []
 
-[160] [161]
+[156] [157]
 Underfull \hbox (badness 10000) in paragraph at lines 566--566
 \T1/cmr/m/n/12 In-ter-opé-
  []
@@ -4377,7 +4368,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 624--624
 []|\T1/cmr/m/n/12 pytest,
  []
 
-[162]
+[158]
 Overfull \hbox (11.86049pt too wide) in paragraph at lines 653--653
  []|\T1/cmr/bx/n/12 Unitaire| 
  []
@@ -4497,7 +4488,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 818--819
 []|\T1/cmr/m/n/12 Scénario End-to-End
  []
 
-[163]) [164] [165] (./Chapitres/conclusion.tex) [166
+[159]) [160] [161] (./Chapitres/conclusion.tex) [162
 
 
 ]
@@ -4519,7 +4510,7 @@ Package biblatex Warning: Split bibliography detected.
 (biblatex)                This warning can be suppressed with
 (biblatex)                '\BiblatexSplitbibDefernumbersWarningOff'.
 
-[167
+[163
 
 
 ]
@@ -4529,16 +4520,16 @@ cmr/m/sc/12 url \T1/cmr/m/n/12 : [][]$\T1/cmtt/m/n/12 https : / / nodejs . org/
 $[][] \T1/cmr/m/n/12 (vi-sité le 18/03/2026). 
  []
 
-[168
+[164
 
 ]
 \tf@ptc=\write9
 \openout9 = `main.ptc'.
 
- [169] (./main.aux)
+ [165] (./main.aux)
  ***********
 LaTeX2e <2026-06-01>
-L3 programming layer <2026-05-26>
+L3 programming layer <2026-06-18>
  ***********
 
 
@@ -4551,10 +4542,10 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 42342 strings out of 467167
- 815130 string characters out of 5409454
- 1848196 words of memory out of 5000000
- 70311 multiletter control sequences out of 15000+600000
+ 42343 strings out of 467168
+ 814777 string characters out of 5409468
+ 1849001 words of memory out of 5000000
+ 70315 multiletter control sequences out of 15000+600000
  653545 words of font info for 101 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  103i,12n,108p,1218b,2395s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -4584,10 +4575,10 @@ ts/type1/public/cm-super/sfti1200.pfb></usr/local/texlive/2026/texmf-dist/fonts
 ype1/public/cm-super/sftt1095.pfb></usr/local/texlive/2026/texmf-dist/fonts/typ
 e1/public/cm-super/sftt1200.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1
 /urw/zapfding/uzdr.pfb>
-Output written on main.pdf (181 pages, 9793194 bytes).
+Output written on main.pdf (177 pages, 9092863 bytes).
 PDF statistics:
- 3295 PDF objects out of 3580 (max. 8388607)
- 2960 compressed objects within 30 object streams
- 615 named destinations out of 1000 (max. 500000)
+ 3279 PDF objects out of 3580 (max. 8388607)
+ 2944 compressed objects within 30 object streams
+ 611 named destinations out of 1000 (max. 500000)
  2540 words of extra memory for PDF output out of 10000 (max. 10000000)
 

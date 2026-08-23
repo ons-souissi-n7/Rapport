@@ -39,22 +39,22 @@
 \contentsline {table}{\numberline {4.8}{\ignorespaces FSM des entités métier}}{102}{table.caption.53}%
 \addvspace {10\p@ }
 \contentsline {table}{\numberline {5.1}{\ignorespaces Sprint Backlog du Sprint 1}}{106}{table.5.1}%
-\contentsline {table}{\numberline {5.2}{\ignorespaces Validation du Sprint 1}}{112}{table.caption.60}%
-\contentsline {table}{\numberline {5.3}{\ignorespaces Sprint Backlog du Sprint 2}}{113}{table.5.3}%
-\contentsline {table}{\numberline {5.4}{\ignorespaces Validation du Sprint 2}}{119}{table.caption.65}%
-\contentsline {table}{\numberline {5.5}{\ignorespaces Sprint Backlog du Sprint 3}}{120}{table.5.5}%
-\contentsline {table}{\numberline {5.6}{\ignorespaces Validation du Sprint 3}}{128}{table.caption.73}%
-\contentsline {table}{\numberline {5.7}{\ignorespaces Sprint Backlog du Sprint 4}}{129}{table.5.7}%
-\contentsline {table}{\numberline {5.8}{\ignorespaces Validation du Sprint 4}}{139}{table.caption.82}%
-\contentsline {table}{\numberline {5.9}{\ignorespaces Sprint Backlog du Sprint 5}}{140}{table.5.9}%
-\contentsline {table}{\numberline {5.10}{\ignorespaces Validation du Sprint 5}}{148}{table.5.10}%
-\contentsline {table}{\numberline {5.11}{\ignorespaces Sprint Backlog du Sprint 6}}{149}{table.5.11}%
-\contentsline {table}{\numberline {5.12}{\ignorespaces Validation de l'US-22 (moteur de recommandation)}}{154}{table.caption.92}%
+\contentsline {table}{\numberline {5.2}{\ignorespaces Validation du Sprint 1}}{110}{table.caption.60}%
+\contentsline {table}{\numberline {5.3}{\ignorespaces Sprint Backlog du Sprint 2}}{111}{table.5.3}%
+\contentsline {table}{\numberline {5.4}{\ignorespaces Validation du Sprint 2}}{116}{table.caption.65}%
+\contentsline {table}{\numberline {5.5}{\ignorespaces Sprint Backlog du Sprint 3}}{117}{table.5.5}%
+\contentsline {table}{\numberline {5.6}{\ignorespaces Validation du Sprint 3}}{125}{table.caption.73}%
+\contentsline {table}{\numberline {5.7}{\ignorespaces Sprint Backlog du Sprint 4}}{126}{table.5.7}%
+\contentsline {table}{\numberline {5.8}{\ignorespaces Validation du Sprint 4}}{135}{table.caption.82}%
+\contentsline {table}{\numberline {5.9}{\ignorespaces Sprint Backlog du Sprint 5}}{136}{table.5.9}%
+\contentsline {table}{\numberline {5.10}{\ignorespaces Validation du Sprint 5}}{144}{table.5.10}%
+\contentsline {table}{\numberline {5.11}{\ignorespaces Sprint Backlog du Sprint 6}}{145}{table.5.11}%
+\contentsline {table}{\numberline {5.12}{\ignorespaces Validation de l'US-22 (moteur de recommandation)}}{150}{table.caption.92}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {6.1}{\ignorespaces Synthèse des tests disponibles par couche}}{157}{table.caption.95}%
-\contentsline {table}{\numberline {6.2}{\ignorespaces Couverture End-to-End des principaux parcours métier}}{158}{table.caption.96}%
-\contentsline {table}{\numberline {6.3}{\ignorespaces Couverture de test des machines à états}}{159}{table.caption.97}%
-\contentsline {table}{\numberline {6.4}{\ignorespaces Validation des imports, exports et intégrations}}{159}{table.caption.98}%
-\contentsline {table}{\numberline {6.5}{\ignorespaces Couverture des besoins non fonctionnels}}{162}{table.6.5}%
-\contentsline {table}{\numberline {6.6}{\ignorespaces Matrice de couverture fonctionnelle}}{163}{table.6.6}%
+\contentsline {table}{\numberline {6.1}{\ignorespaces Synthèse des tests disponibles par couche}}{153}{table.caption.95}%
+\contentsline {table}{\numberline {6.2}{\ignorespaces Couverture End-to-End des principaux parcours métier}}{154}{table.caption.96}%
+\contentsline {table}{\numberline {6.3}{\ignorespaces Couverture de test des machines à états}}{155}{table.caption.97}%
+\contentsline {table}{\numberline {6.4}{\ignorespaces Validation des imports, exports et intégrations}}{155}{table.caption.98}%
+\contentsline {table}{\numberline {6.5}{\ignorespaces Couverture des besoins non fonctionnels}}{158}{table.6.5}%
+\contentsline {table}{\numberline {6.6}{\ignorespaces Matrice de couverture fonctionnelle}}{159}{table.6.6}%
 \contentsfinish 
