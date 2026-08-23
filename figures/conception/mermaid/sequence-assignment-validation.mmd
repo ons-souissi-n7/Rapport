@@ -1,0 +1,38 @@
+sequenceDiagram
+    autonumber
+    actor A as Administrateur RI
+    participant F as Interface d'administration
+    participant API as API (Affectation)
+    participant DB as Base de données
+    actor E as Étudiant
+
+    A->>F: Consulte les propositions d'affectation
+    F->>API: GET /assignments/{id}/results/
+    API-->>F: Liste des résultats proposés
+
+    opt correction manuelle nécessaire
+        A->>F: Corrige un résultat individuel (motif obligatoire)
+        F->>API: PATCH /assignments/{id}/results/{id}/
+        alt affectation encore à l'état « proposé »
+            API->>DB: Enregistre la correction
+            API-->>F: Résultat corrigé
+        else affectation déjà validée ou publiée
+            API-->>F: 403 — correction refusée
+        end
+    end
+
+    A->>F: Valide l'affectation
+    F->>API: POST /assignments/{id}/validate/
+    API->>DB: Transition Proposé → Validé
+    API-->>F: Affectation validée
+
+    A->>F: Publie les résultats
+    F->>API: POST /assignments/{id}/publish/
+    API->>DB: Transition Validé → Publié
+    API->>API: Transition Année : Validation → Publiée
+    API-->>F: Affectation publiée
+
+    E->>F: Consulte son résultat
+    F->>API: GET /wishes/by-student/{ine}/{year_id}/
+    API-->>F: Résultat individuel (si publié)
+    F-->>E: Affichage du résultat

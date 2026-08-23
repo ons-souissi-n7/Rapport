@@ -1,0 +1,29 @@
+sequenceDiagram
+    autonumber
+    actor A as Administrateur RI
+    participant F as Interface d'administration
+    participant API as API (Année universitaire)
+    participant T as Service CTI (tâche asynchrone)
+    participant DB as Base de données
+    participant EXP as API (Export CTI)
+
+    A->>F: Finalise l'année (statistiques CTI)
+    F->>API: POST /years/{id}/finalize-cti/
+    API->>API: Transition Publiée → Finalisation
+    API->>T: Met le recalcul de la cohorte en file d'attente
+    API-->>F: Confirmation
+
+    activate T
+    T->>DB: Charge la cohorte terminale de l'année
+    loop pour chaque étudiant de la cohorte
+        T->>DB: Additionne échanges, stages et mobilités complémentaires validées
+        T->>DB: Enregistre la durée totale
+    end
+    deactivate T
+
+    A->>F: Demande l'export du rapport CTI
+    F->>EXP: GET /cti/export/?academic_year_id={id}
+    EXP->>DB: Agrège la cohorte (genre, régime, durée, région)
+    EXP->>EXP: Génère le classeur Excel (format VII.D3)
+    EXP-->>F: Fichier Excel
+    F-->>A: Téléchargement du rapport

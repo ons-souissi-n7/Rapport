@@ -1,0 +1,19 @@
+sequenceDiagram
+    autonumber
+    actor E as Étudiant
+    participant F as Interface étudiant
+    participant API as API (Recommandation)
+    participant DB as Base de données
+
+    E->>F: Consulte ses recommandations
+    F->>API: GET /student/{ine}/recommendations/
+    API->>DB: Charge les destinations éligibles
+    API->>DB: Calcule le taux historique par destination
+    alt historique suffisant (au moins 30 vœux, deux issues observées)
+        API->>API: Entraîne le modèle de régression logistique
+        API->>API: Calcule un score par destination
+        API-->>F: Destinations classées par score (modèle entraîné)
+    else historique insuffisant (démarrage à froid)
+        API-->>F: Destinations classées par taux historique
+    end
+    F-->>E: Classement affiché, avec indicateur de confiance

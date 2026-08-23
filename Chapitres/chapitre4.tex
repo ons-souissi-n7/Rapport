@@ -15,7 +15,7 @@
 \phantomsection
 \addcontentsline{toc}{section}{Introduction}
 
-Le chapitre précédent a présenté la conception globale du système : product backlog, organisation du code et architecture logicielle et physique, et modèle de données. Ce chapitre justifie les choix algorithmiques qui structurent la logique métier de la plateforme (algorithme d'affectation, répartition des quotas, moteur de recommandation, orchestration RAG), en comparant à chaque fois les principales alternatives, puis détaille les machines à états finis qui sécurisent le cycle de vie des entités métier.
+Le chapitre précédent a présenté la conception globale du système. Celui-ci justifie les choix algorithmiques qui structurent sa logique métier, puis détaille les machines à états qui sécurisent le cycle de vie de ses entités.
 
 % ─────────────────────────────────────────────────────────────
 \section{Choix de l'algorithme d'affectation}
@@ -68,11 +68,9 @@ revenir sur une décision déjà prise.
 
 \subsubsection{Gale-Shapley}
 
-L'algorithme de Gale-Shapley est un algorithme
-d'affectation stable qui procède par rondes successives de propositions
-et de rejets différés jusqu'à convergence. Il garantit qu'aucune paire
-étudiant-destination ne peut former une meilleure association que celle
-retenue à l'issue du processus~\cite{GaleShapley1962}.
+Gale-Shapley fonctionne par rondes : à chaque tour, un étudiant non encore affecté propose sa destination préférée parmi celles qu'il n'a pas encore essayées, et une destination peut rejeter une proposition si elle en reçoit ensuite une meilleure selon sa priorité. Le processus s'arrête dès que plus aucune proposition n'est rejetée. Le résultat garantit qu'aucun étudiant et aucune destination ne préféreraient se retrouver ensemble plutôt que de garder l'affectation obtenue~\cite{GaleShapley1962}.
+
+Dans le problème d'origine (le mariage stable), les deux côtés choisissent librement leurs préférences l'un envers l'autre. Ce n'est pas le cas ici : les destinations n'ont pas de préférence propre, elles suivent simplement un ordre de priorité fixé par l'ENSEEIHT (nationalité, puis GPA). Ce cas se rapproche donc davantage des mécanismes de \textit{school choice} utilisés pour affecter des élèves à des écoles~\cite{AbdulkadirogluSonmez2003} que du problème original du mariage stable. Les mêmes garanties, stabilité et résultat optimal du point de vue des étudiants, restent valables dans ce cas.
 
 \textit{Avantages :}
 \begin{itemize}
@@ -419,8 +417,13 @@ Simplicité de maintenance & Secondaire & \cmark & \xmark & \cmark & \xmark \\
 \subsection{Décision}
 
 \textbf{L'apprentissage supervisé par régression logistique} est retenu.
-Le modèle estime, pour chaque couple étudiant–destination, une probabilité
-de compatibilité à partir des variables suivantes :
+Pour chaque couple étudiant–destination, le modèle estime une probabilité
+de compatibilité ; la cible (\textit{target}) sur laquelle il est entraîné
+est binaire : l'étudiant a-t-il, historiquement, été affecté à cette
+destination (ou une destination du même accord) ou non. Le
+tableau~\ref{tab:features_reco} distingue les variables d'entrée
+(\textit{features}) numériques du modèle de la donnée de contexte qui
+sert uniquement à les calculer.
 
 \renewcommand{\arraystretch}{1.3}
 \begin{table}[H]
@@ -428,30 +431,37 @@ de compatibilité à partir des variables suivantes :
 \caption{Variables d'entrée du moteur de recommandation}
 \label{tab:features_reco}
 \footnotesize
-\begin{tabular}{|p{3.5cm}|p{8cm}|}
+\begin{tabular}{|p{2.5cm}|p{3.5cm}|p{6cm}|}
 \hline
 \rowcolor{gray!20}
-\textbf{Variable} & \textbf{Description} \\
+\textbf{Rôle} & \textbf{Variable} & \textbf{Description} \\
 \hline
-GPA de l'étudiant & Note académique normalisée, principal signal de classement \\
+Feature & GPA de l'étudiant & Note académique normalisée, principal signal de classement \\
 \hline
-Département pédagogique & Filtrage sur les accords ouverts au département de l'étudiant \\
+Feature & Département pédagogique & Variable catégorielle à faible cardinalité \\
 \hline
-Destination & Identifiant de l'université partenaire \\
+Feature & Taux historique d'affectation & Taux de sélection observé pour la destination évaluée sur les trois dernières années \\
 \hline
-Historique des affectations & Taux de sélection par destination sur les trois dernières années \\
+Contexte (non une feature) & Destination & Sert uniquement de clé pour retrouver le taux historique ci-dessus ; n'est pas encodée en tant que variable catégorielle propre (pas de \textit{one-hot encoding} par université) \\
+\hline
+Cible (\textit{target}) & Affecté / non affecté & Variable binaire observée historiquement pour le couple étudiant–destination \\
 \hline
 \end{tabular}
 \end{table}
 
-Les destinations sont classées par ordre de probabilité décroissante
+Le modèle ne compte donc que trois variables d'entrée effectives ; la
+destination elle-même n'ajoute aucune dimension au vecteur de features,
+ce qui limite le nombre de paramètres à estimer et rend le volume de
+données disponible (environ 900 observations sur trois ans) réaliste
+pour ce modèle, sans terme d'interaction entre variables. Les
+destinations sont ensuite classées par ordre de probabilité décroissante
 afin de proposer une liste de recommandations personnalisées.
 
 La régression logistique est retenue car elle offre un bon compromis
 entre simplicité, interprétabilité et facilité de maintenance. Le volume
-de données, environ 900 observations sur trois ans, ne justifie pas
-XGBoost, dont les performances supplémentaires s'accompagnent d'un risque
-accru de surapprentissage.
+de données ne justifie pas XGBoost, dont les performances supplémentaires
+s'accompagnent d'un risque accru de surapprentissage, d'autant plus avec
+un espace de features aussi restreint.
 
 \textbf{Risque de démarrage à froid.} Certaines destinations rares ou
 récentes disposent de peu d'observations historiques. Pour ces cas, le
@@ -611,13 +621,13 @@ les fonctionnalités nécessaires sans surcoût de complexité, avec une
 API stable et une intégration directe avec Mistral et ChromaDB.
 
 % ─────────────────────────────────────────────────────────────
-\section{Synthèse des choix algorithmiques et de performance}
+\section{Synthèse des choix algorithmiques}
 % ─────────────────────────────────────────────────────────────
 
 \renewcommand{\arraystretch}{1.4}
 
 \begin{longtable}{|p{3cm}|p{3.5cm}|p{8.5cm}|}
-\caption{Synthèse des choix algorithmiques et de performance} \\
+\caption{Synthèse des choix algorithmiques} \\
 \hline
 \rowcolor{gray!20}
 \textbf{Composant} & \textbf{Méthode retenue} & \textbf{Justification principale} \\
@@ -629,9 +639,6 @@ API stable et une intégration directe avec Mistral et ChromaDB.
 \textbf{Composant} & \textbf{Méthode retenue} & \textbf{Justification principale} \\
 \hline
 \endhead
-
-Stratégie de performance BDD & Indexation ciblée & Solution simple et suffisante pour le volume de données du projet \\
-\hline
 
 Algorithme d'affectation & Gale-Shapley & Stabilité, équité et reproductibilité des affectations \\
 \hline
@@ -654,40 +661,48 @@ Modèle de langage & Mistral & Compatible avec le besoin multilingue du chatbot 
 \section{Machines à états finis (FSM)}
 % ─────────────────────────────────────────────────────────────
 
+Cette section détaille les machines à états qui sécurisent le cycle de vie des principales entités métier du système.
+
 \subsection{Principe et implémentation}
 
 Dans un système comme celui-ci, certaines entités ne peuvent pas changer d'état librement. Une campagne clôturée ne doit pas pouvoir être rouverte, une affectation validée ne doit pas être modifiable sans trace, et l'algorithme ne doit pas s'exécuter sur des données incomplètes. Ces contraintes sont encodées dans des machines à états finis, implémentées via \texttt{django-fsm}. Le champ de statut est déclaré avec l'option \texttt{protected=True} : toute tentative de modification directe du statut, sans passer par une méthode de transition nommée, lève immédiatement une exception. Il n'est donc pas possible de contourner ces règles, même par une opération en base de données effectuée manuellement.
 
 \subsection{FSM de l'année universitaire}
 
-C'est la machine à états centrale du système. Elle gouverne l'accès à toutes les fonctionnalités de la campagne et compte neuf états. La figure~\ref{fig:fsm-academic-year} en présente les états et transitions.
+C'est la machine à états centrale du système. Elle gouverne l'accès à toutes les fonctionnalités de la campagne et compte neuf états. L'état \texttt{initialization} est celui dans lequel une \texttt{AcademicYear} entre à sa création : aucune transition n'y mène, c'est l'état par défaut du modèle. Cette création est soit manuelle, via une action de l'administrateur, soit automatique, une tâche planifiée créant l'année suivante dès que la précédente atteint l'état \texttt{closed}. La figure~\ref{fig:fsm-academic-year} présente cette machine à états.
 
 \begin{figure}[H]
 \centering
+\resizebox{0.92\linewidth}{!}{%
 \begin{tikzpicture}[
-  node distance=1.0cm,
+  node distance=1.6cm and 1.6cm,
   state/.style={draw, rectangle, rounded corners, align=center, minimum width=2.8cm, minimum height=0.9cm, font=\small},
   arrow/.style={->, thick, >=stealth}
 ]
 \node[state] (init)   {initialization};
+\node[circle, fill=black, minimum size=6pt, inner sep=0pt] (start) [left=0.7cm of init] {};
 \node[state] (reco)   [right=of init]   {recommendation};
 \node[state] (cand)   [right=of reco]   {candidature};
-\node[state] (imp)    [right=of cand]   {import};
-\node[state] (pre)    [below=of imp]    {pre\_assignment};
-\node[state] (valid)  [left=of pre]     {validation};
-\node[state] (pub)    [left=of valid]   {published};
-\node[state] (fin)    [left=of pub]     {finalization};
-\node[state] (closed) [left=of fin]     {closed};
 
-\draw[arrow] (init)  -- node[above,font=\tiny]{open\_recommendation} (reco);
-\draw[arrow] (reco)  -- node[above,font=\tiny]{start\_candidature} (cand);
-\draw[arrow] (cand)  -- node[above,font=\tiny]{close\_wishes} (imp);
-\draw[arrow] (imp)   -- node[right,font=\tiny]{launch\_assignment} (pre);
-\draw[arrow] (pre)   -- node[below,font=\tiny]{complete\_assignment} (valid);
-\draw[arrow] (valid) -- node[below,font=\tiny]{publish\_results} (pub);
-\draw[arrow] (pub)   -- node[below,font=\tiny]{finalize\_cti} (fin);
-\draw[arrow] (fin)   -- node[below,font=\tiny]{close} (closed);
-\end{tikzpicture}
+\node[state] (imp)    [below=of cand]   {import};
+\node[state] (pre)    [left=of imp]     {pre\_assignment};
+\node[state] (valid)  [left=of pre]     {validation};
+
+\node[state] (pub)    [below=of valid]  {published};
+\node[state] (fin)    [right=of pub]    {finalization};
+\node[state] (closed) [right=of fin]    {closed};
+
+\draw[arrow] (start) -- node[above=2.6mm,font=\small]{création\_année} (init);
+\draw[arrow] (init)  -- node[above=2.6mm,font=\small]{open\_recommendation} (reco);
+\draw[arrow] (reco)  -- node[above=2.6mm,font=\small]{start\_candidature} (cand);
+\draw[arrow] (cand)  -- node[right,font=\small]{close\_wishes} (imp);
+\draw[arrow] (imp)   -- node[above=2.6mm,font=\small]{launch\_assignment} (pre);
+\draw[arrow] (pre)   -- node[above=2.6mm,font=\small]{complete\_assignment} (valid);
+\draw[arrow] (valid) -- node[left,font=\small]{publish\_results} (pub);
+\draw[arrow] (pub)   -- node[above=2.6mm,font=\small]{finalize\_cti} (fin);
+\draw[arrow] (fin)   -- node[above=2.6mm,font=\small]{close} (closed);
+\end{tikzpicture}%
+}
 \caption{Machine à états : AcademicYear}
 \label{fig:fsm-academic-year}
 \end{figure}
@@ -695,34 +710,44 @@ C'est la machine à états centrale du système. Elle gouverne l'accès à toute
 Chaque transition marque un cap dans le déroulement de la campagne.
 
 \begin{itemize}
-  \item \textbf{initialization} → \textbf{recommendation} (\texttt{open\_recommendation}) : les vœux et le catalogue de destinations s'ouvrent aux étudiants ; les quotas par département sont validés (et redistribués selon la méthode Hamilton si nécessaire, cf. US-11).
-  \item \textbf{recommendation} → \textbf{candidature} (\texttt{start\_candidature}) : la période de saisie des vœux ordonnés dans MoveON démarre.
-  \item \textbf{candidature} → \textbf{import} (\texttt{close\_wishes}) : la fenêtre de saisie se ferme ; l'administrateur importe et consolide les données finales (GPA Pégase, vœux MoveON) avant affectation.
+  \item \texttt{création\_année} : une \texttt{AcademicYear} est créée, soit manuellement par l'administrateur RI, soit automatiquement dès que l'année précédente atteint \texttt{closed} la veille.
+  \item \textbf{initialization} → \textbf{recommendation} (\texttt{open\_recommendation}) : les recommandations et le catalogue de destinations s'ouvrent aux étudiants ; les quotas par département sont validés (et redistribués selon la méthode Hamilton).
+  \item \textbf{recommendation} → \textbf{candidature} (\texttt{start\_candidature}) : la période de saisie des vœux ordonnés dans MoveON démarre. Cette transition est vérifiée par une tâche planifiée, qui la déclenche automatiquement dès que la date prévue est atteinte ; elle reste également accessible manuellement à l'administrateur RI.
+  \item \textbf{candidature} → \textbf{import} (\texttt{close\_wishes}) : la fenêtre de saisie se ferme ; l'administrateur importe et consolide les données finales (GPA Pégase, vœux MoveON) avant affectation. Comme la transition précédente, elle est déclenchée automatiquement à la date prévue par la même vérification quotidienne, ou manuellement si nécessaire.
   \item \textbf{import} → \textbf{pre\_assignment} (\texttt{launch\_assignment}) : l'algorithme Gale-Shapley est soumis à Django-Q2 pour exécution asynchrone.
   \item \textbf{pre\_assignment} → \textbf{validation} (\texttt{complete\_assignment}) : déclenchée automatiquement à la fin du calcul asynchrone (un point de reprise manuel existe pour les incidents) ; les propositions sont soumises à l'examen du service RI.
   \item \textbf{validation} → \textbf{published} (\texttt{publish\_results}) : les résultats sont publiés aux étudiants ; l'\texttt{Assignment} associé est lui-même transitionné vers \texttt{published}.
   \item \textbf{published} → \textbf{finalization} (\texttt{finalize\_cti}) : le calcul des durées de mobilité pour le rapport CTI (\texttt{MobilityDuration}) est soumis à Django-Q2 pour exécution asynchrone.
-  \item \textbf{finalization} → \textbf{closed} (\texttt{close}) : la campagne est définitivement clôturée (\texttt{closed\_at} horodaté) et l'ensemble de ses données bascule en lecture seule.
+  \item \textbf{finalization} → \textbf{closed} (\texttt{close}) : la campagne est définitivement clôturée (\texttt{closed\_at} horodaté) et l'ensemble de ses données bascule en lecture seule. Cette transition est elle aussi vérifiée quotidiennement par la tâche planifiée et se déclenche automatiquement une fois la date de fin d'année atteinte, sans exclure un déclenchement manuel.
 \end{itemize}
 
-Le tableau ci-dessous liste les préconditions effectivement vérifiées par le système avant chaque transition, ainsi que le comportement en cas d'échec.
+Le tableau~\ref{tab:fsm_guards} liste les préconditions effectivement vérifiées par le système avant chaque transition, ainsi que le comportement en cas d'échec.
 
 \renewcommand{\arraystretch}{1.35}
-\begin{table}[H]
-\centering
-\caption{Conditions préalables (guard conditions) des transitions FSM}
-\label{tab:fsm_guards}
+\begingroup
 \footnotesize
-\begin{tabular}{|p{4cm}|p{4.5cm}|p{5.5cm}|}
+\begin{longtable}{|p{3.5cm}|p{5.5cm}|p{5.5cm}|}
+\caption{Conditions préalables (guard conditions) des transitions FSM}
+\label{tab:fsm_guards} \\
 \hline
 \rowcolor{gray!20}
 \textbf{Transition} & \textbf{Préconditions (guard conditions)} & \textbf{Comportement en cas d'échec} \\
 \hline
+\endfirsthead
+\hline
+\rowcolor{gray!20}
+\textbf{Transition} & \textbf{Préconditions (guard conditions)} & \textbf{Comportement en cas d'échec} \\
+\hline
+\endhead
+\hline
+\endfoot
+\texttt{création\_année} & Dates cohérentes (début $\leq$ fin, ouverture/clôture des vœux comprise dans la période) ; label unique ; automatique uniquement si une année en \texttt{closed} a terminé la veille & HTTP 400 avec message explicite (création manuelle) ; aucune création si aucune année ne vient de se clôturer (création automatique) \\
+\hline
 \texttt{open\_recommendation} & Dates d'ouverture/clôture des vœux renseignées (condition FSM), au moins un GPA importé pour l'année, au moins un quota de département actif configuré & HTTP 400 avec message explicite, transition non exécutée \\
 \hline
-\texttt{start\_candidature} & Aucune précondition applicative au-delà de l'état source & \texttt{TransitionNotAllowed} si l'année n'est pas en \texttt{recommendation} \\
+\texttt{start\_candidature} & Aucune précondition applicative au-delà de l'état source ; déclenchée automatiquement à la date prévue, ou manuellement & \texttt{TransitionNotAllowed} si l'année n'est pas en \texttt{recommendation} \\
 \hline
-\texttt{close\_wishes} & Aucune précondition applicative au-delà de l'état source & \texttt{TransitionNotAllowed} si l'année n'est pas en \texttt{candidature} \\
+\texttt{close\_wishes} & Aucune précondition applicative au-delà de l'état source ; déclenchée automatiquement à la date prévue, ou manuellement & \texttt{TransitionNotAllowed} si l'année n'est pas en \texttt{candidature} \\
 \hline
 \texttt{launch\_assignment} & Aucune précondition bloquante ; si aucun vœu n'est enregistré, une alerte système est créée mais l'algorithme est tout de même exécuté (tous les étudiants ressortent non affectés) & \texttt{TransitionNotAllowed}, tâche Django-Q2 non déclenchée \\
 \hline
@@ -732,14 +757,14 @@ Le tableau ci-dessous liste les préconditions effectivement vérifiées par le 
 \hline
 \texttt{finalize\_cti} & Aucune précondition applicative au-delà de l'état source & \texttt{TransitionNotAllowed} si l'année n'est pas en \texttt{published}, tâche Django-Q2 non déclenchée \\
 \hline
-\texttt{close} & Aucune précondition applicative au-delà de l'état source & \texttt{TransitionNotAllowed} si l'année n'est pas en \texttt{finalization} \\
+\texttt{close} & Aucune précondition applicative au-delà de l'état source ; déclenchée automatiquement à la date de fin d'année, ou manuellement & \texttt{TransitionNotAllowed} si l'année n'est pas en \texttt{finalization} \\
 \hline
-\end{tabular}
-\end{table}
+\end{longtable}
+\endgroup
 
 \subsection{FSM des entités métier}
 
-La FSM de l'année universitaire n'est pas la seule, mais elle reste de loin la plus riche : à ce stade du projet, seules deux autres entités disposent de leur propre machine à états, protégée de la même façon par \texttt{django-fsm}. Le tableau~\ref{tab:fsm-entities} en donne la liste exhaustive.
+La FSM de l'année universitaire n'est pas la seule, mais elle reste de loin la plus riche : deux autres entités disposent de leur propre machine à états, protégée de la même façon par \texttt{django-fsm}. Le tableau~\ref{tab:fsm-entities} en donne la liste exhaustive.
 
 \begin{table}[H]
 \centering
@@ -752,19 +777,20 @@ La FSM de l'année universitaire n'est pas la seule, mais elle reste de loin la 
 \rowcolor{gray!20}
 \textbf{Entité} & \textbf{États et transitions} \\
 \hline
-Assignment & \texttt{proposed} → \texttt{validated} → \texttt{published} (transition \texttt{cancel} accessible depuis \texttt{proposed} ou \texttt{validated} vers \texttt{cancelled}) \\
+Assignment & \texttt{proposed} → \texttt{validated} → \texttt{published} \\
 \hline
 ComplementaryMobility & \texttt{pending} → \texttt{validated} \textbar{} \texttt{rejected} \\
 \hline
 \end{tabular}
 \end{table}
 
-La transition \texttt{cancel} d'\texttt{Assignment} n'est, à ce stade, exposée par aucun endpoint ni aucune interface d'administration : elle existe dans le modèle pour un usage futur d'annulation, mais n'est pas encore atteignable en pratique. Les autres entités du système (\texttt{StudentWish}, \texttt{IncomingStudent}, \texttt{Internship}) n'ont volontairement pas de cycle de vie propre : leur statut se déduit de leurs relations (à un \texttt{Assignment} publié, à une année universitaire) plutôt que d'être piloté par une FSM dédiée. Le calcul consolidé de la durée de mobilité CTI, qui agrège automatiquement les mobilités sortantes publiées, les stages internationaux et les mobilités complémentaires validées, a été réalisé dans le Sprint 5 (US-17) : le modèle \texttt{MobilityDuration} persiste la durée totale en semaines, le service \texttt{compute\_cti\_duration()} effectue l'agrégation, et la tâche asynchrone \texttt{enqueue\_refresh\_cti\_durations()} recalcule automatiquement les durées après chaque transition FSM pertinente.
+Pour \texttt{Assignment}, c'est le service RI qui déclenche la transition \texttt{validate} (\texttt{proposed} → \texttt{validated}) depuis l'interface de supervision, une fois les propositions du calcul d'affectation examinées. Cette validation porte sur l'ensemble des propositions produites par un même calcul Gale-Shapley, pas sur un étudiant à la fois. Tant que ces propositions restent à l'état \texttt{proposed}, il reste possible de corriger une affectation individuelle, en changeant sa destination ou en la retirant, à condition d'indiquer un motif, conservé dans le journal d'audit. Vient ensuite la transition \texttt{publish} (\texttt{validated} → \texttt{published}) : elle publie les affectations aux étudiants.
 
+Pour \texttt{ComplementaryMobility}, l'état \texttt{pending} correspond à la déclaration initiale : l'étudiant la dépose lui-même, avec un justificatif. Le service RI l'examine ensuite. S'il la valide (\texttt{validated}), le justificatif est conservé pendant une durée fixée par la politique RGPD. S'il la rejette (\texttt{rejected}), il doit indiquer un motif, conservé dans le journal d'audit, et le justificatif déposé est supprimé.
 
 \section*{Conclusion}
 \justifying
 \phantomsection
 \addcontentsline{toc}{section}{Conclusion}
 
-Ce chapitre a justifié les choix algorithmiques qui structurent la plateforme (algorithme d'affectation, répartition des quotas, moteur de recommandation, orchestration RAG), en privilégiant la cohérence de l'ensemble, l'équité et la simplicité d'exploitation, puis détaillé les machines à états qui sécurisent le cycle de vie des entités métier. Le chapitre suivant présente la réalisation de ce système, sprint par sprint.
+Ce chapitre a justifié les choix algorithmiques de la plateforme et détaillé les machines à états qui sécurisent son fonctionnement. Le chapitre suivant présente la réalisation du système, sprint par sprint.

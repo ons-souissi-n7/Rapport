@@ -15,7 +15,7 @@
 \phantomsection
 \addcontentsline{toc}{section}{Introduction}
 
-Le chapitre précédent a montré qu'aucune solution existante ne répondait aux besoins du service RI. Ce chapitre précise les besoins du système, puis justifie les technologies retenues pour chaque composant, en comparant les principales alternatives.
+Le chapitre précédent a montré qu'aucune solution existante ne couvrait les besoins du service RI. Ce chapitre précise ces besoins, puis justifie les choix technologiques retenus pour y répondre.
 
 % ─────────────────────────────────────────────────────────────
 \section{Besoins du système}
@@ -699,6 +699,8 @@ imports tout en restant cohérent avec le reste du modèle de données.
 
 \subsection{Alternatives évaluées}
 
+Deux options ont été comparées pour répondre à ces besoins.
+
 \subsubsection{Fichiers plats (JSON sur le système de fichiers)}
 
 Un fichier plat est un fichier texte brut qui stocke des données sans
@@ -759,6 +761,8 @@ au sein de la table \texttt{RawImport}, dans la même base PostgreSQL.
 
 \subsection{Synthèse comparative}
 
+Le tableau~\ref{tab:comparaison_rawimport} récapitule les critères évalués pour les deux formats, afin de faciliter la comparaison et de justifier le choix retenu.
+
 \renewcommand{\arraystretch}{1.35}
 \begin{table}[H]
 \centering
@@ -812,7 +816,7 @@ le lancement de l'algorithme d'affectation, le recalcul des durées
 après modification d'un état, et le traitement des imports qui peuvent
 durer plusieurs secondes.
 
-La seconde catégorie regroupe les tâches planifiées : la synchronisation quotidienne des institutions partenaires (MoveON), ainsi que la suppression automatique des imports bruts anciens. Les synchronisations des données métier (accords, vœux, étudiants, stages) sont déclenchées à la demande depuis l'interface d'administration.
+La seconde catégorie regroupe les tâches planifiées : une vérification quotidienne du calendrier de la campagne, qui déclenche automatiquement le passage à la candidature, la clôture des vœux et la clôture de l'année universitaire dès que les dates prévues sont atteintes. Les synchronisations des données métier (accords, vœux, étudiants, stages) sont, elles, déclenchées à la demande depuis l'interface d'administration.
 
 Le volume reste modéré : quelques dizaines de tâches par jour en
 fonctionnement normal, quelques centaines lors des périodes de traitement,
@@ -1249,6 +1253,8 @@ enjeu.
 
 \subsection{Alternatives évaluées}
 
+Ces deux approches sont détaillées ci-dessous.
+
 \subsubsection{Partitionnement par année}
 
 Le partitionnement consiste à découper physiquement une table en
@@ -1400,4 +1406,4 @@ Authentification & CAS/OIDC & Exigence institutionnelle : SSO Toulouse INP avec 
 \phantomsection
 \addcontentsline{toc}{section}{Conclusion}
 
-Ce chapitre a précisé les besoins fonctionnels et non fonctionnels du système, les profils utilisateurs et le périmètre retenu, puis justifié l'ensemble des choix technologiques qui structurent la plateforme, en privilégiant la cohérence de l'ensemble et la simplicité d'exploitation. Ces choix forment le socle sur lequel repose la conception détaillée du système, présentée au chapitre suivant.
+Ce chapitre a précisé les besoins du système et justifié les choix technologiques retenus pour le construire. Ces choix posent le socle de la conception détaillée, présentée au chapitre suivant.

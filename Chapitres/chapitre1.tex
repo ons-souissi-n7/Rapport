@@ -14,7 +14,7 @@
 \phantomsection
 \addcontentsline{toc}{section}{Introduction}
 
-Ce chapitre présente l'organisme d'accueil et analyse le système d'information utilisé pour la gestion des mobilités internationales. Il en dégage la problématique, positionne le projet par rapport aux solutions existantes et présente la solution envisagée, puis pose le cadrage retenu pour conduire le projet.
+Ce chapitre présente l'organisme d'accueil et la façon dont les mobilités internationales sont gérées aujourd'hui. Il en tire la problématique du stage, situe le projet par rapport aux solutions existantes et pose le cadrage retenu pour la suite.
 
 % ─────────────────────────────────────────────────────────────
 \section{Présentation de l'organisme d'accueil}
@@ -494,8 +494,45 @@ ci-dessous et adaptés au contexte d'un stage individuel.
     \item \textit{\textbf{Sprint Retrospective}} : dans sa forme standard, réunion d'équipe de fin de sprint destinée à identifier les points à améliorer. Dans le cadre de ce projet individuel, elle est remplacée par un bilan personnel de fin de sprint, réalisé sans réunion dédiée, permettant de vérifier les tâches restantes et d'ajuster en conséquence le contenu du sprint suivant.
 \end{itemize}
 
-Le suivi du backlog est géré avec GitHub Projects, chaque user story
-correspondant à une issue liée aux pull requests qui l'implémentent.
+Le suivi du projet s'appuie sur les Milestones et les Issues de GitHub : chaque sprint correspond à un Milestone, et chaque user story est déclarée comme une issue, priorisée (label \texttt{priority}) et rattachée au Milestone du sprint qui la traite. La figure~\ref{fig:cap-github-milestones} montre les Milestones du dépôt, chacun avec son taux d'avancement.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.85\linewidth]{figures/captures/github/github-milestones.png}
+  \caption{Milestones du dépôt, un par sprint}
+  \label{fig:cap-github-milestones}
+\end{figure}
+
+La figure~\ref{fig:cap-github-issues} détaille les issues d'un Milestone, avec leurs labels de priorité, de sprint et de type.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.85\linewidth]{figures/captures/github/github-issues.png}
+  \caption{Issues du dépôt, priorisées et rattachées à leur Milestone}
+  \label{fig:cap-github-issues}
+\end{figure}
+
+L'avancement de ces issues est ensuite suivi via un tableau GitHub Projects, organisé par statut. La figure~\ref{fig:cap-github-projects} en montre la vue par défaut.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.85\linewidth]{figures/captures/github/github-projects.png}
+  \caption{Tableau de suivi GitHub Projects, par statut d'avancement}
+  \label{fig:cap-github-projects}
+\end{figure}
+
+Cette vue centralisée permet de suivre en un coup d'œil l'avancement du projet et d'identifier rapidement les tâches encore ouvertes.
+
+La traçabilité entre une user story et son implémentation est assurée par les pull requests : chaque branche suit la convention \texttt{feature/sprintN\_usXX}, et sa pull request ferme l'issue correspondante une fois mergée. La figure~\ref{fig:cap-github-prs} montre les pull requests fermées du dépôt.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.85\linewidth]{figures/captures/github/github-prs.png}
+  \caption{Pull requests fermées, nommées par sprint et par user story}
+  \label{fig:cap-github-prs}
+\end{figure}
+
+Ce lien direct entre l'expression du besoin et son implémentation facilite la revue du travail réalisé et la compréhension du contexte de chaque modification.
 
 \subsection{Planification générale}
 
@@ -558,4 +595,4 @@ Communication avec le service RI & Email, Zoom, réunions en présentiel & Écha
 \phantomsection
 \addcontentsline{toc}{section}{Conclusion}
 
-Ce chapitre a présenté le contexte du projet, la problématique qui en découle, la solution envisagée et le cadrage retenu pour le mener à bien. Les besoins du système et les choix technologiques qui permettent de le réaliser font l'objet du chapitre suivant.
+Ce chapitre a posé le contexte, la problématique et le cadrage du projet. Le chapitre suivant détaille les besoins du système et les choix technologiques retenus pour y répondre.

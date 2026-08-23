@@ -1,0 +1,32 @@
+sequenceDiagram
+    autonumber
+    actor A as Administrateur RI
+    participant F as Interface d'administration
+    participant API as API Django
+    participant S as Service d'import (tâche asynchrone)
+    participant Src as Source externe (Pégase / MoveON)
+    participant DB as Base de données
+
+    A->>F: Lance une synchronisation
+    F->>API: POST /import/{source}/
+    API->>S: Met la tâche en file d'attente
+    API-->>F: 202 Accepted (identifiant de tâche)
+    F-->>A: Confirmation de lancement
+
+    activate S
+    S->>Src: Récupère les données
+    Src-->>S: Données brutes
+    S->>S: Nettoie et valide chaque enregistrement
+    alt enregistrement valide
+        S->>DB: Enregistre / met à jour (upsert sur l'INE)
+    else enregistrement invalide ou en anomalie
+        S->>DB: Consigne l'anomalie (import en échec)
+    end
+    S->>DB: Enregistre le rapport d'import (succès, erreurs, doublons)
+    S->>DB: Trace l'opération dans le journal d'audit
+    deactivate S
+
+    A->>F: Consulte le rapport d'import
+    F->>API: GET /import-reports/{id}/
+    API-->>F: Détail du rapport
+    F-->>A: Résultat (succès, erreurs, doublons)

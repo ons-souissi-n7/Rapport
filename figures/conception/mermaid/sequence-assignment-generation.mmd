@@ -1,0 +1,29 @@
+sequenceDiagram
+    autonumber
+    actor A as Administrateur RI
+    participant F as Interface d'administration
+    participant API as API (Année universitaire)
+    participant T as Service d'affectation (tâche asynchrone)
+    participant DB as Base de données
+
+    A->>F: Lance le calcul d'affectation
+    F->>API: POST /years/{id}/launch-assignment/
+    API->>API: Transition Import → Pré-affectation
+    opt aucun vœu enregistré
+        API->>DB: Crée une alerte système
+    end
+    API->>T: Met le calcul en file d'attente
+    API-->>F: 202 Accepted
+    F-->>A: Confirmation de lancement
+
+    activate T
+    T->>DB: Charge les accords actifs, les inscriptions et les vœux
+    T->>T: Exécute l'algorithme Gale-Shapley
+    T->>DB: Enregistre l'affectation et les résultats individuels
+    T->>API: Déclenche la transition Pré-affectation → Validation
+    deactivate T
+
+    A->>F: Consulte le résultat
+    F->>API: GET /assignments/{id}/
+    API-->>F: Affectation et statistiques
+    F-->>A: Résultats affichés

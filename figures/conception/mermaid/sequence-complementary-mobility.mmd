@@ -1,0 +1,35 @@
+sequenceDiagram
+    autonumber
+    actor E as Étudiant
+    participant FE as Interface étudiant
+    participant API as API
+    participant ST as Stockage sécurisé des documents
+    participant DB as Base de données
+    actor A as Administrateur RI
+    participant FA as Interface d'administration
+
+    E->>FE: Déclare une mobilité complémentaire + joint un justificatif
+    FE->>API: POST /complementary/student/{ine}/
+    API->>API: Vérifie le format et la taille du fichier
+    API->>ST: Dépose le justificatif
+    API->>DB: Crée la déclaration (statut : en attente)
+    API->>DB: Crée une alerte pour le service RI
+    API-->>FE: Déclaration enregistrée
+    FE-->>E: Confirmation
+
+    A->>FA: Consulte les déclarations en attente
+    FA->>API: GET /complementary/
+    API-->>FA: Liste des déclarations en attente
+
+    A->>FA: Examine une déclaration
+    alt déclaration validée
+        FA->>API: POST /complementary/{id}/validate/
+        API->>DB: Transition En attente → Validée
+        API->>DB: Résout l'alerte associée
+    else déclaration rejetée
+        FA->>API: POST /complementary/{id}/reject/ (motif obligatoire)
+        API->>DB: Transition En attente → Rejetée
+        API->>ST: Supprime le justificatif
+        API->>DB: Résout l'alerte associée
+    end
+    API-->>FA: Déclaration mise à jour

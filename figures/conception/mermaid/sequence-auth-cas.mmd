@@ -1,0 +1,37 @@
+sequenceDiagram
+    autonumber
+    actor U as Utilisateur
+    participant F as Frontend (Next.js)
+    participant B as Backend (Django)
+    participant C as CAS Toulouse INP
+
+    U->>F: Accède à une page protégée
+    F-->>U: Page /login (redirection après 600 ms)
+    U->>B: GET /api/v1/auth/login/?next=...
+    B-->>U: HTTP 302 vers le portail CAS
+    U->>C: Authentification (identifiants institutionnels)
+    C-->>U: HTTP 302 avec ticket de service (vers le backend)
+    U->>B: GET /api/v1/auth/callback/?ticket=...
+    B->>C: GET /cas/serviceValidate?service=...&ticket=...
+    C-->>B: XML authenticationSuccess (email, rôle, INE)
+
+    alt Ticket valide
+        B->>B: Crée/synchronise l'utilisateur (get_or_create)
+        B->>B: Émet un JWT HS256 (exp = 15 min)
+        B-->>U: HTTP 302 vers /auth/callback?token=...&next=...
+        U->>F: GET /auth/callback?token=...&next=...
+        F->>F: Stocke le JWT (cookie), décode le rôle (admin / student)
+        F-->>U: Redirige vers l'espace du rôle (ADMIN_RI / ETUDIANT)
+    else CAS indisponible ou ticket invalide/expiré
+        B-->>U: HTTP 302 vers /login?error=cas_unavailable|invalid_ticket
+        U->>F: GET /login?error=...
+        F-->>U: Affiche le message d'erreur, relance l'authentification CAS
+    end
+
+    Note over U,C: Rafraîchissement paresseux, vérifié avant chaque requête API protégée (pas de minuteur périodique)
+    F->>F: Requête API protégée : JWT expire dans < 3 min ?
+    opt Oui
+        F->>B: POST /api/v1/auth/refresh/ (Bearer token courant)
+        B-->>F: Nouveau JWT HS256 (exp = 15 min)
+    end
+    F->>B: Requête API protégée (Authorization: Bearer <JWT>)

@@ -1,0 +1,29 @@
+sequenceDiagram
+    autonumber
+    participant S as Service d'import
+    participant DB as Base de données
+    actor A as Administrateur RI
+    participant F as Interface d'administration
+    participant API as API
+
+    S->>DB: Enregistrement sans identifiant national valide
+    S->>DB: Consigne l'import en échec
+
+    A->>F: Consulte les imports en échec
+    F->>API: GET /wishes/import-errors/
+    API-->>F: Liste des enregistrements en échec
+
+    A->>F: Demande des correspondances possibles
+    F->>API: Recherche de réconciliation
+    API->>DB: Compare le nom par ressemblance textuelle
+    DB-->>API: Candidats classés par score de confiance
+
+    alt correspondance retenue par l'administrateur
+        A->>F: Sélectionne l'étudiant correspondant
+        F->>API: PUT /wishes/import-errors/{id}/retry/
+        API->>DB: Corrige et réimporte l'enregistrement
+        API-->>F: Import réussi
+    else aucune correspondance satisfaisante
+        A->>F: Laisse le dossier de côté pour traitement ultérieur
+        F-->>A: Dossier conservé en échec
+    end

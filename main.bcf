@@ -2401,12 +2401,13 @@
     <bcf:citekey order="26" intorder="1">traefik_dev</bcf:citekey>
     <bcf:citekey order="27" intorder="1">rgpd_2016</bcf:citekey>
     <bcf:citekey order="28" intorder="1">GaleShapley1962</bcf:citekey>
-    <bcf:citekey order="29" intorder="1">Cox1958</bcf:citekey>
-    <bcf:citekey order="30" intorder="1">ChenGuestrin2016</bcf:citekey>
-    <bcf:citekey order="31" intorder="1">mistral_dev</bcf:citekey>
-    <bcf:citekey order="32" intorder="1">langchain_dev</bcf:citekey>
-    <bcf:citekey order="33" intorder="1">LlamaIndex_dev</bcf:citekey>
-    <bcf:citekey order="34" intorder="1">haystack_dev</bcf:citekey>
+    <bcf:citekey order="29" intorder="1">AbdulkadirogluSonmez2003</bcf:citekey>
+    <bcf:citekey order="30" intorder="1">Cox1958</bcf:citekey>
+    <bcf:citekey order="31" intorder="1">ChenGuestrin2016</bcf:citekey>
+    <bcf:citekey order="32" intorder="1">mistral_dev</bcf:citekey>
+    <bcf:citekey order="33" intorder="1">langchain_dev</bcf:citekey>
+    <bcf:citekey order="34" intorder="1">LlamaIndex_dev</bcf:citekey>
+    <bcf:citekey order="35" intorder="1">haystack_dev</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">

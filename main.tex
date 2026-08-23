@@ -30,11 +30,11 @@
 \usepackage{pgfgantt}
 \usepackage[colorlinks=true, linkcolor=black, citecolor=black, urlcolor=black]{hyperref}
 \usepackage{tikz}
-\usetikzlibrary{arrows.meta, positioning}
+\usetikzlibrary{arrows.meta, positioning, shapes.geometric}
 \definecolor{lightblue}{rgb}{0.68, 0.85, 0.9} % Définition de la couleur lightblue
 
 
-\usepackage{acronym}
+\usepackage[nohyperlinks]{acronym}
 \usepackage{tabularx}
 \usepackage{pifont}
 \usepackage{pmboxdraw}
@@ -42,6 +42,10 @@
 \newcommand{\xmark}{\ding{55}}
 
 \addbibresource{bibliographie.bib}
+
+% Séparation Bibliographie (sources scientifiques) / Netographie (documentation technique)
+\DeclareBibliographyCategory{scientifique}
+\addtocategory{scientifique}{Elahi2022,GaleShapley1962,AbdulkadirogluSonmez2003,Cox1958,ChenGuestrin2016}
 
 \definecolor{rouge}{RGB}{200, 0, 0}
 
@@ -268,7 +272,8 @@
 % \input{annexe}
 %     \clearpage
 
- \printbibliography[heading=bibintoc]
+ \printbibliography[heading=bibintoc,category=scientifique,title={Bibliographie}]
+ \printbibliography[heading=bibintoc,notcategory=scientifique,title={Netographie}]
    
 \end{document}
 

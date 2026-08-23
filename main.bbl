@@ -19,61 +19,117 @@
 
 \refsection{0}
   \datalist[entry]{none/global//global/global/global}
-    \entry{enseeiht_presentation}{misc}{}{}
+    \entry{enseeiht_presentation}{online}{}{}
       \field{sortinit}{1}
       \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labeltitlesource}{title}
-      \field{howpublished}{\url{https://www.enseeiht.fr/fr/l-enseeiht.html}}
-      \field{note}{Consulté le2026-03-18}
       \field{title}{L'ENSEEIHT -- Présentation}
+      \field{urlday}{18}
+      \field{urlmonth}{3}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.enseeiht.fr/fr/l-enseeiht.html
+      \endverb
+      \verb{url}
+      \verb https://www.enseeiht.fr/fr/l-enseeiht.html
+      \endverb
     \endentry
-    \entry{enseeiht_international}{misc}{}{}
+    \entry{enseeiht_international}{online}{}{}
       \field{sortinit}{2}
       \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labeltitlesource}{title}
-      \field{howpublished}{\url{https://www.enseeiht.fr/fr/international.html}}
-      \field{note}{Consulté le2026-03-18}
       \field{title}{International -- Toulouse INP-ENSEEIHT}
+      \field{urlday}{18}
+      \field{urlmonth}{3}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.enseeiht.fr/fr/international.html
+      \endverb
+      \verb{url}
+      \verb https://www.enseeiht.fr/fr/international.html
+      \endverb
     \endentry
-    \entry{enseeiht_sortante}{misc}{}{}
+    \entry{enseeiht_sortante}{online}{}{}
       \field{sortinit}{3}
       \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
       \field{labeltitlesource}{title}
-      \field{howpublished}{\url{https://www.enseeiht.fr/fr/international/mobilite-sortante.html}}
-      \field{note}{Consulté le2026-03-18}
       \field{title}{Mobilité sortante -- Toulouse INP-ENSEEIHT}
+      \field{urlday}{18}
+      \field{urlmonth}{3}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.enseeiht.fr/fr/international/mobilite-sortante.html
+      \endverb
+      \verb{url}
+      \verb https://www.enseeiht.fr/fr/international/mobilite-sortante.html
+      \endverb
     \endentry
-    \entry{enseeiht_entrante}{misc}{}{}
+    \entry{enseeiht_entrante}{online}{}{}
       \field{sortinit}{4}
       \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
       \field{labeltitlesource}{title}
-      \field{howpublished}{\url{https://www.enseeiht.fr/fr/international/mobilite-entrante.html}}
-      \field{note}{Consulté le2026-03-18}
       \field{title}{Mobilité entrante -- Toulouse INP-ENSEEIHT}
+      \field{urlday}{18}
+      \field{urlmonth}{3}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.enseeiht.fr/fr/international/mobilite-entrante.html
+      \endverb
+      \verb{url}
+      \verb https://www.enseeiht.fr/fr/international/mobilite-entrante.html
+      \endverb
     \endentry
-    \entry{enseeiht_programmes_courts}{misc}{}{}
+    \entry{enseeiht_programmes_courts}{online}{}{}
       \field{sortinit}{5}
       \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
       \field{labeltitlesource}{title}
-      \field{howpublished}{\url{https://www.enseeiht.fr/fr/international/programmes-courts.html}}
-      \field{note}{Consulté le 2026-03-18}
       \field{title}{Programmes courts -- Toulouse INP-ENSEEIHT}
+      \field{urlday}{18}
+      \field{urlmonth}{3}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.enseeiht.fr/fr/international/programmes-courts.html
+      \endverb
+      \verb{url}
+      \verb https://www.enseeiht.fr/fr/international/programmes-courts.html
+      \endverb
     \endentry
-    \entry{qs_moveon}{misc}{}{}
+    \entry{qs_moveon}{online}{}{}
       \field{sortinit}{6}
       \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
       \field{labeltitlesource}{title}
-      \field{howpublished}{\url{https://www.qs.com/solutions/moveon}}
-      \field{note}{Consulté le 2026-03-09}
       \field{title}{MoveON -- QS Solutions}
+      \field{urlday}{9}
+      \field{urlmonth}{3}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.qs.com/solutions/moveon
+      \endverb
+      \verb{url}
+      \verb https://www.qs.com/solutions/moveon
+      \endverb
     \endentry
-    \entry{eudonet_crm}{misc}{}{}
+    \entry{eudonet_crm}{online}{}{}
       \field{sortinit}{7}
       \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
       \field{labeltitlesource}{title}
-      \field{howpublished}{\url{https://www.eudonet.com/fr/ressources/blog/definition-crm/}}
-      \field{note}{Consulté le 2026-03-09}
       \field{title}{Définition CRM -- Eudonet}
+      \field{urlday}{9}
+      \field{urlmonth}{3}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.eudonet.com/fr/ressources/blog/definition-crm/
+      \endverb
+      \verb{url}
+      \verb https://www.eudonet.com/fr/ressources/blog/definition-crm/
+      \endverb
     \endentry
     \entry{Elahi2022}{article}{}{}
       \name{author}{4}{}{%
@@ -112,9 +168,12 @@
       \field{labeltitlesource}{title}
       \field{journaltitle}{Frontiers in Artificial Intelligence}
       \field{langid}{english}
-      \field{note}{Consulté le 2026-03-09}
       \field{title}{Developing and Evaluating a University Recommender System}
+      \field{urlday}{9}
+      \field{urlmonth}{3}
+      \field{urlyear}{2026}
       \field{year}{2022}
+      \field{urldateera}{ce}
       \verb{urlraw}
       \verb https://pmc.ncbi.nlm.nih.gov/articles/PMC8848746/
       \endverb
@@ -122,149 +181,293 @@
       \verb https://pmc.ncbi.nlm.nih.gov/articles/PMC8848746/
       \endverb
     \endentry
-    \entry{react_dev}{misc}{}{}
+    \entry{react_dev}{online}{}{}
       \field{sortinit}{1}
       \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labeltitlesource}{title}
-      \field{howpublished}{\url{https://react.dev/}}
-      \field{note}{Consulté le 2026-03-17}
       \field{title}{React -- The library for web and native user interfaces}
+      \field{urlday}{17}
+      \field{urlmonth}{3}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://react.dev/
+      \endverb
+      \verb{url}
+      \verb https://react.dev/
+      \endverb
     \endentry
-    \entry{angular_dev}{misc}{}{}
+    \entry{angular_dev}{online}{}{}
       \field{sortinit}{1}
       \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labeltitlesource}{title}
-      \field{howpublished}{\url{https://angular.dev/}}
-      \field{note}{Consulté le 2026-03-17}
       \field{title}{Angular -- The web development framework}
+      \field{urlday}{17}
+      \field{urlmonth}{3}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://angular.dev/
+      \endverb
+      \verb{url}
+      \verb https://angular.dev/
+      \endverb
     \endentry
-    \entry{nextjs_dev}{misc}{}{}
+    \entry{nextjs_dev}{online}{}{}
       \field{sortinit}{1}
       \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labeltitlesource}{title}
-      \field{howpublished}{\url{https://nextjs.org/}}
-      \field{note}{Consulté le 2026-03-17}
       \field{title}{Next.js -- The React Framework for the Web}
+      \field{urlday}{17}
+      \field{urlmonth}{3}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://nextjs.org/
+      \endverb
+      \verb{url}
+      \verb https://nextjs.org/
+      \endverb
     \endentry
-    \entry{nodejs_dev}{misc}{}{}
+    \entry{nodejs_dev}{online}{}{}
       \field{sortinit}{1}
       \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labeltitlesource}{title}
-      \field{howpublished}{\url{https://nodejs.org/}}
-      \field{note}{Consulté le 2026-03-18}
       \field{title}{Node.js -- Run JavaScript Everywhere}
+      \field{urlday}{18}
+      \field{urlmonth}{3}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://nodejs.org/
+      \endverb
+      \verb{url}
+      \verb https://nodejs.org/
+      \endverb
     \endentry
-    \entry{fastapi_dev}{misc}{}{}
+    \entry{fastapi_dev}{online}{}{}
       \field{sortinit}{1}
       \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labeltitlesource}{title}
-      \field{howpublished}{\url{https://fastapi.tiangolo.com/}}
-      \field{note}{Consulté le 2026-03-18}
       \field{title}{FastAPI -- Modern, fast web framework for building APIs with Python}
+      \field{urlday}{18}
+      \field{urlmonth}{3}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://fastapi.tiangolo.com/
+      \endverb
+      \verb{url}
+      \verb https://fastapi.tiangolo.com/
+      \endverb
     \endentry
-    \entry{django_dev}{misc}{}{}
+    \entry{django_dev}{online}{}{}
       \field{sortinit}{1}
       \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labeltitlesource}{title}
-      \field{howpublished}{\url{https://www.djangoproject.com/}}
-      \field{note}{Consulté le 2026-03-18}
       \field{title}{Django -- The web framework for perfectionists with deadlines}
+      \field{urlday}{18}
+      \field{urlmonth}{3}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.djangoproject.com/
+      \endverb
+      \verb{url}
+      \verb https://www.djangoproject.com/
+      \endverb
     \endentry
-    \entry{drf_dev}{misc}{}{}
+    \entry{drf_dev}{online}{}{}
       \field{sortinit}{1}
       \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labeltitlesource}{title}
-      \field{howpublished}{\url{https://www.django-rest-framework.org/}}
-      \field{note}{Consulté le 2026-03-18}
       \field{title}{Django REST Framework -- Web APIs for Django}
+      \field{urlday}{18}
+      \field{urlmonth}{3}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.django-rest-framework.org/
+      \endverb
+      \verb{url}
+      \verb https://www.django-rest-framework.org/
+      \endverb
     \endentry
-    \entry{djangoninja_dev}{misc}{}{}
+    \entry{djangoninja_dev}{online}{}{}
       \field{sortinit}{1}
       \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labeltitlesource}{title}
-      \field{howpublished}{\url{https://django-ninja.dev/}}
-      \field{note}{Consulté le 2026-03-18}
       \field{title}{Django Ninja -- Fast Django REST Framework}
+      \field{urlday}{18}
+      \field{urlmonth}{3}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://django-ninja.dev/
+      \endverb
+      \verb{url}
+      \verb https://django-ninja.dev/
+      \endverb
     \endentry
-    \entry{mysql_dev}{misc}{}{}
+    \entry{mysql_dev}{online}{}{}
       \field{sortinit}{1}
       \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labeltitlesource}{title}
-      \field{howpublished}{\url{https://www.mysql.com/}}
-      \field{note}{Consulté le 2026-03-17}
       \field{title}{MySQL -- The world's most popular open source database}
+      \field{urlday}{17}
+      \field{urlmonth}{3}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.mysql.com/
+      \endverb
+      \verb{url}
+      \verb https://www.mysql.com/
+      \endverb
     \endentry
-    \entry{mongodb_dev}{misc}{}{}
+    \entry{mongodb_dev}{online}{}{}
       \field{sortinit}{1}
       \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labeltitlesource}{title}
-      \field{howpublished}{\url{https://www.mongodb.com/}}
-      \field{note}{Consulté le 2026-03-17}
       \field{title}{MongoDB -- The developer data platform}
+      \field{urlday}{17}
+      \field{urlmonth}{3}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.mongodb.com/
+      \endverb
+      \verb{url}
+      \verb https://www.mongodb.com/
+      \endverb
     \endentry
-    \entry{postgresql_dev}{misc}{}{}
+    \entry{postgresql_dev}{online}{}{}
       \field{sortinit}{2}
       \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labeltitlesource}{title}
-      \field{howpublished}{\url{https://www.postgresql.org/}}
-      \field{note}{Consulté le 2026-03-17}
       \field{title}{PostgreSQL -- The world's most advanced open source relational database}
+      \field{urlday}{17}
+      \field{urlmonth}{3}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.postgresql.org/
+      \endverb
+      \verb{url}
+      \verb https://www.postgresql.org/
+      \endverb
     \endentry
-    \entry{celery_dev}{misc}{}{}
+    \entry{celery_dev}{online}{}{}
       \field{sortinit}{2}
       \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labeltitlesource}{title}
-      \field{howpublished}{\url{https://docs.celeryq.dev/}}
-      \field{note}{Consulté le 2026-03-19}
       \field{title}{Celery -- Distributed Task Queue}
+      \field{urlday}{19}
+      \field{urlmonth}{3}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://docs.celeryq.dev/
+      \endverb
+      \verb{url}
+      \verb https://docs.celeryq.dev/
+      \endverb
     \endentry
-    \entry{redis_dev}{misc}{}{}
+    \entry{redis_dev}{online}{}{}
       \field{sortinit}{2}
       \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labeltitlesource}{title}
-      \field{howpublished}{\url{https://redis.io/docs/}}
-      \field{note}{Consulté le 2026-03-19}
       \field{title}{Redis -- The Real-time Data Platform}
+      \field{urlday}{19}
+      \field{urlmonth}{3}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://redis.io/docs/
+      \endverb
+      \verb{url}
+      \verb https://redis.io/docs/
+      \endverb
     \endentry
-    \entry{djangoq2_dev}{misc}{}{}
+    \entry{djangoq2_dev}{online}{}{}
       \field{sortinit}{2}
       \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labeltitlesource}{title}
-      \field{howpublished}{\url{https://django-q2.readthedocs.io/}}
-      \field{note}{Consulté le 2026-03-19}
       \field{title}{Django Q2 -- A multiprocessing task queue for Django}
+      \field{urlday}{19}
+      \field{urlmonth}{3}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://django-q2.readthedocs.io/
+      \endverb
+      \verb{url}
+      \verb https://django-q2.readthedocs.io/
+      \endverb
     \endentry
-    \entry{minio_dev}{misc}{}{}
+    \entry{minio_dev}{online}{}{}
       \field{sortinit}{2}
       \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labeltitlesource}{title}
-      \field{howpublished}{\url{https://min.io/docs/}}
-      \field{note}{Consulté le 2026-03-24}
       \field{title}{MinIO -- High Performance Object Storage}
+      \field{urlday}{24}
+      \field{urlmonth}{3}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://min.io/docs/
+      \endverb
+      \verb{url}
+      \verb https://min.io/docs/
+      \endverb
     \endentry
-    \entry{nginx_dev}{misc}{}{}
+    \entry{nginx_dev}{online}{}{}
       \field{sortinit}{2}
       \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labeltitlesource}{title}
-      \field{howpublished}{\url{https://nginx.org/en/docs/}}
-      \field{note}{Consulté le 2026-03-27}
       \field{title}{Nginx -- High Performance Load Balancer, Web Server, \& Reverse Proxy}
+      \field{urlday}{27}
+      \field{urlmonth}{3}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://nginx.org/en/docs/
+      \endverb
+      \verb{url}
+      \verb https://nginx.org/en/docs/
+      \endverb
     \endentry
-    \entry{traefik_dev}{misc}{}{}
+    \entry{traefik_dev}{online}{}{}
       \field{sortinit}{2}
       \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labeltitlesource}{title}
-      \field{howpublished}{\url{https://doc.traefik.io/traefik/}}
-      \field{note}{Consulté le 2026-03-27}
       \field{title}{Traefik -- The Cloud Native Application Proxy}
+      \field{urlday}{27}
+      \field{urlmonth}{3}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://doc.traefik.io/traefik/
+      \endverb
+      \verb{url}
+      \verb https://doc.traefik.io/traefik/
+      \endverb
     \endentry
-    \entry{rgpd_2016}{misc}{}{}
+    \entry{rgpd_2016}{online}{}{}
       \field{sortinit}{2}
       \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labeltitlesource}{title}
-      \field{howpublished}{\url{https://eur-lex.europa.eu/eli/reg/2016/679/oj/fra}}
-      \field{note}{Consulté le 2026-05-04}
       \field{title}{Règlement (UE) 2016/679 du Parlement européen et du Conseil du 27 avril 2016 relatif à la protection des personnes physiques à l'égard du traitement des données à caractère personnel (RGPD)}
+      \field{urlday}{4}
+      \field{urlmonth}{5}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://eur-lex.europa.eu/eli/reg/2016/679/oj/fra
+      \endverb
+      \verb{url}
+      \verb https://eur-lex.europa.eu/eli/reg/2016/679/oj/fra
+      \endverb
     \endentry
     \entry{GaleShapley1962}{article}{}{}
       \name{author}{2}{}{%
@@ -303,6 +506,43 @@
       \verb 10.2307/2312726
       \endverb
     \endentry
+    \entry{AbdulkadirogluSonmez2003}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=9210d7a0646d485f1f21951c61c52cd2}{%
+           family={Abdulkadiroğlu},
+           familyi={A\bibinitperiod},
+           given={Atila},
+           giveni={A\bibinitperiod}}}%
+        {{hash=8073f6091c1c9c41b6684fbd2d0112aa}{%
+           family={Sönmez},
+           familyi={S\bibinitperiod},
+           given={Tayfun},
+           giveni={T\bibinitperiod}}}%
+      }
+      \strng{namehash}{3ea8bbd7b953270c0887a3a025b4e285}
+      \strng{fullhash}{3ea8bbd7b953270c0887a3a025b4e285}
+      \strng{fullhashraw}{3ea8bbd7b953270c0887a3a025b4e285}
+      \strng{bibnamehash}{3ea8bbd7b953270c0887a3a025b4e285}
+      \strng{authorbibnamehash}{3ea8bbd7b953270c0887a3a025b4e285}
+      \strng{authornamehash}{3ea8bbd7b953270c0887a3a025b4e285}
+      \strng{authorfullhash}{3ea8bbd7b953270c0887a3a025b4e285}
+      \strng{authorfullhashraw}{3ea8bbd7b953270c0887a3a025b4e285}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{American Economic Review}
+      \field{langid}{english}
+      \field{number}{3}
+      \field{title}{School Choice: A Mechanism Design Approach}
+      \field{volume}{93}
+      \field{year}{2003}
+      \field{pages}{729\bibrangedash 747}
+      \range{pages}{19}
+      \verb{doi}
+      \verb 10.1257/000282803322157061
+      \endverb
+    \endentry
     \entry{Cox1958}{article}{}{}
       \name{author}{1}{}{%
         {{hash=ec0b9ca4f3b98349d98f9f91b1ea21fe}{%
@@ -319,8 +559,8 @@
       \strng{authornamehash}{ec0b9ca4f3b98349d98f9f91b1ea21fe}
       \strng{authorfullhash}{ec0b9ca4f3b98349d98f9f91b1ea21fe}
       \strng{authorfullhashraw}{ec0b9ca4f3b98349d98f9f91b1ea21fe}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Journal of the Royal Statistical Society: Series B}
@@ -369,37 +609,69 @@
       \verb 10.1145/2939672.2939785
       \endverb
     \endentry
-    \entry{mistral_dev}{misc}{}{}
+    \entry{mistral_dev}{online}{}{}
       \field{sortinit}{3}
       \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
       \field{labeltitlesource}{title}
-      \field{howpublished}{\url{https://docs.mistral.ai/}}
-      \field{note}{Consulté le 2026-03-30}
       \field{title}{Mistral AI -- La plateforme pour les modèles de langage}
+      \field{urlday}{30}
+      \field{urlmonth}{3}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://docs.mistral.ai/
+      \endverb
+      \verb{url}
+      \verb https://docs.mistral.ai/
+      \endverb
     \endentry
-    \entry{langchain_dev}{misc}{}{}
+    \entry{langchain_dev}{online}{}{}
       \field{sortinit}{3}
       \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
       \field{labeltitlesource}{title}
-      \field{howpublished}{\url{https://python.langchain.com/docs/}}
-      \field{note}{Consulté le 2026-03-30}
       \field{title}{LangChain -- Build context-aware reasoning applications}
+      \field{urlday}{30}
+      \field{urlmonth}{3}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://python.langchain.com/docs/
+      \endverb
+      \verb{url}
+      \verb https://python.langchain.com/docs/
+      \endverb
     \endentry
-    \entry{LlamaIndex_dev}{misc}{}{}
+    \entry{LlamaIndex_dev}{online}{}{}
       \field{sortinit}{3}
       \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
       \field{labeltitlesource}{title}
-      \field{howpublished}{\url{https://developers.llamaindex.ai/python/framework/}}
-      \field{note}{Consulté le 2026-03-30}
       \field{title}{LlamaIndex -- Python Framework Documentation}
+      \field{urlday}{30}
+      \field{urlmonth}{3}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://developers.llamaindex.ai/python/framework/
+      \endverb
+      \verb{url}
+      \verb https://developers.llamaindex.ai/python/framework/
+      \endverb
     \endentry
-    \entry{haystack_dev}{misc}{}{}
+    \entry{haystack_dev}{online}{}{}
       \field{sortinit}{3}
       \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
       \field{labeltitlesource}{title}
-      \field{howpublished}{\url{https://docs.haystack.deepset.ai/}}
-      \field{note}{Consulté le 2026-03-30}
       \field{title}{Haystack -- The open-source AI framework}
+      \field{urlday}{30}
+      \field{urlmonth}{3}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://docs.haystack.deepset.ai/
+      \endverb
+      \verb{url}
+      \verb https://docs.haystack.deepset.ai/
+      \endverb
     \endentry
   \enddatalist
 \endrefsection

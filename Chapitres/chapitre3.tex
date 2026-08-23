@@ -15,11 +15,13 @@
 \phantomsection
 \addcontentsline{toc}{section}{Introduction}
 
-Le chapitre précédent a justifié les technologies retenues pour la plateforme. Ce chapitre présente la conception globale du système qui en découle : product backlog Scrum, organisation du code et architecture logicielle et physique, et modèle de données.
+Le chapitre précédent a justifié les choix technologiques de la plateforme. Ce chapitre en présente la conception globale : backlog produit, architecture logicielle et modèle de données.
 
 % ─────────────────────────────────────────────────────────────
 \section{Product Backlog}
 % ─────────────────────────────────────────────────────────────
+
+Cette section présente le backlog produit du projet : la méthode de priorisation retenue, l'estimation en story points et le tableau complet des user stories.
 
 \subsection{Priorités MoSCoW}
 
@@ -549,7 +551,7 @@ Cette section détaille la mise en œuvre concrète de l'architecture en couches
 
 \subsection{Vue d'ensemble}
 
-La plateforme repose sur une architecture en cinq couches qui s'appuie sur le modèle 3-tiers classique tout en l'enrichissant d'une couche asynchrone dédiée aux traitements longs. Chaque couche a une frontière bien définie : aucun composant Next.js n'accède à la base de données directement, aucune tâche asynchrone ne peut bloquer une requête HTTP.
+La plateforme repose sur une architecture en cinq couches qui s'appuie sur le modèle 3-tiers classique tout en l'enrichissant d'une couche asynchrone dédiée aux traitements longs. Chaque couche a une frontière bien définie : aucun composant Next.js n'accède à la base de données directement, aucune tâche asynchrone ne peut bloquer une requête HTTP. La figure~\ref{fig:archi-logique} donne une vue d'ensemble du système.
 
 \begin{figure}[H]
   \centering
@@ -558,7 +560,7 @@ La plateforme repose sur une architecture en cinq couches qui s'appuie sur le mo
   \label{fig:archi-logique}
 \end{figure}
 
-La figure~\ref{fig:archi-logique} donne une vue d'ensemble du système. Les flux sont unidirectionnels et bien délimités. Le frontend Next.js 16 s'adresse exclusivement à l'API Django Ninja via des appels REST sur HTTPS, jamais directement à la base de données. Django-Q2 s'exécute dans un processus séparé et partage le même PostgreSQL que l'applicatif, ce qui lui permet de fonctionner comme file d'attente sans service externe supplémentaire. PostgreSQL et MinIO sont des services internes non accessibles depuis l'extérieur du réseau Docker. Les adaptateurs ETL sont physiquement séparés des modules métier, précisément parce qu'ils dépendent de sources externes (MoveON, Pégase, Eudonet) dont la disponibilité n'est pas garantie. L'authentification passe par le CAS de Toulouse INP : à chaque requête, le token JWT est validé et le rôle (\texttt{ADMIN\_RI} ou \texttt{ETUDIANT}) est extrait pour contrôler les accès.
+Les flux entre couches sont unidirectionnels et bien délimités. Le frontend Next.js 16 s'adresse exclusivement à l'API Django Ninja via des appels REST sur HTTPS, jamais directement à la base de données. Django-Q2 s'exécute dans un processus séparé et partage le même PostgreSQL que l'applicatif, ce qui lui permet de fonctionner comme file d'attente sans service externe supplémentaire. PostgreSQL et MinIO sont des services internes non accessibles depuis l'extérieur du réseau Docker. Les adaptateurs ETL sont physiquement séparés des modules métier, précisément parce qu'ils dépendent de sources externes (MoveON, Pégase, Eudonet) dont la disponibilité n'est pas garantie. L'authentification passe par le CAS de Toulouse INP : à chaque requête, le token JWT est validé et le rôle (\texttt{ADMIN\_RI} ou \texttt{ETUDIANT}) est extrait pour contrôler les accès.
 
 \subsection{Couche présentation : Next.js 16}
 
@@ -590,7 +592,7 @@ Le backend concentre la logique métier du système. Il est découpé en modules
 %   \item \texttt{apps.rag} : chatbot RAG (LlamaIndex + ChromaDB).
 % \end{itemize}
 
-\textbf{Django Ninja} est utilisé pour exposer l’API REST. Chaque module définit ses propres schémas pour valider les données en entrée et structurer les réponses. L’authentification repose sur le middleware JWT (CAS Toulouse INP), qui vérifie le token et associe l’utilisateur à chaque requête.
+\textbf{Django Ninja} est utilisé pour exposer l'API REST. Chaque module définit ses propres schémas pour valider les données en entrée et structurer les réponses. L’authentification repose sur le middleware JWT (CAS Toulouse INP), qui vérifie le token et associe l’utilisateur à chaque requête.
 
 \subsection{Couche traitement asynchrone : Django-Q2}
 
@@ -598,7 +600,7 @@ Plutôt que de bloquer l'interface le temps qu'un calcul se termine, les traitem
 
 \begin{itemize}
   \item \textbf{Tâches déclenchées par événement} : lancement de l'algorithme d'affectation, recalcul des durées CTI après chaque transition FSM, génération des rapports d'import.
-  \item \textbf{Tâches planifiées (cron)} : synchronisation quotidienne des institutions partenaires (MoveON) ; purge des données brutes (\texttt{RawImport}) traitées depuis plus de 90 jours.
+  \item \textbf{Tâches planifiées (cron)} : vérification quotidienne du calendrier de la campagne, qui déclenche automatiquement le passage à la candidature, la clôture des vœux et la clôture de l'année universitaire dès que les dates prévues sont atteintes.
 \end{itemize}
 
 \subsection{Couche données : PostgreSQL 16}
@@ -625,11 +627,13 @@ Chaque source externe est encapsulée dans un adaptateur dédié, isolé du rest
   \item \texttt{adapters/excel.py} : traitement des fichiers Excel standardisés pour chaque domaine (étudiants, accords, vœux, mobilités entrantes) en fallback lorsque l'API source est indisponible.
 \end{itemize}
 
-Tous les adaptateurs suivent le même enchaînement : récupération des données depuis la source → stockage brut en JSONB (\texttt{RawImport}) → parsing et standardisation → validation métier → persistance en base → génération du rapport d'import. En cas d'indisponibilité de la source, le client HTTP tente successivement plusieurs points d'entrée alternatifs (par exemple \texttt{/internships} puis \texttt{/api/internships} pour Eudonet). Si tous les points d'entrée échouent, une exception est levée, capturée par la tâche Django-Q2 et signalée via \textbf{Sentry}. Aucun mécanisme de retry temporel avec backoff n'est appliqué à ce stade ; un import Excel de secours reste disponible pour chaque source en cas d'indisponibilité prolongée.
+Tous les adaptateurs suivent le même enchaînement : récupération des données depuis la source → stockage brut en JSONB (\texttt{RawImport}) → parsing et standardisation → validation métier → persistance en base → génération du rapport d'import. En cas d'indisponibilité de la source, le client HTTP tente successivement plusieurs points d'entrée alternatifs (par exemple \texttt{/internships} puis \texttt{/api/internships} pour Eudonet) ; si tous échouent, une exception est levée et l'échec de la tâche est consigné par Django-Q2. Un import Excel de secours reste disponible pour chaque source, ce qui permet à l'administrateur de poursuivre le traitement en cas d'indisponibilité prolongée.
 
 \subsubsection{Stratégie d'upsert}
 
-À la phase de persistance, chaque enregistrement est traité selon une logique d'upsert. La clé métier (généralement l'INE ou l'identifiant de l'accord) permet de déterminer si l'enregistrement est nouveau ou déjà connu. S'il est nouveau, il est inséré. S'il existe, ses champs sont comparés un à un avec la version en base : en l'absence de différence, l'enregistrement est ignoré ; si un champ a changé (par exemple un GPA révisé dans Pégase ou une date de fin de stage corrigée dans Eudonet), la mise à jour est appliquée et l'écart est consigné dans le journal d'audit. Cela permet au service RI de savoir exactement ce qui a changé d'une synchronisation à l'autre.
+À la phase de persistance, chaque enregistrement est traité selon une logique d'upsert. La clé métier (généralement l'INE ou l'identifiant de l'accord) permet de déterminer si l'enregistrement est nouveau ou déjà connu. S'il est nouveau, il est inséré. S'il existe, ses champs sont comparés un à un avec la version en base ; en l'absence de différence, l'enregistrement est ignoré.
+
+La suite dépend de la source. Pour les données étudiants (Pégase) et les vœux (MoveON), une différence détectée, par exemple un GPA révisé, est appliquée directement, et le rapport d'import indique le nombre d'enregistrements créés et mis à jour. Pour les stages internationaux importés depuis Eudonet, en revanche, une différence n'est jamais appliquée automatiquement : l'ancienne et la nouvelle valeur sont conservées côte à côte dans le rapport, et c'est l'administrateur qui décide, depuis l'interface, d'appliquer la mise à jour, de conserver les deux enregistrements séparément, ou d'ignorer l'anomalie.
 
 \subsubsection{Clé de jointure : l'INE}
 
@@ -650,7 +654,7 @@ validation manuelle par le service RI.
 
 \subsubsection{Stratégie de synchronisation}
 
-Le tableau~\ref{tab:sync-strategy} récapitule, pour chaque source externe, le déclencheur de synchronisation et les particularités de traitement associées.
+Le tableau~\ref{tab:sync-strategy} récapitule, pour chaque source externe, le déclencheur de synchronisation et les particularités de traitement associées. Ces intégrations restent toutes en lecture seule : aucune synchronisation n'écrit vers le système source. De même, lorsqu'un enregistrement importé ne peut pas être rattaché à un étudiant faute d'INE valide, la réconciliation par similarité de nom s'applique quelle que soit la source concernée, et non à une seule d'entre elles.
 
 \renewcommand{\arraystretch}{1.4}
 \begin{table}[H]
@@ -664,26 +668,27 @@ Le tableau~\ref{tab:sync-strategy} récapitule, pour chaque source externe, le d
 \textbf{Source} & \textbf{Déclencheur} & \textbf{Remarque} \\
 \hline
 MoveON &
-À la demande via l'interface admin (institutions : synchronisation
-quotidienne automatique) &
-Lecture seule : aucune écriture vers MoveON \\
+À la demande via l'interface admin &
+Vœux et accords mis à jour automatiquement à chaque synchronisation \\
 \hline
 Pégase &
 Initialisation de campagne + à la demande &
-GPA figé à date fixe de campagne \\
+Les champs modifiés (GPA, département, niveau) sont mis à jour automatiquement à chaque synchronisation \\
 \hline
 Eudonet &
 À la demande via l'interface admin &
-Réconciliation INE si absent \\
+Une différence détectée n'est pas appliquée automatiquement : l'administrateur choisit d'appliquer la mise à jour, de conserver les deux versions séparément, ou d'ignorer l'anomalie \\
 \hline
 Excel &
 Upload manuel par l'administrateur &
-Fallback pour toutes les sources en cas d'indisponibilité API \\
+Fallback pour toutes les sources en cas d'indisponibilité API ; pour les mobilités entrantes, un doublon détecté suit le même principe que pour Eudonet et reste soumis à la décision de l'administrateur \\
 \hline
 \end{tabular}
 \end{table}
 
 \subsection{Sécurité et contrôle d'accès}
+
+Cette section présente les mécanismes qui protègent l'accès au système : l'authentification via le CAS institutionnel, l'attribution des rôles, le renouvellement des jetons, la traçabilité des actions et la protection des données personnelles.
 
 \subsubsection{Flux d'authentification CAS}
 
@@ -691,14 +696,23 @@ L'application délègue entièrement l'authentification au CAS institutionnel de
 
 \begin{enumerate}
   \item L'utilisateur accède à l'application et est redirigé vers le portail SSO institutionnel.
-  \item Après authentification CAS, un JWT HS256 signé est émis par le backend et transmis à l'application.
-  \item Le backend décode le token, extrait l'INE et le groupe LDAP de l'utilisateur, et détermine automatiquement son rôle (\texttt{ADMIN\_RI} ou \texttt{ETUDIANT}).
+  \item Après authentification CAS, un JWT signé est émis par le backend et transmis à l'application.
+  \item Le backend valide le ticket auprès du CAS, qui renvoie l'INE et le rôle de l'utilisateur (\texttt{ADMIN\_RI} ou \texttt{ETUDIANT}) directement dans sa réponse.
   \item Le frontend reçoit le rôle et affiche l'espace correspondant. Les tokens ont une durée de vie courte (15 minutes) et sont renouvelés silencieusement sans interrompre la navigation.
 \end{enumerate}
 
+La figure~\ref{fig:seq-auth-cas} détaille ce flux sous forme de diagramme de séquence, ticket CAS et rafraîchissement du token inclus.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{figures/conception/sequences/sequence-auth-cas.png}
+\caption{Diagramme de séquence : authentification CAS et rafraîchissement du JWT}
+\label{fig:seq-auth-cas}
+\end{figure}
+
 \subsubsection{Contrôle d'accès (RBAC)}
 
-Les rôles sont déduits automatiquement depuis l'annuaire LDAP institutionnel, sans gestion manuelle dans l'application :
+Les rôles sont déduits automatiquement depuis la réponse du CAS institutionnel, sans gestion manuelle dans l'application :
 
 \begin{itemize}
   \item \textbf{ADMIN\_RI} : accès complet aux fonctions d'administration, à savoir les imports, le lancement de l'algorithme, les validations et les exports CTI. Toute action est enregistrée dans le journal d'audit.
@@ -707,7 +721,7 @@ Les rôles sont déduits automatiquement depuis l'annuaire LDAP institutionnel, 
 
 \subsubsection{Gestion du renouvellement des tokens JWT}
 
-Les tokens JWT ont une durée de vie de 15 minutes pour limiter l'exposition en cas d'interception. Côté Next.js, un mécanisme de renouvellement proactif intégré au client HTTP vérifie l'expiration du token avant chaque requête (seuil à 3 minutes) et appelle le endpoint \texttt{/api/v1/auth/refresh/} du backend pour obtenir un nouveau JWT sans interrompre la navigation. Côté Django, chaque requête est vérifiée par un middleware qui contrôle la signature et l'expiration du token ; un token expiré retourne un 401 et force le frontend à initier un nouveau cycle. La durée de vie courte (15 minutes) limite l'exposition en cas d'interception ; après expiration, un nouveau cycle d'authentification est nécessaire.
+Les tokens JWT ont une durée de vie de 15 minutes pour limiter l'exposition en cas d'interception. Côté Next.js, un mécanisme de renouvellement proactif intégré au client HTTP vérifie l'expiration du token avant chaque requête (seuil à 3 minutes) et appelle l'endpoint \texttt{/api/v1/auth/refresh/} du backend pour obtenir un nouveau JWT sans interrompre la navigation. Côté Django, chaque requête est vérifiée par un middleware qui contrôle la signature et l'expiration du token ; un token expiré retourne un 401 et force le frontend à initier un nouveau cycle. La durée de vie courte (15 minutes) limite l'exposition en cas d'interception ; après expiration, un nouveau cycle d'authentification est nécessaire.
 
 \subsubsection{Journal d'audit}
 
@@ -721,17 +735,17 @@ La traçabilité des actions administratives est assurée par un module applicat
   \item Exports de rapports CTI.
 \end{itemize}
 
-Chaque entrée contient l'identifiant de l'auteur, l'horodatage UTC, l'entité concernée (table et clé primaire), l'action effectuée, et les valeurs avant/après modification. Le journal est stocké dans une table PostgreSQL dédiée (\texttt{auditlog\_logentry}), accessible en lecture seule. La politique de rétention retenue est de sept ans, soit un cycle complet d'habilitation CTI (six ans) augmenté d'une marge de sécurité, afin que le journal reste disponible pour tout audit d'habilitation portant sur l'intégralité de la période concernée. Sa mise en œuvre technique (purge automatique, rotation des sauvegardes) sera configurée par l'administrateur système lors du déploiement en production. Aucune entrée ne peut être modifiée ou supprimée depuis l'application ; toute suppression nécessite un accès direct à la base, lui-même tracé au niveau opérateur.
+Chaque entrée contient l'identifiant de l'auteur, l'horodatage UTC, l'entité concernée (table et clé primaire), l'action effectuée, et les valeurs avant/après modification. Le journal est stocké dans une table PostgreSQL dédiée (\texttt{auditlog\_logentry}), accessible en lecture seule : aucune entrée ne peut être modifiée ou supprimée depuis l'application, toute suppression nécessitant un accès direct à la base, lui-même tracé au niveau opérateur.
 
 \subsubsection{Protection des données (RGPD)}
 
 La plateforme traite des données personnelles étudiantes (INE, email, genre, nationalité, identifiant Pégase) soumises au RGPD. Quatre mesures techniques ont été intégrées dès la conception :
 
 \begin{itemize}
-  \item \textbf{Chiffrement au repos} : les champs sensibles sont chiffrés en base via \texttt{pgcrypto} ; leur lecture requiert la clé de déchiffrement qui n'est jamais stockée dans le code.
+  \item \textbf{Chiffrement au repos} : l'e-mail et l'identifiant Pégase de l'étudiant sont chiffrés en base via \texttt{pgcrypto} ; leur lecture requiert la clé de déchiffrement, qui n'est jamais stockée dans le code mais fournie par variable d'environnement.
   \item \textbf{Chiffrement en transit} : TLS est obligatoire sur tous les endpoints ; les communications HTTP sont systématiquement redirigées vers HTTPS par Nginx.
-  \item \textbf{Stockage des justificatifs} : les fichiers uploadés (justificatifs de mobilités complémentaires) sont chiffrés côté serveur dans MinIO (SSE-S3) et supprimés automatiquement après validation et expiration du délai de conservation.
-  \item \textbf{Droit à l'oubli}~\cite{rgpd_2016} : l'étudiant peut demander l'anonymisation de ses données nominatives (nom, prénom, e-mail, genre, nationalité, identifiant Pégase) à tout moment, et non uniquement après diplômation ; les données nécessaires à la cohérence de la campagne (inscriptions, résultats d'affectation, durées CTI) sont conservées sous forme dépersonnalisée. La demande n'est différée que si l'étudiant est encore inscrit à une campagne non clôturée, le temps que celle-ci se termine, conformément aux exceptions prévues par ce même règlement. Chaque anonymisation est tracée dans le journal d'audit.
+  \item \textbf{Stockage des justificatifs} : les fichiers uploadés (justificatifs de mobilités complémentaires) sont chiffrés côté serveur dans MinIO (SSE-S3). Une tâche supprime les justificatifs dont le délai de conservation a expiré, activée par une planification Django-Q configurée par l'administrateur système.
+  \item \textbf{Droit à l'oubli}~\cite{rgpd_2016} : sur demande d'un étudiant, le service RI peut anonymiser ses données nominatives (nom, prénom, e-mail, genre, nationalité, identifiant Pégase) via l'API dédiée, à tout moment et non uniquement après diplômation ; les données nécessaires à la cohérence de la campagne (inscriptions, résultats d'affectation, durées CTI) sont conservées sous forme dépersonnalisée. L'anonymisation est refusée tant que l'étudiant est inscrit à une campagne non clôturée, le temps que celle-ci se termine, conformément aux exceptions prévues par ce même règlement. Chaque anonymisation est tracée dans le journal d'audit.
 \end{itemize}
 % ─────────────────────────────────────────────────────────────
 \section{Architecture physique et déploiement}
@@ -741,7 +755,7 @@ Cette section présente le déploiement physique du système, les containers Doc
 
 \subsection{Vue d'ensemble}
 
-L'application s'exécute sur un serveur on-premise hébergé par Toulouse INP. Tous les services sont conteneurisés via \textbf{Docker Compose}, ce qui garantit que l'environnement de développement et l'environnement de production sont structurellement identiques ; éliminer les surprises du déploiement était une contrainte dès le départ.
+L'application s'exécute sur un serveur on-premise hébergé par Toulouse INP. Tous les services sont conteneurisés via \textbf{Docker Compose}, ce qui garantit que l'environnement de développement et l'environnement de production sont structurellement identiques ; éliminer les surprises du déploiement était une contrainte dès le départ. La figure~\ref{fig:archi-physique} détaille les flux réseau de ce déploiement.
 
 \begin{figure}[H]
   \centering
@@ -750,7 +764,7 @@ L'application s'exécute sur un serveur on-premise hébergé par Toulouse INP. T
   \label{fig:archi-physique}
 \end{figure}
 
-La figure~\ref{fig:archi-physique} détaille les flux réseau. Tout le trafic entrant passe par \textbf{Nginx}, le seul container exposé à l'extérieur (ports 80 et 443). Nginx redirige le HTTP vers HTTPS, sert les fichiers statiques Next.js et route les appels API vers \texttt{backend:8000}. PostgreSQL, MinIO et le worker Django-Q2 sont confinés dans le réseau Docker interne ; aucune connexion directe depuis l'extérieur n'est possible. Les appels vers les APIs institutionnelles (MoveON, Pégase, Eudonet, CAS) partent exclusivement du container \texttt{backend} en HTTPS sortant. Sentry est externe à l'infrastructure et reçoit les rapports d'erreur du backend. Prometheus (collecte de métriques) et Grafana (visualisation) tournent en interne, accessibles uniquement depuis le réseau institutionnel.
+Tout le trafic entrant passe par \textbf{Nginx}, le seul container exposé à l'extérieur (ports 80 et 443). Nginx redirige le HTTP vers HTTPS, sert les fichiers statiques Next.js et route les appels API vers \texttt{backend:8000}. PostgreSQL, MinIO et le worker Django-Q2 sont confinés dans le réseau Docker interne ; aucune connexion directe depuis l'extérieur n'est possible. Les appels vers les APIs institutionnelles (MoveON, Pégase, Eudonet, CAS) partent exclusivement du container \texttt{backend} en HTTPS sortant. Sentry est externe à l'infrastructure et reçoit les rapports d'erreur du backend. Prometheus (collecte de métriques) et Grafana (visualisation) tournent en interne, accessibles uniquement depuis le réseau institutionnel.
 
 \subsection{Containers Docker}
 
@@ -797,33 +811,43 @@ Nginx est le seul point d'entrée du système : les requêtes vers \texttt{/api/
 Trois environnements coexistent, avec une parité de configuration maximale entre eux :
 
 \begin{itemize}
-  \item \textbf{Développement} : Docker Compose local, données anonymisées, variables d'environnement dans \texttt{.env}. Chaque développeur dispose d'un environnement reproductible en une commande.
+  \item \textbf{Développement} : Docker Compose local, données anonymisées, variables d'environnement dans \texttt{.env}. 
   \item \textbf{Staging} : copie conforme de la production hébergée sur le serveur institutionnel, utilisée pour les tests d'acceptation (UAT) avec le service RI avant chaque mise en production.
   \item \textbf{Production} : déploiement final sur le serveur on-premise, avec sauvegardes PostgreSQL quotidiennes, alertes via Sentry (standard pour la capture d'exceptions applicatives) et métriques via Prometheus/Grafana (standard pour la supervision d'infrastructure conteneurisée).
 \end{itemize}
 
 \subsection{CI/CD}
 
-Le pipeline CI/CD sur \textbf{GitHub Actions} s'exécute à chaque push. Quatre étapes s'enchaînent :
+Le pipeline CI/CD sur \textbf{GitHub Actions} repose sur deux workflows distincts. Le premier, \texttt{ci.yml}, s'exécute à chaque push sur une branche de travail et à chaque pull request vers \texttt{develop} ou \texttt{main} ; il enchaîne deux étapes :
 
 \begin{itemize}
-  \item \textbf{Lint et tests} : le linter \texttt{ruff} vérifie la qualité du code Python, puis \texttt{pytest} exécute la suite de tests complète.
-  \item \textbf{Build} : construction des images Docker et vérification que l'ensemble des services démarre sans erreur.
-  \item \textbf{Déploiement staging} : déploiement automatique sur l'environnement de staging à chaque merge sur \texttt{main}, sans intervention manuelle.
-  \item \textbf{Déploiement production} : jamais automatique. Il est déclenché manuellement par l'administrateur système une fois les tests d'acceptation validés sur staging, ce qui garantit une approbation explicite avant toute mise en production, compte tenu du caractère institutionnel du système et des données personnelles qu'il traite.
+  \item \textbf{Lint et tests} : le linter \texttt{ruff} vérifie la qualité du code Python et \texttt{pytest} exécute la suite de tests backend, pendant qu'ESLint et le compilateur TypeScript contrôlent le code frontend et que Vitest exécute ses tests.
+  \item \textbf{Build} : construction des images Docker du backend et du frontend, chacune analysée par Trivy pour détecter les vulnérabilités critiques ou élevées.
 \end{itemize}
+
+Le second workflow, \texttt{deploy-staging.yml}, ne se déclenche que lors d'un push sur \texttt{main} ; il automatise le déploiement sur l'environnement de staging, sans intervention manuelle. Le déploiement en production, lui, n'est piloté par aucun workflow automatisé : il est déclenché manuellement par l'administrateur système une fois les tests d'acceptation validés sur staging, ce qui garantit une approbation explicite avant toute mise en production, compte tenu du caractère institutionnel du système et des données personnelles qu'il traite.
+
+La figure~\ref{fig:cap-github-actions} montre une exécution du workflow \texttt{ci.yml} (lint et tests, build) sur GitHub Actions.
+% TODO_CAPTURE : capture d'écran d'une exécution réussie du pipeline GitHub
+% Actions (étapes lint/tests, build).
+% Déposer le fichier sous figures/captures/github-actions.png puis
+% décommenter le bloc ci-dessous.
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{figures/captures/github/github-actions.png}
+  \caption{Exécution des étapes de lint, tests et build sur GitHub Actions}
+  \label{fig:cap-github-actions}
+\end{figure}
+
+Une exécution réussie garantit que le code fusionné respecte les règles de qualité définies, backend et frontend, et que les images produites ne contiennent pas de vulnérabilité critique ou élevée, avant tout déploiement.
 
 \subsection{Stratégie de migration de schéma}
 
 Les migrations Django sont appliquées automatiquement avant le démarrage du serveur applicatif, ce qui garantit que le code et le schéma de base de données sont toujours cohérents. La stratégie retenue est celle des migrations additives en deux temps : on ajoute d'abord le nouveau champ (migration non destructive), et on supprime les éléments devenus inutiles dans une migration ultérieure, une fois que le code de production n'y fait plus référence. Cette approche permet de déployer sans fenêtre de maintenance et sans risque de rupture entre le code et le schéma. Chaque fichier de migration est versionné dans le dépôt git au même titre que le code, et relu avant intégration.
 
-\subsection{Stratégie de rollback}
+\subsection{Sauvegarde de la base de données}
 
-Si un incident survient après un déploiement, le rollback se déroule en deux temps. L'image Docker précédente est remise en service en ciblant son tag de version. Si la migration de schéma était irréversible (suppression de colonne par exemple), une restauration depuis la sauvegarde pré-déploiement est effectuée ; c'est pourquoi une sauvegarde complète est systématiquement déclenchée juste avant tout déploiement en production. Pour les migrations réversibles, un retour en arrière via la commande Django est possible sans restauration complète.
-
-\subsection{Politique de sauvegarde}
-
-La politique de sauvegarde repose sur deux niveaux. Une sauvegarde logique complète de la base de données, via l'outil PostgreSQL \texttt{pg\_dump}, a lieu chaque nuit et est conservée 30 jours sur un espace de stockage séparé de celui des données. Une sauvegarde physique (copie complète des fichiers de la base) a lieu chaque semaine et est conservée six mois ; combinée aux journaux qui enregistrent chaque modification de la base (WAL), elle permet de restaurer les données à un instant précis plutôt qu'à la seule dernière sauvegarde. Ces sauvegardes automatiques (programmation régulière, copie vers un stockage distant, test mensuel de restauration sur l'environnement de staging) s'appuient sur des outils standards : \texttt{pg\_dump}, copie de volume, script de vérification des données.
+Une commande dédiée exécute \texttt{pg\_dump} dans le conteneur PostgreSQL et exporte l'ensemble des données dans un fichier SQL horodaté.
 
 \subsection{Gestion des secrets}
 
@@ -864,7 +888,7 @@ une machine à états. \\
 \textbf{Students} &
 Données académiques des étudiants importées depuis Pégase :
 \texttt{Student}, inscriptions annuelles (\texttt{AnnualEnrollment}),
-parcours pédagogique (\texttt{Parcours}), relevés de GPA gelés à date fixe. \\
+parcours pédagogique (\texttt{Parcours}), GPA mis à jour à chaque synchronisation. \\
 \hline
 \textbf{Institutions} &
 Universités partenaires (synchronisées depuis MoveON) et
@@ -904,7 +928,7 @@ Toutes les entités opérationnelles, telles que les dossiers, vœux, affectatio
 L'identifiant national étudiant (INE) est le seul identifiant commun à toutes les sources : MoveON, Pégase, Eudonet et le CAS. Tous les imports sont croisés via l'INE pour construire une vue unifiée du dossier étudiant. Quand un enregistrement arrive sans INE valide (cas courant dans Eudonet), une réconciliation par similarité est appliquée sur le nom et le prénom (distance d'édition), pondérée par la correspondance exacte de l'e-mail ; chaque candidat est classé par un score de confiance (élevé, moyen, faible), et les cas ambigus sont remontés pour validation manuelle par le service RI.
 
 \subsubsection{Hiérarchie quotas INP / quotas N7}
-MoveON ne gère les quotas qu'à l'échelle de l'INP, au niveau global de l'accord, sans distinction d'année universitaire. Pour piloter une campagne à la fois et permettre à ce quota de varier d'une année sur l'autre, la hiérarchie de quotas s'appuie non pas sur \texttt{Agreement} mais sur sa version annuelle, \texttt{AgreementYear} : à sa validation, celle-ci enregistre le quota INP de l'année (\texttt{inp\_total\_places}), à partir duquel est calculé le quota N7 (\texttt{n7\_places}). Ce quota N7 est ensuite réparti par département via \texttt{AgreementYearDepartment}. Cette répartition combine deux niveaux : une estimation automatique, dont la méthode de calcul est justifiée et détaillée au chapitre~\ref{cha:algo-fsm} (Sprint 4 : US-11), et un ajustement manuel optionnel, laissé à l'appréciation du service RI lorsque la répartition automatique ne correspond pas à la réalité du terrain. Cette organisation garantit la compatibilité avec MoveON, permet à un accord d'évoluer d'une campagne à l'autre, et fournit à l'algorithme d'affectation le niveau de détail dont il a besoin.
+MoveON ne gère les quotas qu'à l'échelle de l'INP, au niveau global de l'accord, sans distinction d'année universitaire. Pour piloter une campagne à la fois et permettre à ce quota de varier d'une année sur l'autre, la hiérarchie de quotas s'appuie non pas sur \texttt{Agreement} mais sur sa version annuelle, \texttt{AgreementYear} : à sa validation, celle-ci enregistre le quota INP de l'année (\texttt{inp\_total\_places}), à partir duquel est calculé le quota N7 (\texttt{n7\_places}). Ce quota N7 est ensuite réparti par département via \texttt{AgreementYearDepartment}, selon une estimation automatique dont la méthode de calcul est justifiée et détaillée au chapitre~\ref{cha:algo-fsm} ; le service RI peut ensuite modifier directement la valeur obtenue lorsque la répartition automatique ne correspond pas à la réalité du terrain. Cette organisation garantit la compatibilité avec MoveON, permet à un accord d'évoluer d'une campagne à l'autre, et fournit à l'algorithme d'affectation le niveau de détail dont il a besoin. 
 
 % ─────────────────────────────────────────────────────────────
 \section{Flux de données : de la source au workflow}
@@ -913,11 +937,11 @@ MoveON ne gère les quotas qu'à l'échelle de l'INP, au niveau global de l'acco
 Chaque information importée dans le système suit un même parcours balisé, du fichier brut jusqu’à son intégration dans les entités métier. Ce parcours est délibérément découpé pour garantir qu’aucune donnée non validée ne peut déclencher un workflow, et que chaque étape est indépendamment traçable et rejouable.
 
 \begin{enumerate}
-  \item \textbf{Récupération :} la tâche Django-Q2 interroge la source (API MoveON, Pégase, Eudonet ou fichier Excel). La réponse brute est immédiatement sérialisée en JSONB dans \texttt{RawImport}. Aucune transformation n’a encore eu lieu à ce stade, ce qui signifie que si un traitement ultérieur échoue, l’import peut être rejoué sans rappeler la source.
-  \item \textbf{Nettoyage et validation :} un pipeline Python normalise les chaînes, croise les INE, détecte les doublons et vérifie les règles métier. Les enregistrements qui ne passent pas la validation sont consignés dans le rapport d’import avec le motif de rejet, sans interrompre le reste du traitement.
-  \item \textbf{Persistance :} les enregistrements validés sont intégrés en base par upsert atomique, rattachés à l’année universitaire en cours.
-  \item \textbf{Déclenchement des workflows :} chaque entité créée entre dans l’état initial de sa FSM. Un vœu importé commence en statut \texttt{candidate} ; une affectation créée par l’algorithme commence en \texttt{proposed}. Toute progression ultérieure passe obligatoirement par une transition FSM explicite.
-  \item \textbf{Supervision :} l’administrateur consulte le rapport d’import, traite les anomalies signalées et confirme le passage à la phase suivante de la campagne.
+  \item \textbf{Récupération :} la tâche Django-Q2 interroge la source (API MoveON, Pégase, Eudonet ou fichier Excel) et construit un enregistrement \texttt{RawImport} en JSONB à partir des données normalisées (INE, chaînes, codes pays). Ce stockage intermédiaire permet de rejouer un traitement ultérieur sans rappeler la source en cas d'échec.
+  \item \textbf{Nettoyage et validation :} un pipeline Python normalise les chaînes, croise les INE et vérifie les règles métier. Les enregistrements qui ne passent pas la validation sont consignés dans le rapport d’import avec le motif de rejet, sans interrompre le reste du traitement.
+  \item \textbf{Persistance :} les enregistrements validés sont intégrés en base par upsert, rattachés à l’année universitaire en cours.
+  \item \textbf{Déclenchement des workflows :} une affectation créée par l’algorithme entre dans l’état initial de sa FSM, \texttt{proposed}. Toute progression ultérieure passe obligatoirement par une transition FSM explicite.
+  \item \textbf{Supervision :} l’administrateur consulte le rapport d’import et traite les anomalies signalées.
 \end{enumerate}
 
 La figure~\ref{fig:pipeline-global} illustre ces cinq étapes successives.
@@ -934,7 +958,7 @@ La figure~\ref{fig:pipeline-global} illustre ces cinq étapes successives.
 L’étape de nettoyage et validation est la plus délicate du pipeline : c’est là que les données brutes issues de sources hétérogènes deviennent exploitables par le système métier. Elle s’intercale entre la phase de récupération (stockage JSONB) et la persistance en base.
 \subsubsection{Description du processus de transformation}
 
-Les données importées arrivent sous des formats incompatibles : une API REST renvoie du JSON, Eudonet exporte du XML, les fichiers Excel du service RI utilisent des colonnes nommées différemment selon l’agent qui les a créés. Le pipeline de transformation commence donc par convertir toutes ces entrées dans une représentation intermédiaire commune, avant d’appliquer les mêmes règles de nettoyage quel que soit l’origine. Cette approche modulaire permet d’ajouter une nouvelle source sans modifier la logique de validation.
+Les données importées arrivent sous des formats incompatibles : une API REST renvoie du JSON, les fichiers Excel du service RI utilisent des colonnes nommées différemment selon l’agent qui les a créés. Le pipeline de transformation commence donc par convertir toutes ces entrées dans une représentation intermédiaire commune, avant d’appliquer les mêmes règles de nettoyage quel que soit l’origine. Cette approche modulaire permet d’ajouter une nouvelle source sans modifier la logique de validation.
 
 \paragraph{Standardisation des formats}
 \begin{itemize}
@@ -954,18 +978,9 @@ Les données importées arrivent sous des formats incompatibles : une API REST r
 
 \paragraph{Normalisation sémantique}
 \begin{itemize}
-    \item Harmonisation des noms d’universités via une table de correspondance (\textit{lookup table}) :
-    \begin{itemize}
-        \item Les données sources peuvent contenir différentes variantes pour une même université (abréviations, différences de langue, fautes de frappe).
-        
-        \item Une table de correspondance permet d’associer ces variantes à une valeur unique de référence.
-        
-        \item Cette approche garantit la cohérence des données et évite les duplications logiques lors des traitements.
-    \end{itemize}
-    
-    \item Normalisation des pays selon un référentiel standard (ISO 3166).
-    
-    \item Mapping des valeurs hétérogènes vers des valeurs métier uniques (ex : “FR”, “France”, “france” $\rightarrow$ “France”).
+    \item Normalisation des pays selon un référentiel inspiré d'ISO 3166 : les variantes rencontrées dans les sources (codes ISO-2, ISO-3, noms en français ou en anglais) sont mappées vers un code ISO-2 de référence, par exemple “FR”, “France” ou “france” $\rightarrow$ “FR”.
+
+    \item Une table de correspondance associe le nom d'offre d'un accord tel que renvoyé par MoveON à l'accord correspondant dans le système, ce qui absorbe les variations de libellé entre les deux référentiels.
 \end{itemize}
 
 \paragraph{Gestion des valeurs manquantes}
@@ -983,92 +998,67 @@ Les données importées arrivent sous des formats incompatibles : une API REST r
 
     \item La composition de cette clé peut varier selon le type de donnée traité (étudiant, souhait, accord, etc.), afin de s’adapter aux spécificités de chaque entité.
 
-    \item Chaque enregistrement est comparé aux données existantes afin de détecter les occurrences identiques.
+    \item Chaque enregistrement est comparé aux données existantes via cette clé afin de détecter les occurrences identiques.
 
-    \item En cas de doublon exact, l’enregistrement est ignoré afin d’éviter la duplication des données.
-
-    \item Les cas détectés sont tracés dans le rapport d’import pour assurer la traçabilité.
+    \item En cas de correspondance, l'enregistrement existant est mis à jour (upsert) plutôt que dupliqué.
 \end{itemize}
 
 \paragraph{Validation métier}
 \begin{itemize}
     \item Vérification de la cohérence avec les données Pégase (existence de l’étudiant via INE).
     
-    \item Contrôle des règles métier (nombre maximum de vœux, compatibilité des destinations).
+    \item Contrôle des règles métier, notamment le nombre maximum de vœux par étudiant.
 \end{itemize}
 
 \paragraph{Traçabilité et gestion des erreurs}
 \begin{itemize}
-    \item Journalisation des erreurs dans un rapport d’import structuré.
-    
-    \item Stockage des données rejetées avec leur motif (audit et reprise).
-    
+    \item Stockage des données rejetées avec leur motif dans le rapport d'import (audit et reprise).
+
     \item Attribution d’un identifiant de traitement pour chaque batch.
 \end{itemize}
 
 \subsubsection{Architecture du pipeline de nettoyage}
 
-Le pipeline de nettoyage est conçu comme un module autonome intégré dans le flux global. Il fonctionne par batch afin d’assurer l’isolation des traitements et la robustesse du système.
-
-\begin{itemize}
-    \item \textbf{Entrée :} données JSON issues du pipeline global.
-    \item \textbf{Parsing :} transformation en objets manipulables.
-    \item \textbf{Nettoyage :} standardisation et normalisation.
-    \item \textbf{Validation :} application des règles métier.
-    \item \textbf{Sortie :}
-    \begin{itemize}
-        \item Données valides → persistance.
-        \item Données invalides → rapport d’erreurs.
-    \end{itemize}
-\end{itemize}
+Le pipeline de nettoyage est conçu comme un module autonome intégré dans le flux global. Il fonctionne par batch afin d’assurer l’isolation des traitements et la robustesse du système. La figure~\ref{fig:pipeline_nettoyage} le détaille sous forme de diagramme d'activité : les points de décision présentés ci-dessus (champ obligatoire manquant, correspondance avec un enregistrement existant, règles métier) y sont représentés explicitement, jusqu'à la persistance effective en base.
 
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}[
-    node distance=0.3cm,
-    every node/.style={
-        draw,
-        rectangle,
-        rounded corners,
-        align=center,
-        minimum width=0.2cm,
-        minimum height=0.2cm
-    },
-    arrow/.style={->, thick}
+    node distance=0.55cm and 1.8cm,
+    box/.style={draw, rectangle, rounded corners, align=center, minimum width=3.4cm, minimum height=0.8cm, font=\small},
+    dec/.style={draw, diamond, aspect=2.2, align=center, inner sep=1pt, font=\scriptsize},
+    err/.style={draw, rectangle, rounded corners, align=center, minimum width=3cm, minimum height=0.7cm, font=\small, fill=red!8},
+    ok/.style={draw, rectangle, rounded corners, align=center, minimum width=3.4cm, minimum height=0.8cm, font=\small, fill=green!10},
+    arrow/.style={->, thick, >=stealth}
 ]
 
-\node (start) {\textbf{Entrée}\\Enregistrement brut};
+\node[box] (start) {Entrée\\\small Enregistrement brut};
+\node[box] (standard) [below=of start] {Standardisation\\\small Formats, types, casse};
+\node[box] (semantic) [below=of standard] {Normalisation sémantique\\\small Pays, offres MoveON};
+\node[dec]  (missing)  [below=of semantic] {Champ\\obligatoire\\manquant ?};
+\node[dec]  (dup)      [below=of missing] {Correspondance\\avec un enregistrement\\existant ?};
+\node[box] (business) [below=of dup] {Validation métier\\\small Cohérence Pégase, règles de gestion};
+\node[dec]  (rules)    [below=of business] {Règles\\métier\\respectées ?};
+\node[ok]  (persist)  [below=of rules] {Persistance\\\small Création en base};
+\node[ok]  (update)  [right=of dup] {Mise à jour\\\small Upsert de l'enregistrement existant};
 
-\node (standard) [below=of start] {
-\textbf{Standardisation}\\
-\small Formats, types, casse
-};
-
-\node (semantic) [below=of standard] {
-\textbf{Normalisation}\\
-\small Universités, pays, mapping
-};
-
-\node (missing) [below=of semantic] {
-\textbf{Valeurs manquantes}\\
-\small Champs obligatoires
-};
-
-\node (duplicate) [below=of missing] {
-\textbf{Doublons}\\
-\small Clé composite
-};
-
-\node (clean) [below=of duplicate] {\textbf{Donnée nettoyée}};
+\node[err] (reject) [right=of missing] {Rejeté\\\small Rapport d'import, motif tracé};
+\node[err] (reject2) [right=of rules]  {Rejeté\\\small Rapport d'import, motif tracé};
 
 \draw[arrow] (start) -- (standard);
 \draw[arrow] (standard) -- (semantic);
 \draw[arrow] (semantic) -- (missing);
-\draw[arrow] (missing) -- (duplicate);
-\draw[arrow] (duplicate) -- (clean);
+\draw[arrow] (missing) -- node[left,font=\tiny]{non} (dup);
+\draw[arrow] (missing) -- node[above,font=\tiny]{oui} (reject);
+\draw[arrow] (dup) -- node[left,font=\tiny]{non} (business);
+\draw[arrow] (dup) -- node[above,font=\tiny]{oui} (update);
+\draw[arrow] (business) -- (rules);
+\draw[arrow] (rules) -- node[left,font=\tiny]{oui} (persist);
+\draw[arrow] (rules) -- node[above,font=\tiny]{non} (reject2);
 
 \end{tikzpicture}
-\caption{Pipeline détaillé de l’étape de nettoyage des données}
+\caption{Pipeline détaillé de l'étape de nettoyage des données, avec chemins de rejet}
+\label{fig:pipeline_nettoyage}
 \end{figure}
 
 
@@ -1156,7 +1146,7 @@ Les premières campagnes utiliseront des heuristiques simples (GPA + départemen
 
 Performance de l'algorithme d'affectation sous contraintes multiples &
 Faible & Moyen &
-Gale-Shapley est en $O(n^2)$ dans le cas général, mais $O(n)$ dans notre cas puisque chaque étudiant ne formule que trois vœux : parfaitement adapté à quelques centaines d'étudiants. Un test de charge Locust vérifie les temps de réponse avant chaque mise en production. \\
+Gale-Shapley est en $O(n^2)$ dans le cas général, mais $O(n)$ dans notre cas puisque chaque étudiant ne formule que trois vœux : parfaitement adapté à quelques centaines d'étudiants. Un test de charge vérifie les temps de réponse avant chaque mise en production. \\
 \hline
 
 \end{longtable}
@@ -1167,4 +1157,4 @@ Gale-Shapley est en $O(n^2)$ dans le cas général, mais $O(n)$ dans notre cas p
 \phantomsection
 \addcontentsline{toc}{section}{Conclusion}
 
-Ce chapitre a défini la conception complète du système : backlog en cinq sprints MVP, architecture logicielle et physique et modèle de données. Les choix algorithmiques et les machines à états qui structurent la logique métier du système sont détaillés au chapitre suivant, avant la présentation de sa réalisation.
+Ce chapitre a défini la conception du système : backlog, architecture et modèle de données. Le chapitre suivant justifie les choix algorithmiques et les machines à états, avant de présenter la réalisation du système.

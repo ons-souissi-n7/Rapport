@@ -4,50 +4,57 @@
 \contentsline {table}{\numberline {1.2}{\ignorespaces Synthèse comparative des solutions selon la grille d'évaluation}}{15}{table.caption.11}%
 \contentsline {table}{\numberline {1.3}{\ignorespaces Couverture prévue des critères d'évaluation}}{16}{table.caption.12}%
 \contentsline {table}{\numberline {1.4}{\ignorespaces Comparaison des approches de gestion de projet}}{18}{table.caption.13}%
-\contentsline {table}{\numberline {1.5}{\ignorespaces Planification générale du projet}}{20}{table.caption.14}%
-\contentsline {table}{\numberline {1.6}{\ignorespaces Outils et environnement de travail}}{20}{table.caption.15}%
+\contentsline {table}{\numberline {1.5}{\ignorespaces Planification générale du projet}}{22}{table.caption.18}%
+\contentsline {table}{\numberline {1.6}{\ignorespaces Outils et environnement de travail}}{22}{table.caption.19}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {2.1}{\ignorespaces Comparaison des frameworks frontend}}{29}{table.caption.18}%
-\contentsline {table}{\numberline {2.2}{\ignorespaces Comparaison des frameworks backend}}{32}{table.caption.19}%
-\contentsline {table}{\numberline {2.3}{\ignorespaces Comparaison DRF et Django Ninja}}{34}{table.caption.20}%
-\contentsline {table}{\numberline {2.4}{\ignorespaces Comparaison des systèmes de gestion de base de données}}{37}{table.caption.21}%
-\contentsline {table}{\numberline {2.5}{\ignorespaces Comparaison des formats de stockage pour \texttt {RawImport}}}{39}{table.caption.22}%
-\contentsline {table}{\numberline {2.6}{\ignorespaces Comparaison des gestionnaires de tâches asynchrones}}{41}{table.caption.23}%
-\contentsline {table}{\numberline {2.7}{\ignorespaces Comparaison des solutions de stockage de fichiers}}{43}{table.caption.24}%
-\contentsline {table}{\numberline {2.8}{\ignorespaces Comparaison des approches de routage des requêtes}}{45}{table.caption.25}%
-\contentsline {table}{\numberline {2.9}{\ignorespaces Comparaison des outils de reverse proxy}}{47}{table.caption.26}%
-\contentsline {table}{\numberline {2.10}{\ignorespaces Comparaison des stratégies de performance base de données}}{48}{table.caption.27}%
-\contentsline {table}{\numberline {2.11}{\ignorespaces Synthèse des choix technologiques}}{49}{table.2.11}%
+\contentsline {table}{\numberline {2.1}{\ignorespaces Comparaison des frameworks frontend}}{31}{table.caption.22}%
+\contentsline {table}{\numberline {2.2}{\ignorespaces Comparaison des frameworks backend}}{34}{table.caption.23}%
+\contentsline {table}{\numberline {2.3}{\ignorespaces Comparaison DRF et Django Ninja}}{36}{table.caption.24}%
+\contentsline {table}{\numberline {2.4}{\ignorespaces Comparaison des systèmes de gestion de base de données}}{39}{table.caption.25}%
+\contentsline {table}{\numberline {2.5}{\ignorespaces Comparaison des formats de stockage pour \texttt {RawImport}}}{41}{table.caption.26}%
+\contentsline {table}{\numberline {2.6}{\ignorespaces Comparaison des gestionnaires de tâches asynchrones}}{43}{table.caption.27}%
+\contentsline {table}{\numberline {2.7}{\ignorespaces Comparaison des solutions de stockage de fichiers}}{45}{table.caption.28}%
+\contentsline {table}{\numberline {2.8}{\ignorespaces Comparaison des approches de routage des requêtes}}{47}{table.caption.29}%
+\contentsline {table}{\numberline {2.9}{\ignorespaces Comparaison des outils de reverse proxy}}{49}{table.caption.30}%
+\contentsline {table}{\numberline {2.10}{\ignorespaces Comparaison des stratégies de performance base de données}}{51}{table.caption.31}%
+\contentsline {table}{\numberline {2.11}{\ignorespaces Synthèse des choix technologiques}}{51}{table.2.11}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {3.1}{\ignorespaces Échelle des story points}}{53}{table.caption.30}%
-\contentsline {table}{\numberline {3.2}{\ignorespaces Product Backlog}}{54}{table.3.2}%
-\contentsline {table}{\numberline {3.3}{\ignorespaces Planification des sprints}}{57}{table.3.3}%
-\contentsline {table}{\numberline {3.4}{\ignorespaces Diagramme de Gantt}}{59}{table.3.4}%
-\contentsline {table}{\numberline {3.5}{\ignorespaces Correspondance entre les apps Django et les packages du modèle de données}}{62}{table.caption.31}%
-\contentsline {table}{\numberline {3.6}{\ignorespaces Stratégie de synchronisation par source}}{67}{table.caption.33}%
-\contentsline {table}{\numberline {3.7}{\ignorespaces Containers Docker et leurs rôles}}{71}{table.caption.35}%
-\contentsline {table}{\numberline {3.8}{\ignorespaces Packages du modèle de données}}{74}{table.caption.36}%
-\contentsline {table}{\numberline {3.9}{\ignorespaces Matrice des risques}}{79}{table.3.9}%
+\contentsline {table}{\numberline {3.1}{\ignorespaces Échelle des story points}}{56}{table.caption.34}%
+\contentsline {table}{\numberline {3.2}{\ignorespaces Product Backlog}}{56}{table.3.2}%
+\contentsline {table}{\numberline {3.3}{\ignorespaces Planification des sprints}}{60}{table.3.3}%
+\contentsline {table}{\numberline {3.4}{\ignorespaces Diagramme de Gantt}}{61}{table.3.4}%
+\contentsline {table}{\numberline {3.5}{\ignorespaces Correspondance entre les apps Django et les packages du modèle de données}}{64}{table.caption.35}%
+\contentsline {table}{\numberline {3.6}{\ignorespaces Stratégie de synchronisation par source}}{69}{table.caption.37}%
+\contentsline {table}{\numberline {3.7}{\ignorespaces Containers Docker et leurs rôles}}{75}{table.caption.40}%
+\contentsline {table}{\numberline {3.8}{\ignorespaces Packages du modèle de données}}{78}{table.caption.42}%
+\contentsline {table}{\numberline {3.9}{\ignorespaces Matrice des risques}}{83}{table.3.9}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {4.1}{\ignorespaces Comparaison des algorithmes d'affectation}}{85}{table.caption.41}%
-\contentsline {table}{\numberline {4.2}{\ignorespaces Comparaison des méthodes de répartition des quotas}}{87}{table.caption.42}%
-\contentsline {table}{\numberline {4.3}{\ignorespaces Comparaison des approches de recommandation}}{90}{table.caption.43}%
-\contentsline {table}{\numberline {4.4}{\ignorespaces Variables d'entrée du moteur de recommandation}}{90}{table.caption.44}%
-\contentsline {table}{\numberline {4.5}{\ignorespaces Comparaison des frameworks d'orchestration RAG}}{93}{table.caption.45}%
-\contentsline {table}{\numberline {4.6}{\ignorespaces Synthèse des choix algorithmiques et de performance}}{94}{table.4.6}%
-\contentsline {table}{\numberline {4.7}{\ignorespaces Conditions préalables (guard conditions) des transitions FSM}}{96}{table.caption.47}%
-\contentsline {table}{\numberline {4.8}{\ignorespaces FSM des entités métier}}{96}{table.caption.48}%
+\contentsline {table}{\numberline {4.1}{\ignorespaces Comparaison des algorithmes d'affectation}}{89}{table.caption.47}%
+\contentsline {table}{\numberline {4.2}{\ignorespaces Comparaison des méthodes de répartition des quotas}}{91}{table.caption.48}%
+\contentsline {table}{\numberline {4.3}{\ignorespaces Comparaison des approches de recommandation}}{94}{table.caption.49}%
+\contentsline {table}{\numberline {4.4}{\ignorespaces Variables d'entrée du moteur de recommandation}}{95}{table.caption.50}%
+\contentsline {table}{\numberline {4.5}{\ignorespaces Comparaison des frameworks d'orchestration RAG}}{98}{table.caption.51}%
+\contentsline {table}{\numberline {4.6}{\ignorespaces Synthèse des choix algorithmiques}}{98}{table.4.6}%
+\contentsline {table}{\numberline {4.7}{\ignorespaces Conditions préalables (guard conditions) des transitions FSM}}{101}{table.4.7}%
+\contentsline {table}{\numberline {4.8}{\ignorespaces FSM des entités métier}}{102}{table.caption.53}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {5.2}{\ignorespaces Validation du Sprint 1}}{103}{table.caption.51}%
-\contentsline {table}{\numberline {5.4}{\ignorespaces Validation du Sprint 2}}{106}{table.caption.52}%
-\contentsline {table}{\numberline {5.6}{\ignorespaces Validation du Sprint 3}}{110}{table.caption.53}%
-\contentsline {table}{\numberline {5.8}{\ignorespaces Validation du Sprint 4}}{116}{table.caption.54}%
-\contentsline {table}{\numberline {5.10}{\ignorespaces Validation du Sprint 5}}{120}{table.caption.55}%
+\contentsline {table}{\numberline {5.1}{\ignorespaces Sprint Backlog du Sprint 1}}{106}{table.5.1}%
+\contentsline {table}{\numberline {5.2}{\ignorespaces Validation du Sprint 1}}{112}{table.caption.60}%
+\contentsline {table}{\numberline {5.3}{\ignorespaces Sprint Backlog du Sprint 2}}{113}{table.5.3}%
+\contentsline {table}{\numberline {5.4}{\ignorespaces Validation du Sprint 2}}{119}{table.caption.65}%
+\contentsline {table}{\numberline {5.5}{\ignorespaces Sprint Backlog du Sprint 3}}{120}{table.5.5}%
+\contentsline {table}{\numberline {5.6}{\ignorespaces Validation du Sprint 3}}{128}{table.caption.73}%
+\contentsline {table}{\numberline {5.7}{\ignorespaces Sprint Backlog du Sprint 4}}{129}{table.5.7}%
+\contentsline {table}{\numberline {5.8}{\ignorespaces Validation du Sprint 4}}{139}{table.caption.82}%
+\contentsline {table}{\numberline {5.9}{\ignorespaces Sprint Backlog du Sprint 5}}{140}{table.5.9}%
+\contentsline {table}{\numberline {5.10}{\ignorespaces Validation du Sprint 5}}{148}{table.5.10}%
+\contentsline {table}{\numberline {5.11}{\ignorespaces Sprint Backlog du Sprint 6}}{149}{table.5.11}%
+\contentsline {table}{\numberline {5.12}{\ignorespaces Validation de l'US-22 (moteur de recommandation)}}{154}{table.caption.92}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {6.1}{\ignorespaces Synthèse des tests disponibles par couche}}{125}{table.caption.57}%
-\contentsline {table}{\numberline {6.2}{\ignorespaces Couverture End-to-End du parcours métier}}{126}{table.caption.58}%
-\contentsline {table}{\numberline {6.3}{\ignorespaces Couverture de test des machines à états}}{127}{table.caption.59}%
-\contentsline {table}{\numberline {6.4}{\ignorespaces Validation des imports, exports et intégrations externes}}{127}{table.caption.60}%
-\contentsline {table}{\numberline {6.5}{\ignorespaces Couverture des besoins non fonctionnels (BNF01--BNF08)}}{129}{table.6.5}%
-\contentsline {table}{\numberline {6.6}{\ignorespaces Matrice de couverture fonctionnelle}}{132}{table.6.6}%
+\contentsline {table}{\numberline {6.1}{\ignorespaces Synthèse des tests disponibles par couche}}{157}{table.caption.95}%
+\contentsline {table}{\numberline {6.2}{\ignorespaces Couverture End-to-End des principaux parcours métier}}{158}{table.caption.96}%
+\contentsline {table}{\numberline {6.3}{\ignorespaces Couverture de test des machines à états}}{159}{table.caption.97}%
+\contentsline {table}{\numberline {6.4}{\ignorespaces Validation des imports, exports et intégrations}}{159}{table.caption.98}%
+\contentsline {table}{\numberline {6.5}{\ignorespaces Couverture des besoins non fonctionnels}}{162}{table.6.5}%
+\contentsline {table}{\numberline {6.6}{\ignorespaces Matrice de couverture fonctionnelle}}{163}{table.6.6}%
 \contentsfinish 
