@@ -9,11 +9,11 @@ sequenceDiagram
     F->>API: GET /student/{ine}/recommendations/
     API->>DB: Charge les destinations éligibles
     API->>DB: Calcule le taux historique par destination
-    alt historique suffisant (au moins 30 vœux, deux issues observées)
-        API->>API: Entraîne le modèle de régression logistique
+    alt modèle fiable (historique suffisant, AUC ≥ 0.65 en validation croisée)
+        API->>API: Valide par validation croisée (AUC) puis entraîne le modèle
         API->>API: Calcule un score par destination
         API-->>F: Destinations classées par score (modèle entraîné)
-    else historique insuffisant (démarrage à froid)
+    else modèle non fiable (historique insuffisant ou AUC < 0.65)
         API-->>F: Destinations classées par taux historique
     end
     F-->>E: Classement affiché, avec indicateur de confiance

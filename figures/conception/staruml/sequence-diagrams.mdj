@@ -12681,7 +12681,7 @@
                             "$ref": "E3HmFzahw7O/2UmXXneQ0Q=="
                           },
                           "edgePosition": 1,
-                          "text": "Entraîne le modèle de régression logistique"
+                          "text": "Valide par validation croisée (AUC) puis entraîne le modèle"
                         }
                       ],
                       "font": "Arial;13;0",
@@ -12898,7 +12898,7 @@
                                   "top": 312,
                                   "width": 398.40000000000003,
                                   "height": 13,
-                                  "text": "[historique suffisant (au moins 30 vœux, deux issues observées)]"
+                                  "text": "[modèle fiable (historique suffisant, AUC ≥ 0.65 en validation croisée)]"
                                 }
                               ],
                               "font": "Arial;13;0",
@@ -12931,7 +12931,7 @@
                                   "top": 458,
                                   "width": 274.40000000000003,
                                   "height": 13,
-                                  "text": "[historique insuffisant (démarrage à froid)]"
+                                  "text": "[modèle non fiable (historique insuffisant ou AUC < 0.65)]"
                                 }
                               ],
                               "font": "Arial;13;0",
@@ -13029,7 +13029,7 @@
                         "$ref": "Tih8Fh11HWhnrsmVck17VA=="
                       },
                       "name": "Operand1",
-                      "guard": "historique suffisant (au moins 30 vœux, deux issues observées)"
+                      "guard": "modèle fiable (historique suffisant, AUC ≥ 0.65 en validation croisée)"
                     },
                     {
                       "_type": "UMLInteractionOperand",
@@ -13038,7 +13038,7 @@
                         "$ref": "Tih8Fh11HWhnrsmVck17VA=="
                       },
                       "name": "Operand2",
-                      "guard": "historique insuffisant (démarrage à froid)"
+                      "guard": "modèle non fiable (historique insuffisant ou AUC < 0.65)"
                     }
                   ]
                 }
@@ -13110,7 +13110,7 @@
                   "_parent": {
                     "$ref": "BJ9kQNwooH30H7facCFcZQ=="
                   },
-                  "name": "Entraîne le modèle de régression logistique",
+                  "name": "Valide par validation croisée (AUC) puis entraîne le modèle",
                   "source": {
                     "$ref": "HaNlL+Vnhh+vGFPhN+ME6A=="
                   },

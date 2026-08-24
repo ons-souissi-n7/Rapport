@@ -249,54 +249,55 @@
 \contentsline {subsection}{\numberline {5.2.5}Tests et validation du sprint}{116}{subsection.5.2.5}%
 \contentsline {section}{\numberline {5.3}Sprint 3 : Algorithme d'affectation}{117}{section.5.3}%
 \contentsline {subsection}{\numberline {5.3.1}Objectif du sprint}{117}{subsection.5.3.1}%
-\contentsline {subsection}{\numberline {5.3.2}Sprint Backlog : Sprint 3}{117}{subsection.5.3.2}%
+\contentsline {subsection}{\numberline {5.3.2}Sprint Backlog : Sprint 3}{118}{subsection.5.3.2}%
 \contentsline {subsection}{\numberline {5.3.3}Conception détaillée}{120}{subsection.5.3.3}%
 \contentsline {subsubsection}{\numberline {5.3.3.1}Diagramme de classes}{120}{subsubsection.5.3.3.1}%
-\contentsline {subsubsection}{\numberline {5.3.3.2}Diagrammes de séquence}{120}{subsubsection.5.3.3.2}%
-\contentsline {subsection}{\numberline {5.3.4}Implémentation}{122}{subsection.5.3.4}%
-\contentsline {subsection}{\numberline {5.3.5}Tests et validation du sprint}{125}{subsection.5.3.5}%
-\contentsline {section}{\numberline {5.4}Sprint 4 : Sources complémentaires et mobilités}{125}{section.5.4}%
-\contentsline {subsection}{\numberline {5.4.1}Objectif du sprint}{125}{subsection.5.4.1}%
-\contentsline {subsection}{\numberline {5.4.2}Sprint Backlog : Sprint 4}{126}{subsection.5.4.2}%
-\contentsline {subsection}{\numberline {5.4.3}Conception détaillée}{130}{subsection.5.4.3}%
-\contentsline {subsubsection}{\numberline {5.4.3.1}Diagramme de classes}{130}{subsubsection.5.4.3.1}%
-\contentsline {subsubsection}{\numberline {5.4.3.2}Diagrammes de séquence}{131}{subsubsection.5.4.3.2}%
-\contentsline {subsection}{\numberline {5.4.4}Implémentation}{132}{subsection.5.4.4}%
-\contentsline {subsection}{\numberline {5.4.5}Tests et validation du sprint}{135}{subsection.5.4.5}%
-\contentsline {section}{\numberline {5.5}Sprint 5 : Conformité CTI et authentification}{136}{section.5.5}%
-\contentsline {subsection}{\numberline {5.5.1}Objectif du sprint}{136}{subsection.5.5.1}%
-\contentsline {subsection}{\numberline {5.5.2}Sprint Backlog : Sprint 5}{136}{subsection.5.5.2}%
-\contentsline {subsection}{\numberline {5.5.3}Conception détaillée}{139}{subsection.5.5.3}%
-\contentsline {subsubsection}{\numberline {5.5.3.1}Diagrammes de séquence}{140}{subsubsection.5.5.3.1}%
-\contentsline {subsection}{\numberline {5.5.4}Implémentation}{140}{subsection.5.5.4}%
-\contentsline {subsection}{\numberline {5.5.5}Tests et validation du sprint}{143}{subsection.5.5.5}%
-\contentsline {section}{\numberline {5.6}Sprint 6 : Fonctionnalités intelligentes (V2)}{145}{section.5.6}%
-\contentsline {subsection}{\numberline {5.6.1}Objectif du sprint}{145}{subsection.5.6.1}%
-\contentsline {subsection}{\numberline {5.6.2}Sprint Backlog : Sprint 6}{145}{subsection.5.6.2}%
-\contentsline {subsection}{\numberline {5.6.3}Conception détaillée}{147}{subsection.5.6.3}%
-\contentsline {subsubsection}{\numberline {5.6.3.1}Diagramme de séquence}{148}{subsubsection.5.6.3.1}%
-\contentsline {subsection}{\numberline {5.6.4}Implémentation}{148}{subsection.5.6.4}%
-\contentsline {subsection}{\numberline {5.6.5}Tests et validation du sprint}{149}{subsection.5.6.5}%
-\contentsline {section}{Conclusion}{150}{section*.93}%
-\contentsline {chapter}{\numberline {6}Tests et validation du système}{151}{chapter.6}%
+\contentsline {subsubsection}{\numberline {5.3.3.2}Diagrammes de séquence}{121}{subsubsection.5.3.3.2}%
+\contentsline {subsection}{\numberline {5.3.4}Implémentation}{124}{subsection.5.3.4}%
+\contentsline {subsection}{\numberline {5.3.5}Tests et validation du sprint}{126}{subsection.5.3.5}%
+\contentsline {section}{\numberline {5.4}Sprint 4 : Sources complémentaires et mobilités}{127}{section.5.4}%
+\contentsline {subsection}{\numberline {5.4.1}Objectif du sprint}{127}{subsection.5.4.1}%
+\contentsline {subsection}{\numberline {5.4.2}Sprint Backlog : Sprint 4}{127}{subsection.5.4.2}%
+\contentsline {subsection}{\numberline {5.4.3}Conception détaillée}{131}{subsection.5.4.3}%
+\contentsline {subsubsection}{\numberline {5.4.3.1}Diagramme de classes}{132}{subsubsection.5.4.3.1}%
+\contentsline {subsubsection}{\numberline {5.4.3.2}Diagrammes de séquence}{132}{subsubsection.5.4.3.2}%
+\contentsline {subsection}{\numberline {5.4.4}Implémentation}{134}{subsection.5.4.4}%
+\contentsline {subsection}{\numberline {5.4.5}Tests et validation du sprint}{137}{subsection.5.4.5}%
+\contentsline {section}{\numberline {5.5}Sprint 5 : Conformité CTI et authentification}{138}{section.5.5}%
+\contentsline {subsection}{\numberline {5.5.1}Objectif du sprint}{138}{subsection.5.5.1}%
+\contentsline {subsection}{\numberline {5.5.2}Sprint Backlog : Sprint 5}{138}{subsection.5.5.2}%
+\contentsline {subsection}{\numberline {5.5.3}Conception détaillée}{141}{subsection.5.5.3}%
+\contentsline {subsubsection}{\numberline {5.5.3.1}Diagrammes de séquence}{142}{subsubsection.5.5.3.1}%
+\contentsline {subsection}{\numberline {5.5.4}Implémentation}{143}{subsection.5.5.4}%
+\contentsline {subsection}{\numberline {5.5.5}Tests et validation du sprint}{146}{subsection.5.5.5}%
+\contentsline {section}{\numberline {5.6}Sprint 6 : Fonctionnalités intelligentes (V2)}{147}{section.5.6}%
+\contentsline {subsection}{\numberline {5.6.1}Objectif du sprint}{147}{subsection.5.6.1}%
+\contentsline {subsection}{\numberline {5.6.2}Sprint Backlog : Sprint 6}{148}{subsection.5.6.2}%
+\contentsline {subsection}{\numberline {5.6.3}Conception détaillée}{150}{subsection.5.6.3}%
+\contentsline {subsubsection}{\numberline {5.6.3.1}Diagramme de séquence}{150}{subsubsection.5.6.3.1}%
+\contentsline {subsection}{\numberline {5.6.4}Implémentation}{151}{subsection.5.6.4}%
+\contentsline {subsection}{\numberline {5.6.5}Fonctionnalité reportée : assistant virtuel}{152}{subsection.5.6.5}%
+\contentsline {subsection}{\numberline {5.6.6}Tests et validation du sprint}{153}{subsection.5.6.6}%
+\contentsline {section}{Conclusion}{153}{section*.93}%
+\contentsline {chapter}{\numberline {6}Tests et validation du système}{154}{chapter.6}%
 \ttl@stoptoc {chapters@5}
 \ttl@starttoc {chapters@6}
-\contentsline {section}{Introduction}{152}{section*.94}%
-\contentsline {section}{\numberline {6.1}Stratégie de validation}{152}{section.6.1}%
-\contentsline {section}{\numberline {6.2}Synthèse des tests réalisés}{152}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Validation End-to-End}{153}{section.6.3}%
-\contentsline {section}{\numberline {6.4}Validation des machines à états}{154}{section.6.4}%
-\contentsline {section}{\numberline {6.5}Validation des imports, exports et intégrations}{155}{section.6.5}%
-\contentsline {section}{\numberline {6.6}Alertes et tâches asynchrones}{156}{section.6.6}%
-\contentsline {section}{\numberline {6.7}Statistiques et tableaux de bord}{156}{section.6.7}%
-\contentsline {section}{\numberline {6.8}Validation de la sécurité}{156}{section.6.8}%
-\contentsline {section}{\numberline {6.9}Performance et charge}{157}{section.6.9}%
-\contentsline {section}{\numberline {6.10}Intégration continue et conteneurisation}{157}{section.6.10}%
-\contentsline {section}{\numberline {6.11}Analyse de qualité de code}{158}{section.6.11}%
-\contentsline {section}{\numberline {6.12}Couverture des besoins non fonctionnels}{158}{section.6.12}%
-\contentsline {section}{\numberline {6.13}Matrice de couverture fonctionnelle}{159}{section.6.13}%
-\contentsline {section}{Conclusion}{160}{section*.99}%
-\contentsline {chapter}{Conclusion générale}{162}{chapter*.100}%
-\contentsline {chapter}{Bibliographie}{163}{chapter*.101}%
-\contentsline {chapter}{Netographie}{164}{chapter*.102}%
+\contentsline {section}{Introduction}{155}{section*.94}%
+\contentsline {section}{\numberline {6.1}Stratégie de validation}{155}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Synthèse des tests réalisés}{155}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Validation End-to-End}{156}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Validation des machines à états}{157}{section.6.4}%
+\contentsline {section}{\numberline {6.5}Validation des imports, exports et intégrations}{158}{section.6.5}%
+\contentsline {section}{\numberline {6.6}Alertes et tâches asynchrones}{159}{section.6.6}%
+\contentsline {section}{\numberline {6.7}Statistiques et tableaux de bord}{159}{section.6.7}%
+\contentsline {section}{\numberline {6.8}Validation de la sécurité}{159}{section.6.8}%
+\contentsline {section}{\numberline {6.9}Performance et charge}{160}{section.6.9}%
+\contentsline {section}{\numberline {6.10}Intégration continue et conteneurisation}{160}{section.6.10}%
+\contentsline {section}{\numberline {6.11}Analyse de qualité de code}{161}{section.6.11}%
+\contentsline {section}{\numberline {6.12}Couverture des besoins non fonctionnels}{161}{section.6.12}%
+\contentsline {section}{\numberline {6.13}Matrice de couverture fonctionnelle}{162}{section.6.13}%
+\contentsline {section}{Conclusion}{163}{section*.100}%
+\contentsline {chapter}{Conclusion générale}{165}{chapter*.101}%
+\contentsline {chapter}{Bibliographie}{166}{chapter*.102}%
+\contentsline {chapter}{Netographie}{167}{chapter*.103}%
 \contentsfinish 

@@ -643,7 +643,7 @@ Le scénario de la figure~\ref{fig:seq-data-import} détaille le déroulement ty
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{figures/conception/Diag_sequence/sequence-data-import.png}
-  \caption{Déroulement général de l'import et de la synchronisation des données}
+  \caption{Diagramme de séquence : déroulement général de l'import et de la synchronisation des données}
   \label{fig:seq-data-import}
 \end{figure}
 
@@ -1019,7 +1019,7 @@ Deux scénarios illustrent le fonctionnement de ce sprint : le lancement du calc
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{figures/conception/Diag_sequence/sequence-assignment-generation.png}
-  \caption{Lancement et génération des affectations}
+  \caption{Diagramme de séquence : lancement et génération des affectations}
   \label{fig:seq-assignment-generation}
 \end{figure}
 
@@ -1030,7 +1030,7 @@ La supervision du résultat par le service RI, jusqu'à sa publication aux étud
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{figures/conception/Diag_sequence/sequence-assignment-validation.png}
-  \caption{Validation, correction et publication des affectations}
+  \caption{Diagramme de séquence : validation, correction et publication des affectations}
   \label{fig:seq-assignment-validation}
 \end{figure}
 
@@ -1605,7 +1605,7 @@ Deux scénarios propres à ce sprint sont détaillés : la réconciliation d'un 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{figures/conception/Diag_sequence/sequence-reconciliation.png}
-  \caption{Réconciliation d'un dossier sans identifiant valide}
+  \caption{Diagramme de séquence : réconciliation d'un dossier sans identifiant valide}
   \label{fig:seq-reconciliation}
 \end{figure}
 
@@ -1616,7 +1616,7 @@ La déclaration d'une mobilité complémentaire par un étudiant, jusqu'à son e
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{figures/conception/Diag_sequence/sequence-complementary-mobility.png}
-  \caption{Déclaration et traitement d'une mobilité complémentaire}
+  \caption{Diagramme de séquence : déclaration et traitement d'une mobilité complémentaire}
   \label{fig:seq-complementary-mobility}
 \end{figure}
 
@@ -2130,7 +2130,7 @@ Le scénario de finalisation CTI, présenté en figure~\ref{fig:seq-cti-finaliza
 \begin{figure}[H]
   \centering
   \includegraphics[width=\linewidth]{figures/conception/Diag_sequence/sequence-cti-finalization.png}
-  \caption{Finalisation CTI et génération du rapport}
+  \caption{Diagramme de séquence : finalisation CTI et génération du rapport}
   \label{fig:seq-cti-finalization}
 \end{figure}
 
@@ -2274,17 +2274,30 @@ Le calcul et l'export CTI, les statistiques analytiques et les contrôles d'acc�
 
 \subsection{Objectif du sprint}
 
-Le Sprint 6 est consacré à l'intégration de fonctionnalités intelligentes destinées à accompagner les étudiants dans leurs démarches de mobilité internationale. Il comprend, d'une part, un moteur de recommandation permettant de proposer des destinations adaptées au profil de chaque étudiant avant la formulation de ses vœux dans MoveON (US-22). D'autre part, il intègre un assistant virtuel capable de répondre aux questions relatives aux procédures, aux critères d'éligibilité et aux différentes démarches administratives (US-23).
+Le Sprint 6 est consacré à l'intégration de fonctionnalités intelligentes
+destinées à accompagner les étudiants dans leurs démarches de mobilité
+internationale.
 
-Ces deux fonctionnalités s'appuient sur les approches présentées et justifiées au chapitre~\ref{cha:algo-fsm}, notamment l'utilisation d'un modèle de régression logistique pour la recommandation et d'une architecture RAG basée sur LlamaIndex, ChromaDB et un modèle de langage pour l'assistant virtuel.
+Il comprend deux fonctionnalités principales. La première est un moteur de
+recommandation qui propose à chaque étudiant des destinations adaptées à son
+profil avant la formulation de ses vœux dans MoveON. La seconde est un
+assistant virtuel permettant de répondre aux questions concernant les
+procédures, les critères d'éligibilité et les démarches administratives.
 
-\textbf{Définition of Done.} À l'issue de ce sprint, l'étudiant doit pouvoir consulter des destinations recommandées en fonction de son profil et des données historiques disponibles. Il doit également pouvoir interroger un assistant virtuel afin d'obtenir des informations à partir de la documentation institutionnelle, sans que ses données personnelles ne soient transmises au modèle de langage.
+\textbf{Définition of Done.} À l'issue de ce sprint, l'étudiant doit pouvoir
+consulter des destinations recommandées en fonction de son profil et des données
+historiques disponibles. Il doit également pouvoir interroger un assistant virtuel
+afin d'obtenir des informations à partir de la documentation institutionnelle,
+sans que ses données personnelles ne soient transmises au modèle de langage.
 
 \setcounter{tasknum}{1}
 
 \subsection{Sprint Backlog : Sprint 6}
 
-Ce sprint regroupe les fonctionnalités intelligentes prévues dans le Product Backlog et destinées à améliorer l'accompagnement des étudiants. Le tableau~\ref{tab:sprint6-backlog} présente les différentes tâches planifiées pour la mise en œuvre du moteur de recommandation et de l'assistant virtuel.
+Ce sprint regroupe les fonctionnalités intelligentes prévues dans le Product
+Backlog afin d'améliorer l'accompagnement des étudiants. Le
+tableau~\ref{tab:sprint6-backlog} présente les différentes tâches planifiées
+pour la réalisation du moteur de recommandation et de l'assistant virtuel.
 
 \begingroup
 
@@ -2466,8 +2479,8 @@ Basse & 3 \\
 Créer l'interface de conversation &
 
 Intégrer dans l'espace étudiant une interface permettant de poser des
-questions à l'assistant virtuel et de consulter les réponses au sein
-d'un même espace de conversation. &
+questions à l'assistant virtuel et de consulter les réponses dans un
+même espace de conversation. &
 
 Les questions et les réponses s'affichent correctement dans le fil de
 conversation. &
@@ -2495,79 +2508,207 @@ Basse & 3 \\
 
 \endgroup
 
+% ─────────────────────────────────────────────────────────────
+
 \subsection{Conception détaillée}
 
-Le moteur de recommandation ne nécessite pas l'ajout de nouvelles entités persistées dans la base de données. Il est implémenté sous la forme d'un service dédié, au sein de l'application \texttt{recommendation}, et exploite les données déjà disponibles dans le système. Ces données concernent notamment les vœux des étudiants (\texttt{StudentWish}), les résultats des affectations précédentes (\texttt{AssignmentResult}), les accords de mobilité (\texttt{Agreement} et \texttt{AgreementYear}) ainsi que les informations relatives à l'inscription annuelle des étudiants (\texttt{AnnualEnrollment}).
+Le moteur de recommandation ne nécessite pas l'ajout de nouvelles entités
+dans la base de données. Il est implémenté sous la forme d'un service dédié,
+au sein de l'application \texttt{recommendation}, et utilise uniquement des
+données déjà présentes dans le système.
 
-Afin de prendre en compte les résultats des campagnes précédentes, un taux historique d'affectation est calculé pour chaque accord. Ce choix permet d'exploiter les données disponibles sur plusieurs années universitaires et d'obtenir une information plus représentative de l'historique des affectations.
+Ces données concernent notamment les vœux des étudiants
+(\texttt{StudentWish}), les résultats des affectations précédentes
+(\texttt{AssignmentResult}), les années universitaires closes
+(\texttt{AcademicYear}) qui délimitent les campagnes prises en compte, ainsi
+que les informations relatives à l'inscription annuelle des étudiants
+(\texttt{AnnualEnrollment}).
 
-À partir de ces données, le moteur utilise un modèle de régression logistique pour estimer la pertinence des différentes destinations pour un étudiant. Le modèle prend notamment en compte le GPA de l'étudiant, son département et les résultats observés lors des campagnes précédentes. Les destinations sont ensuite classées selon le score obtenu afin de proposer à l'étudiant une liste de recommandations adaptée à son profil.
+Pour prendre en compte les résultats des campagnes précédentes, le système
+calcule un taux historique d'affectation pour chaque accord. Ce choix permet
+d'utiliser les données de plusieurs années universitaires et d'obtenir une
+vision plus représentative de l'historique des affectations.
+
+À partir de ces données, le moteur utilise un modèle de régression logistique
+pour calculer un score pour chaque destination. Ce calcul prend notamment en
+compte le GPA, la nationalité et le département de l'étudiant, ainsi que le
+taux historique d'affectation de la destination.
+
+Ces critères sont cohérents avec ceux utilisés dans le processus
+d'affectation : le GPA et la nationalité interviennent dans la priorité entre
+les étudiants, tandis que le département permet de prendre en compte certaines
+conditions d'éligibilité et les quotas réservés.
+
+Les destinations sont ensuite classées selon le score obtenu afin de proposer
+à l'étudiant une liste de recommandations adaptée à son profil.
 
 \subsubsection{Diagramme de séquence}
 
-La figure~\ref{fig:seq-recommendation} détaille le déroulement d'une requête de recommandation, depuis la consultation par l'étudiant jusqu'au classement retourné.
+La figure~\ref{fig:seq-recommendation} présente le déroulement d'une requête
+de recommandation, depuis la demande effectuée par l'étudiant jusqu'au
+classement des destinations retourné par le système.
 
 \begin{figure}[H]
-  \centering
-  \includegraphics[width=\linewidth]{figures/conception/sequences/sequence-recommendation.png}
-  \caption{Calcul et consultation d'une recommandation de destination}
-  \label{fig:seq-recommendation}
+
+    \centering
+
+    \includegraphics[width=\linewidth]{figures/conception/Diag_sequence/sequence-recommendation.png}
+
+    \caption{Diagramme de séquence : calcul et consultation d'une recommandation de destination}
+
+    \label{fig:seq-recommendation}
+
 \end{figure}
 
-Le calcul du taux historique précède systématiquement la tentative d'entraînement, puisqu'il sert lui-même de repli lorsque le modèle ne peut pas être entraîné. L'étudiant obtient ainsi toujours un classement, que l'historique disponible soit suffisant pour entraîner un modèle ou non.
+Le système commence par calculer le taux historique des différentes
+destinations. Il tente ensuite d'entraîner le modèle lorsque les données
+disponibles sont suffisantes.
+
+Si le modèle ne peut pas être entraîné ou si ses performances ne sont pas
+jugées suffisantes, le système utilise directement le taux historique pour
+classer les destinations. L'étudiant obtient ainsi toujours un classement,
+même lorsque l'historique disponible est limité.
+
+% ─────────────────────────────────────────────────────────────
 
 \subsection{Implémentation}
 
-Pour chaque accord, le système compare le nombre d'étudiants qui l'ont obtenu au nombre d'étudiants qui l'avaient demandé, sur les campagnes déjà terminées. Ce taux, associé au GPA et au département de l'étudiant, sert à entraîner un modèle qui apprend, à partir des vœux passés, quelles destinations correspondent le mieux à quel profil.
+Pour chaque accord, le système compare le nombre d'étudiants ayant obtenu la
+destination au nombre d'étudiants l'ayant demandée au cours des campagnes
+précédentes. Ce taux historique est ensuite utilisé avec les informations
+relatives au profil de l'étudiant, notamment son GPA, sa nationalité et son
+département.
 
-Ce modèle n'est entraîné que si assez de vœux passés sont disponibles, avec à la fois des cas d'affectation et de non-affectation. Sinon, faute de données suffisantes, le classement se base simplement sur le taux historique, sans passer par le modèle. L'étudiant obtient ainsi toujours une liste de destinations classées, même en l'absence d'historique.
+Lorsque les données historiques sont suffisantes, elles permettent de
+construire un jeu de données utilisé pour entraîner le modèle de régression
+logistique. Le modèle apprend ainsi, à partir des résultats des campagnes
+précédentes, quelles destinations correspondent le mieux à certains profils
+d'étudiants.
 
-La figure~\ref{fig:cap-sprint6-recommandations} montre l'espace étudiant où ce classement est consulté.
+Le modèle n'est entraîné que si l'historique disponible contient suffisamment
+d'observations et de résultats différents. Sa qualité est ensuite mesurée par
+validation croisée à cinq plis, à l'aide de l'AUC,
+un indicateur courant de performance prédictive.
+
+Si les données sont insuffisantes ou si le modèle n'atteint pas le niveau de
+performance attendu, il n'est pas utilisé. Le classement repose alors
+directement sur le taux historique d'affectation.
+
+Cette approche permet de garantir qu'un classement est toujours disponible,
+y compris dans les situations de démarrage à froid ou lorsque les données ne
+permettent pas d'obtenir un modèle suffisamment fiable.
+
+La figure~\ref{fig:cap-sprint6-recommandations} présente l'espace étudiant
+dans lequel les recommandations peuvent être consultées.
 
 \begin{figure}[H]
-  \centering
-  \includegraphics[width=0.85\linewidth]{figures/captures/sprint6/sprint6-recommandations-etudiant.png}
-  \caption{Espace étudiant : destinations recommandées}
-  \label{fig:cap-sprint6-recommandations}
+
+    \centering
+
+    \includegraphics[width=0.85\linewidth]{figures/captures/sprint6/sprint6-recommandations-etudiant.png}
+
+    \caption{Espace étudiant : destinations recommandées}
+
+    \label{fig:cap-sprint6-recommandations}
+
 \end{figure}
 
-Chaque destination est accompagnée du taux de correspondance calculé par le modèle, et seules les destinations auxquelles l'étudiant peut réellement prétendre sont affichées.
+Chaque destination est accompagnée d'un taux de correspondance calculé par le
+système. Seules les destinations auxquelles l'étudiant est éligible sont
+proposées.
+
+
+\subsection{Fonctionnalité reportée : assistant virtuel}
+
+Le Sprint 6 regroupait deux fonctionnalités prévues comme évolutions complémentaires du système : le moteur de recommandation de destinations (US-22) et l'assistant virtuel basé sur une architecture RAG (US-23). Ces deux fonctionnalités n'appartenaient pas au périmètre prioritaire du projet et leur réalisation dépendait du temps disponible après la mise en œuvre et la validation des fonctionnalités principales.
+
+Le temps disponible a néanmoins permis de réaliser et de valider le moteur de recommandation prévu dans l'US-22. En revanche, l'implémentation de l'assistant virtuel prévu dans l'US-23 n'a pas pu être menée à son terme dans le cadre du projet.
+
+Les choix de conception relatifs à cette fonctionnalité, présentés au chapitre~\ref{cha:algo-fsm}, restent néanmoins applicables pour une future évolution du système.  
+
+L'US-23 est donc conservée comme une perspective d'évolution du système. Elle pourra être développée dans une prochaine version ou intégrée ultérieurement dans le cadre de la maintenance et de l'évolution de la plateforme, en fonction des besoins et des ressources disponibles.
+
+% ─────────────────────────────────────────────────────────────
 
 \subsection{Tests et validation du sprint}
 
-Le tableau~\ref{tab:validation-sprint6-us22} porte sur le calcul du taux historique, la construction du jeu d'entraînement, l'entraînement du modèle et le classement produit par l'endpoint, validés au moyen de tests unitaires et de tests d'intégration.
+Le tableau~\ref{tab:validation-sprint6-us22} présente les tests réalisés pour
+valider le moteur de recommandation. Ils portent sur le calcul du taux
+historique, la construction du jeu de données, l'entraînement du modèle et le
+classement des destinations retourné par l'API.
 
 \renewcommand{\arraystretch}{1.3}
+
 \begin{table}[H]
+
 \centering
+
 \caption{Validation de l'US-22 (moteur de recommandation)}
+
 \label{tab:validation-sprint6-us22}
+
 \footnotesize
-\begin{tabular}{|p{2.8cm}|p{4.6cm}|p{1.5cm}|p{1.4cm}|p{1.8cm}|p{1.4cm}|}
+
+\begin{tabular}{|p{2.7cm}|p{5cm}|p{1.5cm}|p{1.3cm}|p{1.7cm}|p{1.3cm}|}
+
 \hline
+
 \rowcolor{gray!20}
-\textbf{Élément / fonctionnalité} & \textbf{Objectif du test} & \textbf{Type} & \textbf{Outil} & \textbf{Résultat} & \textbf{État} \\
+
+\textbf{Élément / fonctionnalité} &
+\textbf{Objectif du test} &
+\textbf{Type} &
+\textbf{Outil} &
+\textbf{Résultat} &
+\textbf{État} \\
+
 \hline
+
 Taux historique d'affectation par accord &
-Vérifier le calcul du taux (affectés / vœux) sur les campagnes closes, y compris sa généralisation entre déclinaisons annuelles d'un même accord &
+
+Vérifier le calcul du taux d'affectation sur les campagnes terminées,
+ainsi que sa prise en compte entre les différentes années d'un même accord. &
+
 Unitaire & pytest & Conforme & Validé \\
+
 \hline
+
 Construction du jeu d'entraînement &
-Vérifier que seul le vœu effectivement retenu est marqué positif, y compris pour un étudiant non affecté &
+
+Vérifier que les résultats d'affectation sont correctement utilisés
+pour construire les données d'entraînement, y compris pour les étudiants
+non affectés. &
+
 Unitaire & pytest & Conforme & Validé \\
+
 \hline
+
 Entraînement et score du modèle &
-Vérifier l'absence de score en dessous du seuil minimal ou en présence d'une seule classe, et la production de scores valides avec un historique suffisant &
+
+Vérifier que le modèle n'est utilisé que lorsque les données disponibles
+sont suffisantes et que ses performances sont satisfaisantes, et qu'il
+produit des scores valides lorsque ces conditions sont respectées. &
+
 Unitaire & pytest & Conforme & Validé \\
+
 \hline
-Endpoint de recommandation (démarrage à froid, éligibilité, classement) &
-Vérifier le classement par taux historique en l'absence de modèle entraîné, l'exclusion des niveaux non éligibles et le classement complet par score &
+
+Endpoint de recommandation
+(démarrage à froid, éligibilité, classement) &
+
+Vérifier le classement basé sur le taux historique lorsque le modèle
+n'est pas disponible, l'exclusion des destinations non éligibles et
+le classement final des destinations. &
+
 Intégration & pytest & Conforme & Validé \\
+
 \hline
+
 \end{tabular}
+
 \end{table}
 
-L'incrément du Sprint 6 relatif à la recommandation est ainsi validé au regard du calcul du taux historique, de l'entraînement du modèle et du classement produit, y compris dans les situations de démarrage à froid.
+L'incrément réalisé lors du Sprint 6 est ainsi validé au regard du calcul du taux historique, de l'entraînement du modèle et du classement produit, y compris dans les situations de démarrage à froid. 
 
 \section*{Conclusion}
 \justifying

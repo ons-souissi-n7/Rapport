@@ -67,7 +67,7 @@ Le tableau~\ref{tab:synthese-tests} présente une synthèse des tests disponible
 
 \footnotesize
 
-\begin{tabular}{|p{3.1cm}|p{3.4cm}|p{2.5cm}|p{4cm}|}
+\begin{tabular}{|p{3.5cm}|p{3.8cm}|p{6cm}|}
 
 \hline
 
@@ -75,42 +75,36 @@ Le tableau~\ref{tab:synthese-tests} présente une synthèse des tests disponible
 
 \textbf{Couche} &
 \textbf{Outil} &
-\textbf{Nombre} &
 \textbf{Constat} \\
 
 \hline
 
 Backend &
 pytest, pytest-django, pytest-cov &
-856 tests &
 Couverture mesurée de 84,71\,\%, supérieure au seuil de 80\,\% défini dans le pipeline CI. \\
 
 \hline
 
 Frontend &
 Vitest, Testing Library &
-131 tests &
 Couverture globale de 12,84\,\% des instructions, avec une couverture inégale selon les composants. \\
 
 \hline
 
 End-to-End &
 Playwright &
-113 tests &
 Quatre spécifications principales exécutées contre la stack applicative. \\
 
 \hline
 
 Sécurité applicative &
 pytest &
-42 tests &
 Tests dédiés à l'authentification et au contrôle d'accès. \\
 
 \hline
 
 Performance et charge &
 k6 &
-2 scripts &
 Scripts implémentés, mais aucun résultat d'exécution exploitable n'est disponible dans les artefacts analysés. \\
 
 \hline
@@ -127,12 +121,12 @@ La figure~\ref{fig:cap-coverage-backend} présente le rapport de couverture back
 % Déposer le fichier sous figures/captures/coverage-backend.png puis
 % décommenter le bloc ci-dessous.
 %
-% \begin{figure}[H]
-%     \centering
-%     \includegraphics[width=0.85\linewidth]{figures/captures/coverage-backend.png}
-%     \caption{Rapport de couverture des tests backend}
-%     \label{fig:cap-coverage-backend}
-% \end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\linewidth]{figures/captures/tests/coverage-backend.png}
+    \caption{Rapport de couverture des tests backend}
+    \label{fig:cap-coverage-backend}
+\end{figure}
 
 Ce rapport permet d'identifier les modules les moins couverts et de prioriser les tests complémentaires à mettre en place.
 
@@ -321,7 +315,7 @@ pytest \\
 
 \hline
 
-\texttt{ComplementaryMobility} &
+\texttt{Complementary Mobility} &
 Déclaration, validation et rejet &
 La déclaration est couverte par des tests API et E2E. La validation et le rejet sont couverts côté API &
 pytest, Playwright \\
