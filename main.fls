@@ -473,6 +473,9 @@ INPUT ./Chapitres/introduction.tex
 INPUT ./Chapitres/introduction.tex
 INPUT ./Chapitres/introduction.tex
 INPUT Chapitres/introduction.tex
+INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/jknappen/ec/tcrm1200.tfm
+INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/jknappen/ec/ecti1200.tfm
+INPUT /usr/local/texlive/2026/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc
 INPUT ./Chapitres/chapitre1.tex
 INPUT ./Chapitres/chapitre1.tex
 INPUT ./Chapitres/chapitre1.tex
@@ -500,7 +503,6 @@ INPUT ./figures/systemes/bpmn-as-is-enquete-cti.png
 INPUT ./figures/systemes/bpmn-as-is-enquete-cti.png
 INPUT ./figures/systemes/bpmn-as-is-enquete-cti.png
 INPUT ./figures/systemes/bpmn-as-is-enquete-cti.png
-INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/jknappen/ec/ecti1200.tfm
 INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/jknappen/ec/ecrm1000.tfm
 INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm
 INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm
@@ -512,9 +514,7 @@ INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm7
 INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm5.tfm
 INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/jknappen/ec/ecbx1000.tfm
 INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/adobe/zapfding/pzdr.tfm
-INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/jknappen/ec/tcrm1200.tfm
 INPUT /usr/local/texlive/2026/texmf-dist/fonts/tfm/jknappen/ec/ecbi1200.tfm
-INPUT /usr/local/texlive/2026/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc
 INPUT ./figures/captures/github/github-milestones.png
 INPUT ./figures/captures/github/github-milestones.png
 INPUT ./figures/captures/github/github-milestones.png

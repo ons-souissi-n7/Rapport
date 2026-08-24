@@ -1,12 +1,12 @@
 # Fdb version 4
-["biber main"] 1787559099.77999 "main.bcf" "main.bbl" "main" 1787582160.79333 0
+["biber main"] 1787559099.77999 "main.bcf" "main.bbl" "main" 1787586877.92923 0
   "bibliographie.bib" 1787172799.27568 13015 0483b250a6e7a7db8cc27a97a7638aa9 ""
-  "main.bcf" 1787582159.35185 110139 53a74946f4ef35be1a05301a3d64cfb8 "pdflatex"
+  "main.bcf" 1787586871.01949 110139 53a74946f4ef35be1a05301a3d64cfb8 "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1787582133.72922 "main.tex" "main.pdf" "main" 1787582160.80133 0
+["pdflatex"] 1787586801.39003 "main.tex" "main.pdf" "main" 1787586878.1049 0
   "/usr/local/texlive/2026/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2026/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2026/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -287,14 +287,14 @@
   "/usr/local/texlive/2026/texmf-var/web2c/pdftex/pdflatex.fmt" 1781416458 3656659 190412e2199678d9a94f800955bad89b ""
   "/usr/local/texlive/2026/texmf.cnf" 1781416292 455 5b996dcaa0eb4ef14a83b026bc0a008c ""
   "Chapitres/abreviations.tex" 1787401487.56451 2610 c96cd2ba778a44a07ddd7ade04a1a124 ""
-  "Chapitres/chapitre1.tex" 1787492812.60672 41394 6679e03a8574e858632d31b508da94a0 ""
+  "Chapitres/chapitre1.tex" 1787586703.32168 41416 377d4d17692482081af7721045705e55 ""
   "Chapitres/chapitre2.tex" 1787582132.3331 66657 4a067b394824338a9395242586c04ffc ""
   "Chapitres/chapitre3.tex" 1787487891.97213 75610 cac5a5f20a3a5d3bebbd7a07a627bf3b ""
   "Chapitres/chapitre4.tex" 1787491791.91766 41762 c60a608bbe4c4ce3584c83c3eb359292 ""
   "Chapitres/chapitre5.tex" 1787575388.31142 111896 b687328547471de98fe28950e425c766 ""
   "Chapitres/chapitre6.tex" 1787582087.51514 27330 dfdb8a767535ccf592438fcd0ef981b3 ""
-  "Chapitres/conclusion.tex" 1787322219.03272 173 37d162342b11f778bfb039da5b210e83 ""
-  "Chapitres/introduction.tex" 1787322243.38829 181 9e23c7ac61b51a571a298b9e3c57e002 ""
+  "Chapitres/conclusion.tex" 1787586024.77645 2364 6fcf513d8308cdb835dcfe4712e701f7 ""
+  "Chapitres/introduction.tex" 1787586805.46078 3842 a6399afb6062245117a9bbcc9f4cc9d8 ""
   "figures/architecture/Architecture-Logicielle.png" 1785426557.62572 1606458 15b2f0a804ec470d4f3b1000746d45d5 ""
   "figures/architecture/Architecture-Physique.png" 1784709106.13782 336614 f96169296cab462743b5785420fbdb12 ""
   "figures/captures/github/github-actions.png" 1787408514.89626 69341 ab7ecdc6df6eed7c76f27f022403405d ""
@@ -339,15 +339,15 @@
   "figures/systemes/bpmn-as-is-duree-mobilite.png" 1785146961.74764 472686 1592488faac265c7627d2fc9eb43aabe ""
   "figures/systemes/bpmn-as-is-enquete-cti.png" 1785146961.75627 776535 be008f5a508635e5c7a6282bfaaebaeb ""
   "figures/systemes/systeme-existant.png" 1784709106.1476 1283639 9ddd9dd7ae3790a013a41fade60a8046 ""
-  "main.aux" 1787582159.287 80977 dd04d4e92b8477a3f5a21654ff2134e7 "pdflatex"
+  "main.aux" 1787586870.84042 81081 760fba2cbec1a5d9a751743a82a7a54a "pdflatex"
   "main.bbl" 1787571698.99656 23360 eef19f84fe8db0a25c730f6e77b54bcc "biber main"
-  "main.lof" 1787582159.36205 6451 8150dece815724432f60b1073906ecbd "pdflatex"
-  "main.lot" 1787582159.36272 6212 2177b0765506d080a8a0ea689ad83173 "pdflatex"
-  "main.out" 1787582159.33813 54805 283584295348ed5c3608a978c4d5f1c5 "pdflatex"
-  "main.ptc" 1787582159.36326 27820 4093a1e40eae893acbcfaa9a30285d38 "pdflatex"
-  "main.run.xml" 1787582159.36005 2307 60a8fddbe94481e76c23f9cb283ea98c "pdflatex"
-  "main.tex" 1787319062.882 7640 6583bda10526685807cd6a4c8e7404d2 ""
-  "main.toc" 1787582159.36105 27528 5af7528a104981b4e7620f6800bdb96f "pdflatex"
+  "main.lof" 1787586871.05229 6452 ad5225c50d2e9c30ae82378afdcbdc06 "pdflatex"
+  "main.lot" 1787586871.0553 6212 7cf6c7763032127e039cdf8d0eb72ce5 "pdflatex"
+  "main.out" 1787586870.96837 54805 283584295348ed5c3608a978c4d5f1c5 "pdflatex"
+  "main.ptc" 1787586871.05714 27823 e92dc6539035d08e3e7df9eabe3d2d1c "pdflatex"
+  "main.run.xml" 1787586871.04723 2307 60a8fddbe94481e76c23f9cb283ea98c "pdflatex"
+  "main.tex" 1787585724.36431 7640 6583bda10526685807cd6a4c8e7404d2 ""
+  "main.toc" 1787586871.05125 27531 649a3ac2a8fb38d2bcc38ba6148c0d66 "pdflatex"
   (generated)
   "main.aux"
   "main.bcf"
