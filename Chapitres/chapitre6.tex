@@ -81,19 +81,19 @@ Le tableau~\ref{tab:synthese-tests} présente une synthèse des tests disponible
 
 Backend &
 pytest, pytest-django, pytest-cov &
-Couverture mesurée de 84,71\,\%, supérieure au seuil de 80\,\% défini dans le pipeline CI. \\
+Couverture mesurée de 85,01\,\%, supérieure au seuil de 80\,\% défini dans le pipeline CI. \\
 
 \hline
 
 Frontend &
 Vitest, Testing Library &
-Couverture globale de 12,84\,\% des instructions, avec une couverture inégale selon les composants. \\
+Couverture globale de 43,98\,\% des instructions, avec une couverture inégale selon les composants. \\
 
 \hline
 
 End-to-End &
 Playwright &
-Quatre spécifications principales exécutées contre la stack applicative. \\
+Cinq spécifications contre la stack applicative complète, exécutées avec succès (94 tests). \\
 
 \hline
 
@@ -130,6 +130,23 @@ La figure~\ref{fig:cap-coverage-backend} présente le rapport de couverture back
 
 Ce rapport permet d'identifier les modules les moins couverts et de prioriser les tests complémentaires à mettre en place.
 
+La figure~\ref{fig:cap-coverage-frontend} présente le rapport de couverture frontend généré par Vitest, qui identifie le niveau de couverture obtenu pour les différents composants et modules de l'interface.
+
+% TODO_CAPTURE : capture d'écran du rapport de couverture frontend (Vitest,
+% mobility-platform/frontend/coverage/lcov-report/index.html).
+%
+% Déposer le fichier sous figures/captures/tests/coverage-frontend.png puis
+% décommenter le bloc ci-dessous.
+%
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\linewidth]{figures/captures/tests/coverage-frontend.png}
+    \caption{Rapport de couverture des tests frontend}
+    \label{fig:cap-coverage-frontend}
+\end{figure}
+
+Comme pour le backend, ce rapport met en évidence une couverture inégale selon les composants.
+
 % ─────────────────────────────────────────────────────────────
 
 \section{Validation End-to-End}
@@ -138,11 +155,11 @@ Ce rapport permet d'identifier les modules les moins couverts et de prioriser le
 
 % ─────────────────────────────────────────────────────────────
 
-Les tests End-to-End sont réalisés avec Playwright contre la stack applicative complète. Ils s'appuient sur le frontend Next.js, le backend Django et un environnement d'authentification CAS adapté aux tests.
+Les tests End-to-End sont réalisés avec Playwright contre la stack applicative complète. Ils s'appuient sur le frontend Next.js, le backend Django et un environnement d'authentification CAS adapté aux tests, orchestrés via une configuration Docker Compose dédiée avec une base de données isolée.
 
-L'authentification est réalisée au préalable pour les deux principaux profils utilisateurs, à savoir l'administrateur et l'étudiant. Les sessions obtenues sont ensuite réutilisées par les différents scénarios afin d'éviter de répéter l'opération de connexion dans chaque test.
+L'authentification est réalisée une seule fois au préalable pour les deux principaux profils utilisateurs, à savoir l'administrateur et l'étudiant. Les sessions obtenues sont ensuite réutilisées par les différents scénarios afin d'éviter de répéter l'opération de connexion dans chaque test.
 
-Le tableau~\ref{tab:e2e-parcours} présente les principaux parcours métier et leur niveau de couverture End-to-End.
+Le tableau~\ref{tab:e2e-parcours} présente les cinq spécifications de la suite End-to-End, toutes exécutées avec succès. Chacune est détaillée dans les sous-sections qui suivent.
 
 \renewcommand{\arraystretch}{1.3}
 
@@ -150,92 +167,45 @@ Le tableau~\ref{tab:e2e-parcours} présente les principaux parcours métier et l
 
 \centering
 
-\caption{Couverture End-to-End des principaux parcours métier}
+\caption{Spécifications de la suite End-to-End (Playwright)}
 
 \label{tab:e2e-parcours}
 
 \footnotesize
 
-\begin{tabular}{|p{3.2cm}|p{5.3cm}|p{1.7cm}|p{1cm}|}
+\begin{tabular}{|p{5cm}|p{7.6cm}|}
 
 \hline
 
 \rowcolor{gray!20}
 
-\textbf{Étape} &
-\textbf{Test existant} &
-\textbf{Outil} &
-\textbf{État} \\
+\textbf{Spécification} &
+\textbf{Principaux scénarios couverts} \\
 
 \hline
 
-Authentification &
-Connexion initiale pour les profils administrateur et étudiant &
-Playwright &
-\cmark \\
+\texttt{academic-year-lifecycle} &
+Cycle de vie complet d'une année universitaire : création, chaque état et chaque transition du FSM (avec leurs confirmations et annulations), jusqu'à la clôture et la création automatique de l'année suivante. \\
 
 \hline
 
-Contrôle d'accès par rôle &
-Vérification qu'un étudiant ne peut pas accéder aux fonctionnalités administratives &
-Playwright &
-$\sim$ \\
+\texttt{admin-workflow} &
+Authentification administrateur, navigation dans l'ensemble des pages de la sidebar, chargement sans erreur des pages principales, déconnexion. \\
 
 \hline
 
-Cycle de vie de l'année universitaire &
-Scénario parcourant les transitions du cycle de vie &
-Playwright &
-\cmark \\
+\texttt{admin-business-scenarios} &
+Validation et rejet d'une mobilité complémentaire, import Excel réel, export réel du rapport CTI, filtres et export des tableaux de bord analytiques, création d'un stage international, contrôle d'accès par rôle. \\
 
 \hline
 
-Lancement de l'affectation &
-Vérification de l'alerte en cas d'absence de vœux &
-Playwright &
-\cmark \\
+\texttt{excel-import-export} &
+Import Excel réel (étudiants, accords) avec panneau d'erreurs sur ligne invalide, téléchargement des templates et export réel des données. \\
 
 \hline
 
-Déclaration d'une mobilité complémentaire &
-Scénario étudiant avec validation des champs &
-Playwright &
-\cmark \\
-
-\hline
-
-Validation ou rejet d'une mobilité complémentaire &
-Aucun scénario End-to-End identifié &
---- &
---- \\
-
-\hline
-
-Import Excel réel &
-Aucun dépôt complet de fichier identifié dans les scénarios E2E &
---- &
---- \\
-
-\hline
-
-Export CTI &
-Le téléchargement réel depuis le navigateur n'est pas couvert &
---- &
---- \\
-
-\hline
-
-Tableaux de bord analytiques &
-Chargement de la page dans le parcours administrateur &
-Playwright &
-$\sim$ \\
-
-\hline
-
-Mobilités entrantes et stages internationaux &
-Navigation vers les fonctionnalités, sans scénario métier complet &
-Playwright &
-$\sim$ \\
+\texttt{alerts} &
+Comportement de la bannière d'alertes système : affichage conditionnel, repli et dépli, fermeture pour la session ou acquittement permanent, alerte réelle déclenchée par le workflow FSM, rechargement automatique par sondage périodique. \\
 
 \hline
 
@@ -243,586 +213,488 @@ $\sim$ \\
 
 \end{table}
 
-Les scénarios End-to-End couvrent principalement les parcours centraux liés à l'authentification, au cycle de vie de l'année universitaire, aux affectations et à la déclaration des mobilités complémentaires.
+La suite End-to-End n'est pas intégrée au pipeline principal d'intégration continue. Elle s'exécute séparément, via la configuration Docker Compose dédiée aux tests Playwright.
 
-Certaines fonctionnalités sont uniquement couvertes par une navigation vers la page correspondante ou par le chargement de l'interface. Dans ces cas, la validation End-to-End ne permet pas de conclure à une couverture complète du comportement métier.
+\subsection{Navigation et contrôle d'accès}
 
-La figure~\ref{fig:cap-playwright-report} présente le rapport HTML généré par Playwright à l'issue d'une exécution de la suite End-to-End.
+La figure~\ref{fig:cap-e2e-workflow} présente l'exécution de la spécification \texttt{admin-workflow}.
 
-% TODO_CAPTURE : capture d'écran du rapport HTML Playwright (liste des
-% scénarios exécutés avec leur statut).
-%
-% Déposer le fichier sous figures/captures/playwright-report.png puis
-% décommenter le bloc ci-dessous.
-%
-% \begin{figure}[H]
-%     \centering
-%     \includegraphics[width=0.85\linewidth]{figures/captures/playwright-report.png}
-%     \caption{Rapport d'exécution de la suite End-to-End (Playwright)}
-%     \label{fig:cap-playwright-report}
-% \end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\linewidth]{figures/captures/tests/E2E/e2e-admin-workflow.png}
+    \caption{Exécution de la suite End-to-End : navigation et contrôle d'accès administrateur}
+    \label{fig:cap-e2e-workflow}
+\end{figure}
 
-Ce rapport constitue une trace d'exécution permettant de vérifier le statut des différents scénarios et d'identifier les éventuelles régressions après une évolution du système.
+Cette spécification, la plus large de la suite, vérifie l'authentification administrateur et les redirections associées, la navigation vers chacune des pages accessibles depuis la sidebar, leur chargement sans erreur, ainsi que la déconnexion.
 
-La suite End-to-End n'est pas intégrée au pipeline principal d'intégration continue. Elle peut être exécutée séparément à l'aide de l'environnement prévu pour les tests Playwright.
+\subsection{Cycle de vie de l'année universitaire}
 
-% ─────────────────────────────────────────────────────────────
+La figure~\ref{fig:cap-e2e-lifecycle} présente l'exécution de la spécification \texttt{academic-year-lifecycle}, qui parcourt l'intégralité du cycle de vie d'une année universitaire, de sa création à sa clôture.
 
-\section{Validation des machines à états}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\linewidth]{figures/captures/tests/E2E/e2e-academic-year-lifecycle.png}
+    \caption{Exécution de la suite End-to-End : cycle de vie de l'année universitaire}
+    \label{fig:cap-e2e-lifecycle}
+\end{figure}
 
-% ─────────────────────────────────────────────────────────────
+Chaque état et chaque transition du FSM y sont vérifiés individuellement (badge affiché, boutons actifs, effet d'une confirmation ou d'une annulation), jusqu'à la clôture de l'année et la création automatique de la suivante. La machine à états associée à l'\texttt{AcademicYear} bénéficie ainsi de la couverture la plus complète du système, à la fois testée côté backend et dans ce parcours de bout en bout. Les transitions d'\texttt{Assignment} (validation, publication) sont quant à elles testées côté API.
 
-Les principaux processus métier du système reposent sur des machines à états. Les changements de statut sont effectués par l'intermédiaire de transitions contrôlées, ce qui permet de limiter les modifications incohérentes de l'état des entités.
+\subsection{Alertes système}
 
-Le tableau~\ref{tab:validation-fsm} présente la couverture disponible pour les différentes machines à états.
+La figure~\ref{fig:cap-e2e-alerts} présente l'exécution de la spécification \texttt{alerts}.
 
-\renewcommand{\arraystretch}{1.3}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\linewidth]{figures/captures/tests/E2E/e2e-alerts.png}
+    \caption{Exécution de la suite End-to-End : bannière d'alertes système}
+    \label{fig:cap-e2e-alerts}
+\end{figure}
 
-\begin{table}[H]
+Cette spécification couvre le comportement de la bannière d'alertes : affichage conditionnel selon le nombre et la sévérité des alertes, repli et dépli de la liste, fermeture pour la session. 
+Le déclenchement d'une alerte réelle, lorsqu'un administrateur lance une affectation sans vœu disponible, ainsi que sa résolution automatique lors de la clôture de l'année, sont également vérifiés de bout en bout ; le calcul d'affectation lui-même est validé séparément à travers les tests de l'algorithme et des endpoints associés.
 
-\centering
+\subsection{Scénarios métier administrateur}
 
-\caption{Couverture de test des machines à états}
+La figure~\ref{fig:cap-e2e-business} présente l'exécution de la spécification \texttt{admin-business-scenarios}.
 
-\label{tab:validation-fsm}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\linewidth]{figures/captures/tests/E2E/e2e-admin-business-scenarios.png}
+    \caption{Exécution de la suite End-to-End : scénarios métier administrateur}
+    \label{fig:cap-e2e-business}
+\end{figure}
 
-\footnotesize
+Cette spécification couvre la validation et le rejet, avec motif obligatoire, d'une mobilité complémentaire par le service RI, la création d'un stage international, ainsi que les filtres des tableaux de bord analytiques (ouverture du panneau, sélection d'un département, affichage du graphique d'évolution des flux) et le téléchargement réel de leur export. Le téléchargement réel du rapport CTI y est également vérifié, de même que le contrôle d'accès par rôle, qui empêche un administrateur d'être redirigé vers l'espace étudiant.
 
-\begin{tabular}{|p{2.5cm}|p{2.8cm}|p{5.2cm}|p{2cm}|}
+\subsection{Import et export Excel}
 
-\hline
+La figure~\ref{fig:cap-e2e-excel} présente l'exécution de la spécification \texttt{excel-import-export}.
 
-\rowcolor{gray!20}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\linewidth]{figures/captures/tests/E2E/e2e-excel-import-export.png}
+    \caption{Exécution de la suite End-to-End : import et export Excel}
+    \label{fig:cap-e2e-excel}
+\end{figure}
 
-\textbf{FSM} &
-\textbf{Transitions testées} &
-\textbf{Constat} &
-\textbf{Outil} \\
-
-\hline
-
-\texttt{AcademicYear} &
-Transitions valides et invalides du cycle complet &
-Testée au niveau backend et intégrée dans un scénario End-to-End couvrant le cycle de vie &
-pytest, Playwright \\
-
-\hline
-
-\texttt{Assignment} &
-Validation et publication &
-Transitions testées côté API. La transition d'annulation n'est pas couverte par une interface ou un endpoint dédié &
-pytest \\
-
-\hline
-
-\texttt{Complementary Mobility} &
-Déclaration, validation et rejet &
-La déclaration est couverte par des tests API et E2E. La validation et le rejet sont couverts côté API &
-pytest, Playwright \\
-
-\hline
-
-\end{tabular}
-
-\end{table}
-
-La machine à états associée à l'année universitaire bénéficie de la couverture la plus complète, puisqu'elle est testée à la fois au niveau backend et dans un parcours utilisateur complet.
+Cette spécification vérifie, pour les étudiants comme pour les accords de mobilité, le dépôt réel d'un fichier contenant une ligne valide et une ligne invalide (avec son signalement dans le panneau d'erreurs), le contenu du template téléchargeable, ainsi que le téléchargement réel de l'export. 
+La synchronisation avec MoveON et Pégase, est quant à elle testée au niveau backend.
 
 % ─────────────────────────────────────────────────────────────
 
-\section{Validation des imports, exports et intégrations}
+% \section{Validation de la sécurité}
 
-% ─────────────────────────────────────────────────────────────
+% % ─────────────────────────────────────────────────────────────
 
-Le système s'appuie sur plusieurs sources de données et propose différents mécanismes d'import et d'export. Leur validation est principalement réalisée au niveau des tests unitaires et des tests d'intégration.
+% La sécurité applicative dispose d'une suite de tests spécifique composée de 42 tests. Ces tests couvrent notamment :
 
-Le tableau~\ref{tab:imports-exports} présente les principaux éléments couverts.
+% \begin{itemize}
 
-\renewcommand{\arraystretch}{1.3}
-
-\begin{table}[H]
-
-\centering
-
-\caption{Validation des imports, exports et intégrations}
-
-\label{tab:imports-exports}
-
-\footnotesize
-
-\begin{tabular}{|p{3.1cm}|p{5.7cm}|p{1.6cm}|p{1.4cm}|}
-
-\hline
-
-\rowcolor{gray!20}
-
-\textbf{Fonctionnalité} &
-\textbf{Constat} &
-\textbf{Type} &
-\textbf{Outil} \\
-
-\hline
-
-Synchronisation MoveON et Pégase &
-Tests réalisés avec des doublures des clients HTTP externes &
-Unitaire &
-pytest \\
-
-\hline
-
-Import Excel &
-Validation des données, détection des doublons et traitement des erreurs &
-Unitaire &
-pytest \\
-
-\hline
-
-Export CTI VII.D3 &
-Génération et contenu du fichier Excel vérifiés au niveau intégration. Le téléchargement depuis le navigateur n'est pas couvert par un scénario E2E &
-Intégration &
-pytest \\
-
-\hline
-
-Export des statistiques &
-Génération d'un classeur Excel testée sur plusieurs jeux de données &
-Intégration &
-pytest \\
-
-\hline
-
-\end{tabular}
-
-\end{table}
-
-Les mécanismes d'import et d'export sont principalement validés au niveau backend. Les parcours complets impliquant le dépôt ou le téléchargement réel d'un fichier depuis l'interface utilisateur constituent encore un axe de validation complémentaire.
-
-% ─────────────────────────────────────────────────────────────
-
-\section{Alertes et tâches asynchrones}
-
-% ─────────────────────────────────────────────────────────────
-
-Certaines fonctionnalités du système reposent sur des traitements asynchrones ou sur la génération d'alertes.
-
-Le déclenchement d'une alerte lorsqu'un administrateur tente de lancer une affectation sans vœu disponible est couvert par un scénario End-to-End dédié. Le calcul d'affectation est quant à lui validé à travers les tests de l'algorithme et des endpoints associés.
-
-Les autres traitements asynchrones, notamment ceux liés aux synchronisations et aux recalculs automatiques, sont principalement couverts indirectement par les tests des services qui leur sont associés. Aucun scénario End-to-End spécifique n'a été identifié pour chacun de ces traitements.
-
-% ─────────────────────────────────────────────────────────────
-
-\section{Statistiques et tableaux de bord}
-
-% ─────────────────────────────────────────────────────────────
-
-Les indicateurs statistiques du système sont calculés à partir des données de mobilité et des résultats d'affectation. Les endpoints responsables de ces agrégations sont couverts par des tests backend.
-
-La génération des exports Excel associés est également testée. Le chargement de la page des tableaux de bord analytiques est inclus dans le parcours administrateur End-to-End. Toutefois, les différents filtres proposés dans l'interface ne sont pas tous couverts par des scénarios dédiés.
-
-Le calcul de la durée cumulée de mobilité CTI suit une approche similaire. Les calculs et les exports associés sont couverts côté API, tandis que les interfaces de consultation et de téléchargement ne disposent pas de la même profondeur de couverture.
-
-% ─────────────────────────────────────────────────────────────
-
-\section{Validation de la sécurité}
-
-% ─────────────────────────────────────────────────────────────
-
-La sécurité applicative dispose d'une suite de tests spécifique composée de 42 tests. Ces tests couvrent notamment :
-
-\begin{itemize}
-
-    \item l'accès aux ressources sans authentification ;
+%     \item l'accès aux ressources sans authentification ;
     
-    \item l'utilisation d'un jeton expiré ;
+%     \item l'utilisation d'un jeton expiré ;
     
-    \item l'utilisation d'un jeton invalide ou altéré ;
+%     \item l'utilisation d'un jeton invalide ou altéré ;
     
-    \item la tentative d'accès d'un étudiant à des ressources administratives ;
+%     \item la tentative d'accès d'un étudiant à des ressources administratives ;
     
-    \item la tentative d'accès d'un étudiant aux données d'un autre étudiant ;
+%     \item la tentative d'accès d'un étudiant aux données d'un autre étudiant ;
     
-    \item l'accès autorisé pour un administrateur ;
+%     \item l'accès autorisé pour un administrateur ;
     
-    \item l'authentification reposant sur les cookies ;
+%     \item l'authentification reposant sur les cookies ;
     
-    \item les endpoints volontairement publics.
+%     \item les endpoints volontairement publics.
 
-\end{itemize}
+% \end{itemize}
 
-Ces tests permettent de valider les principaux mécanismes d'authentification et de contrôle d'accès implémentés dans l'application.
+% Ces tests permettent de valider les principaux mécanismes d'authentification et de contrôle d'accès implémentés dans l'application.
 
-En revanche, aucun test spécifique d'injection SQL, de XSS ou de CSRF n'a été identifié dans les artefacts de tests disponibles.
+% En revanche, aucun test spécifique d'injection SQL, de XSS ou de CSRF n'a été identifié dans les artefacts de tests disponibles.
 
-Le pipeline d'intégration continue complète cette validation par un scan de vulnérabilités des images Docker avec Trivy. Les vulnérabilités de sévérité élevée ou critique peuvent bloquer le pipeline.
+% Le pipeline d'intégration continue complète cette validation par un scan de vulnérabilités des images Docker avec Trivy. Les vulnérabilités de sévérité élevée ou critique peuvent bloquer le pipeline.
 
-% ─────────────────────────────────────────────────────────────
+% % ─────────────────────────────────────────────────────────────
 
-\section{Performance et charge}
+% \section{Performance et charge}
 
-% ─────────────────────────────────────────────────────────────
+% % ─────────────────────────────────────────────────────────────
 
-Deux scripts \texttt{k6} ont été implémentés pour évaluer les performances de l'application.
+% Deux scripts \texttt{k6} ont été implémentés pour évaluer les performances de l'application.
 
-Le premier correspond à un test de charge ciblant les endpoints les plus sollicités et permettant de mesurer notamment les temps de réponse et les taux d'erreur sous une charge concurrente.
+% Le premier correspond à un test de charge ciblant les endpoints les plus sollicités et permettant de mesurer notamment les temps de réponse et les taux d'erreur sous une charge concurrente.
 
-Le second constitue un test plus simple permettant de vérifier le comportement général de l'API.
+% Le second constitue un test plus simple permettant de vérifier le comportement général de l'API.
 
-Ces scripts sont exécutables, mais les résultats détaillés d'une campagne de test complète ne sont pas disponibles dans les éléments analysés. Il n'est donc pas possible de conclure quantitativement au respect des objectifs de performance définis pour le système.
+% Ces scripts sont exécutables, mais les résultats détaillés d'une campagne de test complète ne sont pas disponibles dans les éléments analysés. Il n'est donc pas possible de conclure quantitativement au respect des objectifs de performance définis pour le système.
 
-Des tests complémentaires mesurent également certains temps de réponse directement à l'aide du client de test Django. Ces mesures permettent de détecter certaines régressions, mais ne remplacent pas une véritable mesure réalisée sous charge concurrente.
+% Des tests complémentaires mesurent également certains temps de réponse directement à l'aide du client de test Django. Ces mesures permettent de détecter certaines régressions, mais ne remplacent pas une véritable mesure réalisée sous charge concurrente.
 
-% ─────────────────────────────────────────────────────────────
+% % ─────────────────────────────────────────────────────────────
 
-\section{Intégration continue et conteneurisation}
+% \section{Intégration continue et conteneurisation}
 
-% ─────────────────────────────────────────────────────────────
+% % ─────────────────────────────────────────────────────────────
 
-Le pipeline d'intégration continue automatise plusieurs étapes de validation du système.
+% Le pipeline d'intégration continue automatise plusieurs étapes de validation du système.
 
-Il comprend notamment :
+% Il comprend notamment :
 
-\begin{itemize}
+% \begin{itemize}
 
-    \item l'analyse statique et la vérification du format du code backend (\texttt{ruff}) ;
+%     \item l'analyse statique et la vérification du format du code backend (\texttt{ruff}) ;
 
-    \item l'exécution des tests backend avec une base PostgreSQL ;
+%     \item l'exécution des tests backend avec une base PostgreSQL ;
 
-    \item la vérification du seuil minimal de couverture backend ;
+%     \item la vérification du seuil minimal de couverture backend ;
 
-    \item l'analyse statique et la vérification des types du code frontend (ESLint, TypeScript) ;
+%     \item l'analyse statique et la vérification des types du code frontend (ESLint, TypeScript) ;
 
-    \item l'exécution des tests frontend ;
+%     \item l'exécution des tests frontend ;
 
-    \item la construction des images Docker ;
+%     \item la construction des images Docker ;
 
-    \item l'analyse des vulnérabilités des images avec Trivy.
+%     \item l'analyse des vulnérabilités des images avec Trivy.
 
-\end{itemize}
+% \end{itemize}
 
-La suite End-to-End Playwright reste indépendante de ce pipeline principal et doit être exécutée séparément.
+% La suite End-to-End Playwright reste indépendante de ce pipeline principal et doit être exécutée séparément.
 
-Le déploiement dans l'environnement cible s'appuie sur les conteneurs Docker et comprend notamment la récupération du code, la reconstruction des services, l'application des migrations de la base de données et la collecte des fichiers statiques.
+% Le déploiement dans l'environnement cible s'appuie sur les conteneurs Docker et comprend notamment la récupération du code, la reconstruction des services, l'application des migrations de la base de données et la collecte des fichiers statiques.
 
 % ─────────────────────────────────────────────────────────────
 
 \section{Analyse de qualité de code}
 
+\label{sec:qualite-code}
+
 % ─────────────────────────────────────────────────────────────
 
 Une instance SonarQube est disponible dans l'environnement de développement, avec une configuration dédiée au projet (périmètre analysé, exclusions, rapports de couverture backend et frontend). Son usage reste local : l'analyse est lancée manuellement, en dehors du pipeline d'intégration continue.
 
-Le typage statique du backend, préparé avec \texttt{mypy} et \texttt{django-stubs}, est configuré mais n'est pour l'instant appelé ni localement ni dans le pipeline CI.
+La figure~\ref{fig:cap-sonarqube} présente le résultat de la dernière analyse : des notes A en sécurité, fiabilité et maintenabilité, une revue complète des \textit{security hotspots}, une couverture moyenne de 54\,\% et une duplication de code limitée à 3,3\,\%.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\linewidth]{figures/captures/tests/sonarqube-quality-gate.png}
+    \caption{Résultat de l'analyse SonarQube}
+    \label{fig:cap-sonarqube}
+\end{figure}
+
+Les 275 anomalies de maintenabilité, principalement liées à une complexité cognitive élevée de certaines fonctions, ne remettent pas en cause la fiabilité ou la sécurité du système. Elles devront toutefois être corrigées progressivement lors des prochaines évolutions.
 
 % ─────────────────────────────────────────────────────────────
 
-\section{Couverture des besoins non fonctionnels}
+% \section{Couverture des besoins non fonctionnels}
 
-% ─────────────────────────────────────────────────────────────
+% % ─────────────────────────────────────────────────────────────
 
-Le tableau~\ref{tab:couverture-bnf} présente le niveau de validation disponible pour les besoins non fonctionnels définis précédemment.
+% Le tableau~\ref{tab:couverture-bnf} présente le niveau de validation disponible pour les besoins non fonctionnels définis précédemment.
 
-\renewcommand{\arraystretch}{1.25}
+% \renewcommand{\arraystretch}{1.25}
 
-\begin{longtable}{|p{1.7cm}|p{3.1cm}|p{1.7cm}|p{4.2cm}|p{2.1cm}|}
+% \begin{longtable}{|p{1.7cm}|p{3.1cm}|p{1.7cm}|p{4.2cm}|p{2.1cm}|}
 
-\caption{Couverture des besoins non fonctionnels}
+% \caption{Couverture des besoins non fonctionnels}
 
-\label{tab:couverture-bnf} \\
+% \label{tab:couverture-bnf} \\
 
-\hline
+% \hline
 
-\rowcolor{gray!20}
+% \rowcolor{gray!20}
 
-\textbf{Besoin} &
-\textbf{Validation réalisée} &
-\textbf{Outil} &
-\textbf{Résultat} &
-\textbf{État} \\
+% \textbf{Besoin} &
+% \textbf{Validation réalisée} &
+% \textbf{Outil} &
+% \textbf{Résultat} &
+% \textbf{État} \\
 
-\hline
+% \hline
 
-\endfirsthead
+% \endfirsthead
 
-\hline
+% \hline
 
-\rowcolor{gray!20}
+% \rowcolor{gray!20}
 
-\textbf{Besoin} &
-\textbf{Validation réalisée} &
-\textbf{Outil} &
-\textbf{Résultat} &
-\textbf{État} \\
+% \textbf{Besoin} &
+% \textbf{Validation réalisée} &
+% \textbf{Outil} &
+% \textbf{Résultat} &
+% \textbf{État} \\
 
-\hline
+% \hline
 
-\endhead
+% \endhead
 
-BNF01 -- Interopérabilité &
-Tests des adaptateurs et des mécanismes d'import &
-pytest &
-Les différents adaptateurs sont couverts par des tests unitaires &
-Partiellement validé \\
+% BNF01 -- Interopérabilité &
+% Tests des adaptateurs et des mécanismes d'import &
+% pytest &
+% Les différents adaptateurs sont couverts par des tests unitaires &
+% Partiellement validé \\
 
-\hline
+% \hline
 
-BNF02 -- Intégrité des données &
-Tests des pipelines d'import et de validation &
-pytest &
-Validation, gestion des doublons et erreurs couvertes &
-Validé \\
+% BNF02 -- Intégrité des données &
+% Tests des pipelines d'import et de validation &
+% pytest &
+% Validation, gestion des doublons et erreurs couvertes &
+% Validé \\
 
-\hline
+% \hline
 
-BNF03 -- Sécurité et protection des accès &
-Suite dédiée à l'authentification et aux autorisations &
-pytest &
-42 scénarios de sécurité disponibles &
-Validé \\
+% BNF03 -- Sécurité et protection des accès &
+% Suite dédiée à l'authentification et aux autorisations &
+% pytest &
+% 42 scénarios de sécurité disponibles &
+% Validé \\
 
-\hline
+% \hline
 
-BNF04 -- Performance &
-Scripts de charge et mesures complémentaires &
-k6, pytest &
-Scripts disponibles, mais résultats de charge non disponibles &
-Non mesuré \\
+% BNF04 -- Performance &
+% Scripts de charge et mesures complémentaires &
+% k6, pytest &
+% Scripts disponibles, mais résultats de charge non disponibles &
+% Non mesuré \\
 
-\hline
+% \hline
 
-BNF05 -- Disponibilité &
-Aucune campagne spécifique identifiée &
---- &
-Absence de preuve de validation dédiée &
-Non testé \\
+% BNF05 -- Disponibilité &
+% Aucune campagne spécifique identifiée &
+% --- &
+% Absence de preuve de validation dédiée &
+% Non testé \\
 
-\hline
+% \hline
 
-BNF06 -- Scalabilité &
-Aucun test spécifique identifié &
---- &
-Absence de test de montée en charge distribué &
-Non testé \\
+% BNF06 -- Scalabilité &
+% Aucun test spécifique identifié &
+% --- &
+% Absence de test de montée en charge distribué &
+% Non testé \\
 
-\hline
+% \hline
 
-BNF07 -- Ergonomie &
-Tests de navigation et composants frontend &
-Playwright, Vitest &
-Certains parcours utilisateur sont couverts, mais la couverture reste partielle &
-Partiellement validé \\
+% BNF07 -- Ergonomie &
+% Tests de navigation et composants frontend &
+% Playwright, Vitest &
+% Certains parcours utilisateur sont couverts, mais la couverture reste partielle &
+% Partiellement validé \\
 
-\hline
+% \hline
 
-BNF08 -- Traçabilité &
-Tests liés au journal d'audit &
-pytest, Vitest &
-Vérification des événements et informations associées dans les scénarios testés &
-Validé \\
+% BNF08 -- Traçabilité &
+% Tests liés au journal d'audit &
+% pytest, Vitest &
+% Vérification des événements et informations associées dans les scénarios testés &
+% Validé \\
 
-\hline
+% \hline
 
-\end{longtable}
+% \end{longtable}
 
-% ─────────────────────────────────────────────────────────────
+% % ─────────────────────────────────────────────────────────────
 
-\section{Matrice de couverture fonctionnelle}
+% \section{Matrice de couverture fonctionnelle}
 
-% ─────────────────────────────────────────────────────────────
+% % ─────────────────────────────────────────────────────────────
 
-Le tableau~\ref{tab:matrice-couverture} synthétise le niveau de validation disponible pour les principales fonctionnalités du système.
+% Le tableau~\ref{tab:matrice-couverture} synthétise le niveau de validation disponible pour les principales fonctionnalités du système.
 
-\renewcommand{\arraystretch}{1.2}
+% \renewcommand{\arraystretch}{1.2}
 
-\begin{longtable}{|p{3.5cm}|>{\centering\arraybackslash}p{1.3cm}|>{\centering\arraybackslash}p{1.3cm}|>{\centering\arraybackslash}p{1.5cm}|>{\centering\arraybackslash}p{1.3cm}|p{4.3cm}|}
+% \begin{longtable}{|p{3.5cm}|>{\centering\arraybackslash}p{1.3cm}|>{\centering\arraybackslash}p{1.3cm}|>{\centering\arraybackslash}p{1.5cm}|>{\centering\arraybackslash}p{1.3cm}|p{4.3cm}|}
 
-\caption{Matrice de couverture fonctionnelle}
+% \caption{Matrice de couverture fonctionnelle}
 
-\label{tab:matrice-couverture} \\
+% \label{tab:matrice-couverture} \\
 
-\hline
+% \hline
 
-\rowcolor{gray!20}
+% \rowcolor{gray!20}
 
-\textbf{Fonctionnalité} &
-\textbf{Unitaire} &
-\textbf{Intégration} &
-\textbf{Composant} &
-\textbf{E2E} &
-\textbf{Observation} \\
+% \textbf{Fonctionnalité} &
+% \textbf{Unitaire} &
+% \textbf{Intégration} &
+% \textbf{Composant} &
+% \textbf{E2E} &
+% \textbf{Observation} \\
 
-\hline
+% \hline
 
-\endfirsthead
+% \endfirsthead
 
-\hline
+% \hline
 
-\rowcolor{gray!20}
+% \rowcolor{gray!20}
 
-\textbf{Fonctionnalité} &
-\textbf{Unitaire} &
-\textbf{Intégration} &
-\textbf{Composant} &
-\textbf{E2E} &
-\textbf{Observation} \\
+% \textbf{Fonctionnalité} &
+% \textbf{Unitaire} &
+% \textbf{Intégration} &
+% \textbf{Composant} &
+% \textbf{E2E} &
+% \textbf{Observation} \\
 
-\hline
+% \hline
 
-\endhead
+% \endhead
 
-Authentification CAS et JWT &
---- &
-\cmark &
---- &
-\cmark &
-Sessions préparées pour les deux rôles dans les tests E2E. \\
+% Authentification CAS et JWT &
+% --- &
+% \cmark &
+% --- &
+% \cmark &
+% Sessions préparées pour les deux rôles dans les tests E2E. \\
 
-\hline
+% \hline
 
-Contrôle d'accès admin / étudiant &
---- &
-\cmark &
---- &
-$\sim$ &
-Contrôle d'accès principalement validé côté API. \\
+% Contrôle d'accès admin / étudiant &
+% --- &
+% \cmark &
+% --- &
+% $\sim$ &
+% Contrôle d'accès principalement validé côté API. \\
 
-\hline
+% \hline
 
-Cycle de vie de l'année universitaire &
-\cmark &
---- &
---- &
-\cmark &
-Cycle métier couvert à plusieurs niveaux. \\
+% Cycle de vie de l'année universitaire &
+% \cmark &
+% --- &
+% --- &
+% \cmark &
+% Cycle métier couvert à plusieurs niveaux. \\
 
-\hline
+% \hline
 
-Référentiels de base &
---- &
-\cmark &
---- &
---- &
-Suite de tests API dédiée. \\
+% Référentiels de base &
+% --- &
+% \cmark &
+% --- &
+% --- &
+% Suite de tests API dédiée. \\
 
-\hline
+% \hline
 
-Accords et quotas &
-\cmark &
---- &
---- &
---- &
-Méthode de répartition testée au niveau service. \\
+% Accords et quotas &
+% \cmark &
+% --- &
+% --- &
+% --- &
+% Méthode de répartition testée au niveau service. \\
 
-\hline
+% \hline
 
-Import des étudiants &
---- &
-\cmark &
---- &
---- &
-Import validé côté backend. \\
+% Import des étudiants &
+% --- &
+% \cmark &
+% --- &
+% --- &
+% Import validé côté backend. \\
 
-\hline
+% \hline
 
-Vœux et affectation &
-\cmark &
-\cmark &
---- &
-\cmark &
-Algorithme et principaux parcours testés. \\
+% Vœux et affectation &
+% \cmark &
+% \cmark &
+% --- &
+% \cmark &
+% Algorithme et principaux parcours testés. \\
 
-\hline
+% \hline
 
-Validation et publication des affectations &
---- &
-\cmark &
---- &
-\cmark &
-Couverte au niveau API et dans le cycle global. \\
+% Validation et publication des affectations &
+% --- &
+% \cmark &
+% --- &
+% \cmark &
+% Couverte au niveau API et dans le cycle global. \\
 
-\hline
+% \hline
 
-Mobilités entrantes &
---- &
---- &
---- &
-$\sim$ &
-Navigation disponible, sans scénario métier complet identifié. \\
+% Mobilités entrantes &
+% --- &
+% --- &
+% --- &
+% $\sim$ &
+% Navigation disponible, sans scénario métier complet identifié. \\
 
-\hline
+% \hline
 
-Stages internationaux &
---- &
---- &
---- &
-$\sim$ &
-Navigation couverte de manière limitée. \\
+% Stages internationaux &
+% --- &
+% --- &
+% --- &
+% $\sim$ &
+% Navigation couverte de manière limitée. \\
 
-\hline
+% \hline
 
-Mobilités complémentaires : déclaration &
---- &
-\cmark &
---- &
-\cmark &
-Parcours étudiant bien couvert. \\
+% Mobilités complémentaires : déclaration &
+% --- &
+% \cmark &
+% --- &
+% \cmark &
+% Parcours étudiant bien couvert. \\
 
-\hline
+% \hline
 
-Mobilités complémentaires : validation &
---- &
-\cmark &
---- &
---- &
-Couverture backend disponible. \\
+% Mobilités complémentaires : validation &
+% --- &
+% \cmark &
+% --- &
+% --- &
+% Couverture backend disponible. \\
 
-\hline
+% \hline
 
-Durée et export CTI &
---- &
-\cmark &
---- &
---- &
-Calcul et export validés côté API. \\
+% Durée et export CTI &
+% --- &
+% \cmark &
+% --- &
+% --- &
+% Calcul et export validés côté API. \\
 
-\hline
+% \hline
 
-Statistiques et tableaux de bord &
---- &
-\cmark &
---- &
-$\sim$ &
-Endpoints testés et chargement de page couvert partiellement. \\
+% Statistiques et tableaux de bord &
+% --- &
+% \cmark &
+% --- &
+% $\sim$ &
+% Endpoints testés et chargement de page couvert partiellement. \\
 
-\hline
+% \hline
 
-Journal d'audit &
---- &
-\cmark &
-\cmark &
---- &
-Couverture backend et composants disponibles. \\
+% Journal d'audit &
+% --- &
+% \cmark &
+% \cmark &
+% --- &
+% Couverture backend et composants disponibles. \\
 
-\hline
+% \hline
 
-Alertes système &
---- &
---- &
---- &
-\cmark &
-Scénario End-to-End dédié. \\
+% Alertes système &
+% --- &
+% --- &
+% --- &
+% \cmark &
+% Scénario End-to-End dédié. \\
 
-\hline
+% \hline
 
-\end{longtable}
+% \end{longtable}
 
-% ─────────────────────────────────────────────────────────────
+% % ─────────────────────────────────────────────────────────────
 
-\section*{Conclusion}
+% \section*{Conclusion}
 
-\justifying
+% \justifying
 
-\phantomsection
+% \phantomsection
 
-\addcontentsline{toc}{section}{Conclusion}
+% \addcontentsline{toc}{section}{Conclusion}
 
-La validation montre une couvxerture solide sur le cœur du système (cycle de vie de l'année universitaire, algorithme d'affectation, contrôle d'accès) et plus partielle sur les flux réels d'upload et de téléchargement ainsi que sur les besoins non fonctionnels de performance et de disponibilité.
+% La validation montre une couverture solide sur le cœur du système (cycle de vie de l'année universitaire, algorithme d'affectation, contrôle d'accès) et plus partielle sur les flux réels d'upload et de téléchargement ainsi que sur les besoins non fonctionnels de performance et de disponibilité.

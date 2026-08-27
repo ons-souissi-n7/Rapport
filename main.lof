@@ -52,4 +52,11 @@
 \contentsline {figure}{\numberline {5.32}{\ignorespaces Espace étudiant : destinations recommandées}}{153}{figure.caption.91}%
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {6.1}{\ignorespaces Rapport de couverture des tests backend}}{157}{figure.caption.96}%
+\contentsline {figure}{\numberline {6.2}{\ignorespaces Rapport de couverture des tests frontend}}{157}{figure.caption.97}%
+\contentsline {figure}{\numberline {6.3}{\ignorespaces Exécution de la suite End-to-End : navigation et contrôle d'accès administrateur}}{159}{figure.caption.99}%
+\contentsline {figure}{\numberline {6.4}{\ignorespaces Exécution de la suite End-to-End : cycle de vie de l'année universitaire}}{159}{figure.caption.100}%
+\contentsline {figure}{\numberline {6.5}{\ignorespaces Exécution de la suite End-to-End : bannière d'alertes système}}{160}{figure.caption.101}%
+\contentsline {figure}{\numberline {6.6}{\ignorespaces Exécution de la suite End-to-End : scénarios métier administrateur}}{160}{figure.caption.102}%
+\contentsline {figure}{\numberline {6.7}{\ignorespaces Exécution de la suite End-to-End : import et export Excel}}{161}{figure.caption.103}%
+\contentsline {figure}{\numberline {6.8}{\ignorespaces Résultat de l'analyse SonarQube}}{161}{figure.caption.104}%
 \contentsfinish 
