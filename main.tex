@@ -30,7 +30,7 @@
 \usepackage{pgfgantt}
 \usepackage[colorlinks=true, linkcolor=black, citecolor=black, urlcolor=black]{hyperref}
 \usepackage{tikz}
-\usetikzlibrary{arrows.meta, positioning, shapes.geometric}
+\usetikzlibrary{arrows.meta, positioning, shapes.geometric, fit, backgrounds}
 \definecolor{lightblue}{rgb}{0.68, 0.85, 0.9} % Définition de la couleur lightblue
 
 
@@ -74,7 +74,7 @@
 \fancyfoot[C]{\thepage}
 % \usepackage[none]{hyphenat}
 
-\setcounter{secnumdepth}{5}% profondeur de la table des matières
+\setcounter{secnumdepth}{3}% profondeur de la numérotation (max 3 niveaux)
 %
 \titleformat{\chapter}[frame]
 {\normalsize}
@@ -107,8 +107,11 @@
 % =========================================================
 % PROFONDEUR DU SOMMAIRE
 % =========================================================
-\setcounter{tocdepth}{5}
-\setcounter{secnumdepth}{5}
+% Numérotation limitée à 3 niveaux (section.subsection.subsubsection).
+% Au-delà, on utilise \paragraph (titre en gras, non numéroté) pour ne pas
+% descendre jusqu'à des 3.4.7.4 peu lisibles.
+\setcounter{tocdepth}{3}
+\setcounter{secnumdepth}{3}
 
 
 % =========================================================
@@ -267,10 +270,8 @@
  \input{Chapitres/conclusion}
   \clearpage
 
-
-
-% \input{annexe}
-%     \clearpage
+\input{Chapitres/annexe}
+    \clearpage
 
  \printbibliography[heading=bibintoc,category=scientifique,title={Bibliographie}]
  \printbibliography[heading=bibintoc,notcategory=scientifique,title={Netographie}]

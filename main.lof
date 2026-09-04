@@ -8,55 +8,62 @@
 \contentsline {figure}{\numberline {1.6}{\ignorespaces Tableau de suivi GitHub Projects, par statut d'avancement}}{22}{figure.caption.16}%
 \contentsline {figure}{\numberline {1.7}{\ignorespaces Pull requests fermées, nommées par sprint et par user story}}{22}{figure.caption.17}%
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Diagramme de cas d'utilisation de la plateforme}}{31}{figure.caption.22}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Architecture logicielle}}{67}{figure.caption.36}%
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Diagramme de séquence : authentification CAS et rafraîchissement du JWT}}{72}{figure.caption.38}%
-\contentsline {figure}{\numberline {3.3}{\ignorespaces Architecture physique}}{75}{figure.caption.39}%
-\contentsline {figure}{\numberline {3.4}{\ignorespaces Exécution des étapes de lint, tests et build sur GitHub Actions}}{77}{figure.caption.41}%
-\contentsline {figure}{\numberline {3.5}{\ignorespaces Pipeline global de traitement des données}}{81}{figure.caption.43}%
-\contentsline {figure}{\numberline {3.6}{\ignorespaces Pipeline détaillé de l'étape de nettoyage des données, avec chemins de rejet}}{83}{figure.caption.44}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Architecture logicielle}}{68}{figure.caption.47}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Diagramme de séquence : authentification CAS et rafraîchissement du JWT}}{73}{figure.caption.49}%
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Architecture physique}}{76}{figure.caption.50}%
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Exécution des étapes de lint, tests et build sur GitHub Actions}}{78}{figure.caption.52}%
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Pipeline global de traitement des données}}{82}{figure.caption.54}%
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Pipeline détaillé de l'étape de nettoyage des données, avec chemins de rejet}}{84}{figure.caption.61}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Machine à états : AcademicYear}}{101}{figure.caption.52}%
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Machine à états : AcademicYear}}{102}{figure.caption.71}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces Diagramme de classes : Sprint 1}}{109}{figure.caption.56}%
-\contentsline {figure}{\numberline {5.2}{\ignorespaces Interface d'administration des référentiels}}{110}{figure.caption.57}%
-\contentsline {figure}{\numberline {5.3}{\ignorespaces Suivi du cycle de vie de l'année universitaire}}{110}{figure.caption.58}%
-\contentsline {figure}{\numberline {5.4}{\ignorespaces Consultation des accords et des quotas}}{111}{figure.caption.59}%
-\contentsline {figure}{\numberline {5.5}{\ignorespaces Diagramme de classes : Sprint 2}}{115}{figure.caption.61}%
-\contentsline {figure}{\numberline {5.6}{\ignorespaces Diagramme de séquence : déroulement général de l'import et de la synchronisation des données}}{116}{figure.caption.62}%
-\contentsline {figure}{\numberline {5.7}{\ignorespaces Journal d'audit}}{117}{figure.caption.63}%
-\contentsline {figure}{\numberline {5.8}{\ignorespaces Consultation des données étudiants}}{117}{figure.caption.64}%
-\contentsline {figure}{\numberline {5.9}{\ignorespaces Diagramme de classes : Sprint 3}}{122}{figure.caption.66}%
-\contentsline {figure}{\numberline {5.10}{\ignorespaces Diagramme de séquence : lancement et génération des affectations}}{123}{figure.caption.67}%
-\contentsline {figure}{\numberline {5.11}{\ignorespaces Diagramme de séquence : validation, correction et publication des affectations}}{124}{figure.caption.68}%
-\contentsline {figure}{\numberline {5.12}{\ignorespaces Tableau de bord des affectations}}{125}{figure.caption.69}%
-\contentsline {figure}{\numberline {5.13}{\ignorespaces Supervision individuelle des propositions d'affectation}}{126}{figure.caption.70}%
-\contentsline {figure}{\numberline {5.14}{\ignorespaces Statistiques détaillées de l'affectation}}{126}{figure.caption.71}%
-\contentsline {figure}{\numberline {5.15}{\ignorespaces Consultation des vœux et du résultat d'affectation (espace étudiant)}}{127}{figure.caption.72}%
-\contentsline {figure}{\numberline {5.16}{\ignorespaces Diagramme de classes : Sprint 4}}{133}{figure.caption.74}%
-\contentsline {figure}{\numberline {5.17}{\ignorespaces Diagramme de séquence : réconciliation d'un dossier sans identifiant valide}}{134}{figure.caption.75}%
-\contentsline {figure}{\numberline {5.18}{\ignorespaces Diagramme de séquence : déclaration et traitement d'une mobilité complémentaire}}{135}{figure.caption.76}%
-\contentsline {figure}{\numberline {5.19}{\ignorespaces Consultation des stages internationaux}}{136}{figure.caption.77}%
-\contentsline {figure}{\numberline {5.20}{\ignorespaces Consultation des mobilités entrantes}}{136}{figure.caption.78}%
-\contentsline {figure}{\numberline {5.21}{\ignorespaces Réconciliation d'un dossier sans identifiant valide}}{137}{figure.caption.79}%
-\contentsline {figure}{\numberline {5.22}{\ignorespaces Déclaration d'une mobilité complémentaire (espace étudiant)}}{137}{figure.caption.80}%
-\contentsline {figure}{\numberline {5.23}{\ignorespaces Validation d'une mobilité complémentaire}}{138}{figure.caption.81}%
-\contentsline {figure}{\numberline {5.24}{\ignorespaces Diagramme de séquence : finalisation CTI et génération du rapport}}{143}{figure.caption.83}%
-\contentsline {figure}{\numberline {5.25}{\ignorespaces Tableau de bord étudiant : durée de mobilité cumulée}}{144}{figure.caption.84}%
-\contentsline {figure}{\numberline {5.26}{\ignorespaces Rapport de conformité CTI}}{145}{figure.caption.85}%
-\contentsline {figure}{\numberline {5.27}{\ignorespaces Tableau de bord analytique : évolution des flux}}{145}{figure.caption.86}%
-\contentsline {figure}{\numberline {5.28}{\ignorespaces Tableau de bord analytique : répartition par département}}{146}{figure.caption.87}%
-\contentsline {figure}{\numberline {5.29}{\ignorespaces Tableau de bord analytique : répartition par université partenaire}}{146}{figure.caption.88}%
-\contentsline {figure}{\numberline {5.30}{\ignorespaces Tableau de bord analytique : répartition par pays}}{146}{figure.caption.89}%
-\contentsline {figure}{\numberline {5.31}{\ignorespaces Diagramme de séquence : calcul et consultation d'une recommandation de destination}}{152}{figure.caption.90}%
-\contentsline {figure}{\numberline {5.32}{\ignorespaces Espace étudiant : destinations recommandées}}{153}{figure.caption.91}%
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Diagramme de classes : Sprint 1}}{110}{figure.caption.75}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Interface d'administration des référentiels}}{111}{figure.caption.76}%
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Suivi du cycle de vie de l'année universitaire}}{111}{figure.caption.77}%
+\contentsline {figure}{\numberline {5.4}{\ignorespaces Consultation des accords et des quotas}}{112}{figure.caption.78}%
+\contentsline {figure}{\numberline {5.5}{\ignorespaces Diagramme de classes : Sprint 2}}{116}{figure.caption.80}%
+\contentsline {figure}{\numberline {5.6}{\ignorespaces Diagramme de séquence : déroulement général de l'import et de la synchronisation des données}}{117}{figure.caption.81}%
+\contentsline {figure}{\numberline {5.7}{\ignorespaces Journal d'audit}}{118}{figure.caption.82}%
+\contentsline {figure}{\numberline {5.8}{\ignorespaces Consultation des données étudiants}}{118}{figure.caption.83}%
+\contentsline {figure}{\numberline {5.9}{\ignorespaces Diagramme de classes : Sprint 3}}{123}{figure.caption.85}%
+\contentsline {figure}{\numberline {5.10}{\ignorespaces Diagramme de séquence : lancement et génération des affectations}}{124}{figure.caption.86}%
+\contentsline {figure}{\numberline {5.11}{\ignorespaces Diagramme de séquence : validation, correction et publication des affectations}}{125}{figure.caption.87}%
+\contentsline {figure}{\numberline {5.12}{\ignorespaces Tableau de bord des affectations}}{126}{figure.caption.88}%
+\contentsline {figure}{\numberline {5.13}{\ignorespaces Consultation des vœux et du résultat d'affectation (espace étudiant)}}{127}{figure.caption.89}%
+\contentsline {figure}{\numberline {5.14}{\ignorespaces Diagramme de classes : Sprint 4}}{133}{figure.caption.91}%
+\contentsline {figure}{\numberline {5.15}{\ignorespaces Diagramme de séquence : réconciliation d'un dossier sans identifiant valide}}{134}{figure.caption.92}%
+\contentsline {figure}{\numberline {5.16}{\ignorespaces Diagramme de séquence : déclaration et traitement d'une mobilité complémentaire}}{135}{figure.caption.93}%
+\contentsline {figure}{\numberline {5.17}{\ignorespaces Réconciliation d'un dossier sans identifiant valide}}{136}{figure.caption.94}%
+\contentsline {figure}{\numberline {5.18}{\ignorespaces Diagramme de séquence : finalisation CTI et génération du rapport}}{142}{figure.caption.96}%
+\contentsline {figure}{\numberline {5.19}{\ignorespaces Tableau de bord étudiant : durée de mobilité cumulée}}{143}{figure.caption.97}%
+\contentsline {figure}{\numberline {5.20}{\ignorespaces Rapport de conformité CTI}}{143}{figure.caption.98}%
+\contentsline {figure}{\numberline {5.21}{\ignorespaces Tableau de bord analytique : évolution des flux}}{144}{figure.caption.99}%
+\contentsline {figure}{\numberline {5.22}{\ignorespaces Diagramme de séquence : calcul et consultation d'une recommandation de destination}}{149}{figure.caption.100}%
+\contentsline {figure}{\numberline {5.23}{\ignorespaces Espace étudiant : destinations recommandées}}{150}{figure.caption.101}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {6.1}{\ignorespaces Rapport de couverture des tests backend}}{157}{figure.caption.96}%
-\contentsline {figure}{\numberline {6.2}{\ignorespaces Rapport de couverture des tests frontend}}{157}{figure.caption.97}%
-\contentsline {figure}{\numberline {6.3}{\ignorespaces Exécution de la suite End-to-End : navigation et contrôle d'accès administrateur}}{159}{figure.caption.99}%
-\contentsline {figure}{\numberline {6.4}{\ignorespaces Exécution de la suite End-to-End : cycle de vie de l'année universitaire}}{159}{figure.caption.100}%
-\contentsline {figure}{\numberline {6.5}{\ignorespaces Exécution de la suite End-to-End : bannière d'alertes système}}{160}{figure.caption.101}%
-\contentsline {figure}{\numberline {6.6}{\ignorespaces Exécution de la suite End-to-End : scénarios métier administrateur}}{160}{figure.caption.102}%
-\contentsline {figure}{\numberline {6.7}{\ignorespaces Exécution de la suite End-to-End : import et export Excel}}{161}{figure.caption.103}%
-\contentsline {figure}{\numberline {6.8}{\ignorespaces Résultat de l'analyse SonarQube}}{161}{figure.caption.104}%
+\contentsline {figure}{\numberline {6.1}{\ignorespaces Rapport de couverture des tests backend}}{155}{figure.caption.106}%
+\contentsline {figure}{\numberline {6.2}{\ignorespaces Rapport de couverture des tests frontend}}{156}{figure.caption.107}%
+\contentsline {figure}{\numberline {6.3}{\ignorespaces Exécution des tests End-to-End : navigation et contrôle d'accès administrateur}}{157}{figure.caption.109}%
+\contentsline {figure}{\numberline {6.4}{\ignorespaces Exécution des tests End-to-End : cycle de vie de l'année universitaire}}{157}{figure.caption.110}%
+\contentsline {figure}{\numberline {6.5}{\ignorespaces Exécution des tests End-to-End : alertes système}}{158}{figure.caption.111}%
+\contentsline {figure}{\numberline {6.6}{\ignorespaces Exécution des tests End-to-End : scénarios métier administrateur}}{158}{figure.caption.112}%
+\contentsline {figure}{\numberline {6.7}{\ignorespaces Exécution des tests End-to-End : import et export des données}}{158}{figure.caption.113}%
+\contentsline {figure}{\numberline {6.8}{\ignorespaces Exécution de la suite de tests de sécurité applicative}}{159}{figure.caption.115}%
+\contentsline {figure}{\numberline {6.9}{\ignorespaces Résultats de l'analyse OWASP ZAP}}{161}{figure.caption.117}%
+\contentsline {figure}{\numberline {6.10}{\ignorespaces Test de performance de l'algorithme d'affectation pour 300 étudiants}}{161}{figure.caption.119}%
+\contentsline {figure}{\numberline {6.11}{\ignorespaces Résultat de l'analyse SonarQube}}{162}{figure.caption.121}%
+\contentsline {figure}{\numberline {6.12}{\ignorespaces Collecte des métriques du backend avec Prometheus}}{163}{figure.caption.122}%
+\contentsline {figure}{\numberline {6.13}{\ignorespaces Tableau de bord Grafana de supervision du backend}}{163}{figure.caption.123}%
+\contentsline {figure}{\numberline {6.14}{\ignorespaces Exemple de suivi d'une erreur avec Sentry}}{164}{figure.caption.124}%
+\contentsline {figure}{\numberline {A.1}{\ignorespaces Supervision individuelle des propositions d'affectation}}{168}{figure.caption.128}%
+\contentsline {figure}{\numberline {A.2}{\ignorespaces Statistiques détaillées de l'affectation}}{168}{figure.caption.129}%
+\contentsline {figure}{\numberline {A.3}{\ignorespaces Consultation des stages internationaux}}{169}{figure.caption.130}%
+\contentsline {figure}{\numberline {A.4}{\ignorespaces Consultation des mobilités entrantes}}{169}{figure.caption.131}%
+\contentsline {figure}{\numberline {A.5}{\ignorespaces Déclaration d'une mobilité complémentaire (espace étudiant)}}{169}{figure.caption.132}%
+\contentsline {figure}{\numberline {A.6}{\ignorespaces Validation d'une mobilité complémentaire}}{170}{figure.caption.133}%
+\contentsline {figure}{\numberline {A.7}{\ignorespaces Tableau de bord analytique : répartition par département}}{170}{figure.caption.134}%
+\contentsline {figure}{\numberline {A.8}{\ignorespaces Tableau de bord analytique : répartition par université partenaire}}{170}{figure.caption.135}%
+\contentsline {figure}{\numberline {A.9}{\ignorespaces Tableau de bord analytique : répartition par pays}}{171}{figure.caption.136}%
 \contentsfinish 

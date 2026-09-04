@@ -108,6 +108,20 @@ Le développement est organisé en deux niveaux de priorité.
   \item Assistant virtuel (chatbot RAG)
 \end{itemize}
 
+\subsection{Diagramme de cas d'utilisation}
+\label{sec:cas-utilisation}
+
+La figure~\ref{fig:cas-utilisation} présente le diagramme de cas d'utilisation de la plateforme et permet de synthétiser les principaux besoins fonctionnels à travers les interactions avec le système. Deux utilisateurs principaux interviennent dans la plateforme : l'\textbf{étudiant}, dont l'accès est limité à ses propres données, et l'\textbf{administrateur RI}, chargé de la gestion et du suivi des différentes fonctionnalités. Deux utilisateurs secondaires interviennent également : le \textbf{CAS de Toulouse INP}, utilisé pour l'authentification, et les \textbf{systèmes sources} MoveON, Pégase et Eudonet, qui fournissent les données nécessaires à la plateforme. Les associations entre les utilisateurs et les cas d'utilisation représentent les principales interactions avec le système.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[height=0.9\textheight]{figures/conception/Diag_cas_utilisation.png}
+  \caption{Diagramme de cas d'utilisation de la plateforme}
+  \label{fig:cas-utilisation}
+\end{figure}
+
+La lecture du diagramme fait ressortir la répartition des responsabilités. L'étudiant n'accède qu'à des cas de consultation et de déclaration relatifs à sa propre mobilité : catalogue de destinations, recommandations, vœux, résultat d'affectation, mobilité complémentaire et suivi de sa durée de mobilité. L'administrateur RI concentre le pilotage : cycle de vie des années universitaires, référentiels, accords et quotas, synchronisation et réconciliation des imports, lancement et supervision de l'algorithme d'affectation, instruction des mobilités, finalisation CTI et consultation du journal d'audit. Le CAS et les systèmes sources n'interviennent qu'en appui, respectivement pour l'authentification et pour l'alimentation des imports.
+
 
 % ─────────────────────────────────────────────────────────────
 \section{Choix du frontend}
@@ -354,10 +368,14 @@ de logique interne ~\cite{django_dev}.
         avec une option qui empêche toute
         modification directe du statut
         en dehors des transitions autorisées
-  \item \texttt{django-auditlog} enregistre
-        automatiquement toutes les modifications
-        avec l'auteur et la date, ce qui est indispensable
-        pour les décisions réglementaires
+  \item \texttt{django-auditlog} enregistre tout seul chaque
+        modification des données sensibles, en gardant le nom
+        de la personne et la date ; il permet aussi d'ajouter
+        à la main une trace pour les actions qui ne modifient
+        pas directement une donnée, comme les imports, les
+        synchronisations ou le passage d'une campagne d'une
+        étape à la suivante. Cette traçabilité est indispensable
+        pour justifier les décisions.
   \item La gestion des évolutions de schéma
         est intégrée nativement, ce qui
         facilite les changements à chaque sprint
@@ -699,64 +717,12 @@ imports tout en restant cohérent avec le reste du modèle de données.
 
 \subsection{Alternatives évaluées}
 
-Deux options ont été comparées pour répondre à ces besoins.
+Trois formats ont été envisagés. Le détail des critères est reporté au tableau~\ref{tab:comparaison_rawimport}.
 
-\subsubsection{Fichiers plats (JSON sur le système de fichiers)}
-
-Un fichier plat est un fichier texte brut qui stocke des données sans
-structure hiérarchique ni mécanisme d'indexation. Dans ce contexte, chaque
-réponse d'API serait sérialisée en JSON et enregistrée dans un répertoire
-dédié sur le serveur, un fichier par import.
-
-\textit{Avantages :}
 \begin{itemize}
-  \item Mise en place immédiate, sans configuration particulière
-  \item Lecture directe par n'importe quel éditeur de texte
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item Aucune possibilité d'interroger le contenu avec des requêtes SQL
-  \item Intégrité référentielle avec les autres entités non garantie
-  \item Gestion des accès concurrents et des transactions non assurée
-  \item Sauvegarde dissociée du reste de la base de données
-\end{itemize}
-
-\subsubsection{Base NoSQL dédiée (MongoDB)}
-
-Les imports bruts sont stockés dans une base documentaire séparée,
-spécialisée dans le stockage de documents JSON.
-
-\textit{Avantages :}
-\begin{itemize}
-  \item Très bien adapté au stockage de documents JSON hétérogènes
-  \item Bonne performance sur les lectures de documents non structurés
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item Service supplémentaire à déployer, superviser et sauvegarder
-  \item Aucune relation possible avec les entités de la base relationnelle
-  \item Surcoût d'infrastructure injustifié pour ce seul cas d'usage
-\end{itemize}
-
-\subsubsection{Type JSONB dans PostgreSQL}
-
-Les réponses brutes sont stockées dans une colonne de type \textbf{JSONB}
-au sein de la table \texttt{RawImport}, dans la même base PostgreSQL.
-
-\textit{Avantages :}
-\begin{itemize}
-  \item Stockage dans la base existante, sans service supplémentaire
-  \item Indexation du contenu JSON pour des requêtes efficaces
-  \item Jointures possibles avec les autres tables du modèle
-  \item Mêmes garanties ACID et même périmètre de sauvegarde que le reste
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item Moins flexible que MongoDB pour des structures JSON très hétérogènes,
-        ce qui reste sans impact ici compte tenu du faible nombre de sources
+  \item \textbf{Fichiers plats (JSON sur disque)} : une réponse d'API sérialisée par fichier dans un répertoire dédié. Mise en place immédiate et lecture directe, mais aucune requête SQL sur le contenu, pas d'intégrité référentielle avec les autres entités, pas de gestion transactionnelle des accès concurrents, et une sauvegarde dissociée de la base.
+  \item \textbf{Base NoSQL dédiée (MongoDB)} : stockage documentaire séparé, bien adapté au JSON hétérogène, mais au prix d'un service supplémentaire à déployer, superviser et sauvegarder, sans relation possible avec la base relationnelle et pour un seul cas d'usage.
+  \item \textbf{Type JSONB dans PostgreSQL} : réponses brutes stockées dans une colonne \texttt{JSONB} de la table \texttt{RawImport}, au sein de la base existante. Pas de service supplémentaire, indexation et interrogation du contenu JSON, jointures avec les autres tables, mêmes garanties ACID et même périmètre de sauvegarde. Seule limite, une flexibilité moindre que MongoDB sur des structures très hétérogènes, sans impact ici vu le faible nombre de sources.
 \end{itemize}
 
 \subsection{Synthèse comparative}
@@ -1253,50 +1219,11 @@ enjeu.
 
 \subsection{Alternatives évaluées}
 
-Ces deux approches sont détaillées ci-dessous.
+Deux approches ont été envisagées. Le détail des critères est reporté au tableau~\ref{tab:comparaison_perf_bdd}.
 
-\subsubsection{Partitionnement par année}
-
-Le partitionnement consiste à découper physiquement une table en
-sous-tables, une par valeur de la colonne de partition, ici par
-année universitaire. PostgreSQL ne lit alors que la partition
-concernée lors d'une requête filtrée.
-
-\textit{Avantages :}
 \begin{itemize}
-  \item Réduction significative du volume scanné pour les requêtes
-        filtrées par année
-  \item Efficace lorsque les tables atteignent plusieurs millions
-        de lignes
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item La colonne de partitionnement doit être incluse dans toutes
-        les contraintes d'unicité, ce qui peut créer des conflits
-        avec les migrations Django au fil des sprints
-  \item Complexité supplémentaire du schéma pour un volume qui
-        ne le justifie pas
-\end{itemize}
-
-\subsubsection{Indexation ciblée}
-
-L'indexation ciblée consiste à créer des index sur les colonnes
-les plus utilisées dans les filtres, sans modifier la structure
-physique des tables.
-
-\textit{Avantages :}
-\begin{itemize}
-  \item Aucune modification du schéma ni des migrations Django
-  \item Index déclarés directement dans les modèles, visibles
-        dans le code et versionnés avec lui
-  \item Transparent pour l'ORM, sans configuration PostgreSQL séparée
-\end{itemize}
-
-\textit{Limites :}
-\begin{itemize}
-  \item Moins efficace que le partitionnement pour des volumes
-        de plusieurs millions de lignes, sans incidence ici
+  \item \textbf{Partitionnement par année} : découpage physique de chaque table en sous-tables, une par année universitaire, PostgreSQL ne lisant que la partition filtrée. Gain réel au-delà de plusieurs millions de lignes, mais la colonne de partition doit entrer dans toutes les contraintes d'unicité — source de conflits avec les migrations Django au fil des sprints — pour une complexité de schéma que le volume ne justifie pas.
+  \item \textbf{Indexation ciblée} : index sur les colonnes les plus filtrées, sans toucher à la structure physique des tables. Aucune modification de schéma ni de migration, index déclarés dans les modèles et versionnés avec le code, transparent pour l'ORM et sans configuration PostgreSQL séparée. Moins efficace que le partitionnement à l'échelle de plusieurs millions de lignes, sans incidence ici.
 \end{itemize}
 
 \subsection{Synthèse comparative}
@@ -1346,7 +1273,8 @@ sollicitées, directement dans les modèles Django concernés.
 \renewcommand{\arraystretch}{1.4}
 
 \begin{longtable}{|p{3cm}|p{3.5cm}|p{8.5cm}|}
-\caption{Synthèse des choix technologiques} \\
+\caption{Synthèse des choix technologiques}
+\label{tab:synthese-techno} \\
 \hline
 \rowcolor{gray!20}
 \textbf{Composant} & \textbf{Technologie retenue} & \textbf{Justification principale} \\
@@ -1392,7 +1320,7 @@ Conteneurisation & Docker + Docker Compose & Déploiement reproductible et simpl
 Gestion des états métier & django-fsm & Transitions sécurisées et intégration directe avec Django ORM \\
 \hline
 
-Journalisation et audit & Module d'audit applicatif développé en interne (\texttt{app/audit/ logger.py}) & Traçabilité ciblée des actions administratives via \texttt{log\_action()} \\
+Journalisation et audit & \texttt{django-auditlog} (modèle \texttt{LogEntry}) complété par un utilitaire interne (\texttt{app/audit/ logger.py}) & Journalisation automatique par signal des modèles sensibles (enregistrement sélectif) et journalisation explicite via \texttt{log\_action()} pour les actions hors ORM (imports, synchronisations, transitions d'état) \\
 \hline
 
 Authentification & CAS & Exigence institutionnelle : SSO Toulouse INP avec détection automatique du rôle depuis le token \\

@@ -1,4 +1,4 @@
-% !TEX root = ../main.tex
+﻿% !TEX root = ../main.tex
 % ══════════════════════════════════════════════════════════════
 \chapter{Conception du système}
 \label{cha:conception}
@@ -33,7 +33,6 @@ Chaque user story est priorisée selon la méthode MoSCoW, qui permet de sépare
     \item \textbf{C : Could Have} : fonctionnalités souhaitables, planifiées uniquement si la capacité restante du sprint le permet une fois les priorités supérieures traitées.
     \item \textbf{W : Won't Have (this time)} : fonctionnalités écartées de cette itération, non de façon définitive, mais documentées pour ne pas créer d'attente non maîtrisée ; elles pourront être réévaluées lors d'une itération future.
 \end{itemize}
-
 
 \subsection{Story points}
 
@@ -301,6 +300,8 @@ C & 21 & S6 \\
 \end{longtable}
 \endgroup
 
+Cette répartition est très déséquilibrée : 19 des 23 user stories sont \textit{Must Have}, contre 2 \textit{Should Have} (US-14, US-19) et 2 \textit{Could Have} (US-22, US-23). C'est volontaire : à cause de la contrainte de charge du PFE (\ref{subsec:contraintes-projet}), le périmètre a été réduit dès le départ à l'indispensable, tout le reste étant reporté en V2 (les 2 \textit{Could Have}, soit le Sprint~6) ou écarté (\textit{Won't Have}). La priorisation sépare donc surtout le MVP du Sprint~6, gardé en réserve ; les 2 \textit{Should Have} sont les seules stories du MVP décalables d'un sprint sans risque pour la campagne.
+
 % ─────────────────────────────────────────────────────────────
 \section{Planification des sprints}
 % ─────────────────────────────────────────────────────────────
@@ -350,7 +351,7 @@ US-22 à US-23 : Moteur de recommandation de destinations, assistant virtuel (ch
 
 \subsection{Diagramme de Gantt}
 
-La figure~\ref{tab:gantt} présente le calendrier de réalisation sur l'ensemble des sprints, en indiquant pour chaque tâche la semaine de début, la durée estimée et l'éventuel chevauchement avec les tâches adjacentes. Ce calendrier reste indicatif et prévisionnel : il sert à estimer la charge globale et à cadrer le projet en amont, mais le contenu précis de chaque sprint continue d'être ajusté à chaque itération, conformément à l'approche Scrum retenue.
+Le tableau~\ref{tab:gantt} présente le calendrier de réalisation sur l'ensemble des sprints, en indiquant pour chaque tâche la semaine de début, la durée estimée et l'éventuel chevauchement avec les tâches adjacentes. Ce calendrier reste indicatif et prévisionnel : il sert à estimer la charge globale et à cadrer le projet en amont, mais le contenu précis de chaque sprint continue d'être ajusté à chaque itération, conformément à l'approche Scrum retenue.
 
 \begin{landscape}
 \footnotesize
@@ -447,9 +448,11 @@ Tests unitaires (continus) & & & & & & \gr & \gr & \gr & \gr & \gr & \gr & \gr &
 \hline
 Tests d'intégration (continus) & & & & & & & & \gr & \gr & \gr & \gr & \gr & \gr & \gr & \gr & \gr & \gr & \gr & \gr & \gr & \gr & \gr & \gr & \\
 \hline
-Tests de charge (Locust) & & & & & & & & & & & & & & & & & & & & & \gr & \gr & & \\
+Tests de charge et de performance (k6) & & & & & & & & & & & & & & & & & & & & & \gr & \gr & & \\
 \hline
-Audit sécurité (OWASP ZAP) & & & & & & & & & & & & & & & & & & & & & & & \gr & \\
+Tests de sécurité applicative & & & & & & & & & & & & & & & & & & & & & & & \gr & \\
+\hline
+Audit de sécurité (OWASP ZAP) & & & & & & & & & & & & & & & & & & & & & & \gr & \gr & \\
 \hline
 UAT avec service RI & & & & & & & & & & & & & & & & & & & & & & & \gr & \gr \\
 \hline
@@ -469,6 +472,9 @@ Livraison finale & & & & & & & & & & & & & & & & & & & & & & & & \gy \\
 
 \end{landscape}
 
+% \paragraph{Écarts assumés par rapport au prévisionnel}
+% Deux activités de la phase de tests ont évolué en cours de projet par rapport à ce calendrier initial. D'une part, l'outil de test de charge retenu au moment de la planification (Locust) a été remplacé par \texttt{k6}, mieux intégré à l'écosystème JavaScript du projet et à l'exécution en conteneur ; les scripts correspondants ont été implémentés, mais aucune campagne de charge exploitable n'a pu être conduite dans le temps du PFE, si bien que le seuil chiffré du BNF04 (temps de réponse et durée d'exécution de l'algorithme) n'est pas vérifié quantitativement — cette limite est assumée et reprise au chapitre~\ref{cha:tests-validation}. D'autre part, l'audit de sécurité envisagé sous la forme d'un scan OWASP~ZAP n'a pas été réalisé ; la validation de la sécurité s'est limitée à une suite de tests applicatifs dédiés à l'authentification et au contrôle d'accès et à l'analyse des images de conteneurs (Trivy) dans la chaîne d'intégration continue.
+
 % ─────────────────────────────────────────────────────────────
 \section{Approches de conception : organisation du code et style architectural}
 % ─────────────────────────────────────────────────────────────
@@ -479,7 +485,7 @@ Avant de détailler l'architecture technique, deux décisions structurantes doiv
 
 Le code est organisé en modules Django (\textit{apps}) alignés sur les domaines métier de la mobilité internationale, plutôt que sur des considérations purement techniques. Cette organisation s'inspire de certains principes du \textit{Domain-Driven Design} (DDD), notamment un vocabulaire métier partagé, l'encapsulation des règles par module, et des dépendances orientées dans un seul sens. Elle n'en reprend cependant pas les techniques les plus avancées : pas de règles obligeant plusieurs objets liés à toujours rester cohérents entre eux (agrégats), pas d'historique de chaque modification plutôt que du seul résultat final (\textit{event sourcing}), pas de séparation entre le chemin utilisé pour lire les données et celui utilisé pour les modifier (CQRS), ni de limites strictement définies entre les différentes parties du système (\textit{bounded contexts}). Ces techniques auraient ajouté une complexité disproportionnée pour un système développé par une seule personne sur la durée d'un PFE ; l'objectif retenu est la clarté du découpage et l'indépendance des modules, pas la conformité à un modèle théorique.
 
-\subsubsection{Découpage en modules Django}
+\paragraph{Découpage en modules Django}
 
 Quatorze apps Django, chacune exposant sa propre API (Django Ninja), portent la logique métier effectivement déployée. Le tableau~\ref{tab:domaines_apps} les met en correspondance avec les sept packages du modèle de données présenté au tableau~\ref{tab:packages_modele} : plusieurs apps peuvent alimenter un même package lorsque leurs entités sont fortement liées.
 
@@ -511,13 +517,13 @@ Import & \texttt{imports} & Pipeline ETL de staging (MoveON, Pégase, Eudonet, E
 \end{tabular}
 \end{table}
 
-Au sein du package \texttt{Mobilities}, l'app \texttt{outgoing} porte à la fois la logique de vœux et d'affectations et l'entité \textit{mobilité sortante académique} qui en résulte : les deux sont trop imbriquées pour être séparées en deux packages distincts sans complexifier inutilement le code. Cinq apps supplémentaires jouent un rôle transversal, hors de ce découpage par package : \texttt{audit} (traçabilité des actions via un module applicatif développé en interne), \texttt{alerts} (notifications système), \texttt{analytics} (tableaux de bord de flux de mobilité), \texttt{rag} (assistant conversationnel permettant aux étudiants d'interroger la base de connaissances de la mobilité internationale) et \texttt{recommendation} (moteur de recommandation de destinations fondé sur le profil académique et les vœux historiques de l'étudiant). S'y ajoutent \texttt{integrations} (adaptateurs MoveON, Pégase, Eudonet).
+Au sein du package \texttt{Mobilities}, l'app \texttt{outgoing} porte à la fois la logique de vœux et d'affectations et l'entité \textit{mobilité sortante académique} qui en résulte : les deux sont trop imbriquées pour être séparées en deux packages distincts sans complexifier inutilement le code. Cinq apps supplémentaires jouent un rôle transversal, hors de ce découpage par package : \texttt{audit} (traçabilité des actions, fondée sur \texttt{django-auditlog} et complétée par un utilitaire interne pour les événements hors ORM), \texttt{alerts} (notifications système), \texttt{analytics} (tableaux de bord de flux de mobilité), \texttt{rag} (assistant conversationnel permettant aux étudiants d'interroger la base de connaissances de la mobilité internationale) et \texttt{recommendation} (moteur de recommandation de destinations fondé sur le profil académique et les vœux historiques de l'étudiant). S'y ajoutent \texttt{integrations} (adaptateurs MoveON, Pégase, Eudonet).
 
-\subsubsection{Langage commun}
+\paragraph{Langage commun}
 
 Les noms des classes, des champs et des méthodes reprennent directement le vocabulaire du service RI (accord, quota, vœu, affectation, mobilité complémentaire...), plutôt qu'un vocabulaire technique générique. Ce vocabulaire partagé facilite les échanges avec l'experte du domaine et réduit les risques d'ambiguïté lors de la validation des fonctionnalités.
 
-\subsubsection{Encapsulation des règles métier}
+\paragraph{Encapsulation des règles métier}
 
 Chaque app encapsule ses propres règles métier dans des fichiers \texttt{services.py} distincts des vues et de l'API, ce qui permet de les faire évoluer indépendamment du reste du système. Cette séparation rend le système plus robuste face aux évolutions de besoins, inévitables dans un contexte de développement itératif où certaines règles, comme les critères de priorité dans l'affectation, se précisent au fil des sprints.
 
@@ -547,11 +553,11 @@ La section suivante détaille l'implémentation concrète de cette architecture 
 \section{Architecture logicielle}
 % ─────────────────────────────────────────────────────────────
 
-Cette section détaille la mise en œuvre concrète de l'architecture en couches présentée précédemment : une vue d'ensemble des flux entre couches, puis le rôle et les technologies retenues pour chacune d'entre elles.
+Cette section détaille la mise en œuvre concrète de l'architecture en couches présentée précédemment : une vue d'ensemble des flux entre couches, puis le rôle et les technologies retenues pour chacune d'entre elles. Les choix technologiques eux-mêmes ne sont pas re-justifiés ici : ils l'ont été composant par composant au chapitre~\ref{cha:besoins-technologies} et sont récapitulés dans le tableau~\ref{tab:synthese-techno}. Cette section se concentre sur la manière dont ces technologies s'assemblent en couches et dialoguent entre elles.
 
 \subsection{Vue d'ensemble}
 
-La plateforme repose sur une architecture en cinq couches qui s'appuie sur le modèle 3-tiers classique tout en l'enrichissant d'une couche asynchrone dédiée aux traitements longs. Chaque couche a une frontière bien définie : aucun composant Next.js n'accède à la base de données directement, aucune tâche asynchrone ne peut bloquer une requête HTTP. La figure~\ref{fig:archi-logique} donne une vue d'ensemble du système.
+La plateforme repose sur une architecture en couches, dérivée du modèle 3-tiers classique et enrichie d'une couche asynchrone dédiée aux traitements longs. Quatre couches sont physiquement distinctes --- présentation, applicative, asynchrone et données ---, la logique d'intégration (adaptateurs ETL) formant un sous-module de la couche applicative. Chaque couche a une frontière bien définie : aucun composant Next.js n'accède à la base de données directement, aucune tâche asynchrone ne peut bloquer une requête HTTP. La figure~\ref{fig:archi-logique} donne une vue d'ensemble du système.
 
 \begin{figure}[H]
   \centering
@@ -560,7 +566,7 @@ La plateforme repose sur une architecture en cinq couches qui s'appuie sur le mo
   \label{fig:archi-logique}
 \end{figure}
 
-Les flux entre couches sont unidirectionnels et bien délimités. Le frontend Next.js 16 s'adresse exclusivement à l'API Django Ninja via des appels REST sur HTTPS, jamais directement à la base de données. Django-Q2 s'exécute dans un processus séparé et partage le même PostgreSQL que l'applicatif, ce qui lui permet de fonctionner comme file d'attente sans service externe supplémentaire. PostgreSQL et MinIO sont des services internes non accessibles depuis l'extérieur du réseau Docker. Les adaptateurs ETL sont physiquement séparés des modules métier, précisément parce qu'ils dépendent de sources externes (MoveON, Pégase, Eudonet) dont la disponibilité n'est pas garantie. L'authentification passe par le CAS de Toulouse INP : à chaque requête, le token JWT est validé et le rôle (\texttt{ADMIN\_RI} ou \texttt{ETUDIANT}) est extrait pour contrôler les accès.
+Les flux entre couches sont unidirectionnels et bien délimités. Le frontend \textbf{Next.js 16} s'adresse exclusivement à l'API Django Ninja via des appels REST sur HTTPS, jamais directement à la base de données. La couche asynchrone repose sur \textbf{Django-Q2}, qui utilise \textbf{PostgreSQL comme file d'attente persistante} et s'exécute dans un processus \texttt{qcluster} séparé. PostgreSQL et MinIO sont des services internes non accessibles depuis l'extérieur du réseau Docker. La couche d'intégration n'est pas un service distinct : les adaptateurs ETL (MoveON, Pégase, Eudonet, Excel) sont des modules du conteneur \texttt{backend}, simplement isolés du code métier parce qu'ils dépendent de sources externes dont la disponibilité n'est pas garantie ; ils s'exécutent le plus souvent au sein des tâches Django-Q2. L'authentification passe par le CAS de Toulouse INP : à chaque requête, le token JWT est validé et le rôle (\texttt{ADMIN\_RI} ou \texttt{ETUDIANT}) est extrait pour contrôler les accès.
 
 \subsection{Couche présentation : Next.js 16}
 
@@ -686,11 +692,13 @@ Fallback pour toutes les sources en cas d'indisponibilité API ; pour les mobili
 \end{tabular}
 \end{table}
 
-\subsection{Sécurité et contrôle d'accès}
+% ─────────────────────────────────────────────────────────────
+\section{Sécurité et contrôle d'accès transversal}
+% ─────────────────────────────────────────────────────────────
 
 Cette section présente les mécanismes qui protègent l'accès au système : l'authentification via le CAS institutionnel, l'attribution des rôles, le renouvellement des jetons, la traçabilité des actions et la protection des données personnelles.
 
-\subsubsection{Flux d'authentification CAS}
+\subsection{Flux d'authentification CAS}
 
 L'application délègue entièrement l'authentification au CAS institutionnel de Toulouse INP (protocole CAS v2). Aucun mot de passe n'est stocké côté applicatif. Le flux se déroule en quatre étapes :
 
@@ -705,12 +713,12 @@ La figure~\ref{fig:seq-auth-cas} détaille ce flux sous forme de diagramme de s�
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=\linewidth]{figures/conception/sequences/sequence-auth-cas.png}
+\includegraphics[width=\linewidth]{figures/conception/Diag_sequence/sequence-auth-cas.png}
 \caption{Diagramme de séquence : authentification CAS et rafraîchissement du JWT}
 \label{fig:seq-auth-cas}
 \end{figure}
 
-\subsubsection{Contrôle d'accès (RBAC)}
+\subsection{Contrôle d'accès (RBAC)}
 
 Les rôles sont déduits automatiquement depuis la réponse du CAS institutionnel, sans gestion manuelle dans l'application :
 
@@ -719,25 +727,22 @@ Les rôles sont déduits automatiquement depuis la réponse du CAS institutionne
   \item \textbf{ETUDIANT} : accès strictement limité à son propre dossier. Un contrôle au niveau de l'objet (\textit{object-level permission}) est appliqué sur chaque endpoint exposant des données personnelles, de sorte qu'un étudiant ne puisse pas accéder au dossier d'un autre.
 \end{itemize}
 
-\subsubsection{Gestion du renouvellement des tokens JWT}
+\subsection{Gestion du renouvellement des tokens JWT}
 
 Les tokens JWT ont une durée de vie de 15 minutes pour limiter l'exposition en cas d'interception. Côté Next.js, un mécanisme de renouvellement proactif intégré au client HTTP vérifie l'expiration du token avant chaque requête (seuil à 3 minutes) et appelle l'endpoint \texttt{/api/v1/auth/refresh/} du backend pour obtenir un nouveau JWT sans interrompre la navigation. Côté Django, chaque requête est vérifiée par un middleware qui contrôle la signature et l'expiration du token ; un token expiré retourne un 401 et force le frontend à initier un nouveau cycle. La durée de vie courte (15 minutes) limite l'exposition en cas d'interception ; après expiration, un nouveau cycle d'authentification est nécessaire.
 
-\subsubsection{Journal d'audit}
+\subsection{Journal d'audit}
 
-La traçabilité des actions administratives est assurée par un module applicatif développé en interne (\texttt{app/audit/logger.py}). La fonction \texttt{log\_action()} est appelée explicitement dans les vues et les transitions FSM pour tracer les actions administratives. Les événements enregistrés couvrent :
+La traçabilité repose sur la bibliothèque \texttt{django-auditlog} et son modèle \texttt{LogEntry}, utilisée selon un mode \textbf{hybride} qui combine deux mécanismes :
 
 \begin{itemize}
-  \item Toutes les transitions FSM (changements d'état d'une année universitaire, d'un dossier, d'une affectation) ;
-  \item Modifications manuelles des affectations par le service RI (avec champ \textit{motif} obligatoire) ;
-  \item Lancements d'imports ETL et résultats (source, nombre d'enregistrements traités, erreurs) ;
-  \item Validations ou rejets de mobilités complémentaires ;
-  \item Exports de rapports CTI.
+  \item \textbf{Journalisation automatique} : \texttt{django-auditlog} trace par signal chaque opération ORM (création, modification, suppression) sur les modèles métier.
+  \item \textbf{Journalisation explicite} : les actions administratives sensibles (imports et synchronisations ETL, transitions FSM, validations ou rejets de mobilités complémentaires, exports CTI, anonymisations RGPD) sont tracées par un utilitaire interne (\texttt{app/audit/logger.py}, fonction \texttt{log\_action()}) qui écrit dans le même modèle \texttt{LogEntry}, avec un libellé métier explicite.
 \end{itemize}
 
-Chaque entrée contient l'identifiant de l'auteur, l'horodatage UTC, l'entité concernée (table et clé primaire), l'action effectuée, et les valeurs avant/après modification. Le journal est stocké dans une table PostgreSQL dédiée (\texttt{auditlog\_logentry}), accessible en lecture seule : aucune entrée ne peut être modifiée ou supprimée depuis l'application, toute suppression nécessitant un accès direct à la base, lui-même tracé au niveau opérateur.
+Chaque entrée du journal enregistre l'auteur, l'horodatage, l'entité concernée, l'action effectuée et, pour les modifications de modèles, les valeurs avant/après. Le journal est stocké dans la table \texttt{auditlog\_logentry} et exposé en lecture seule : aucune entrée ne peut être modifiée ou supprimée depuis l'application.
 
-\subsubsection{Protection des données (RGPD)}
+\subsection{Protection des données (RGPD)}
 
 La plateforme traite des données personnelles étudiantes (INE, email, genre, nationalité, identifiant Pégase) soumises au RGPD. Quatre mesures techniques ont été intégrées dès la conception :
 
@@ -1092,7 +1097,7 @@ Ce pipeline garantit qu'aucune donnée non validée n'atteint la couche métier.
 Concevoir un système qui s'interface avec plusieurs sources institutionnelles implique d'accepter dès le départ que certaines choses ne se passeront pas comme prévu. Le tableau ci-dessous liste les risques les plus significatifs identifiés en phase de conception et les mesures retenues pour en limiter l'impact.
 
 \renewcommand{\arraystretch}{1.4}
-\begin{longtable}{|p{4cm}|p{1.5cm}|p{1.5cm}|p{6.5cm}|}
+\begin{longtable}{|p{3.9cm}|p{1.4cm}|p{1.4cm}|p{7cm}|}
 \caption{Matrice des risques} \\
 \hline
 \rowcolor{gray!20}
@@ -1146,7 +1151,7 @@ Les premières campagnes utiliseront des heuristiques simples (GPA + départemen
 
 Performance de l'algorithme d'affectation sous contraintes multiples &
 Faible & Moyen &
-Gale-Shapley est en $O(n^2)$ dans le cas général, mais $O(n)$ dans notre cas puisque chaque étudiant ne formule que trois vœux : parfaitement adapté à quelques centaines d'étudiants. Un test de charge vérifie les temps de réponse avant chaque mise en production. \\
+Gale-Shapley est en $O(n^2)$ dans le cas général, mais $O(n)$ dans notre cas puisque chaque étudiant ne formule que trois vœux : parfaitement adapté à quelques centaines d'étudiants. Des scripts de charge \texttt{k6} sont prévus pour vérifier les temps de réponse avant mise en production ; leur exécution sous charge concurrente reste toutefois une limite assumée de la campagne de tests (cf.~chapitre~\ref{cha:tests-validation}). \\
 \hline
 
 \end{longtable}

@@ -15,7 +15,7 @@
 \phantomsection
 \addcontentsline{toc}{section}{Introduction}
 
-Le chapitre précédent a justifié les choix algorithmiques et les machines à états du système. Ce chapitre présente sa réalisation, sprint par sprint : backlog, conception, implémentation et tests de chaque itération.
+Le chapitre précédent a justifié les choix algorithmiques et les machines à états du système. Ce chapitre présente l'implémentation des sprints réalisés. Les cinq sprints du MVP (Sprints~1 à~5) y sont détaillés l'un après l'autre : objectif, backlog, conception, réalisation et tests. Le Sprint~6, classé \textit{Could Have}, n'a été mené qu'en partie : seul le moteur de recommandation de destinations (US-22) a été réalisé, l'assistant virtuel RAG (US-23) étant reporté en perspective.
 
 \section{Sprint 1 : Socle technique et référentiels}
 % ─────────────────────────────────────────────────────────────
@@ -1053,27 +1053,7 @@ La figure~\ref{fig:cap-sprint3-dashboard} présente le tableau de bord consulté
 
 Le taux d'affectation global et sa répartition par type de créneau (quota département, quota mutualisé) sont visibles en un coup d'œil, avant même d'entrer dans le détail des dossiers individuels ; c'est depuis cet écran que le service RI déclenche le calcul, importe des corrections ou publie les résultats.
 
-La figure~\ref{fig:cap-sprint3-supervision} présente ensuite l'espace de supervision, qui liste chaque proposition individuelle avec les vœux de l'étudiant et la décision retenue.
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\linewidth]{figures/captures/sprint3/sprint3-supervision.png}
-  \caption{Supervision individuelle des propositions d'affectation}
-  \label{fig:cap-sprint3-supervision}
-\end{figure}
-
-Cette vue permet au service RI de contrôler, étudiant par étudiant, le vœu retenu et le type de quota utilisé, avant de valider puis de publier les résultats.
-
-La figure~\ref{fig:cap-sprint3-statistiques} détaille enfin les statistiques d'affectation par accord, par département et par pays de destination.
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=\linewidth]{figures/captures/sprint3/sprint3-statistiques.png}
-  \caption{Statistiques détaillées de l'affectation}
-  \label{fig:cap-sprint3-statistiques}
-\end{figure}
-
-Cette répartition fine, jusqu'au niveau de chaque accord et de chaque département, permet au service RI de repérer les destinations sous-remplies ou sursollicitées d'une campagne à l'autre.
+Deux vues complètent cette supervision et sont reportées en annexe : l'espace de supervision individuelle (figure~\ref{fig:cap-sprint3-supervision}), qui liste chaque proposition avec les vœux de l'étudiant et la décision retenue, et les statistiques détaillées de l'affectation par accord, par département et par pays de destination (figure~\ref{fig:cap-sprint3-statistiques}). Elles permettent au service RI de contrôler la répartition étudiant par étudiant avant validation, puis de repérer les destinations sous-remplies ou sursollicitées d'une campagne à l'autre.
 
 Côté étudiant, la figure~\ref{fig:cap-sprint3-mobilite-etudiant} présente la page « Ma mobilité », qui rassemble les vœux formulés et, une fois les résultats publiés, l'affectation obtenue.
 
@@ -1626,35 +1606,7 @@ Le dépôt d'un justificatif est obligatoire et déclenche automatiquement une a
 
 Les fonctionnalités réalisées dans ce sprint permettent d'intégrer de nouvelles informations liées à la mobilité internationale. Les stages et les mobilités entrantes peuvent être importés dans le système, tandis que les dossiers qui ne peuvent pas être associés automatiquement à un étudiant peuvent être examinés avec l'aide de propositions de correspondance.
 
-La figure~\ref{fig:cap-sprint4-stages} présente l'interface de consultation des stages internationaux importés depuis Eudonet.
-
-% TODO_CAPTURE : capture d'écran de la page admin des stages internationaux
-% (liste des stages importés, filtres par étudiant / période / statut).
-% Déposer le fichier sous figures/captures/sprint4/sprint4-stages.png puis
-% décommenter le bloc ci-dessous.
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.85\linewidth]{figures/captures/sprint4/sprint4-stages.png}
-  \caption{Consultation des stages internationaux}
-  \label{fig:cap-sprint4-stages}
-\end{figure}
-
-Le service RI y retrouve, pour chaque stage synchronisé depuis Eudonet, l'étudiant concerné, l'entreprise d'accueil et la période, sans avoir à consulter Eudonet directement.
-
-La figure~\ref{fig:cap-sprint4-entrantes} présente, de la même façon, l'interface de consultation des mobilités entrantes importées via le template Excel.
-
-% TODO_CAPTURE : capture d'écran de la page admin des mobilités entrantes
-% (tableau des étudiants accueillis, upload du template, export).
-% Déposer le fichier sous figures/captures/sprint4/sprint4-entrantes.png puis
-% décommenter le bloc ci-dessous.
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.85\linewidth]{figures/captures/sprint4/sprint4-entrantes.png}
-  \caption{Consultation des mobilités entrantes}
-  \label{fig:cap-sprint4-entrantes}
-\end{figure}
-
-Cette page centralise le suivi des étudiants internationaux accueillis à l'ENSEEIHT, jusque-là dispersé dans des fichiers Excel gérés séparément par le service RI.
+Les interfaces de consultation issues de ces imports, reportées en annexe, suivent le même principe : la page des stages internationaux (figure~\ref{fig:cap-sprint4-stages}) restitue, pour chaque stage synchronisé depuis Eudonet, l'étudiant concerné, l'entreprise d'accueil et la période ; la page des mobilités entrantes (figure~\ref{fig:cap-sprint4-entrantes}) centralise le suivi des étudiants internationaux accueillis à l'ENSEEIHT, jusque-là dispersé dans des fichiers Excel gérés séparément par le service RI.
 
 La figure~\ref{fig:cap-sprint4-reconciliation} illustre l'écran de réconciliation, où l'administrateur retrouve un dossier resté sans identifiant national valide et les correspondances proposées par le système.
 
@@ -1671,36 +1623,7 @@ La figure~\ref{fig:cap-sprint4-reconciliation} illustre l'écran de réconciliat
 
 Les candidats proposés sont classés par degré de confiance, ce qui permet à l'administrateur de trancher rapidement sans devoir rechercher lui-même l'étudiant correspondant.
 
-Le sprint introduit également la déclaration d'expériences complémentaires par les étudiants. La figure~\ref{fig:cap-sprint4-declaration} présente le formulaire utilisé par l'étudiant pour déclarer une expérience et joindre son justificatif.
-
-% TODO_CAPTURE : capture d'écran du formulaire de déclaration (espace étudiant) :
-% sélection du type d'expérience, dates, dépôt du justificatif, liste des
-% déclarations déjà soumises avec leur statut.
-% Déposer le fichier sous figures/captures/sprint4/sprint4-declaration-etudiant.png puis
-% décommenter le bloc ci-dessous.
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.85\linewidth]{figures/captures/sprint4/sprint4-declaration-etudiant.png}
-  \caption{Déclaration d'une mobilité complémentaire (espace étudiant)}
-  \label{fig:cap-sprint4-declaration}
-\end{figure}
-
-L'étudiant y suit également le statut de ses déclarations précédentes, sans avoir besoin de solliciter le service RI pour savoir où en est son dossier.
-
-Une fois la déclaration déposée, elle est transmise au service des relations internationales pour examen. Celui-ci peut alors consulter les informations fournies et prendre une décision.
-
-La figure~\ref{fig:cap-sprint4-mobilite-complementaire} illustre cette étape de validation. Elle met en évidence les informations mises à disposition de l'administrateur pour examiner une déclaration et choisir l'action appropriée.
-
-% TODO_CAPTURE : capture d'écran de l'examen d'une mobilité complémentaire côté
-% administrateur (déclaration en attente, justificatif, boutons valider/rejeter).
-% Déposer le fichier sous figures/captures/sprint4/sprint4-mobilite-complementaire.png
-% puis décommenter le bloc ci-dessous.
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.85\linewidth]{figures/captures/sprint4/sprint4-mobilite-complementaire.png}
-  \caption{Validation d'une mobilité complémentaire}
-  \label{fig:cap-sprint4-mobilite-complementaire}
-\end{figure}
+Le sprint introduit également la déclaration d'expériences complémentaires par les étudiants, puis leur instruction par le service RI. Ces deux écrans sont reportés en annexe : le formulaire de déclaration côté étudiant, avec dépôt du justificatif et suivi du statut des déclarations précédentes (figure~\ref{fig:cap-sprint4-declaration}), et l'écran d'examen côté administrateur, qui met à disposition les informations et le justificatif nécessaires pour valider ou rejeter la demande avec un motif (figure~\ref{fig:cap-sprint4-mobilite-complementaire}).
 
 Le service RI y dispose de toutes les informations nécessaires (type d'expérience, dates, justificatif) pour statuer sur la déclaration sans avoir à solliciter l'étudiant.
 
@@ -2175,32 +2098,7 @@ Le tableau de bord analytique se décline ensuite en plusieurs vues. La figure~\
   \label{fig:cap-sprint5-flux}
 \end{figure}
 
-La même évolution peut ensuite être détaillée par département, comme le montre la figure~\ref{fig:cap-sprint5-departement}.
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.85\linewidth]{figures/captures/sprint5/sprint5-dashboard-departement.png}
-  \caption{Tableau de bord analytique : répartition par département}
-  \label{fig:cap-sprint5-departement}
-\end{figure}
-
-Ou par université partenaire, pour repérer les établissements les plus sollicités (figure~\ref{fig:cap-sprint5-universite}).
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.85\linewidth]{figures/captures/sprint5/sprint5-dashboard-universite.png}
-  \caption{Tableau de bord analytique : répartition par université partenaire}
-  \label{fig:cap-sprint5-universite}
-\end{figure}
-
-Et enfin par pays de destination (figure~\ref{fig:cap-sprint5-pays}).
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.85\linewidth]{figures/captures/sprint5/sprint5-dashboard-pays.png}
-  \caption{Tableau de bord analytique : répartition par pays}
-  \label{fig:cap-sprint5-pays}
-\end{figure}
+La même évolution peut ensuite être détaillée par département, par université partenaire (pour repérer les établissements les plus sollicités) et par pays de destination. Ces trois déclinaisons, très proches visuellement de la vue d'ensemble, sont reportées en annexe (figures~\ref{fig:cap-sprint5-departement},~\ref{fig:cap-sprint5-universite} et~\ref{fig:cap-sprint5-pays}).
 
 Ces différentes vues, toutes exportables en Excel, donnent au service RI une vision synthétique de l'évolution des flux, utile pour préparer les échanges avec les partenaires et anticiper les besoins des campagnes suivantes.
 
@@ -2269,7 +2167,7 @@ Intégration & pytest & Conforme & Validé \\
 Le calcul et l'export CTI, les statistiques analytiques et les contrôles d'accès testés respectent les règles de gestion définies ; l'incrément du Sprint 5 est ainsi validé, sur ce périmètre backend, au regard des tests disponibles. La couverture frontend des nouvelles pages (tableau de bord étudiant, tableaux de bord analytiques, connexion) reste, elle, un point à compléter.
 
 % ─────────────────────────────────────────────────────────────
-\section{Sprint 6 : Fonctionnalités intelligentes (V2)}
+\section{Sprint 6 : Fonctionnalités intelligentes (V2) --- partiellement réalisé}
 % ─────────────────────────────────────────────────────────────
 
 \subsection{Objectif du sprint}
