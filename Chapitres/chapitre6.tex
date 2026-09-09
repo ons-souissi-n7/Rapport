@@ -616,6 +616,121 @@ Le dispositif de supervision est fonctionnel dans l'environnement de développem
 
 % ─────────────────────────────────────────────────────────────
 
+\section{Traçabilité des besoins fonctionnels}
+
+\label{sec:tracabilite-bf}
+
+% ─────────────────────────────────────────────────────────────
+
+Le tableau~\ref{tab:tracabilite-bf} relie les besoins fonctionnels définis au chapitre~\ref{cha:besoins-technologies} aux méthodes de validation employées et aux résultats obtenus.
+
+\renewcommand{\arraystretch}{1.3}
+
+\begin{longtable}{|p{2.8cm}|p{4.6cm}|p{4.4cm}|p{2.6cm}|}
+
+\caption{Traçabilité des besoins fonctionnels}
+\label{tab:tracabilite-bf} \\
+
+\hline
+
+\rowcolor{gray!20}
+
+\textbf{Besoin} &
+\textbf{Fonctionnalité couverte} &
+\textbf{Méthode de validation} &
+\textbf{Résultat} \\
+
+\hline
+
+\endfirsthead
+
+\hline
+
+\rowcolor{gray!20}
+
+\textbf{Besoin} &
+\textbf{Fonctionnalité couverte} &
+\textbf{Méthode de validation} &
+\textbf{Résultat} \\
+
+\hline
+
+\endhead
+
+BF01 --- Intégration des données &
+Import multi-sources (API REST, repli Excel), détection de doublons, réconciliation des imports en échec &
+Tests unitaires et d'intégration des adaptateurs ETL, scénario End-to-End import / export &
+Validé sur le périmètre testé \\
+
+\hline
+
+BF02 --- Gestion des accords et quotas &
+Import des accords, répartition des places par département (méthode de Hamilton), ajustement manuel &
+Tests unitaires du calcul des quotas, tests d'intégration  &
+Validé \\
+
+\hline
+
+BF03 --- Algorithme d'affectation &
+Pré-affectation Gale-Shapley (GPA, vœux ordonnés, quotas), supervision et correction manuelle &
+Tests unitaires de l'algorithme, tests d'intégration, scénarios End-to-End cycle de vie et métier  &
+Validé \\
+
+\hline
+
+BF04 --- Suivi de la durée de mobilité &
+Calcul automatique de la durée totale (séjours, stages, expériences validées) &
+Tests unitaires du calcul, tests d'intégration  &
+Validé \\
+
+\hline
+
+BF05 --- Mobilités complémentaires &
+Déclaration et dépôt de justificatif par l'étudiant, instruction par le service RI &
+Tests unitaires et d'intégration du cycle de vie de la déclaration, scénario End-to-End métier &
+Validé \\
+
+\hline
+
+BF06 --- Mobilités entrantes &
+Import par template Excel, suivi administratif &
+Tests unitaires et d'intégration de l'import, scénario End-to-End import / export &
+Validé \\
+
+\hline
+
+BF07 --- Historisation &
+Passage en lecture seule des campagnes clôturées &
+Tests unitaires des gardes de la machine à états de l'année, scénario End-to-End cycle de vie &
+Validé \\
+
+\hline
+
+BF08 --- Reporting et enquêtes CTI &
+Calcul des indicateurs CTI, tableaux de bord analytiques, exports de conformité &
+Tests unitaires du calcul CTI, tests d'intégration, scénario End-to-End export &
+Validé ; couverture frontend des tableaux de bord à compléter \\
+
+\hline
+
+BF09 --- Moteur de recommandation &
+Score par destination (régression logistique) affiché dans l'espace étudiant &
+Tests unitaires du modèle (taux, AUC), tests d'intégration de l'endpoint  &
+Validé \\
+
+\hline
+
+BF10 --- Assistant virtuel (chatbot RAG) &
+Agent conversationnel sur la documentation institutionnelle &
+--- &
+Non réalisé --- reporté en V2 (US-23) \\
+
+\hline
+
+\end{longtable}
+
+% ─────────────────────────────────────────────────────────────
+
 \section{Traçabilité des besoins non fonctionnels}
 
 \label{sec:tracabilite-bnf}

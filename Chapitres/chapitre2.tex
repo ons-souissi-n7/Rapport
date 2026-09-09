@@ -84,7 +84,7 @@ Deux profils utilisent le système, avec des besoins très différents.
 
 \textbf{L'administrateur}, c'est-à-dire le service RI, pilote la campagne de bout en bout. Il supervise les imports, configure les quotas, ajuste les propositions d'affectation, instruit les demandes de mobilités complémentaires et produit les rapports CTI. Le système prend en charge les tâches répétitives, mais toute décision finale reste sous sa responsabilité, et chaque intervention manuelle est tracée.
 
-\textbf{L'étudiant} consulte les destinations disponibles, reçoit des recommandations personnalisées avant de saisir ses vœux dans MoveON, suit l'état de sa candidature, déclare ses expériences complémentaires et vérifie à tout moment si sa durée totale de mobilité atteint le seuil requis pour l'obtention du diplôme. L'assistant virtuel répond à ses questions procédurales sans solliciter le service RI.
+\textbf{L'étudiant} consulte les destinations disponibles, reçoit des recommandations personnalisées avant de saisir ses vœux dans MoveON, suit l'état de sa candidature, déclare ses expériences complémentaires et vérifie à tout moment si sa durée totale de mobilité atteint le seuil requis pour l'obtention du diplôme. Un assistant virtuel, prévu en version~2, devra répondre à ses questions procédurales sans solliciter le service RI.
 
 \subsubsection{Périmètre de réalisation}
 
@@ -120,7 +120,9 @@ La figure~\ref{fig:cas-utilisation} présente le diagramme de cas d'utilisation 
   \label{fig:cas-utilisation}
 \end{figure}
 
-La lecture du diagramme fait ressortir la répartition des responsabilités. L'étudiant n'accède qu'à des cas de consultation et de déclaration relatifs à sa propre mobilité : catalogue de destinations, recommandations, vœux, résultat d'affectation, mobilité complémentaire et suivi de sa durée de mobilité. L'administrateur RI concentre le pilotage : cycle de vie des années universitaires, référentiels, accords et quotas, synchronisation et réconciliation des imports, lancement et supervision de l'algorithme d'affectation, instruction des mobilités, finalisation CTI et consultation du journal d'audit. Le CAS et les systèmes sources n'interviennent qu'en appui, respectivement pour l'authentification et pour l'alimentation des imports.
+La lecture du diagramme fait ressortir la répartition des responsabilités. L'étudiant n'accède qu'à des cas de consultation et de déclaration relatifs à sa propre mobilité : catalogue de destinations, recommandations, interrogation de l'assistant virtuel, vœux, résultat d'affectation, mobilité complémentaire et suivi de sa durée de mobilité. L'administrateur RI concentre le pilotage : cycle de vie des années universitaires, référentiels, accords et quotas, synchronisation et réconciliation des imports, lancement et supervision de l'algorithme d'affectation, instruction des mobilités, finalisation CTI et consultation du journal d'audit. La synchronisation récupère les données de MoveON, Pégase et Eudonet via leurs API REST.
+
+L'authentification, requise pour tous les cas d'utilisation, n'est pas répétée sur chacun sous forme de relation \og include\fg{} : elle est portée une seule fois par le cas \textit{S'authentifier} et rappelée par une note, pour ne pas surcharger le diagramme. Elle passe par le CAS de Toulouse INP, qui valide d'abord les identifiants institutionnels avant l'ouverture de la session. Enfin, le cas \textit{Interroger l'assistant virtuel} (BF10) relève des fonctionnalités secondaires (V2) et n'a pas été implémenté dans le cadre du PFE : il a été reporté.
 
 
 % ─────────────────────────────────────────────────────────────

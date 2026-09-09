@@ -127,6 +127,16 @@
 
 \makeatother
 
+% =========================================================
+% TOC : pointillés + page pour les entrées de niveau CHAPITRE
+% (par défaut la classe report ne met pas de pointillés au niveau chapitre)
+% =========================================================
+\titlecontents{chapter}[0em]
+  {\addvspace{1em}\bfseries}
+  {\contentslabel{1.5em}}
+  {}
+  {\titlerule*[0.75em]{.}\contentspage}
+
 
 % =========================================================
 % SUBSUBSUBSECTION (niveau 4)
@@ -178,6 +188,18 @@
 
 \definecolor{bleumarine}{RGB}{0, 51, 102} % Définit le bleu marine
 \begin{document}
+
+% ---------------------------------------------------------
+% PAGES LIMINAIRES
+% ---------------------------------------------------------
+% Pagination A pour cette page non numérotée : évite une ancre hyperref en
+% double avec la pagination romaine (i, ii, ...) qui suit.
+\pagenumbering{Alph}
+
+\input{Chapitres/page_de_garde}
+\clearpage
+
+% --- Ancienne ébauche de page de garde (conservée pour référence) ---
 % \begin{titlepage}
 %     \centering
 
@@ -235,8 +257,28 @@
 % \RaggedRight
 
 
+\input{Chapitres/dedicaces}
+    \clearpage
+    
+\input{Chapitres/remerciement}
+    \clearpage
+
+\input{Chapitres/resume}
+    \clearpage
+
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{\contentsname}
 \tableofcontents
+
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{\listfigurename}
 \listoffigures
+
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{\listtablename}
 \listoftables
 
 \clearpage
