@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.7.19)  9 SEP 2026 23:19
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.7.19)  10 SEP 2026 21:17
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1585,27 +1585,49 @@ Package hyperref Info: Link coloring ON on input line 190.
 
 Package babel Info: Main language set to 'french'.
  (./Chapitres/page_de_garde.tex
-LaTeX Font Info:    Trying to load font information for U+msa on input line 44.
+<figures/logos/enicarthage.jpg, id=1144, 246.9225pt x 113.42375pt>
+File: figures/logos/enicarthage.jpg Graphic file (type jpg)
+<use figures/logos/enicarthage.jpg>
+Package pdftex.def Info: figures/logos/enicarthage.jpg  used on input line 25.
+(pdftex.def)             Requested size: 111.49463pt x 51.21501pt.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 26.
 
 
 (/usr/local/texlive/2026/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 44.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 26.
 
 
 (/usr/local/texlive/2026/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) [1
+)
+<figures/logos/universiteCarthage.png, id=1145, 188.20313pt x 67.0003pt>
+File: figures/logos/universiteCarthage.png Graphic file (type png)
+<use figures/logos/universiteCarthage.png>
+Package pdftex.def Info: figures/logos/universiteCarthage.png  used on input li
+ne 28.
+(pdftex.def)             Requested size: 130.89124pt x 46.59726pt.
+<figures/logos/ENSEEIHT.png, id=1147, 803.0pt x 143.53625pt>
+File: figures/logos/ENSEEIHT.png Graphic file (type png)
+<use figures/logos/ENSEEIHT.png>
+Package pdftex.def Info: figures/logos/ENSEEIHT.png  used on input line 31.
+(pdftex.def)             Requested size: 130.88417pt x 23.39554pt.
+ [1
 
 {/usr/local/texlive/2026/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/loc
-al/texlive/2026/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}])
-(./Chapitres/dedicaces.tex) [1
+al/texlive/2026/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc} <./figures
+/logos/enicarthage.jpg> <./figures/logos/universiteCarthage.png> <./figures/log
+os/ENSEEIHT.png>]) (./Chapitres/signatures.tex) [1
 
 
 
 
-] (./Chapitres/remerciement.tex
+] (./Chapitres/dedicaces.tex) [2
+
+
+]
+(./Chapitres/remerciement.tex
 Underfull \hbox (badness 10000) in paragraph at lines 6--7
 
  []
@@ -1620,109 +1642,120 @@ Underfull \hbox (badness 10000) in paragraph at lines 26--27
 
  []
 
-) [2
+) [3
 
 
-] (./Chapitres/resume.tex) [3
+] (./Chapitres/resume.tex) [4
 
-] (./main.toc [4
+
+] (./main.toc
+Overfull \hbox (0.15817pt too wide) detected at line 8
+ \T1/cmr/bx/n/12 xiii
+ []
+
+
+Overfull \hbox (3.53235pt too wide) detected at line 10
+ \T1/cmr/bx/n/12 xvii
+ []
+
+[5
 
 
 
 ]
 Package babel Info: 'french' activates 'french' shorthands.
-(babel)             Reported on input line 77.
- [5] [6] [7] [8]
-Overfull \hbox (2.03271pt too wide) detected at line 225
- \T1/cmr/bx/n/12 105
- []
-
-[9]
-Overfull \hbox (2.03271pt too wide) detected at line 274
- \T1/cmr/bx/n/12 153
+(babel)             Reported on input line 73.
+ [6] [7] [8] [9]
+Overfull \hbox (2.03271pt too wide) detected at line 228
+ \T1/cmr/bx/n/12 103
  []
 
 [10]
-Overfull \hbox (2.03271pt too wide) detected at line 298
- \T1/cmr/bx/n/12 169
+Overfull \hbox (2.03271pt too wide) detected at line 277
+ \T1/cmr/bx/n/12 151
  []
 
-
-Overfull \hbox (2.03271pt too wide) detected at line 299
- \T1/cmr/bx/n/12 170
- []
-
-
-Overfull \hbox (2.03271pt too wide) detected at line 300
- \T1/cmr/bx/n/12 174
- []
-
-
+[11]
 Overfull \hbox (2.03271pt too wide) detected at line 301
- \T1/cmr/bx/n/12 175
+ \T1/cmr/bx/n/12 167
+ []
+
+
+Overfull \hbox (2.03271pt too wide) detected at line 302
+ \T1/cmr/bx/n/12 168
+ []
+
+
+Overfull \hbox (2.03271pt too wide) detected at line 303
+ \T1/cmr/bx/n/12 172
+ []
+
+
+Overfull \hbox (2.03271pt too wide) detected at line 304
+ \T1/cmr/bx/n/12 173
  []
 
 )
 \tf@toc=\write6
 \openout6 = `main.toc'.
 
- [11] (./main.lof [12
+ [12] (./main.lof [13
 
 
 ])
 \tf@lof=\write7
 \openout7 = `main.lof'.
 
- [13] (./main.lot [14
+ [14] (./main.lot [15
 
 
 ])
 \tf@lot=\write8
 \openout8 = `main.lot'.
 
- [15]
-(./Chapitres/abreviations.tex [1
+ [16]
+(./Chapitres/abreviations.tex [17
 
 
-]) [2] (./Chapitres/introduction.tex [3
+]) [18] (./Chapitres/introduction.tex [1
 
 
 {/usr/local/texlive/2026/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
 )
-[4] (./Chapitres/chapitre1.tex
+[2] (./Chapitres/chapitre1.tex
 Chapitre 1.
 \c@ttl@toc@chapters=\count547
-(./main.ptc) [5
+(./main.ptc) [3
 
 
-] [6] [7]
-<figures/systemes/systeme-existant.png, id=1828, 755.32187pt x 425.08812pt>
+] [4] [5]
+<figures/systemes/systeme-existant.png, id=1861, 755.32187pt x 425.08812pt>
 File: figures/systemes/systeme-existant.png Graphic file (type png)
 <use figures/systemes/systeme-existant.png>
 Package pdftex.def Info: figures/systemes/systeme-existant.png  used on input l
 ine 83.
 (pdftex.def)             Requested size: 419.95967pt x 236.34831pt.
- [8 <./figures/systemes/systeme-existant.png>]
-<figures/systemes/bpmn-as-is-duree-mobilite.png, id=1840, 4050.13126pt x 6061.6
+ [6 <./figures/systemes/systeme-existant.png>]
+<figures/systemes/bpmn-as-is-duree-mobilite.png, id=1872, 4050.13126pt x 6061.6
 4626pt>
 File: figures/systemes/bpmn-as-is-duree-mobilite.png Graphic file (type png)
 <use figures/systemes/bpmn-as-is-duree-mobilite.png>
 Package pdftex.def Info: figures/systemes/bpmn-as-is-duree-mobilite.png  used o
 n input line 106.
 (pdftex.def)             Requested size: 466.62503pt x 698.32333pt.
- [9]
+ [7]
 Overfull \vbox (8.65932pt too high) has occurred while \output is active []
 
 
-[10 <./figures/systemes/bpmn-as-is-duree-mobilite.png (PNG copy)>]
-<figures/systemes/bpmn-as-is-enquete-cti.png, id=1850, 5618.9925pt x 7329.3825p
+[8 <./figures/systemes/bpmn-as-is-duree-mobilite.png (PNG copy)>]
+<figures/systemes/bpmn-as-is-enquete-cti.png, id=1881, 5618.9925pt x 7329.3825p
 t>
 File: figures/systemes/bpmn-as-is-enquete-cti.png Graphic file (type png)
 <use figures/systemes/bpmn-as-is-enquete-cti.png>
 Package pdftex.def Info: figures/systemes/bpmn-as-is-enquete-cti.png  used on i
 nput line 113.
 (pdftex.def)             Requested size: 466.62503pt x 608.6182pt.
- [11 <./figures/systemes/bpmn-as-is-enquete-cti.png (PNG copy)>]
+ [9 <./figures/systemes/bpmn-as-is-enquete-cti.png (PNG copy)>]
 Underfull \hbox (badness 2285) in paragraph at lines 169--169
 []|\T1/cmr/m/n/10 Aide à la dé-ci-sion et
  []
@@ -1737,17 +1770,17 @@ Underfull \hbox (badness 1755) in paragraph at lines 181--181
 []|\T1/cmr/m/n/10 Réponse aux ques-tions
  []
 
-[12] [13] [14] [15]
+[10] [11] [12] [13]
 Overfull \hbox (7.18579pt too wide) in paragraph at lines 285--285
  []|\T1/cmr/bx/n/10 ErasmusJET| 
  []
 
-[16]
+[14]
 Underfull \hbox (badness 3039) in paragraph at lines 327--327
 []|\T1/cmr/m/n/10 BF01 : in-té-gra-tion des don-nées
  []
 
-[17] [18]
+[15] [16]
 Underfull \hbox (badness 2662) in paragraph at lines 433--434
 []|\T1/cmr/m/n/10 Sprints fixes avec
  []
@@ -1767,7 +1800,7 @@ Underfull \hbox (badness 2027) in paragraph at lines 435--436
 []|\T1/cmr/m/n/10 Bonne, in-té-grée à
  []
 
-[19]
+[17]
 Overfull \hbox (1.97673pt too wide) in paragraph at lines 486--487
 []\T1/cmr/bx/it/12 L'incrément \T1/cmr/m/n/12 : en-semble des fonc-tion-na-li-t
 és ter-mi-nées à l'is-sue d'un sprint, qui s'ajoute
@@ -1779,36 +1812,36 @@ Overfull \hbox (1.2922pt too wide) in paragraph at lines 495--496
 ro-ni-sa-tion quo-ti-dienne entre les membres
  []
 
-<figures/captures/github/github-milestones.png, id=1904, 1357.07pt x 471.7625pt
+<figures/captures/github/github-milestones.png, id=1935, 1357.07pt x 471.7625pt
 >
 File: figures/captures/github/github-milestones.png Graphic file (type png)
 <use figures/captures/github/github-milestones.png>
 Package pdftex.def Info: figures/captures/github/github-milestones.png  used on
  input line 503.
 (pdftex.def)             Requested size: 396.63411pt x 137.88019pt.
-[20]
-<figures/captures/github/github-issues.png, id=1910, 1326.9575pt x 847.165pt>
+[18]
+<figures/captures/github/github-issues.png, id=1942, 1326.9575pt x 847.165pt>
 File: figures/captures/github/github-issues.png Graphic file (type png)
 <use figures/captures/github/github-issues.png>
 Package pdftex.def Info: figures/captures/github/github-issues.png  used on inp
 ut line 512.
 (pdftex.def)             Requested size: 396.63411pt x 253.22073pt.
-<figures/captures/github/github-projects.png, id=1912, 1926.19624pt x 818.05624
+<figures/captures/github/github-projects.png, id=1944, 1926.19624pt x 818.05624
 pt>
 File: figures/captures/github/github-projects.png Graphic file (type png)
 <use figures/captures/github/github-projects.png>
 Package pdftex.def Info: figures/captures/github/github-projects.png  used on i
 nput line 521.
 (pdftex.def)             Requested size: 396.63411pt x 168.43907pt.
- [21 <./figures/captures/github/github-milestones.png (PNG copy)> <./figures/ca
+ [19 <./figures/captures/github/github-milestones.png (PNG copy)> <./figures/ca
 ptures/github/github-issues.png (PNG copy)>]
-<figures/captures/github/github-prs.png, id=1919, 1326.9575pt x 777.90625pt>
+<figures/captures/github/github-prs.png, id=1950, 1326.9575pt x 777.90625pt>
 File: figures/captures/github/github-prs.png Graphic file (type png)
 <use figures/captures/github/github-prs.png>
 Package pdftex.def Info: figures/captures/github/github-prs.png  used on input 
 line 532.
 (pdftex.def)             Requested size: 396.63411pt x 232.51904pt.
- [22 <./figures/captures/github/github-projects.png (PNG copy)> <./figures/capt
+ [20 <./figures/captures/github/github-projects.png (PNG copy)> <./figures/capt
 ures/github/github-prs.png (PNG copy)>]
 Overfull \hbox (1.18724pt too wide) in paragraph at lines 552--552
 []|\T1/cmr/bx/n/10 Phase| 
@@ -1824,25 +1857,19 @@ Underfull \hbox (badness 4859) in paragraph at lines 590--590
 []|\T1/cmr/m/n/10 Communication avec le
  []
 
-) [23] (./Chapitres/chapitre2.tex
+) [21] (./Chapitres/chapitre2.tex
 Chapitre 2.
-(./main.ptc [24
+(./main.ptc [22
 
 
-] [25]) [26] [27] [28] [29]
-<figures/conception/Diag_cas_utilisation.png, id=2034, 731.73375pt x 879.285pt>
-
-File: figures/conception/Diag_cas_utilisation.png Graphic file (type png)
-<use figures/conception/Diag_cas_utilisation.png>
-Package pdftex.def Info: figures/conception/Diag_cas_utilisation.png  used on i
-nput line 118.
-(pdftex.def)             Requested size: 534.89812pt x 642.74324pt.
-
-Overfull \hbox (68.27309pt too wide) in paragraph at lines 118--119
- [][] 
- []
-
-[30] [31 <./figures/conception/Diag_cas_utilisation.png>] [32] [33]
+] [23]) [24] [25] [26] [27]
+<figures/conception/use-case.png, id=2065, 785.93625pt x 808.52063pt>
+File: figures/conception/use-case.png Graphic file (type png)
+<use figures/conception/use-case.png>
+Package pdftex.def Info: figures/conception/use-case.png  used on input line 11
+8.
+(pdftex.def)             Requested size: 466.6365pt x 480.04561pt.
+ [28] [29 <./figures/conception/use-case.png>] [30] [31]
 Underfull \hbox (badness 10000) in paragraph at lines 270--270
 []|\T1/cmr/m/n/10 Données sen-sibles
  []
@@ -1857,7 +1884,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 274--274
 []|\T1/cmr/m/n/10 Intégration SSO
  []
 
-[34] [35] [36]
+[32] [33] [34]
 Overfull \hbox (1.15846pt too wide) in paragraph at lines 418--418
  []|\T1/cmr/m/n/10 Secondaire| 
  []
@@ -1872,12 +1899,12 @@ Overfull \hbox (1.15846pt too wide) in paragraph at lines 428--428
  []|\T1/cmr/m/n/10 Secondaire| 
  []
 
-[37] [38]
+[35] [36]
 Underfull \hbox (badness 10000) in paragraph at lines 541--541
 []|\T1/cmr/m/n/10 Documentation auto-
  []
 
-[39] [40]
+[37] [38]
 Underfull \hbox (badness 6268) in paragraph at lines 682--682
 []|\T1/cmr/m/n/10 Transactions ACID
  []
@@ -1912,7 +1939,7 @@ Overfull \hbox (1.15846pt too wide) in paragraph at lines 692--692
  []|\T1/cmr/m/n/10 Secondaire| 
  []
 
-[41] [42]
+[39] [40]
 Overfull \hbox (1.15846pt too wide) in paragraph at lines 751--751
  []|\T1/cmr/m/n/10 Secondaire| 
  []
@@ -1927,7 +1954,7 @@ Overfull \hbox (1.15846pt too wide) in paragraph at lines 755--755
  []|\T1/cmr/m/n/10 Secondaire| 
  []
 
-[43] [44]
+[41] [42]
 Underfull \hbox (badness 1565) in paragraph at lines 862--862
 []|\T1/cmr/m/n/10 Aucun ser-vice sup-plé-men-
  []
@@ -1942,7 +1969,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 872--872
 []|\T1/cmr/m/n/10 Intégration na-tive avec
  []
 
-[45] [46]
+[43] [44]
 Underfull \hbox (badness 10000) in paragraph at lines 970--970
 []|\T1/cmr/m/n/10 Portabilité multi-
  []
@@ -1952,17 +1979,17 @@ Underfull \hbox (badness 10000) in paragraph at lines 972--972
 []|\T1/cmr/m/n/10 Suppression au-to-ma-tique
  []
 
-[47] [48]
+[45] [46]
 Underfull \hbox (badness 2173) in paragraph at lines 1085--1085
 []|\T1/cmr/m/n/10 Routage vers ser-vices in-
  []
 
-[49]
+[47]
 Underfull \hbox (badness 10000) in paragraph at lines 1121--1122
 
  []
 
-[50]
+[48]
 Underfull \hbox (badness 10000) in paragraph at lines 1144--1145
 
  []
@@ -1983,7 +2010,7 @@ Underfull \hbox (badness 1360) in paragraph at lines 1188--1188
 []|\T1/cmr/m/n/10 Prévisibilité en en-vi-ron-ne-
  []
 
-[51]
+[49]
 Underfull \hbox (badness 2213) in paragraph at lines 1252--1252
 []|\T1/cmr/m/n/10 Déclaration dans les mo-
  []
@@ -1993,7 +2020,7 @@ Underfull \hbox (badness 8019) in paragraph at lines 1256--1256
 []|\T1/cmr/m/n/10 Efficacité à très grande
  []
 
-[52]
+[50]
 Overfull \hbox (2.9603pt too wide) in paragraph at lines 1263--1270
 \T1/cmtt/m/n/12 academic_year_id \T1/cmr/m/n/12 et sur la com-bi-nai-son \T1/cm
 tt/m/n/12 (academic_year_id, student_id) \T1/cmr/m/n/12 pour les tables
@@ -2049,17 +2076,17 @@ Underfull \hbox (badness 10000) in paragraph at lines 1325--1325
 \T1/cmr/m/n/12 (\T1/cmtt/m/n/12 app/audit/
  []
 
-[53]) [54] (./Chapitres/chapitre3.tex
+[51]) [52] (./Chapitres/chapitre3.tex
 Chapitre 3.
-(./main.ptc [55
+(./main.ptc [53
 
 
-]) [56]
+]) [54]
 Overfull \hbox (13.59267pt too wide) in paragraph at lines 47--67
  [][] 
  []
 
-[57]
+[55]
 \c@usnum=\count548
 
 Overfull \hbox (2.78963pt too wide) in paragraph at lines 89--90
@@ -2166,7 +2193,7 @@ Overfull \hbox (2.38492pt too wide) in alignment at lines 96--300
  [] [] [] [] [] [] 
  []
 
-[58] [59] [60]
+[56] [57] [58]
 Overfull \hbox (13.59268pt too wide) in alignment at lines 311--318
  [] [] [] 
  []
@@ -2186,7 +2213,7 @@ Overfull \hbox (13.59268pt too wide) in alignment at lines 324--350
  [] [] [] 
  []
 
-[61] [62]
+[59] [60]
 Underfull \hbox (badness 10000) in paragraph at lines 421--421
 []|\T1/cmr/m/n/10 Pipeline CI/CD (Git-
  []
@@ -2196,9 +2223,9 @@ Underfull \hbox (badness 4279) in paragraph at lines 455--455
 []|\T1/cmr/m/n/10 Audit de sé-cu-rité (OWASP
  []
 
-[63
+[61
 
-] [64]
+] [62]
 Underfull \hbox (badness 10000) in paragraph at lines 488--489
 
  []
@@ -2228,7 +2255,7 @@ Underfull \hbox (badness 2057) in paragraph at lines 513--514
 []|\T1/cmr/m/n/10 V÷ux et af-fec-ta-tions is-sues de l'al-go-rithme Gale-
  []
 
-[65
+[63
 
 ]
 Underfull \hbox (badness 10000) in paragraph at lines 522--523
@@ -2240,22 +2267,22 @@ Underfull \hbox (badness 10000) in paragraph at lines 526--527
 
  []
 
-[66]
+[64]
 Overfull \hbox (11.18832pt too wide) in paragraph at lines 546--548
 []\T1/cmr/bx/n/12 La couche in-té-gra-tion \T1/cmr/m/n/12 (adap-ta-teurs \T1/cm
 r/bx/n/12 Mo-veON\T1/cmr/m/n/12 , \T1/cmr/bx/n/12 Pé-gase\T1/cmr/m/n/12 , \T1/c
 mr/bx/n/12 Eu-do-net\T1/cmr/m/n/12 ) : gère la connexion
  []
 
-[67]
-<figures/architecture/Architecture-Logicielle.png, id=2312, 770.88pt x 578.16pt
+[65]
+<figures/architecture/Architecture-Logicielle.png, id=2344, 770.88pt x 578.16pt
 >
 File: figures/architecture/Architecture-Logicielle.png Graphic file (type png)
 <use figures/architecture/Architecture-Logicielle.png>
 Package pdftex.def Info: figures/architecture/Architecture-Logicielle.png  used
  on input line 564.
 (pdftex.def)             Requested size: 466.62503pt x 349.96873pt.
- [68 <./figures/architecture/Architecture-Logicielle.png>] [69] [70]
+ [66 <./figures/architecture/Architecture-Logicielle.png>] [67] [68]
 Underfull \hbox (badness 4072) in paragraph at lines 686--687
 []|\T1/cmr/m/n/10 Une dif-fé-rence dé-tec-tée n'est
  []
@@ -2265,8 +2292,8 @@ Underfull \hbox (badness 3407) in paragraph at lines 690--691
 \T1/cmr/m/n/10 en cas d'in-dis-po-ni-bi-lité API ;
  []
 
-[71]
-<figures/conception/Diag_sequence/sequence-auth-cas.png, id=2333, 594.72188pt x
+[69]
+<figures/conception/Diag_sequence/sequence-auth-cas.png, id=2365, 594.72188pt x
  654.19406pt>
 File: figures/conception/Diag_sequence/sequence-auth-cas.png Graphic file (type
  png)
@@ -2274,28 +2301,28 @@ File: figures/conception/Diag_sequence/sequence-auth-cas.png Graphic file (type
 Package pdftex.def Info: figures/conception/Diag_sequence/sequence-auth-cas.png
   used on input line 716.
 (pdftex.def)             Requested size: 466.62503pt x 513.28394pt.
- [72] [73 <./figures/conception/Diag_sequence/sequence-auth-cas.png>]
+ [70] [71 <./figures/conception/Diag_sequence/sequence-auth-cas.png>]
 Overfull \hbox (21.23073pt too wide) in paragraph at lines 740--741
 \T1/cmr/m/n/12 (\T1/cmtt/m/n/12 app/audit/logger.py\T1/cmr/m/n/12 , fonc-tion \
 T1/cmtt/m/n/12 log_action()\T1/cmr/m/n/12 ) qui écrit dans le même mo-dèle \T1/
 cmtt/m/n/12 LogEntry\T1/cmr/m/n/12 ,
  []
 
-[74]
-<figures/architecture/Architecture-Physique.png, id=2352, 1626.075pt x 974.6412
+[72]
+<figures/architecture/Architecture-Physique.png, id=2385, 1626.075pt x 974.6412
 5pt>
 File: figures/architecture/Architecture-Physique.png Graphic file (type png)
 <use figures/architecture/Architecture-Physique.png>
 Package pdftex.def Info: figures/architecture/Architecture-Physique.png  used o
 n input line 767.
 (pdftex.def)             Requested size: 466.62503pt x 279.67923pt.
- [75]
+ [73]
 Underfull \hbox (badness 6477) in paragraph at lines 791--792
 []|\T1/cmr/m/n/10.95 Application Next.js (SSR + API
  []
 
-[76 <./figures/architecture/Architecture-Physique.png (PNG copy)>] [77]
-<figures/captures/github/github-actions.png, id=2372, 948.04187pt x 328.72812pt
+[74 <./figures/architecture/Architecture-Physique.png (PNG copy)>] [75]
+<figures/captures/github/github-actions.png, id=2404, 948.04187pt x 328.72812pt
 >
 File: figures/captures/github/github-actions.png Graphic file (type png)
 <use figures/captures/github/github-actions.png>
@@ -2303,7 +2330,7 @@ Package pdftex.def Info: figures/captures/github/github-actions.png  used on in
 put line 842.
 (pdftex.def)             Requested size: 466.62503pt x 161.80048pt.
 
-[78 <./figures/captures/github/github-actions.png>]
+[76 <./figures/captures/github/github-actions.png>]
 Overfull \hbox (5.45068pt too wide) in paragraph at lines 859--860
 []\T1/cmr/m/n/12 Aucun se-cret n'est pré-sent dans le dé-pôt git. Les va-riable
 s sen-sibles, telles que \T1/cmtt/m/n/12 SECRET_KEY\T1/cmr/m/n/12 ,
@@ -2321,12 +2348,12 @@ Underfull \hbox (badness 3219) in paragraph at lines 909--916
 T1/cmr/m/n/10 ) et les af-fec-ta-tions
  []
 
-[79] [80]
+[77] [78]
 Overfull \hbox (52.36812pt too wide) in paragraph at lines 956--957
  [][] 
  []
 
-[81]
+[79]
 Underfull \hbox (badness 10000) in paragraph at lines 968--970
 
  []
@@ -2336,7 +2363,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 984--986
 
  []
 
-[82]
+[80]
 Underfull \hbox (badness 10000) in paragraph at lines 991--993
 
  []
@@ -2356,7 +2383,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 1018--1020
 
  []
 
-[83] [84]
+[81] [82]
 Overfull \hbox (1.74644pt too wide) in paragraph at lines 1104--1104
 []|\T1/cmr/bx/n/12 Impact| 
  []
@@ -2412,17 +2439,17 @@ Underfull \hbox (badness 1147) in paragraph at lines 1154--1155
 \T1/cmr/m/n/12 vé-ri-fier les temps de ré-ponse avant
  []
 
-[85]) [86] (./Chapitres/chapitre4.tex
+[83]) [84] (./Chapitres/chapitre4.tex
 Chapitre 4.
-(./main.ptc [87
+(./main.ptc [85
 
 
-]) [88] [89]
+]) [86] [87]
 Underfull \hbox (badness 3557) in paragraph at lines 119--119
 []|\T1/cmr/m/n/10 Optimalité pour les étu-
  []
 
-[90] [91] [92]
+[88] [89] [90]
 Overfull \hbox (1.15846pt too wide) in paragraph at lines 261--261
  []|\T1/cmr/m/n/10 Secondaire| 
  []
@@ -2447,7 +2474,7 @@ Overfull \hbox (1.15846pt too wide) in paragraph at lines 269--269
  []|\T1/cmr/m/n/10 Secondaire| 
  []
 
-[93] [94]
+[91] [92]
 Underfull \hbox (badness 10000) in paragraph at lines 351--352
 
  []
@@ -2457,7 +2484,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 369--370
 
  []
 
-[95]
+[93]
 Overfull \hbox (4.00392pt too wide) in paragraph at lines 404--404
  []|\T1/cmr/m/n/10 Secondaire| 
  []
@@ -2502,7 +2529,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 447--448
 \T1/cmr/m/n/10 ri-que-ment pour le couple étu-
  []
 
-[96] [97] [98]
+[94] [95] [96]
 Overfull \hbox (2.43417pt too wide) in paragraph at lines 598--598
  []|\T1/cmr/bx/n/10 LlamaIndex| 
  []
@@ -2517,7 +2544,7 @@ Underfull \hbox (badness 6300) in paragraph at lines 606--606
 []|\T1/cmr/m/n/10 Adapté à un cas
  []
 
-[99]
+[97]
 Underfull \hbox (badness 3118) in paragraph at lines 646--646
 []|\T1/cmr/m/n/12 Répartition des
  []
@@ -2547,7 +2574,7 @@ Underfull \hbox (badness 1215) in paragraph at lines 655--655
 []|\T1/cmr/m/n/12 Modèle de lan-
  []
 
-[100] [101] [102]
+[98] [99] [100]
 Underfull \hbox (badness 7030) in paragraph at lines 734--734
 []|\T1/cmr/bx/n/10 Préconditions (guard condi-
  []
@@ -2607,17 +2634,17 @@ Underfull \hbox (badness 1173) in paragraph at lines 760--761
 []|\T1/cmtt/m/n/10 TransitionNotAllowed \T1/cmr/m/n/10 si l'an-née
  []
 
-[103]
+[101]
 Overfull \hbox (2.0198pt too wide) in paragraph at lines 782--782
 []|\T1/cmr/m/n/10.95 ComplementaryMobility| 
  []
 
-) [104] (./Chapitres/chapitre5.tex
+) [102] (./Chapitres/chapitre5.tex
 Chapitre 5.
-(./main.ptc [105
+(./main.ptc [103
 
 
-]) [106]
+]) [104]
 \c@tasknum=\count549
 \uswidth=\skip123
 
@@ -2720,15 +2747,15 @@ Overfull \hbox (1.76633pt too wide) in alignment at lines 106--276
  [] [] [] [] [] [] 
  []
 
-[107] [108] [109]
-<figures/conception/Diag_classe/Sprint1.png, id=2651, 752.8125pt x 478.03593pt>
+[105] [106] [107]
+<figures/conception/Diag_classe/Sprint1.png, id=2683, 752.8125pt x 478.03593pt>
 
 File: figures/conception/Diag_classe/Sprint1.png Graphic file (type png)
 <use figures/conception/Diag_classe/Sprint1.png>
 Package pdftex.def Info: figures/conception/Diag_classe/Sprint1.png  used on in
 put line 290.
 (pdftex.def)             Requested size: 466.62503pt x 296.31357pt.
-<figures/captures/sprint1/sprint1-referentiels.png, id=2653, 947.54pt x 434.623
+<figures/captures/sprint1/sprint1-referentiels.png, id=2685, 947.54pt x 434.623
 75pt>
 File: figures/captures/sprint1/sprint1-referentiels.png Graphic file (type png)
 
@@ -2736,8 +2763,8 @@ File: figures/captures/sprint1/sprint1-referentiels.png Graphic file (type png)
 Package pdftex.def Info: figures/captures/sprint1/sprint1-referentiels.png  use
 d on input line 313.
 (pdftex.def)             Requested size: 419.95967pt x 192.62772pt.
- [110 <./figures/conception/Diag_classe/Sprint1.png>]
-<figures/captures/sprint1/sprint1-annees-universitaires.png, id=2660, 948.04187
+ [108 <./figures/conception/Diag_classe/Sprint1.png>]
+<figures/captures/sprint1/sprint1-annees-universitaires.png, id=2693, 948.04187
 pt x 434.62375pt>
 File: figures/captures/sprint1/sprint1-annees-universitaires.png Graphic file (
 type png)
@@ -2745,7 +2772,7 @@ type png)
 Package pdftex.def Info: figures/captures/sprint1/sprint1-annees-universitaires
 .png  used on input line 324.
 (pdftex.def)             Requested size: 419.95967pt x 192.52824pt.
-<figures/captures/sprint1/sprint1-accords-quotas.png, id=2662, 948.54375pt x 43
+<figures/captures/sprint1/sprint1-accords-quotas.png, id=2695, 948.54375pt x 43
 6.63126pt>
 File: figures/captures/sprint1/sprint1-accords-quotas.png Graphic file (type pn
 g)
@@ -2753,7 +2780,7 @@ g)
 Package pdftex.def Info: figures/captures/sprint1/sprint1-accords-quotas.png  u
 sed on input line 335.
 (pdftex.def)             Requested size: 419.95967pt x 193.31091pt.
- [111 <./figures/captures/sprint1/sprint1-referentiels.png> <./figures/captures
+ [109 <./figures/captures/sprint1/sprint1-referentiels.png> <./figures/captures
 /sprint1/sprint1-annees-universitaires.png>]
 Underfull \hbox (badness 1762) in paragraph at lines 357--357
 []|\T1/cmr/m/n/10 Cycle de vie de
@@ -2804,7 +2831,7 @@ Underfull \hbox (badness 4805) in paragraph at lines 369--369
 []|\T1/cmr/m/n/10 Calcul des quo-
  []
 
-[112 <./figures/captures/sprint1/sprint1-accords-quotas.png>]
+[110 <./figures/captures/sprint1/sprint1-accords-quotas.png>]
 Overfull \hbox (1.76633pt too wide) in alignment at lines 413--432
  [] [] [] [] [] [] 
  []
@@ -2899,16 +2926,16 @@ Overfull \hbox (1.76633pt too wide) in alignment at lines 451--619
  [] [] [] [] [] [] 
  []
 
-[113] [114]
-<figures/conception/Diag_classe/Sprint2.png, id=2687, 778.40813pt x 472.76625pt
+[111] [112]
+<figures/conception/Diag_classe/Sprint2.png, id=2719, 778.40813pt x 472.76625pt
 >
 File: figures/conception/Diag_classe/Sprint2.png Graphic file (type png)
 <use figures/conception/Diag_classe/Sprint2.png>
 Package pdftex.def Info: figures/conception/Diag_classe/Sprint2.png  used on in
 put line 634.
 (pdftex.def)             Requested size: 466.62503pt x 283.40945pt.
- [115]
-<figures/conception/Diag_sequence/sequence-data-import.png, id=2693, 673.76718p
+ [113]
+<figures/conception/Diag_sequence/sequence-data-import.png, id=2725, 673.76718p
 t x 453.94594pt>
 File: figures/conception/Diag_sequence/sequence-data-import.png Graphic file (t
 ype png)
@@ -2916,15 +2943,15 @@ ype png)
 Package pdftex.def Info: figures/conception/Diag_sequence/sequence-data-import.
 png  used on input line 645.
 (pdftex.def)             Requested size: 466.62503pt x 314.3867pt.
- [116 <./figures/conception/Diag_classe/Sprint2.png>]
-<figures/captures/sprint2/sprint2-audit.png, id=2700, 942.52126pt x 433.62pt>
+ [114 <./figures/conception/Diag_classe/Sprint2.png>]
+<figures/captures/sprint2/sprint2-audit.png, id=2733, 942.52126pt x 433.62pt>
 File: figures/captures/sprint2/sprint2-audit.png Graphic file (type png)
 <use figures/captures/sprint2/sprint2-audit.png>
 Package pdftex.def Info: figures/captures/sprint2/sprint2-audit.png  used on in
 put line 666.
 (pdftex.def)             Requested size: 419.95967pt x 193.2084pt.
- [117 <./figures/conception/Diag_sequence/sequence-data-import.png>]
-<figures/captures/sprint2/sprint2-etudiants.png, id=2708, 944.52875pt x 440.144
+ [115 <./figures/conception/Diag_sequence/sequence-data-import.png>]
+<figures/captures/sprint2/sprint2-etudiants.png, id=2740, 944.52875pt x 440.144
 38pt>
 File: figures/captures/sprint2/sprint2-etudiants.png Graphic file (type png)
 <use figures/captures/sprint2/sprint2-etudiants.png>
@@ -2956,8 +2983,8 @@ Overfull \hbox (6.80879pt too wide) in paragraph at lines 713--713
 []|\T1/cmr/m/n/10 Composant| 
  []
 
-[118 <./figures/captures/sprint2/sprint2-audit.png> <./figures/captures/sprint2
-/sprint2-etudiants.png>] [119]
+[116 <./figures/captures/sprint2/sprint2-audit.png> <./figures/captures/sprint2
+/sprint2-etudiants.png>] [117]
 Overfull \hbox (1.76633pt too wide) in alignment at lines 762--780
  [] [] [] [] [] [] 
  []
@@ -3082,15 +3109,15 @@ Overfull \hbox (1.76633pt too wide) in alignment at lines 798--996
  [] [] [] [] [] [] 
  []
 
-[120] [121]
-<figures/conception/Diag_classe/Sprint3.png, id=2730, 807.015pt x 447.17062pt>
+[118] [119]
+<figures/conception/Diag_classe/Sprint3.png, id=2762, 807.015pt x 447.17062pt>
 File: figures/conception/Diag_classe/Sprint3.png Graphic file (type png)
 <use figures/conception/Diag_classe/Sprint3.png>
 Package pdftex.def Info: figures/conception/Diag_classe/Sprint3.png  used on in
 put line 1010.
 (pdftex.def)             Requested size: 466.62503pt x 258.5608pt.
- [122]
-<figures/conception/Diag_sequence/sequence-assignment-generation.png, id=2736, 
+ [120]
+<figures/conception/Diag_sequence/sequence-assignment-generation.png, id=2769, 
 612.03656pt x 465.23813pt>
 File: figures/conception/Diag_sequence/sequence-assignment-generation.png Graph
 ic file (type png)
@@ -3098,8 +3125,8 @@ ic file (type png)
 Package pdftex.def Info: figures/conception/Diag_sequence/sequence-assignment-g
 eneration.png  used on input line 1021.
 (pdftex.def)             Requested size: 466.62503pt x 354.69917pt.
- [123 <./figures/conception/Diag_classe/Sprint3.png>]
-<figures/conception/Diag_sequence/sequence-assignment-validation.png, id=2744, 
+ [121 <./figures/conception/Diag_classe/Sprint3.png>]
+<figures/conception/Diag_sequence/sequence-assignment-validation.png, id=2776, 
 541.27219pt x 725.71124pt>
 File: figures/conception/Diag_sequence/sequence-assignment-validation.png Graph
 ic file (type png)
@@ -3107,9 +3134,9 @@ ic file (type png)
 Package pdftex.def Info: figures/conception/Diag_sequence/sequence-assignment-v
 alidation.png  used on input line 1032.
 (pdftex.def)             Requested size: 466.62503pt x 625.6498pt.
- [124 <./figures/conception/Diag_sequence/sequence-assignment-generation.png>] 
-[125 <./figures/conception/Diag_sequence/sequence-assignment-validation.png>]
-<figures/captures/sprint3/sprint3-tableau-de-bord.png, id=2755, 1899.095pt x 86
+ [122 <./figures/conception/Diag_sequence/sequence-assignment-generation.png>] 
+[123 <./figures/conception/Diag_sequence/sequence-assignment-validation.png>]
+<figures/captures/sprint3/sprint3-tableau-de-bord.png, id=2787, 1899.095pt x 86
 3.225pt>
 File: figures/captures/sprint3/sprint3-tableau-de-bord.png Graphic file (type p
 ng)
@@ -3117,7 +3144,7 @@ ng)
 Package pdftex.def Info: figures/captures/sprint3/sprint3-tableau-de-bord.png  
 used on input line 1049.
 (pdftex.def)             Requested size: 466.62503pt x 212.10446pt.
-<figures/captures/sprint3/sprint3-mobilite-etudiant.png, id=2759, 963.6pt x 434
+<figures/captures/sprint3/sprint3-mobilite-etudiant.png, id=2791, 963.6pt x 434
 .12187pt>
 File: figures/captures/sprint3/sprint3-mobilite-etudiant.png Graphic file (type
  png)
@@ -3125,7 +3152,7 @@ File: figures/captures/sprint3/sprint3-mobilite-etudiant.png Graphic file (type
 Package pdftex.def Info: figures/captures/sprint3/sprint3-mobilite-etudiant.png
   used on input line 1062.
 (pdftex.def)             Requested size: 466.62503pt x 210.22426pt.
- [126 <./figures/captures/sprint3/sprint3-tableau-de-bord.png (PNG copy)>]
+ [124 <./figures/captures/sprint3/sprint3-tableau-de-bord.png (PNG copy)>]
 Underfull \hbox (badness 10000) in paragraph at lines 1084--1084
 []|\T1/cmr/m/n/10 Algorithme d'af-
  []
@@ -3180,7 +3207,7 @@ Overfull \hbox (5.67018pt too wide) in paragraph at lines 1098--1098
 []|\T1/cmr/m/n/10 Intégration| 
  []
 
-[127 <./figures/captures/sprint3/sprint3-mobilite-etudiant.png>]
+[125 <./figures/captures/sprint3/sprint3-mobilite-etudiant.png>]
 Overfull \hbox (1.76633pt too wide) in alignment at lines 1141--1156
  [] [] [] [] [] [] 
  []
@@ -3465,15 +3492,15 @@ Overfull \hbox (1.76633pt too wide) in alignment at lines 1171--1562
  [] [] [] [] [] [] 
  []
 
-[128] [129] [130] [131] [132]
-<figures/conception/Diag_classe/Sprint4.png, id=2794, 866.48718pt x 444.91219pt
+[126] [127] [128] [129] [130]
+<figures/conception/Diag_classe/Sprint4.png, id=2826, 866.48718pt x 444.91219pt
 >
 File: figures/conception/Diag_classe/Sprint4.png Graphic file (type png)
 <use figures/conception/Diag_classe/Sprint4.png>
 Package pdftex.def Info: figures/conception/Diag_classe/Sprint4.png  used on in
 put line 1576.
 (pdftex.def)             Requested size: 466.62503pt x 239.59726pt.
-<figures/conception/Diag_sequence/sequence-reconciliation.png, id=2796, 514.923
+<figures/conception/Diag_sequence/sequence-reconciliation.png, id=2828, 514.923
 75pt x 464.4853pt>
 File: figures/conception/Diag_sequence/sequence-reconciliation.png Graphic file
  (type png)
@@ -3481,8 +3508,8 @@ File: figures/conception/Diag_sequence/sequence-reconciliation.png Graphic file
 Package pdftex.def Info: figures/conception/Diag_sequence/sequence-reconciliati
 on.png  used on input line 1587.
 (pdftex.def)             Requested size: 466.62503pt x 420.9246pt.
- [133 <./figures/conception/Diag_classe/Sprint4.png>]
-<figures/conception/Diag_sequence/sequence-complementary-mobility.png, id=2803,
+ [131 <./figures/conception/Diag_classe/Sprint4.png>]
+<figures/conception/Diag_sequence/sequence-complementary-mobility.png, id=2835,
  715.92468pt x 600.74437pt>
 File: figures/conception/Diag_sequence/sequence-complementary-mobility.png Grap
 hic file (type png)
@@ -3490,9 +3517,9 @@ hic file (type png)
 Package pdftex.def Info: figures/conception/Diag_sequence/sequence-complementar
 y-mobility.png  used on input line 1598.
 (pdftex.def)             Requested size: 466.62503pt x 391.56087pt.
- [134 <./figures/conception/Diag_sequence/sequence-reconciliation.png>]
-[135 <./figures/conception/Diag_sequence/sequence-complementary-mobility.png>]
-<figures/captures/sprint4/sprint4-reconciliation.png, id=2817, 919.435pt x 437.
+ [132 <./figures/conception/Diag_sequence/sequence-reconciliation.png>]
+[133 <./figures/conception/Diag_sequence/sequence-complementary-mobility.png>]
+<figures/captures/sprint4/sprint4-reconciliation.png, id=2849, 919.435pt x 437.
 635pt>
 File: figures/captures/sprint4/sprint4-reconciliation.png Graphic file (type pn
 g)
@@ -3545,7 +3572,7 @@ Overfull \hbox (5.67018pt too wide) in paragraph at lines 1659--1659
 []|\T1/cmr/m/n/10 Intégration| 
  []
 
-[136 <./figures/captures/sprint4/sprint4-reconciliation.png>] [137]
+[134 <./figures/captures/sprint4/sprint4-reconciliation.png>] [135]
 Overfull \hbox (1.76633pt too wide) in alignment at lines 1720--1735
  [] [] [] [] [] [] 
  []
@@ -3760,8 +3787,8 @@ Overfull \hbox (1.76633pt too wide) in alignment at lines 1750--2037
  [] [] [] [] [] [] 
  []
 
-[138] [139] [140]
-<figures/conception/Diag_sequence/sequence-cti-finalization.png, id=2844, 684.3
+[136] [137] [138]
+<figures/conception/Diag_sequence/sequence-cti-finalization.png, id=2877, 684.3
 0656pt x 470.50781pt>
 File: figures/conception/Diag_sequence/sequence-cti-finalization.png Graphic fi
 le (type png)
@@ -3769,8 +3796,8 @@ le (type png)
 Package pdftex.def Info: figures/conception/Diag_sequence/sequence-cti-finaliza
 tion.png  used on input line 2055.
 (pdftex.def)             Requested size: 466.62503pt x 320.84567pt.
- [141]
-<figures/captures/sprint5/sprint5-tableau-bord-etudiant.png, id=2851, 956.07187
+ [139]
+<figures/captures/sprint5/sprint5-tableau-bord-etudiant.png, id=2883, 956.07187
 pt x 440.14438pt>
 File: figures/captures/sprint5/sprint5-tableau-bord-etudiant.png Graphic file (
 type png)
@@ -3778,15 +3805,15 @@ type png)
 Package pdftex.def Info: figures/captures/sprint5/sprint5-tableau-bord-etudiant
 .png  used on input line 2070.
 (pdftex.def)             Requested size: 396.63411pt x 182.59605pt.
- [142 <./figures/conception/Diag_sequence/sequence-cti-finalization.png>]
-<figures/captures/sprint5/sprint5-rapport-cti.png, id=2858, 947.03813pt x 433.6
+ [140 <./figures/conception/Diag_sequence/sequence-cti-finalization.png>]
+<figures/captures/sprint5/sprint5-rapport-cti.png, id=2890, 947.03813pt x 433.6
 2pt>
 File: figures/captures/sprint5/sprint5-rapport-cti.png Graphic file (type png)
 <use figures/captures/sprint5/sprint5-rapport-cti.png>
 Package pdftex.def Info: figures/captures/sprint5/sprint5-rapport-cti.png  used
  on input line 2085.
 (pdftex.def)             Requested size: 396.63411pt x 181.60307pt.
-<figures/captures/sprint5/sprint5-dashboard-flux-globaux.png, id=2860, 944.5287
+<figures/captures/sprint5/sprint5-dashboard-flux-globaux.png, id=2892, 944.5287
 5pt x 434.62375pt>
 File: figures/captures/sprint5/sprint5-dashboard-flux-globaux.png Graphic file 
 (type png)
@@ -3794,7 +3821,7 @@ File: figures/captures/sprint5/sprint5-dashboard-flux-globaux.png Graphic file
 Package pdftex.def Info: figures/captures/sprint5/sprint5-dashboard-flux-globau
 x.png  used on input line 2096.
 (pdftex.def)             Requested size: 396.63411pt x 182.51419pt.
- [143 <./figures/captures/sprint5/sprint5-tableau-bord-etudiant.png> <./figures
+ [141 <./figures/captures/sprint5/sprint5-tableau-bord-etudiant.png> <./figures
 /captures/sprint5/sprint5-rapport-cti.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 2128--2128
 \T1/cmr/m/n/10 CTI (échanges,
@@ -3945,7 +3972,7 @@ Overfull \hbox (5.67018pt too wide) in paragraph at lines 2162--2162
 []|\T1/cmr/m/n/10 Intégration| 
  []
 
-[144 <./figures/captures/sprint5/sprint5-dashboard-flux-globaux.png>] [145]
+[142 <./figures/captures/sprint5/sprint5-dashboard-flux-globaux.png>] [143]
 Overfull \hbox (1.76633pt too wide) in alignment at lines 2208--2223
  [] [] [] [] [] [] 
  []
@@ -4065,15 +4092,15 @@ Overfull \hbox (1.76633pt too wide) in alignment at lines 2238--2405
  [] [] [] [] [] [] 
  []
 
-[146] [147]
+[144] [145]
 Overfull \hbox (26.60445pt too wide) in paragraph at lines 2418--2424
 \T1/cmr/m/n/12 des af-fec-ta-tions pré-cé-dentes (\T1/cmtt/m/n/12 AssignmentRes
 ult\T1/cmr/m/n/12 ), les an-nées uni-ver-si-taires closes (\T1/cmtt/m/n/12 Acad
 emicYear\T1/cmr/m/n/12 )
  []
 
-[148]
-<figures/conception/Diag_sequence/sequence-recommendation.png, id=2895, 561.598
+[146]
+<figures/conception/Diag_sequence/sequence-recommendation.png, id=2928, 561.598
 13pt x 447.92343pt>
 File: figures/conception/Diag_sequence/sequence-recommendation.png Graphic file
  (type png)
@@ -4081,8 +4108,8 @@ File: figures/conception/Diag_sequence/sequence-recommendation.png Graphic file
 Package pdftex.def Info: figures/conception/Diag_sequence/sequence-recommendati
 on.png  used on input line 2453.
 (pdftex.def)             Requested size: 466.62503pt x 372.17276pt.
- [149 <./figures/conception/Diag_sequence/sequence-recommendation.png>]
-<figures/captures/sprint6/sprint6-recommandations-etudiant.png, id=2903, 945.53
+ [147 <./figures/conception/Diag_sequence/sequence-recommendation.png>]
+<figures/captures/sprint6/sprint6-recommandations-etudiant.png, id=2935, 945.53
 25pt x 409.02812pt>
 File: figures/captures/sprint6/sprint6-recommandations-etudiant.png Graphic fil
 e (type png)
@@ -4091,7 +4118,7 @@ Package pdftex.def Info: figures/captures/sprint6/sprint6-recommandations-etudi
 ant.png  used on input line 2506.
 (pdftex.def)             Requested size: 396.63411pt x 171.58467pt.
 
-[150 <./figures/captures/sprint6/sprint6-recommandations-etudiant.png>]
+[148 <./figures/captures/sprint6/sprint6-recommandations-etudiant.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 2556--2556
 []|\T1/cmr/bx/n/10 Élément /
  []
@@ -4151,9 +4178,9 @@ Overfull \hbox (5.67018pt too wide) in paragraph at lines 2601--2601
 []|\T1/cmr/m/n/10 Intégration| 
  []
 
-[151]) [152] (./Chapitres/chapitre6.tex
+[149]) [150] (./Chapitres/chapitre6.tex
 Chapitre 6.
-(./main.ptc) [153
+(./main.ptc) [151
 
 
 ]
@@ -4166,23 +4193,23 @@ Underfull \hbox (badness 10000) in paragraph at lines 114--114
 []|\T1/cmr/m/n/10 Prometheus, Gra-fana,
  []
 
-[154]
-<figures/captures/tests/coverage-backend.png, id=2951, 1023.825pt x 453.19313pt
+[152]
+<figures/captures/tests/coverage-backend.png, id=2983, 1023.825pt x 453.19313pt
 >
 File: figures/captures/tests/coverage-backend.png Graphic file (type png)
 <use figures/captures/tests/coverage-backend.png>
 Package pdftex.def Info: figures/captures/tests/coverage-backend.png  used on i
 nput line 133.
 (pdftex.def)             Requested size: 396.63411pt x 175.56903pt.
-<figures/captures/tests/coverage-frontend.png, id=2953, 1014.79124pt x 455.4515
+<figures/captures/tests/coverage-frontend.png, id=2985, 1014.79124pt x 455.4515
 7pt>
 File: figures/captures/tests/coverage-frontend.png Graphic file (type png)
 <use figures/captures/tests/coverage-frontend.png>
 Package pdftex.def Info: figures/captures/tests/coverage-frontend.png  used on 
 input line 151.
 (pdftex.def)             Requested size: 396.63411pt x 178.01457pt.
- [155 <./figures/captures/tests/coverage-backend.png>]
-<figures/captures/tests/E2E/e2e-admin-workflow.png, id=2961, 702.625pt x 389.45
+ [153 <./figures/captures/tests/coverage-backend.png>]
+<figures/captures/tests/E2E/e2e-admin-workflow.png, id=2993, 702.625pt x 389.45
 5pt>
 File: figures/captures/tests/E2E/e2e-admin-workflow.png Graphic file (type png)
 
@@ -4190,8 +4217,8 @@ File: figures/captures/tests/E2E/e2e-admin-workflow.png Graphic file (type png)
 Package pdftex.def Info: figures/captures/tests/E2E/e2e-admin-workflow.png  use
 d on input line 233.
 (pdftex.def)             Requested size: 396.63411pt x 219.85231pt.
- [156 <./figures/captures/tests/coverage-frontend.png>]
-<figures/captures/tests/E2E/e2e-academic-year-lifecycle.png, id=2968, 852.18375
+ [154 <./figures/captures/tests/coverage-frontend.png>]
+<figures/captures/tests/E2E/e2e-academic-year-lifecycle.png, id=3000, 852.18375
 pt x 261.97874pt>
 File: figures/captures/tests/E2E/e2e-academic-year-lifecycle.png Graphic file (
 type png)
@@ -4199,15 +4226,15 @@ type png)
 Package pdftex.def Info: figures/captures/tests/E2E/e2e-academic-year-lifecycle
 .png  used on input line 251.
 (pdftex.def)             Requested size: 396.63411pt x 121.93478pt.
-<figures/captures/tests/E2E/e2e-alerts.png, id=2970, 750.30313pt x 226.8475pt>
+<figures/captures/tests/E2E/e2e-alerts.png, id=3002, 750.30313pt x 226.8475pt>
 File: figures/captures/tests/E2E/e2e-alerts.png Graphic file (type png)
 <use figures/captures/tests/E2E/e2e-alerts.png>
 Package pdftex.def Info: figures/captures/tests/E2E/e2e-alerts.png  used on inp
 ut line 269.
 (pdftex.def)             Requested size: 396.63411pt x 119.92053pt.
- [157 <./figures/captures/tests/E2E/e2e-admin-workflow.png> <./figures/captures
+ [155 <./figures/captures/tests/E2E/e2e-admin-workflow.png> <./figures/captures
 /tests/E2E/e2e-academic-year-lifecycle.png>]
-<figures/captures/tests/E2E/e2e-admin-business-scenarios.png, id=2978, 874.7681
+<figures/captures/tests/E2E/e2e-admin-business-scenarios.png, id=3010, 874.7681
 3pt x 152.06813pt>
 File: figures/captures/tests/E2E/e2e-admin-business-scenarios.png Graphic file 
 (type png)
@@ -4215,7 +4242,7 @@ File: figures/captures/tests/E2E/e2e-admin-business-scenarios.png Graphic file
 Package pdftex.def Info: figures/captures/tests/E2E/e2e-admin-business-scenario
 s.png  used on input line 287.
 (pdftex.def)             Requested size: 396.63411pt x 68.94978pt.
-<figures/captures/tests/E2E/e2e-excel-import-export.png, id=2980, 771.38188pt x
+<figures/captures/tests/E2E/e2e-excel-import-export.png, id=3012, 771.38188pt x
  105.89563pt>
 File: figures/captures/tests/E2E/e2e-excel-import-export.png Graphic file (type
  png)
@@ -4223,17 +4250,17 @@ File: figures/captures/tests/E2E/e2e-excel-import-export.png Graphic file (type
 Package pdftex.def Info: figures/captures/tests/E2E/e2e-excel-import-export.png
   used on input line 305.
 (pdftex.def)             Requested size: 396.63411pt x 54.4504pt.
-[158 <./figures/captures/tests/E2E/e2e-alerts.png> <./figures/captures/tests/E2
+[156 <./figures/captures/tests/E2E/e2e-alerts.png> <./figures/captures/tests/E2
 E/e2e-admin-business-scenarios.png> <./figures/captures/tests/E2E/e2e-excel-imp
 ort-export.png>]
-<figures/captures/tests/security-tests.png, id=2989, 1002.74625pt x 511.9125pt>
+<figures/captures/tests/security-tests.png, id=3023, 1002.74625pt x 511.9125pt>
 
 File: figures/captures/tests/security-tests.png Graphic file (type png)
 <use figures/captures/tests/security-tests.png>
 Package pdftex.def Info: figures/captures/tests/security-tests.png  used on inp
 ut line 389.
 (pdftex.def)             Requested size: 396.63411pt x 202.48833pt.
- [159 <./figures/captures/tests/security-tests.png>]
+ [157 <./figures/captures/tests/security-tests.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 452--452
 []|\T1/cmr/m/n/10 0 éle-vée, 2
  []
@@ -4253,7 +4280,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 458--458
 \T1/cmr/m/n/10 moyenne, 3
  []
 
-<figures/captures/tests/zap/zap-frontend-summary.png, id=2997, 1103.12125pt x 5
+<figures/captures/tests/zap/zap-frontend-summary.png, id=3030, 1103.12125pt x 5
 02.87875pt>
 File: figures/captures/tests/zap/zap-frontend-summary.png Graphic file (type pn
 g)
@@ -4261,12 +4288,12 @@ g)
 Package pdftex.def Info: figures/captures/tests/zap/zap-frontend-summary.png  u
 sed on input line 473.
 (pdftex.def)             Requested size: 373.30144pt x 170.17848pt.
-[160]
+[158]
 Underfull \hbox (badness 10000) in paragraph at lines 495--496
 
  []
 
-<figures/captures/tests/perf/algo-30s.png, id=3003, 1011.78pt x 295.1025pt>
+<figures/captures/tests/perf/algo-30s.png, id=3035, 1011.78pt x 295.1025pt>
 File: figures/captures/tests/perf/algo-30s.png Graphic file (type png)
 <use figures/captures/tests/perf/algo-30s.png>
 Package pdftex.def Info: figures/captures/tests/perf/algo-30s.png  used on inpu
@@ -4277,9 +4304,9 @@ Underfull \hbox (badness 10000) in paragraph at lines 511--512
 
  []
 
-[161 <./figures/captures/tests/zap/zap-frontend-summary.png (PNG copy)> <./figu
+[159 <./figures/captures/tests/zap/zap-frontend-summary.png (PNG copy)> <./figu
 res/captures/tests/perf/algo-30s.png>]
-<figures/captures/tests/sonarqube-quality-gate.png, id=3010, 1295.84125pt x 235
+<figures/captures/tests/sonarqube-quality-gate.png, id=3042, 1295.84125pt x 235
 .88126pt>
 File: figures/captures/tests/sonarqube-quality-gate.png Graphic file (type png)
 
@@ -4287,15 +4314,15 @@ File: figures/captures/tests/sonarqube-quality-gate.png Graphic file (type png)
 Package pdftex.def Info: figures/captures/tests/sonarqube-quality-gate.png  use
 d on input line 545.
 (pdftex.def)             Requested size: 396.63411pt x 72.19742pt.
- [162 <./figures/captures/tests/sonarqube-quality-gate.png (PNG copy)>]
-<figures/Prometheus/prometheus-targets.png, id=3017, 1028.34187pt x 215.30438pt
+ [160 <./figures/captures/tests/sonarqube-quality-gate.png (PNG copy)>]
+<figures/Prometheus/prometheus-targets.png, id=3049, 1028.34187pt x 215.30438pt
 >
 File: figures/Prometheus/prometheus-targets.png Graphic file (type png)
 <use figures/Prometheus/prometheus-targets.png>
 Package pdftex.def Info: figures/Prometheus/prometheus-targets.png  used on inp
 ut line 575.
 (pdftex.def)             Requested size: 396.63411pt x 83.0452pt.
-<figures/Grafana/grafana-dashboard-vue-ensemble.png, id=3019, 1371.1225pt x 482
+<figures/Grafana/grafana-dashboard-vue-ensemble.png, id=3051, 1371.1225pt x 482
 .80376pt>
 File: figures/Grafana/grafana-dashboard-vue-ensemble.png Graphic file (type png
 )
@@ -4303,13 +4330,13 @@ File: figures/Grafana/grafana-dashboard-vue-ensemble.png Graphic file (type png
 Package pdftex.def Info: figures/Grafana/grafana-dashboard-vue-ensemble.png  us
 ed on input line 589.
 (pdftex.def)             Requested size: 419.95967pt x 147.87744pt.
-<figures/Sentry/sentry-issue-detail.png, id=3021, 1017.04968pt x 477.28313pt>
+<figures/Sentry/sentry-issue-detail.png, id=3053, 1017.04968pt x 477.28313pt>
 File: figures/Sentry/sentry-issue-detail.png Graphic file (type png)
 <use figures/Sentry/sentry-issue-detail.png>
 Package pdftex.def Info: figures/Sentry/sentry-issue-detail.png  used on input 
 line 607.
 (pdftex.def)             Requested size: 419.95967pt x 197.07834pt.
- [163 <./figures/Prometheus/prometheus-targets.png> <./figures/Grafana/grafana-
+ [161 <./figures/Prometheus/prometheus-targets.png> <./figures/Grafana/grafana-
 dashboard-vue-ensemble.png (PNG copy)>]
 Underfull \hbox (badness 10000) in paragraph at lines 639--639
 []|\T1/cmr/bx/n/12 Fonctionnalité cou-
@@ -4520,7 +4547,7 @@ Underfull \hbox (badness 7888) in paragraph at lines 723--723
 \T1/cmr/m/n/12 sis-tant vir-tuel
  []
 
-[164 <./figures/Sentry/sentry-issue-detail.png>] [165]
+[162 <./figures/Sentry/sentry-issue-detail.png>] [163]
 Underfull \hbox (badness 2460) in paragraph at lines 777--777
 []|\T1/cmr/m/n/12 Tests des mé-ca-nismes
  []
@@ -4640,18 +4667,18 @@ Underfull \hbox (badness 7030) in paragraph at lines 825--825
 []|\T1/cmr/m/n/12 Conservation des ac-
  []
 
-[166] [167]) [168] (./Chapitres/conclusion.tex) [169
+[164] [165]) [166] (./Chapitres/conclusion.tex) [167
 
 
 ] (./Chapitres/annexe.tex
-<figures/captures/sprint3/sprint3-supervision.png, id=3059, 946.03438pt x 433.1
+<figures/captures/sprint3/sprint3-supervision.png, id=3091, 946.03438pt x 433.1
 1812pt>
 File: figures/captures/sprint3/sprint3-supervision.png Graphic file (type png)
 <use figures/captures/sprint3/sprint3-supervision.png>
 Package pdftex.def Info: figures/captures/sprint3/sprint3-supervision.png  used
  on input line 37.
 (pdftex.def)             Requested size: 466.62503pt x 213.63081pt.
-<figures/captures/sprint3/sprint3-statistiques.png, id=3060, 949.5475pt x 438.6
+<figures/captures/sprint3/sprint3-statistiques.png, id=3092, 949.5475pt x 438.6
 3875pt>
 File: figures/captures/sprint3/sprint3-statistiques.png Graphic file (type png)
 
@@ -4659,7 +4686,7 @@ File: figures/captures/sprint3/sprint3-statistiques.png Graphic file (type png)
 Package pdftex.def Info: figures/captures/sprint3/sprint3-statistiques.png  use
 d on input line 44.
 (pdftex.def)             Requested size: 466.62503pt x 215.55731pt.
-<figures/captures/sprint4/sprint4-stages.png, id=3061, 948.04187pt x 435.6275pt
+<figures/captures/sprint4/sprint4-stages.png, id=3093, 948.04187pt x 435.6275pt
 >
 File: figures/captures/sprint4/sprint4-stages.png Graphic file (type png)
 <use figures/captures/sprint4/sprint4-stages.png>
@@ -4667,19 +4694,19 @@ Package pdftex.def Info: figures/captures/sprint4/sprint4-stages.png  used on i
 nput line 55.
 (pdftex.def)             Requested size: 396.63411pt x 182.25105pt.
 
-[170
+[168
 
 
  <./figures/captures/sprint3/sprint3-supervision.png> <./figures/captures/sprin
 t3/sprint3-statistiques.png>]
-<figures/captures/sprint4/sprint4-entrantes.png, id=3068, 950.55125pt x 439.140
+<figures/captures/sprint4/sprint4-entrantes.png, id=3101, 950.55125pt x 439.140
 63pt>
 File: figures/captures/sprint4/sprint4-entrantes.png Graphic file (type png)
 <use figures/captures/sprint4/sprint4-entrantes.png>
 Package pdftex.def Info: figures/captures/sprint4/sprint4-entrantes.png  used o
 n input line 62.
 (pdftex.def)             Requested size: 396.63411pt x 183.23836pt.
-<figures/captures/sprint4/sprint4-declaration-etudiant.png, id=3069, 948.04187p
+<figures/captures/sprint4/sprint4-declaration-etudiant.png, id=3102, 948.04187p
 t x 439.6425pt>
 File: figures/captures/sprint4/sprint4-declaration-etudiant.png Graphic file (t
 ype png)
@@ -4687,7 +4714,7 @@ ype png)
 Package pdftex.def Info: figures/captures/sprint4/sprint4-declaration-etudiant.
 png  used on input line 69.
 (pdftex.def)             Requested size: 396.63411pt x 183.93079pt.
-<figures/captures/sprint4/sprint4-mobilite-complementaire.png, id=3070, 940.011
+<figures/captures/sprint4/sprint4-mobilite-complementaire.png, id=3103, 940.011
 87pt x 436.12938pt>
 File: figures/captures/sprint4/sprint4-mobilite-complementaire.png Graphic file
  (type png)
@@ -4695,10 +4722,10 @@ File: figures/captures/sprint4/sprint4-mobilite-complementaire.png Graphic file
 Package pdftex.def Info: figures/captures/sprint4/sprint4-mobilite-complementai
 re.png  used on input line 76.
 (pdftex.def)             Requested size: 396.63411pt x 184.01825pt.
- [171 <./figures/captures/sprint4/sprint4-stages.png> <./figures/captures/sprin
+ [169 <./figures/captures/sprint4/sprint4-stages.png> <./figures/captures/sprin
 t4/sprint4-entrantes.png> <./figures/captures/sprint4/sprint4-declaration-etudi
 ant.png>]
-<figures/captures/sprint5/sprint5-dashboard-departement.png, id=3079, 944.02687
+<figures/captures/sprint5/sprint5-dashboard-departement.png, id=3111, 944.02687
 pt x 437.13312pt>
 File: figures/captures/sprint5/sprint5-dashboard-departement.png Graphic file (
 type png)
@@ -4706,7 +4733,7 @@ type png)
 Package pdftex.def Info: figures/captures/sprint5/sprint5-dashboard-departement
 .png  used on input line 87.
 (pdftex.def)             Requested size: 396.63411pt x 183.66135pt.
-<figures/captures/sprint5/sprint5-dashboard-universite.png, id=3080, 942.01938p
+<figures/captures/sprint5/sprint5-dashboard-universite.png, id=3112, 942.01938p
 t x 435.6275pt>
 File: figures/captures/sprint5/sprint5-dashboard-universite.png Graphic file (t
 ype png)
@@ -4714,7 +4741,7 @@ ype png)
 Package pdftex.def Info: figures/captures/sprint5/sprint5-dashboard-universite.
 png  used on input line 94.
 (pdftex.def)             Requested size: 396.63411pt x 183.42094pt.
-<figures/captures/sprint5/sprint5-dashboard-pays.png, id=3081, 944.52875pt x 43
+<figures/captures/sprint5/sprint5-dashboard-pays.png, id=3113, 944.52875pt x 43
 8.63875pt>
 File: figures/captures/sprint5/sprint5-dashboard-pays.png Graphic file (type pn
 g)
@@ -4722,9 +4749,9 @@ g)
 Package pdftex.def Info: figures/captures/sprint5/sprint5-dashboard-pays.png  u
 sed on input line 101.
 (pdftex.def)             Requested size: 396.63411pt x 184.20024pt.
-) [172 <./figures/captures/sprint4/sprint4-mobilite-complementaire.png> <./figu
+) [170 <./figures/captures/sprint4/sprint4-mobilite-complementaire.png> <./figu
 res/captures/sprint5/sprint5-dashboard-departement.png> <./figures/captures/spr
-int5/sprint5-dashboard-universite.png>] [173 <./figures/captures/sprint5/sprint
+int5/sprint5-dashboard-universite.png>] [171 <./figures/captures/sprint5/sprint
 5-dashboard-pays.png>]
 
 Package biblatex Warning: Split bibliography detected.
@@ -4744,39 +4771,39 @@ Package biblatex Warning: Split bibliography detected.
 (biblatex)                This warning can be suppressed with
 (biblatex)                '\BiblatexSplitbibDefernumbersWarningOff'.
 
-[174
+[172
 
 
 ]
-Overfull \hbox (19.64545pt too wide) in paragraph at lines 319--319
+Overfull \hbox (19.64545pt too wide) in paragraph at lines 320--320
 []\T1/cmr/m/it/12 Node.js -- Run Ja-vaS-cript Eve-ryw-here\T1/cmr/m/n/12 . \T1/
 cmr/m/sc/12 url \T1/cmr/m/n/12 : [][]$\T1/cmtt/m/n/12 https : / / nodejs . org/
 $[][] \T1/cmr/m/n/12 (vi-sité le 18/03/2026). 
  []
 
-[175
+[173
 
 ]
 \tf@ptc=\write9
 \openout9 = `main.ptc'.
 
- [176] (./main.aux)
+ [174] (./main.aux)
  ***********
 LaTeX2e <2026-06-01>
 L3 programming layer <2026-06-18>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 47C21FC67B6E658A81666F38959AD07A;52743.
+(rerunfilecheck)             Checksum: 731C4A668717EF2D2FFE25C1AEAD6498;53011.
 Package logreq Info: Writing requests to 'main.run.xml'.
 \openout1 = `main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 42580 strings out of 467168
- 823334 string characters out of 5409468
- 1858918 words of memory out of 5000000
- 70489 multiletter control sequences out of 15000+600000
- 655095 words of font info for 103 fonts, out of 8000000 for 9000
+ 42628 strings out of 467168
+ 824577 string characters out of 5409468
+ 1858921 words of memory out of 5000000
+ 70526 multiletter control sequences out of 15000+600000
+ 655782 words of font info for 104 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  103i,12n,108p,1218b,2395s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb
@@ -4803,14 +4830,15 @@ onts/type1/public/cm-super/sfrm1728.pfb></usr/local/texlive/2026/texmf-dist/fon
 ts/type1/public/cm-super/sfti1000.pfb></usr/local/texlive/2026/texmf-dist/fonts
 /type1/public/cm-super/sfti1095.pfb></usr/local/texlive/2026/texmf-dist/fonts/t
 ype1/public/cm-super/sfti1200.pfb></usr/local/texlive/2026/texmf-dist/fonts/typ
-e1/public/cm-super/sftt1000.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1
-/public/cm-super/sftt1095.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/p
-ublic/cm-super/sftt1200.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw
-/zapfding/uzdr.pfb>
-Output written on main.pdf (192 pages, 8769920 bytes).
+e1/public/cm-super/sfti1440.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1
+/public/cm-super/sftt1000.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/p
+ublic/cm-super/sftt1095.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/pub
+lic/cm-super/sftt1200.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/z
+apfding/uzdr.pfb>
+Output written on main.pdf (193 pages, 8903003 bytes).
 PDF statistics:
- 3432 PDF objects out of 3580 (max. 8388607)
- 3030 compressed objects within 31 object streams
- 654 named destinations out of 1000 (max. 500000)
- 2543 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 3471 PDF objects out of 3580 (max. 8388607)
+ 3057 compressed objects within 31 object streams
+ 661 named destinations out of 1000 (max. 500000)
+ 2582 words of extra memory for PDF output out of 10000 (max. 10000000)
 

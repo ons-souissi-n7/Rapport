@@ -1,302 +1,305 @@
 \babel@toc {french}{}\relax 
-\contentsline {chapter}{Dédicaces}{i}{section*.2}%
-\contentsline {chapter}{Remerciements}{ii}{section*.4}%
-\contentsline {chapter}{Table des mati\`eres}{iv}{section*.5}%
-\contentsline {chapter}{Table des figures}{xii}{section*.7}%
-\contentsline {chapter}{Liste des tableaux}{xiv}{section*.9}%
-\contentsline {chapter}{Liste des abréviations}{1}{chapter*.11}%
-\contentsline {chapter}{Introduction générale}{3}{chapter*.12}%
-\contentsline {chapter}{\numberline {1}Contexte, problématique et positionnement du projet}{5}{chapter.1}%
-\contentsline {section}{Introduction}{6}{section*.13}%
-\contentsline {section}{\numberline {1.1}Présentation de l'organisme d'accueil}{6}{section.1.1}%
-\contentsline {subsection}{\numberline {1.1.1}Présentation de Toulouse INP-ENSEEIHT}{6}{subsection.1.1.1}%
-\contentsline {subsection}{\numberline {1.1.2}Le service des relations internationales}{6}{subsection.1.1.2}%
-\contentsline {section}{\numberline {1.2}Analyse du système d'information interne}{7}{section.1.2}%
-\contentsline {subsection}{\numberline {1.2.1}Les outils en place}{7}{subsection.1.2.1}%
-\contentsline {subsubsection}{\numberline {1.2.1.1}QS MoveON}{7}{subsubsection.1.2.1.1}%
-\contentsline {subsubsection}{\numberline {1.2.1.2}Pégase}{7}{subsubsection.1.2.1.2}%
-\contentsline {subsubsection}{\numberline {1.2.1.3}Eudonet}{7}{subsubsection.1.2.1.3}%
-\contentsline {subsubsection}{\numberline {1.2.1.4}Les fichiers Excel}{8}{subsubsection.1.2.1.4}%
-\contentsline {subsection}{\numberline {1.2.2}Limites structurelles}{8}{subsection.1.2.2}%
-\contentsline {section}{\numberline {1.3}Problématique}{12}{section.1.3}%
-\contentsline {section}{\numberline {1.4}Positionnement par rapport aux solutions existantes}{12}{section.1.4}%
-\contentsline {subsection}{\numberline {1.4.1}Grille d'évaluation}{12}{subsection.1.4.1}%
-\contentsline {subsection}{\numberline {1.4.2}Analyse des solutions existantes}{13}{subsection.1.4.2}%
-\contentsline {subsubsection}{\numberline {1.4.2.1}QS MoveON}{13}{subsubsection.1.4.2.1}%
-\contentsline {subsubsection}{\numberline {1.4.2.2}Mobility-Online}{14}{subsubsection.1.4.2.2}%
-\contentsline {subsubsection}{\numberline {1.4.2.3}ErasmusJET}{15}{subsubsection.1.4.2.3}%
-\contentsline {subsubsection}{\numberline {1.4.2.4}Travaux académiques : Elahi et al. (2022)}{15}{subsubsection.1.4.2.4}%
-\contentsline {subsection}{\numberline {1.4.3}Tableau comparatif de synthèse}{16}{subsection.1.4.3}%
-\contentsline {section}{\numberline {1.5}Solution envisagée}{16}{section.1.5}%
-\contentsline {section}{\numberline {1.6}Organisation et cadrage du projet}{17}{section.1.6}%
-\contentsline {subsection}{\numberline {1.6.1}Contraintes du projet}{17}{subsection.1.6.1}%
-\contentsline {subsection}{\numberline {1.6.2}Méthodologie de gestion de projet}{18}{subsection.1.6.2}%
-\contentsline {subsubsection}{\numberline {1.6.2.1}Méthode en cascade}{18}{subsubsection.1.6.2.1}%
-\contentsline {subsubsection}{\numberline {1.6.2.2}Kanban}{18}{subsubsection.1.6.2.2}%
-\contentsline {subsubsection}{\numberline {1.6.2.3}Scrum}{19}{subsubsection.1.6.2.3}%
-\contentsline {subsubsection}{\numberline {1.6.2.4}Comparaison et choix retenu}{19}{subsubsection.1.6.2.4}%
-\contentsline {subsection}{\numberline {1.6.3}Planification générale}{22}{subsection.1.6.3}%
-\contentsline {subsection}{\numberline {1.6.4}Outils et environnement de travail}{23}{subsection.1.6.4}%
-\contentsline {section}{Conclusion}{23}{section*.27}%
-\contentsline {chapter}{\numberline {2}Besoins fonctionnels et choix technologiques}{24}{chapter.2}%
-\contentsline {section}{Introduction}{27}{section*.28}%
-\contentsline {section}{\numberline {2.1}Besoins du système}{27}{section.2.1}%
-\contentsline {subsection}{\numberline {2.1.1}Besoins fonctionnels}{27}{subsection.2.1.1}%
-\contentsline {subsubsection}{\numberline {2.1.1.1}Fonctionnalités opérationnelles}{27}{subsubsection.2.1.1.1}%
-\contentsline {subsubsection}{\numberline {2.1.1.2}Fonctionnalités intelligentes}{28}{subsubsection.2.1.1.2}%
-\contentsline {subsection}{\numberline {2.1.2}Besoins non fonctionnels}{28}{subsection.2.1.2}%
-\contentsline {subsection}{\numberline {2.1.3}Profils utilisateurs et périmètre de réalisation}{29}{subsection.2.1.3}%
-\contentsline {subsubsection}{\numberline {2.1.3.1}Profils utilisateurs}{29}{subsubsection.2.1.3.1}%
-\contentsline {subsubsection}{\numberline {2.1.3.2}Périmètre de réalisation}{29}{subsubsection.2.1.3.2}%
-\contentsline {subsection}{\numberline {2.1.4}Diagramme de cas d'utilisation}{30}{subsection.2.1.4}%
-\contentsline {section}{\numberline {2.2}Choix du frontend}{32}{section.2.2}%
-\contentsline {subsection}{\numberline {2.2.1}Besoins spécifiques}{32}{subsection.2.2.1}%
-\contentsline {subsection}{\numberline {2.2.2}Alternatives évaluées}{32}{subsection.2.2.2}%
-\contentsline {subsubsection}{\numberline {2.2.2.1}Applications monopage : React + Vite}{32}{subsubsection.2.2.2.1}%
-\contentsline {subsubsection}{\numberline {2.2.2.2}Angular}{33}{subsubsection.2.2.2.2}%
-\contentsline {subsubsection}{\numberline {2.2.2.3}Next.js 16}{33}{subsubsection.2.2.2.3}%
-\contentsline {subsection}{\numberline {2.2.3}Synthèse comparative}{34}{subsection.2.2.3}%
-\contentsline {subsection}{\numberline {2.2.4}Décision}{34}{subsection.2.2.4}%
-\contentsline {section}{\numberline {2.3}Choix du backend}{35}{section.2.3}%
-\contentsline {subsection}{\numberline {2.3.1}Besoins spécifiques}{35}{subsection.2.3.1}%
-\contentsline {subsection}{\numberline {2.3.2}Choix du framework backend}{35}{subsection.2.3.2}%
-\contentsline {subsubsection}{\numberline {2.3.2.1}Alternatives évaluées}{35}{subsubsection.2.3.2.1}%
-\contentsline {paragraph}{Node.js}{35}{paragraph*.31}%
-\contentsline {paragraph}{FastAPI}{36}{paragraph*.32}%
-\contentsline {paragraph}{Django}{36}{paragraph*.33}%
-\contentsline {subsubsection}{\numberline {2.3.2.2}Synthèse comparative}{37}{subsubsection.2.3.2.2}%
-\contentsline {subsubsection}{\numberline {2.3.2.3}Décision}{37}{subsubsection.2.3.2.3}%
-\contentsline {subsection}{\numberline {2.3.3}Choix de la couche API}{38}{subsection.2.3.3}%
-\contentsline {subsubsection}{\numberline {2.3.3.1}Besoins spécifiques}{38}{subsubsection.2.3.3.1}%
-\contentsline {subsubsection}{\numberline {2.3.3.2}Alternatives évaluées}{38}{subsubsection.2.3.3.2}%
-\contentsline {paragraph}{Django REST Framework (DRF)}{38}{paragraph*.35}%
-\contentsline {paragraph}{Django Ninja}{38}{paragraph*.36}%
-\contentsline {subsubsection}{\numberline {2.3.3.3}Synthèse comparative}{39}{subsubsection.2.3.3.3}%
-\contentsline {subsubsection}{\numberline {2.3.3.4}Décision}{39}{subsubsection.2.3.3.4}%
-\contentsline {section}{\numberline {2.4}Choix de la base de données}{40}{section.2.4}%
-\contentsline {subsection}{\numberline {2.4.1}Besoins spécifiques}{40}{subsection.2.4.1}%
-\contentsline {subsection}{\numberline {2.4.2}Alternatives évaluées}{40}{subsection.2.4.2}%
-\contentsline {subsubsection}{\numberline {2.4.2.1}MySQL}{40}{subsubsection.2.4.2.1}%
-\contentsline {subsubsection}{\numberline {2.4.2.2}MongoDB}{41}{subsubsection.2.4.2.2}%
-\contentsline {subsubsection}{\numberline {2.4.2.3}PostgreSQL 16}{41}{subsubsection.2.4.2.3}%
-\contentsline {subsection}{\numberline {2.4.3}Synthèse comparative}{41}{subsection.2.4.3}%
-\contentsline {subsection}{\numberline {2.4.4}Décision}{42}{subsection.2.4.4}%
-\contentsline {section}{\numberline {2.5}Choix du format de stockage des imports bruts}{42}{section.2.5}%
-\contentsline {subsection}{\numberline {2.5.1}Besoins spécifiques}{42}{subsection.2.5.1}%
-\contentsline {subsection}{\numberline {2.5.2}Alternatives évaluées}{43}{subsection.2.5.2}%
-\contentsline {subsection}{\numberline {2.5.3}Synthèse comparative}{43}{subsection.2.5.3}%
-\contentsline {subsection}{\numberline {2.5.4}Décision}{44}{subsection.2.5.4}%
-\contentsline {section}{\numberline {2.6}Choix du gestionnaire de tâches asynchrones}{44}{section.2.6}%
-\contentsline {subsection}{\numberline {2.6.1}Besoins spécifiques}{44}{subsection.2.6.1}%
-\contentsline {subsection}{\numberline {2.6.2}Alternatives évaluées}{44}{subsection.2.6.2}%
-\contentsline {subsubsection}{\numberline {2.6.2.1}Celery + Redis}{44}{subsubsection.2.6.2.1}%
-\contentsline {subsubsection}{\numberline {2.6.2.2}Django-Q2 + PostgreSQL}{45}{subsubsection.2.6.2.2}%
-\contentsline {subsection}{\numberline {2.6.3}Synthèse comparative}{45}{subsection.2.6.3}%
-\contentsline {subsection}{\numberline {2.6.4}Décision}{46}{subsection.2.6.4}%
-\contentsline {section}{\numberline {2.7}Choix du stockage de fichiers}{46}{section.2.7}%
-\contentsline {subsection}{\numberline {2.7.1}Besoins spécifiques}{46}{subsection.2.7.1}%
-\contentsline {subsection}{\numberline {2.7.2}Alternatives évaluées}{46}{subsection.2.7.2}%
-\contentsline {subsubsection}{\numberline {2.7.2.1}Système de fichiers local}{47}{subsubsection.2.7.2.1}%
-\contentsline {subsubsection}{\numberline {2.7.2.2}MinIO (stockage objet S3-compatible)}{47}{subsubsection.2.7.2.2}%
-\contentsline {subsection}{\numberline {2.7.3}Synthèse comparative}{47}{subsection.2.7.3}%
-\contentsline {subsection}{\numberline {2.7.4}Décision}{48}{subsection.2.7.4}%
-\contentsline {section}{\numberline {2.8}Couche de routage des requêtes}{48}{section.2.8}%
-\contentsline {subsection}{\numberline {2.8.1}Besoins spécifiques}{48}{subsection.2.8.1}%
-\contentsline {subsection}{\numberline {2.8.2}Alternatives évaluées}{49}{subsection.2.8.2}%
-\contentsline {subsubsection}{\numberline {2.8.2.1}Reverse proxy}{49}{subsubsection.2.8.2.1}%
-\contentsline {subsubsection}{\numberline {2.8.2.2}API Gateway}{49}{subsubsection.2.8.2.2}%
-\contentsline {subsection}{\numberline {2.8.3}Synthèse comparative}{49}{subsection.2.8.3}%
-\contentsline {subsection}{\numberline {2.8.4}Décision}{50}{subsection.2.8.4}%
-\contentsline {subsection}{\numberline {2.8.5}Choix de l'implémentation : Nginx vs Traefik}{50}{subsection.2.8.5}%
-\contentsline {subsubsection}{\numberline {2.8.5.1}Besoins spécifiques}{50}{subsubsection.2.8.5.1}%
-\contentsline {subsubsection}{\numberline {2.8.5.2}Alternatives évaluées}{50}{subsubsection.2.8.5.2}%
-\contentsline {paragraph}{Nginx}{50}{paragraph*.43}%
-\contentsline {paragraph}{Traefik}{51}{paragraph*.44}%
-\contentsline {subsubsection}{\numberline {2.8.5.3}Synthèse comparative}{51}{subsubsection.2.8.5.3}%
-\contentsline {subsubsection}{\numberline {2.8.5.4}Décision}{52}{subsubsection.2.8.5.4}%
-\contentsline {section}{\numberline {2.9}Stratégie de performance base de données}{52}{section.2.9}%
-\contentsline {subsection}{\numberline {2.9.1}Contexte et enjeux}{52}{subsection.2.9.1}%
-\contentsline {subsection}{\numberline {2.9.2}Alternatives évaluées}{52}{subsection.2.9.2}%
-\contentsline {subsection}{\numberline {2.9.3}Synthèse comparative}{52}{subsection.2.9.3}%
-\contentsline {subsection}{\numberline {2.9.4}Décision}{53}{subsection.2.9.4}%
-\contentsline {section}{\numberline {2.10}Synthèse des choix technologiques}{53}{section.2.10}%
-\contentsline {section}{Conclusion}{54}{section*.47}%
-\contentsline {chapter}{\numberline {3}Conception du système}{55}{chapter.3}%
-\contentsline {section}{Introduction}{57}{section*.48}%
-\contentsline {section}{\numberline {3.1}Product Backlog}{57}{section.3.1}%
-\contentsline {subsection}{\numberline {3.1.1}Priorités MoSCoW}{57}{subsection.3.1.1}%
-\contentsline {subsection}{\numberline {3.1.2}Story points}{57}{subsection.3.1.2}%
-\contentsline {subsection}{\numberline {3.1.3}Tableau du Product Backlog}{58}{subsection.3.1.3}%
-\contentsline {section}{\numberline {3.2}Planification des sprints}{61}{section.3.2}%
-\contentsline {subsection}{\numberline {3.2.1}Diagramme de Gantt}{62}{subsection.3.2.1}%
-\contentsline {section}{\numberline {3.3}Approches de conception : organisation du code et style architectural}{65}{section.3.3}%
-\contentsline {subsection}{\numberline {3.3.1}Organisation du code : approche modulaire par domaine métier}{65}{subsection.3.3.1}%
-\contentsline {paragraph}{Découpage en modules Django}{65}{paragraph*.50}%
-\contentsline {paragraph}{Langage commun}{66}{paragraph*.52}%
-\contentsline {paragraph}{Encapsulation des règles métier}{66}{paragraph*.53}%
-\contentsline {subsection}{\numberline {3.3.2}Style architectural : architecture en couches}{67}{subsection.3.3.2}%
-\contentsline {section}{\numberline {3.4}Architecture logicielle}{67}{section.3.4}%
-\contentsline {subsection}{\numberline {3.4.1}Vue d'ensemble}{67}{subsection.3.4.1}%
-\contentsline {subsection}{\numberline {3.4.2}Couche présentation : Next.js 16}{69}{subsection.3.4.2}%
-\contentsline {subsection}{\numberline {3.4.3}Couche applicative : Django 5 + Django Ninja}{69}{subsection.3.4.3}%
-\contentsline {subsection}{\numberline {3.4.4}Couche traitement asynchrone : Django-Q2}{69}{subsection.3.4.4}%
-\contentsline {subsection}{\numberline {3.4.5}Couche données : PostgreSQL 16}{69}{subsection.3.4.5}%
-\contentsline {subsection}{\numberline {3.4.6}Couche intégration : Adaptateurs ETL}{70}{subsection.3.4.6}%
-\contentsline {subsubsection}{\numberline {3.4.6.1}Stratégie d'upsert}{70}{subsubsection.3.4.6.1}%
-\contentsline {subsubsection}{\numberline {3.4.6.2}Clé de jointure : l'INE}{71}{subsubsection.3.4.6.2}%
-\contentsline {subsubsection}{\numberline {3.4.6.3}Stratégie de synchronisation}{71}{subsubsection.3.4.6.3}%
-\contentsline {section}{\numberline {3.5}Sécurité et contrôle d'accès transversal}{72}{section.3.5}%
-\contentsline {subsection}{\numberline {3.5.1}Flux d'authentification CAS}{72}{subsection.3.5.1}%
-\contentsline {subsection}{\numberline {3.5.2}Contrôle d'accès (RBAC)}{73}{subsection.3.5.2}%
-\contentsline {subsection}{\numberline {3.5.3}Gestion du renouvellement des tokens JWT}{74}{subsection.3.5.3}%
-\contentsline {subsection}{\numberline {3.5.4}Journal d'audit}{74}{subsection.3.5.4}%
-\contentsline {subsection}{\numberline {3.5.5}Protection des données (RGPD)}{74}{subsection.3.5.5}%
-\contentsline {section}{\numberline {3.6}Architecture physique et déploiement}{75}{section.3.6}%
-\contentsline {subsection}{\numberline {3.6.1}Vue d'ensemble}{75}{subsection.3.6.1}%
-\contentsline {subsection}{\numberline {3.6.2}Containers Docker}{76}{subsection.3.6.2}%
-\contentsline {subsection}{\numberline {3.6.3}Flux réseau}{77}{subsection.3.6.3}%
-\contentsline {subsection}{\numberline {3.6.4}Environnements}{77}{subsection.3.6.4}%
-\contentsline {subsection}{\numberline {3.6.5}CI/CD}{78}{subsection.3.6.5}%
-\contentsline {subsection}{\numberline {3.6.6}Stratégie de migration de schéma}{79}{subsection.3.6.6}%
-\contentsline {subsection}{\numberline {3.6.7}Sauvegarde de la base de données}{79}{subsection.3.6.7}%
-\contentsline {subsection}{\numberline {3.6.8}Gestion des secrets}{79}{subsection.3.6.8}%
-\contentsline {section}{\numberline {3.7}Modèle de données}{79}{section.3.7}%
-\contentsline {subsection}{\numberline {3.7.1}Organisation par packages}{79}{subsection.3.7.1}%
-\contentsline {subsection}{\numberline {3.7.2}Principes structurants}{80}{subsection.3.7.2}%
-\contentsline {subsubsection}{\numberline {3.7.2.1}L'année universitaire comme axe temporel}{80}{subsubsection.3.7.2.1}%
-\contentsline {subsubsection}{\numberline {3.7.2.2}L'INE comme identifiant pivot}{80}{subsubsection.3.7.2.2}%
-\contentsline {subsubsection}{\numberline {3.7.2.3}Hiérarchie quotas INP / quotas N7}{81}{subsubsection.3.7.2.3}%
-\contentsline {section}{\numberline {3.8}Flux de données : de la source au workflow}{81}{section.3.8}%
-\contentsline {subsection}{\numberline {3.8.1}Détail de l’étape de nettoyage et validation}{82}{subsection.3.8.1}%
-\contentsline {subsubsection}{\numberline {3.8.1.1}Description du processus de transformation}{82}{subsubsection.3.8.1.1}%
-\contentsline {paragraph}{Standardisation des formats}{82}{paragraph*.62}%
-\contentsline {paragraph}{Normalisation sémantique}{82}{paragraph*.63}%
-\contentsline {paragraph}{Gestion des valeurs manquantes}{83}{paragraph*.64}%
-\contentsline {paragraph}{Détection et gestion des doublons}{83}{paragraph*.65}%
-\contentsline {paragraph}{Validation métier}{83}{paragraph*.66}%
-\contentsline {paragraph}{Traçabilité et gestion des erreurs}{83}{paragraph*.67}%
-\contentsline {subsubsection}{\numberline {3.8.1.2}Architecture du pipeline de nettoyage}{84}{subsubsection.3.8.1.2}%
-\contentsline {subsubsection}{\numberline {3.8.1.3}Technologies et outils utilisés}{85}{subsubsection.3.8.1.3}%
-\contentsline {section}{\numberline {3.9}Gestion des risques}{85}{section.3.9}%
-\contentsline {section}{Conclusion}{86}{section*.69}%
-\contentsline {chapter}{\numberline {4}Choix algorithmiques et machines à états}{87}{chapter.4}%
-\contentsline {section}{Introduction}{89}{section*.70}%
-\contentsline {section}{\numberline {4.1}Choix de l'algorithme d'affectation}{89}{section.4.1}%
-\contentsline {subsection}{\numberline {4.1.1}Besoins spécifiques}{89}{subsection.4.1.1}%
-\contentsline {subsection}{\numberline {4.1.2}Alternatives évaluées}{89}{subsection.4.1.2}%
-\contentsline {subsubsection}{\numberline {4.1.2.1}Algorithme glouton}{89}{subsubsection.4.1.2.1}%
-\contentsline {subsubsection}{\numberline {4.1.2.2}Gale-Shapley}{90}{subsubsection.4.1.2.2}%
-\contentsline {subsection}{\numberline {4.1.3}Synthèse comparative}{90}{subsection.4.1.3}%
-\contentsline {subsection}{\numberline {4.1.4}Décision}{91}{subsection.4.1.4}%
-\contentsline {section}{\numberline {4.2}Choix de la méthode de répartition des quotas par département}{91}{section.4.2}%
-\contentsline {subsection}{\numberline {4.2.1}Besoins spécifiques}{92}{subsection.4.2.1}%
-\contentsline {subsection}{\numberline {4.2.2}Alternatives évaluées}{92}{subsection.4.2.2}%
-\contentsline {subsubsection}{\numberline {4.2.2.1}Méthode Hamilton (plus grands restes)}{92}{subsubsection.4.2.2.1}%
-\contentsline {subsubsection}{\numberline {4.2.2.2}Méthode Jefferson (plus grandes moyennes)}{93}{subsubsection.4.2.2.2}%
-\contentsline {subsubsection}{\numberline {4.2.2.3}Méthode Webster}{93}{subsubsection.4.2.2.3}%
-\contentsline {subsection}{\numberline {4.2.3}Synthèse comparative}{93}{subsection.4.2.3}%
-\contentsline {subsection}{\numberline {4.2.4}Décision}{94}{subsection.4.2.4}%
-\contentsline {section}{\numberline {4.3}Choix du moteur de recommandation}{94}{section.4.3}%
-\contentsline {subsection}{\numberline {4.3.1}Besoins spécifiques}{94}{subsection.4.3.1}%
-\contentsline {subsection}{\numberline {4.3.2}Alternatives évaluées}{94}{subsection.4.3.2}%
-\contentsline {subsubsection}{\numberline {4.3.2.1}Approche basée sur des règles (rule-based)}{94}{subsubsection.4.3.2.1}%
-\contentsline {subsubsection}{\numberline {4.3.2.2}Approche par similarité (collaborative filtering)}{95}{subsubsection.4.3.2.2}%
-\contentsline {subsubsection}{\numberline {4.3.2.3}Approche par apprentissage supervisé}{95}{subsubsection.4.3.2.3}%
-\contentsline {paragraph}{Régression logistique}{95}{paragraph*.73}%
-\contentsline {paragraph}{XGBoost}{95}{paragraph*.74}%
-\contentsline {subsection}{\numberline {4.3.3}Synthèse comparative}{96}{subsection.4.3.3}%
-\contentsline {subsection}{\numberline {4.3.4}Décision}{96}{subsection.4.3.4}%
-\contentsline {section}{\numberline {4.4}Choix de l'orchestration RAG}{97}{section.4.4}%
-\contentsline {subsection}{\numberline {4.4.1}Besoins spécifiques}{97}{subsection.4.4.1}%
-\contentsline {subsection}{\numberline {4.4.2}Modèle de langage}{98}{subsection.4.4.2}%
-\contentsline {subsection}{\numberline {4.4.3}Alternatives évaluées}{98}{subsection.4.4.3}%
-\contentsline {subsubsection}{\numberline {4.4.3.1}LangChain}{98}{subsubsection.4.4.3.1}%
-\contentsline {subsubsection}{\numberline {4.4.3.2}LlamaIndex}{98}{subsubsection.4.4.3.2}%
-\contentsline {subsubsection}{\numberline {4.4.3.3}Haystack}{99}{subsubsection.4.4.3.3}%
-\contentsline {subsubsection}{\numberline {4.4.3.4}Approche directe (sans framework)}{99}{subsubsection.4.4.3.4}%
-\contentsline {subsection}{\numberline {4.4.4}Synthèse comparative}{99}{subsection.4.4.4}%
-\contentsline {subsection}{\numberline {4.4.5}Décision}{100}{subsection.4.4.5}%
-\contentsline {section}{\numberline {4.5}Synthèse des choix algorithmiques}{100}{section.4.5}%
-\contentsline {section}{\numberline {4.6}Machines à états finis (FSM)}{101}{section.4.6}%
-\contentsline {subsection}{\numberline {4.6.1}Principe et implémentation}{101}{subsection.4.6.1}%
-\contentsline {subsection}{\numberline {4.6.2}FSM de l'année universitaire}{101}{subsection.4.6.2}%
-\contentsline {subsection}{\numberline {4.6.3}FSM des entités métier}{104}{subsection.4.6.3}%
-\contentsline {section}{Conclusion}{104}{section*.80}%
-\contentsline {chapter}{\numberline {5}Réalisation}{105}{chapter.5}%
-\contentsline {section}{Introduction}{107}{section*.81}%
-\contentsline {section}{\numberline {5.1}Sprint 1 : Socle technique et référentiels}{107}{section.5.1}%
-\contentsline {subsection}{\numberline {5.1.1}Objectif du sprint}{107}{subsection.5.1.1}%
-\contentsline {subsection}{\numberline {5.1.2}Sprint Backlog : Sprint 1}{107}{subsection.5.1.2}%
-\contentsline {subsection}{\numberline {5.1.3}Conception détaillée}{109}{subsection.5.1.3}%
-\contentsline {subsubsection}{\numberline {5.1.3.1}Diagramme de classes}{110}{subsubsection.5.1.3.1}%
-\contentsline {subsection}{\numberline {5.1.4}Implémentation}{110}{subsection.5.1.4}%
-\contentsline {subsection}{\numberline {5.1.5}Tests et validation du sprint}{112}{subsection.5.1.5}%
-\contentsline {section}{\numberline {5.2}Sprint 2 : Données et traçabilité}{113}{section.5.2}%
-\contentsline {subsection}{\numberline {5.2.1}Objectif du sprint}{113}{subsection.5.2.1}%
-\contentsline {subsection}{\numberline {5.2.2}Sprint Backlog : Sprint 2}{113}{subsection.5.2.2}%
-\contentsline {subsection}{\numberline {5.2.3}Conception détaillée}{115}{subsection.5.2.3}%
-\contentsline {subsubsection}{\numberline {5.2.3.1}Diagramme de classes}{115}{subsubsection.5.2.3.1}%
-\contentsline {subsubsection}{\numberline {5.2.3.2}Diagramme de séquence}{116}{subsubsection.5.2.3.2}%
-\contentsline {subsection}{\numberline {5.2.4}Implémentation}{117}{subsection.5.2.4}%
-\contentsline {subsection}{\numberline {5.2.5}Tests et validation du sprint}{118}{subsection.5.2.5}%
-\contentsline {section}{\numberline {5.3}Sprint 3 : Algorithme d'affectation}{119}{section.5.3}%
-\contentsline {subsection}{\numberline {5.3.1}Objectif du sprint}{119}{subsection.5.3.1}%
-\contentsline {subsection}{\numberline {5.3.2}Sprint Backlog : Sprint 3}{120}{subsection.5.3.2}%
-\contentsline {subsection}{\numberline {5.3.3}Conception détaillée}{122}{subsection.5.3.3}%
-\contentsline {subsubsection}{\numberline {5.3.3.1}Diagramme de classes}{122}{subsubsection.5.3.3.1}%
-\contentsline {subsubsection}{\numberline {5.3.3.2}Diagrammes de séquence}{123}{subsubsection.5.3.3.2}%
-\contentsline {subsection}{\numberline {5.3.4}Implémentation}{126}{subsection.5.3.4}%
-\contentsline {subsection}{\numberline {5.3.5}Tests et validation du sprint}{127}{subsection.5.3.5}%
-\contentsline {section}{\numberline {5.4}Sprint 4 : Sources complémentaires et mobilités}{128}{section.5.4}%
-\contentsline {subsection}{\numberline {5.4.1}Objectif du sprint}{128}{subsection.5.4.1}%
-\contentsline {subsection}{\numberline {5.4.2}Sprint Backlog : Sprint 4}{128}{subsection.5.4.2}%
-\contentsline {subsection}{\numberline {5.4.3}Conception détaillée}{132}{subsection.5.4.3}%
-\contentsline {subsubsection}{\numberline {5.4.3.1}Diagramme de classes}{133}{subsubsection.5.4.3.1}%
-\contentsline {subsubsection}{\numberline {5.4.3.2}Diagrammes de séquence}{133}{subsubsection.5.4.3.2}%
-\contentsline {subsection}{\numberline {5.4.4}Implémentation}{135}{subsection.5.4.4}%
-\contentsline {subsection}{\numberline {5.4.5}Tests et validation du sprint}{136}{subsection.5.4.5}%
-\contentsline {section}{\numberline {5.5}Sprint 5 : Conformité CTI et authentification}{137}{section.5.5}%
-\contentsline {subsection}{\numberline {5.5.1}Objectif du sprint}{137}{subsection.5.5.1}%
-\contentsline {subsection}{\numberline {5.5.2}Sprint Backlog : Sprint 5}{138}{subsection.5.5.2}%
-\contentsline {subsection}{\numberline {5.5.3}Conception détaillée}{141}{subsection.5.5.3}%
-\contentsline {subsubsection}{\numberline {5.5.3.1}Diagrammes de séquence}{142}{subsubsection.5.5.3.1}%
-\contentsline {subsection}{\numberline {5.5.4}Implémentation}{142}{subsection.5.5.4}%
-\contentsline {subsection}{\numberline {5.5.5}Tests et validation du sprint}{144}{subsection.5.5.5}%
-\contentsline {section}{\numberline {5.6}Sprint 6 : Fonctionnalités intelligentes (V2) --- partiellement réalisé}{146}{section.5.6}%
-\contentsline {subsection}{\numberline {5.6.1}Objectif du sprint}{146}{subsection.5.6.1}%
-\contentsline {subsection}{\numberline {5.6.2}Sprint Backlog : Sprint 6}{146}{subsection.5.6.2}%
-\contentsline {subsection}{\numberline {5.6.3}Conception détaillée}{148}{subsection.5.6.3}%
-\contentsline {subsubsection}{\numberline {5.6.3.1}Diagramme de séquence}{149}{subsubsection.5.6.3.1}%
-\contentsline {subsection}{\numberline {5.6.4}Implémentation}{150}{subsection.5.6.4}%
-\contentsline {subsection}{\numberline {5.6.5}Fonctionnalité reportée : assistant virtuel}{150}{subsection.5.6.5}%
-\contentsline {subsection}{\numberline {5.6.6}Tests et validation du sprint}{151}{subsection.5.6.6}%
-\contentsline {section}{Conclusion}{152}{section*.110}%
-\contentsline {chapter}{\numberline {6}Tests et validation du système}{153}{chapter.6}%
-\contentsline {section}{Introduction}{154}{section*.111}%
-\contentsline {section}{\numberline {6.1}Stratégie de validation}{154}{section.6.1}%
-\contentsline {section}{\numberline {6.2}Synthèse des tests réalisés}{154}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Validation End-to-End}{156}{section.6.3}%
-\contentsline {subsection}{\numberline {6.3.1}Navigation et contrôle d'accès}{157}{subsection.6.3.1}%
-\contentsline {subsection}{\numberline {6.3.2}Cycle de vie de l'année universitaire}{157}{subsection.6.3.2}%
-\contentsline {subsection}{\numberline {6.3.3}Alertes système}{158}{subsection.6.3.3}%
-\contentsline {subsection}{\numberline {6.3.4}Scénarios métier administrateur}{158}{subsection.6.3.4}%
-\contentsline {subsection}{\numberline {6.3.5}Import et export des données}{158}{subsection.6.3.5}%
-\contentsline {section}{\numberline {6.4}Validation de la sécurité applicative}{159}{section.6.4}%
-\contentsline {subsection}{\numberline {6.4.1}Analyse complémentaire avec OWASP ZAP}{160}{subsection.6.4.1}%
-\contentsline {section}{\numberline {6.5}Performance et charge}{161}{section.6.5}%
-\contentsline {paragraph}{Temps d'exécution de l'algorithme d'affectation.}{161}{paragraph*.125}%
-\contentsline {paragraph}{Temps de réponse sous charge.}{162}{paragraph*.127}%
-\contentsline {section}{\numberline {6.6}Intégration continue}{162}{section.6.6}%
-\contentsline {section}{\numberline {6.7}Analyse de qualité de code}{162}{section.6.7}%
-\contentsline {section}{\numberline {6.8}Supervision et observabilité}{163}{section.6.8}%
-\contentsline {subsection}{\numberline {6.8.1}Suivi des métriques}{163}{subsection.6.8.1}%
-\contentsline {subsection}{\numberline {6.8.2}Suivi des erreurs}{163}{subsection.6.8.2}%
-\contentsline {section}{\numberline {6.9}Traçabilité des besoins fonctionnels}{164}{section.6.9}%
-\contentsline {section}{\numberline {6.10}Traçabilité des besoins non fonctionnels}{166}{section.6.10}%
-\contentsline {section}{\numberline {6.11}Synthèse et limites de la campagne de test}{167}{section.6.11}%
-\contentsline {section}{Conclusion}{168}{section*.132}%
-\contentsline {chapter}{Conclusion générale}{169}{chapter*.133}%
-\contentsline {chapter}{Annexes}{170}{section*.134}%
-\contentsline {chapter}{Bibliographie}{174}{chapter*.144}%
-\contentsline {chapter}{Netographie}{175}{chapter*.145}%
+\contentsline {chapter}{Signatures}{i}{section*.2}%
+\contentsline {chapter}{Dédicaces}{ii}{section*.4}%
+\contentsline {chapter}{Remerciements}{iii}{section*.6}%
+\contentsline {chapter}{Résumé}{iv}{section*.8}%
+\contentsline {chapter}{Abstract}{iv}{section*.10}%
+\contentsline {chapter}{Table des mati\`eres}{v}{section*.11}%
+\contentsline {chapter}{Table des figures}{xiii}{section*.13}%
+\contentsline {chapter}{Liste des tableaux}{xv}{section*.15}%
+\contentsline {chapter}{Liste des abréviations}{xvii}{chapter*.17}%
+\contentsline {chapter}{Introduction générale}{1}{chapter*.18}%
+\contentsline {chapter}{\numberline {1}Contexte, problématique et positionnement du projet}{3}{chapter.1}%
+\contentsline {section}{Introduction}{4}{section*.19}%
+\contentsline {section}{\numberline {1.1}Présentation de l'organisme d'accueil}{4}{section.1.1}%
+\contentsline {subsection}{\numberline {1.1.1}Présentation de Toulouse INP-ENSEEIHT}{4}{subsection.1.1.1}%
+\contentsline {subsection}{\numberline {1.1.2}Le service des relations internationales}{4}{subsection.1.1.2}%
+\contentsline {section}{\numberline {1.2}Analyse du système d'information interne}{5}{section.1.2}%
+\contentsline {subsection}{\numberline {1.2.1}Les outils en place}{5}{subsection.1.2.1}%
+\contentsline {subsubsection}{\numberline {1.2.1.1}QS MoveON}{5}{subsubsection.1.2.1.1}%
+\contentsline {subsubsection}{\numberline {1.2.1.2}Pégase}{5}{subsubsection.1.2.1.2}%
+\contentsline {subsubsection}{\numberline {1.2.1.3}Eudonet}{5}{subsubsection.1.2.1.3}%
+\contentsline {subsubsection}{\numberline {1.2.1.4}Les fichiers Excel}{6}{subsubsection.1.2.1.4}%
+\contentsline {subsection}{\numberline {1.2.2}Limites structurelles}{6}{subsection.1.2.2}%
+\contentsline {section}{\numberline {1.3}Problématique}{10}{section.1.3}%
+\contentsline {section}{\numberline {1.4}Positionnement par rapport aux solutions existantes}{10}{section.1.4}%
+\contentsline {subsection}{\numberline {1.4.1}Grille d'évaluation}{10}{subsection.1.4.1}%
+\contentsline {subsection}{\numberline {1.4.2}Analyse des solutions existantes}{11}{subsection.1.4.2}%
+\contentsline {subsubsection}{\numberline {1.4.2.1}QS MoveON}{11}{subsubsection.1.4.2.1}%
+\contentsline {subsubsection}{\numberline {1.4.2.2}Mobility-Online}{12}{subsubsection.1.4.2.2}%
+\contentsline {subsubsection}{\numberline {1.4.2.3}ErasmusJET}{13}{subsubsection.1.4.2.3}%
+\contentsline {subsubsection}{\numberline {1.4.2.4}Travaux académiques : Elahi et al. (2022)}{13}{subsubsection.1.4.2.4}%
+\contentsline {subsection}{\numberline {1.4.3}Tableau comparatif de synthèse}{14}{subsection.1.4.3}%
+\contentsline {section}{\numberline {1.5}Solution envisagée}{14}{section.1.5}%
+\contentsline {section}{\numberline {1.6}Organisation et cadrage du projet}{15}{section.1.6}%
+\contentsline {subsection}{\numberline {1.6.1}Contraintes du projet}{15}{subsection.1.6.1}%
+\contentsline {subsection}{\numberline {1.6.2}Méthodologie de gestion de projet}{16}{subsection.1.6.2}%
+\contentsline {subsubsection}{\numberline {1.6.2.1}Méthode en cascade}{16}{subsubsection.1.6.2.1}%
+\contentsline {subsubsection}{\numberline {1.6.2.2}Kanban}{16}{subsubsection.1.6.2.2}%
+\contentsline {subsubsection}{\numberline {1.6.2.3}Scrum}{17}{subsubsection.1.6.2.3}%
+\contentsline {subsubsection}{\numberline {1.6.2.4}Comparaison et choix retenu}{17}{subsubsection.1.6.2.4}%
+\contentsline {subsection}{\numberline {1.6.3}Planification générale}{20}{subsection.1.6.3}%
+\contentsline {subsection}{\numberline {1.6.4}Outils et environnement de travail}{21}{subsection.1.6.4}%
+\contentsline {section}{Conclusion}{21}{section*.33}%
+\contentsline {chapter}{\numberline {2}Besoins fonctionnels et choix technologiques}{22}{chapter.2}%
+\contentsline {section}{Introduction}{25}{section*.34}%
+\contentsline {section}{\numberline {2.1}Besoins du système}{25}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}Besoins fonctionnels}{25}{subsection.2.1.1}%
+\contentsline {subsubsection}{\numberline {2.1.1.1}Fonctionnalités opérationnelles}{25}{subsubsection.2.1.1.1}%
+\contentsline {subsubsection}{\numberline {2.1.1.2}Fonctionnalités intelligentes}{26}{subsubsection.2.1.1.2}%
+\contentsline {subsection}{\numberline {2.1.2}Besoins non fonctionnels}{26}{subsection.2.1.2}%
+\contentsline {subsection}{\numberline {2.1.3}Profils utilisateurs et périmètre de réalisation}{27}{subsection.2.1.3}%
+\contentsline {subsubsection}{\numberline {2.1.3.1}Profils utilisateurs}{27}{subsubsection.2.1.3.1}%
+\contentsline {subsubsection}{\numberline {2.1.3.2}Périmètre de réalisation}{27}{subsubsection.2.1.3.2}%
+\contentsline {subsection}{\numberline {2.1.4}Diagramme de cas d'utilisation}{28}{subsection.2.1.4}%
+\contentsline {section}{\numberline {2.2}Choix du frontend}{30}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Besoins spécifiques}{30}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Alternatives évaluées}{30}{subsection.2.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.2.1}Applications monopage : React + Vite}{30}{subsubsection.2.2.2.1}%
+\contentsline {subsubsection}{\numberline {2.2.2.2}Angular}{31}{subsubsection.2.2.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.2.3}Next.js 16}{31}{subsubsection.2.2.2.3}%
+\contentsline {subsection}{\numberline {2.2.3}Synthèse comparative}{32}{subsection.2.2.3}%
+\contentsline {subsection}{\numberline {2.2.4}Décision}{32}{subsection.2.2.4}%
+\contentsline {section}{\numberline {2.3}Choix du backend}{33}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Besoins spécifiques}{33}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}Choix du framework backend}{33}{subsection.2.3.2}%
+\contentsline {subsubsection}{\numberline {2.3.2.1}Alternatives évaluées}{33}{subsubsection.2.3.2.1}%
+\contentsline {paragraph}{Node.js}{33}{paragraph*.37}%
+\contentsline {paragraph}{FastAPI}{34}{paragraph*.38}%
+\contentsline {paragraph}{Django}{34}{paragraph*.39}%
+\contentsline {subsubsection}{\numberline {2.3.2.2}Synthèse comparative}{35}{subsubsection.2.3.2.2}%
+\contentsline {subsubsection}{\numberline {2.3.2.3}Décision}{35}{subsubsection.2.3.2.3}%
+\contentsline {subsection}{\numberline {2.3.3}Choix de la couche API}{36}{subsection.2.3.3}%
+\contentsline {subsubsection}{\numberline {2.3.3.1}Besoins spécifiques}{36}{subsubsection.2.3.3.1}%
+\contentsline {subsubsection}{\numberline {2.3.3.2}Alternatives évaluées}{36}{subsubsection.2.3.3.2}%
+\contentsline {paragraph}{Django REST Framework (DRF)}{36}{paragraph*.41}%
+\contentsline {paragraph}{Django Ninja}{36}{paragraph*.42}%
+\contentsline {subsubsection}{\numberline {2.3.3.3}Synthèse comparative}{37}{subsubsection.2.3.3.3}%
+\contentsline {subsubsection}{\numberline {2.3.3.4}Décision}{37}{subsubsection.2.3.3.4}%
+\contentsline {section}{\numberline {2.4}Choix de la base de données}{38}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}Besoins spécifiques}{38}{subsection.2.4.1}%
+\contentsline {subsection}{\numberline {2.4.2}Alternatives évaluées}{38}{subsection.2.4.2}%
+\contentsline {subsubsection}{\numberline {2.4.2.1}MySQL}{38}{subsubsection.2.4.2.1}%
+\contentsline {subsubsection}{\numberline {2.4.2.2}MongoDB}{39}{subsubsection.2.4.2.2}%
+\contentsline {subsubsection}{\numberline {2.4.2.3}PostgreSQL 16}{39}{subsubsection.2.4.2.3}%
+\contentsline {subsection}{\numberline {2.4.3}Synthèse comparative}{39}{subsection.2.4.3}%
+\contentsline {subsection}{\numberline {2.4.4}Décision}{40}{subsection.2.4.4}%
+\contentsline {section}{\numberline {2.5}Choix du format de stockage des imports bruts}{40}{section.2.5}%
+\contentsline {subsection}{\numberline {2.5.1}Besoins spécifiques}{40}{subsection.2.5.1}%
+\contentsline {subsection}{\numberline {2.5.2}Alternatives évaluées}{41}{subsection.2.5.2}%
+\contentsline {subsection}{\numberline {2.5.3}Synthèse comparative}{41}{subsection.2.5.3}%
+\contentsline {subsection}{\numberline {2.5.4}Décision}{42}{subsection.2.5.4}%
+\contentsline {section}{\numberline {2.6}Choix du gestionnaire de tâches asynchrones}{42}{section.2.6}%
+\contentsline {subsection}{\numberline {2.6.1}Besoins spécifiques}{42}{subsection.2.6.1}%
+\contentsline {subsection}{\numberline {2.6.2}Alternatives évaluées}{42}{subsection.2.6.2}%
+\contentsline {subsubsection}{\numberline {2.6.2.1}Celery + Redis}{42}{subsubsection.2.6.2.1}%
+\contentsline {subsubsection}{\numberline {2.6.2.2}Django-Q2 + PostgreSQL}{43}{subsubsection.2.6.2.2}%
+\contentsline {subsection}{\numberline {2.6.3}Synthèse comparative}{43}{subsection.2.6.3}%
+\contentsline {subsection}{\numberline {2.6.4}Décision}{44}{subsection.2.6.4}%
+\contentsline {section}{\numberline {2.7}Choix du stockage de fichiers}{44}{section.2.7}%
+\contentsline {subsection}{\numberline {2.7.1}Besoins spécifiques}{44}{subsection.2.7.1}%
+\contentsline {subsection}{\numberline {2.7.2}Alternatives évaluées}{44}{subsection.2.7.2}%
+\contentsline {subsubsection}{\numberline {2.7.2.1}Système de fichiers local}{45}{subsubsection.2.7.2.1}%
+\contentsline {subsubsection}{\numberline {2.7.2.2}MinIO (stockage objet S3-compatible)}{45}{subsubsection.2.7.2.2}%
+\contentsline {subsection}{\numberline {2.7.3}Synthèse comparative}{45}{subsection.2.7.3}%
+\contentsline {subsection}{\numberline {2.7.4}Décision}{46}{subsection.2.7.4}%
+\contentsline {section}{\numberline {2.8}Couche de routage des requêtes}{46}{section.2.8}%
+\contentsline {subsection}{\numberline {2.8.1}Besoins spécifiques}{46}{subsection.2.8.1}%
+\contentsline {subsection}{\numberline {2.8.2}Alternatives évaluées}{47}{subsection.2.8.2}%
+\contentsline {subsubsection}{\numberline {2.8.2.1}Reverse proxy}{47}{subsubsection.2.8.2.1}%
+\contentsline {subsubsection}{\numberline {2.8.2.2}API Gateway}{47}{subsubsection.2.8.2.2}%
+\contentsline {subsection}{\numberline {2.8.3}Synthèse comparative}{47}{subsection.2.8.3}%
+\contentsline {subsection}{\numberline {2.8.4}Décision}{48}{subsection.2.8.4}%
+\contentsline {subsection}{\numberline {2.8.5}Choix de l'implémentation : Nginx vs Traefik}{48}{subsection.2.8.5}%
+\contentsline {subsubsection}{\numberline {2.8.5.1}Besoins spécifiques}{48}{subsubsection.2.8.5.1}%
+\contentsline {subsubsection}{\numberline {2.8.5.2}Alternatives évaluées}{48}{subsubsection.2.8.5.2}%
+\contentsline {paragraph}{Nginx}{48}{paragraph*.49}%
+\contentsline {paragraph}{Traefik}{49}{paragraph*.50}%
+\contentsline {subsubsection}{\numberline {2.8.5.3}Synthèse comparative}{49}{subsubsection.2.8.5.3}%
+\contentsline {subsubsection}{\numberline {2.8.5.4}Décision}{50}{subsubsection.2.8.5.4}%
+\contentsline {section}{\numberline {2.9}Stratégie de performance base de données}{50}{section.2.9}%
+\contentsline {subsection}{\numberline {2.9.1}Contexte et enjeux}{50}{subsection.2.9.1}%
+\contentsline {subsection}{\numberline {2.9.2}Alternatives évaluées}{50}{subsection.2.9.2}%
+\contentsline {subsection}{\numberline {2.9.3}Synthèse comparative}{50}{subsection.2.9.3}%
+\contentsline {subsection}{\numberline {2.9.4}Décision}{51}{subsection.2.9.4}%
+\contentsline {section}{\numberline {2.10}Synthèse des choix technologiques}{51}{section.2.10}%
+\contentsline {section}{Conclusion}{52}{section*.53}%
+\contentsline {chapter}{\numberline {3}Conception du système}{53}{chapter.3}%
+\contentsline {section}{Introduction}{55}{section*.54}%
+\contentsline {section}{\numberline {3.1}Product Backlog}{55}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Priorités MoSCoW}{55}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.2}Story points}{55}{subsection.3.1.2}%
+\contentsline {subsection}{\numberline {3.1.3}Tableau du Product Backlog}{56}{subsection.3.1.3}%
+\contentsline {section}{\numberline {3.2}Planification des sprints}{59}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Diagramme de Gantt}{60}{subsection.3.2.1}%
+\contentsline {section}{\numberline {3.3}Approches de conception : organisation du code et style architectural}{63}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Organisation du code : approche modulaire par domaine métier}{63}{subsection.3.3.1}%
+\contentsline {paragraph}{Découpage en modules Django}{63}{paragraph*.56}%
+\contentsline {paragraph}{Langage commun}{64}{paragraph*.58}%
+\contentsline {paragraph}{Encapsulation des règles métier}{64}{paragraph*.59}%
+\contentsline {subsection}{\numberline {3.3.2}Style architectural : architecture en couches}{65}{subsection.3.3.2}%
+\contentsline {section}{\numberline {3.4}Architecture logicielle}{65}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Vue d'ensemble}{65}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {3.4.2}Couche présentation : Next.js 16}{67}{subsection.3.4.2}%
+\contentsline {subsection}{\numberline {3.4.3}Couche applicative : Django 5 + Django Ninja}{67}{subsection.3.4.3}%
+\contentsline {subsection}{\numberline {3.4.4}Couche traitement asynchrone : Django-Q2}{67}{subsection.3.4.4}%
+\contentsline {subsection}{\numberline {3.4.5}Couche données : PostgreSQL 16}{67}{subsection.3.4.5}%
+\contentsline {subsection}{\numberline {3.4.6}Couche intégration : Adaptateurs ETL}{68}{subsection.3.4.6}%
+\contentsline {subsubsection}{\numberline {3.4.6.1}Stratégie d'upsert}{68}{subsubsection.3.4.6.1}%
+\contentsline {subsubsection}{\numberline {3.4.6.2}Clé de jointure : l'INE}{69}{subsubsection.3.4.6.2}%
+\contentsline {subsubsection}{\numberline {3.4.6.3}Stratégie de synchronisation}{69}{subsubsection.3.4.6.3}%
+\contentsline {section}{\numberline {3.5}Sécurité et contrôle d'accès transversal}{70}{section.3.5}%
+\contentsline {subsection}{\numberline {3.5.1}Flux d'authentification CAS}{70}{subsection.3.5.1}%
+\contentsline {subsection}{\numberline {3.5.2}Contrôle d'accès (RBAC)}{71}{subsection.3.5.2}%
+\contentsline {subsection}{\numberline {3.5.3}Gestion du renouvellement des tokens JWT}{72}{subsection.3.5.3}%
+\contentsline {subsection}{\numberline {3.5.4}Journal d'audit}{72}{subsection.3.5.4}%
+\contentsline {subsection}{\numberline {3.5.5}Protection des données (RGPD)}{72}{subsection.3.5.5}%
+\contentsline {section}{\numberline {3.6}Architecture physique et déploiement}{73}{section.3.6}%
+\contentsline {subsection}{\numberline {3.6.1}Vue d'ensemble}{73}{subsection.3.6.1}%
+\contentsline {subsection}{\numberline {3.6.2}Containers Docker}{74}{subsection.3.6.2}%
+\contentsline {subsection}{\numberline {3.6.3}Flux réseau}{75}{subsection.3.6.3}%
+\contentsline {subsection}{\numberline {3.6.4}Environnements}{75}{subsection.3.6.4}%
+\contentsline {subsection}{\numberline {3.6.5}CI/CD}{76}{subsection.3.6.5}%
+\contentsline {subsection}{\numberline {3.6.6}Stratégie de migration de schéma}{77}{subsection.3.6.6}%
+\contentsline {subsection}{\numberline {3.6.7}Sauvegarde de la base de données}{77}{subsection.3.6.7}%
+\contentsline {subsection}{\numberline {3.6.8}Gestion des secrets}{77}{subsection.3.6.8}%
+\contentsline {section}{\numberline {3.7}Modèle de données}{77}{section.3.7}%
+\contentsline {subsection}{\numberline {3.7.1}Organisation par packages}{77}{subsection.3.7.1}%
+\contentsline {subsection}{\numberline {3.7.2}Principes structurants}{78}{subsection.3.7.2}%
+\contentsline {subsubsection}{\numberline {3.7.2.1}L'année universitaire comme axe temporel}{78}{subsubsection.3.7.2.1}%
+\contentsline {subsubsection}{\numberline {3.7.2.2}L'INE comme identifiant pivot}{78}{subsubsection.3.7.2.2}%
+\contentsline {subsubsection}{\numberline {3.7.2.3}Hiérarchie quotas INP / quotas N7}{79}{subsubsection.3.7.2.3}%
+\contentsline {section}{\numberline {3.8}Flux de données : de la source au workflow}{79}{section.3.8}%
+\contentsline {subsection}{\numberline {3.8.1}Détail de l’étape de nettoyage et validation}{80}{subsection.3.8.1}%
+\contentsline {subsubsection}{\numberline {3.8.1.1}Description du processus de transformation}{80}{subsubsection.3.8.1.1}%
+\contentsline {paragraph}{Standardisation des formats}{80}{paragraph*.68}%
+\contentsline {paragraph}{Normalisation sémantique}{80}{paragraph*.69}%
+\contentsline {paragraph}{Gestion des valeurs manquantes}{81}{paragraph*.70}%
+\contentsline {paragraph}{Détection et gestion des doublons}{81}{paragraph*.71}%
+\contentsline {paragraph}{Validation métier}{81}{paragraph*.72}%
+\contentsline {paragraph}{Traçabilité et gestion des erreurs}{81}{paragraph*.73}%
+\contentsline {subsubsection}{\numberline {3.8.1.2}Architecture du pipeline de nettoyage}{82}{subsubsection.3.8.1.2}%
+\contentsline {subsubsection}{\numberline {3.8.1.3}Technologies et outils utilisés}{83}{subsubsection.3.8.1.3}%
+\contentsline {section}{\numberline {3.9}Gestion des risques}{83}{section.3.9}%
+\contentsline {section}{Conclusion}{84}{section*.75}%
+\contentsline {chapter}{\numberline {4}Choix algorithmiques et machines à états}{85}{chapter.4}%
+\contentsline {section}{Introduction}{87}{section*.76}%
+\contentsline {section}{\numberline {4.1}Choix de l'algorithme d'affectation}{87}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Besoins spécifiques}{87}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}Alternatives évaluées}{87}{subsection.4.1.2}%
+\contentsline {subsubsection}{\numberline {4.1.2.1}Algorithme glouton}{87}{subsubsection.4.1.2.1}%
+\contentsline {subsubsection}{\numberline {4.1.2.2}Gale-Shapley}{88}{subsubsection.4.1.2.2}%
+\contentsline {subsection}{\numberline {4.1.3}Synthèse comparative}{88}{subsection.4.1.3}%
+\contentsline {subsection}{\numberline {4.1.4}Décision}{89}{subsection.4.1.4}%
+\contentsline {section}{\numberline {4.2}Choix de la méthode de répartition des quotas par département}{89}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Besoins spécifiques}{90}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Alternatives évaluées}{90}{subsection.4.2.2}%
+\contentsline {subsubsection}{\numberline {4.2.2.1}Méthode Hamilton (plus grands restes)}{90}{subsubsection.4.2.2.1}%
+\contentsline {subsubsection}{\numberline {4.2.2.2}Méthode Jefferson (plus grandes moyennes)}{91}{subsubsection.4.2.2.2}%
+\contentsline {subsubsection}{\numberline {4.2.2.3}Méthode Webster}{91}{subsubsection.4.2.2.3}%
+\contentsline {subsection}{\numberline {4.2.3}Synthèse comparative}{91}{subsection.4.2.3}%
+\contentsline {subsection}{\numberline {4.2.4}Décision}{92}{subsection.4.2.4}%
+\contentsline {section}{\numberline {4.3}Choix du moteur de recommandation}{92}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Besoins spécifiques}{92}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}Alternatives évaluées}{92}{subsection.4.3.2}%
+\contentsline {subsubsection}{\numberline {4.3.2.1}Approche basée sur des règles (rule-based)}{92}{subsubsection.4.3.2.1}%
+\contentsline {subsubsection}{\numberline {4.3.2.2}Approche par similarité (collaborative filtering)}{93}{subsubsection.4.3.2.2}%
+\contentsline {subsubsection}{\numberline {4.3.2.3}Approche par apprentissage supervisé}{93}{subsubsection.4.3.2.3}%
+\contentsline {paragraph}{Régression logistique}{93}{paragraph*.79}%
+\contentsline {paragraph}{XGBoost}{93}{paragraph*.80}%
+\contentsline {subsection}{\numberline {4.3.3}Synthèse comparative}{94}{subsection.4.3.3}%
+\contentsline {subsection}{\numberline {4.3.4}Décision}{94}{subsection.4.3.4}%
+\contentsline {section}{\numberline {4.4}Choix de l'orchestration RAG}{95}{section.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}Besoins spécifiques}{95}{subsection.4.4.1}%
+\contentsline {subsection}{\numberline {4.4.2}Modèle de langage}{96}{subsection.4.4.2}%
+\contentsline {subsection}{\numberline {4.4.3}Alternatives évaluées}{96}{subsection.4.4.3}%
+\contentsline {subsubsection}{\numberline {4.4.3.1}LangChain}{96}{subsubsection.4.4.3.1}%
+\contentsline {subsubsection}{\numberline {4.4.3.2}LlamaIndex}{96}{subsubsection.4.4.3.2}%
+\contentsline {subsubsection}{\numberline {4.4.3.3}Haystack}{97}{subsubsection.4.4.3.3}%
+\contentsline {subsubsection}{\numberline {4.4.3.4}Approche directe (sans framework)}{97}{subsubsection.4.4.3.4}%
+\contentsline {subsection}{\numberline {4.4.4}Synthèse comparative}{97}{subsection.4.4.4}%
+\contentsline {subsection}{\numberline {4.4.5}Décision}{98}{subsection.4.4.5}%
+\contentsline {section}{\numberline {4.5}Synthèse des choix algorithmiques}{98}{section.4.5}%
+\contentsline {section}{\numberline {4.6}Machines à états finis (FSM)}{99}{section.4.6}%
+\contentsline {subsection}{\numberline {4.6.1}Principe et implémentation}{99}{subsection.4.6.1}%
+\contentsline {subsection}{\numberline {4.6.2}FSM de l'année universitaire}{99}{subsection.4.6.2}%
+\contentsline {subsection}{\numberline {4.6.3}FSM des entités métier}{102}{subsection.4.6.3}%
+\contentsline {section}{Conclusion}{102}{section*.86}%
+\contentsline {chapter}{\numberline {5}Réalisation}{103}{chapter.5}%
+\contentsline {section}{Introduction}{105}{section*.87}%
+\contentsline {section}{\numberline {5.1}Sprint 1 : Socle technique et référentiels}{105}{section.5.1}%
+\contentsline {subsection}{\numberline {5.1.1}Objectif du sprint}{105}{subsection.5.1.1}%
+\contentsline {subsection}{\numberline {5.1.2}Sprint Backlog : Sprint 1}{105}{subsection.5.1.2}%
+\contentsline {subsection}{\numberline {5.1.3}Conception détaillée}{107}{subsection.5.1.3}%
+\contentsline {subsubsection}{\numberline {5.1.3.1}Diagramme de classes}{108}{subsubsection.5.1.3.1}%
+\contentsline {subsection}{\numberline {5.1.4}Implémentation}{108}{subsection.5.1.4}%
+\contentsline {subsection}{\numberline {5.1.5}Tests et validation du sprint}{110}{subsection.5.1.5}%
+\contentsline {section}{\numberline {5.2}Sprint 2 : Données et traçabilité}{111}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Objectif du sprint}{111}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Sprint Backlog : Sprint 2}{111}{subsection.5.2.2}%
+\contentsline {subsection}{\numberline {5.2.3}Conception détaillée}{113}{subsection.5.2.3}%
+\contentsline {subsubsection}{\numberline {5.2.3.1}Diagramme de classes}{113}{subsubsection.5.2.3.1}%
+\contentsline {subsubsection}{\numberline {5.2.3.2}Diagramme de séquence}{114}{subsubsection.5.2.3.2}%
+\contentsline {subsection}{\numberline {5.2.4}Implémentation}{115}{subsection.5.2.4}%
+\contentsline {subsection}{\numberline {5.2.5}Tests et validation du sprint}{116}{subsection.5.2.5}%
+\contentsline {section}{\numberline {5.3}Sprint 3 : Algorithme d'affectation}{117}{section.5.3}%
+\contentsline {subsection}{\numberline {5.3.1}Objectif du sprint}{117}{subsection.5.3.1}%
+\contentsline {subsection}{\numberline {5.3.2}Sprint Backlog : Sprint 3}{118}{subsection.5.3.2}%
+\contentsline {subsection}{\numberline {5.3.3}Conception détaillée}{120}{subsection.5.3.3}%
+\contentsline {subsubsection}{\numberline {5.3.3.1}Diagramme de classes}{120}{subsubsection.5.3.3.1}%
+\contentsline {subsubsection}{\numberline {5.3.3.2}Diagrammes de séquence}{121}{subsubsection.5.3.3.2}%
+\contentsline {subsection}{\numberline {5.3.4}Implémentation}{124}{subsection.5.3.4}%
+\contentsline {subsection}{\numberline {5.3.5}Tests et validation du sprint}{125}{subsection.5.3.5}%
+\contentsline {section}{\numberline {5.4}Sprint 4 : Sources complémentaires et mobilités}{126}{section.5.4}%
+\contentsline {subsection}{\numberline {5.4.1}Objectif du sprint}{126}{subsection.5.4.1}%
+\contentsline {subsection}{\numberline {5.4.2}Sprint Backlog : Sprint 4}{126}{subsection.5.4.2}%
+\contentsline {subsection}{\numberline {5.4.3}Conception détaillée}{130}{subsection.5.4.3}%
+\contentsline {subsubsection}{\numberline {5.4.3.1}Diagramme de classes}{131}{subsubsection.5.4.3.1}%
+\contentsline {subsubsection}{\numberline {5.4.3.2}Diagrammes de séquence}{131}{subsubsection.5.4.3.2}%
+\contentsline {subsection}{\numberline {5.4.4}Implémentation}{133}{subsection.5.4.4}%
+\contentsline {subsection}{\numberline {5.4.5}Tests et validation du sprint}{134}{subsection.5.4.5}%
+\contentsline {section}{\numberline {5.5}Sprint 5 : Conformité CTI et authentification}{135}{section.5.5}%
+\contentsline {subsection}{\numberline {5.5.1}Objectif du sprint}{135}{subsection.5.5.1}%
+\contentsline {subsection}{\numberline {5.5.2}Sprint Backlog : Sprint 5}{136}{subsection.5.5.2}%
+\contentsline {subsection}{\numberline {5.5.3}Conception détaillée}{139}{subsection.5.5.3}%
+\contentsline {subsubsection}{\numberline {5.5.3.1}Diagrammes de séquence}{140}{subsubsection.5.5.3.1}%
+\contentsline {subsection}{\numberline {5.5.4}Implémentation}{140}{subsection.5.5.4}%
+\contentsline {subsection}{\numberline {5.5.5}Tests et validation du sprint}{142}{subsection.5.5.5}%
+\contentsline {section}{\numberline {5.6}Sprint 6 : Fonctionnalités intelligentes (V2) --- partiellement réalisé}{144}{section.5.6}%
+\contentsline {subsection}{\numberline {5.6.1}Objectif du sprint}{144}{subsection.5.6.1}%
+\contentsline {subsection}{\numberline {5.6.2}Sprint Backlog : Sprint 6}{144}{subsection.5.6.2}%
+\contentsline {subsection}{\numberline {5.6.3}Conception détaillée}{146}{subsection.5.6.3}%
+\contentsline {subsubsection}{\numberline {5.6.3.1}Diagramme de séquence}{147}{subsubsection.5.6.3.1}%
+\contentsline {subsection}{\numberline {5.6.4}Implémentation}{148}{subsection.5.6.4}%
+\contentsline {subsection}{\numberline {5.6.5}Fonctionnalité reportée : assistant virtuel}{148}{subsection.5.6.5}%
+\contentsline {subsection}{\numberline {5.6.6}Tests et validation du sprint}{149}{subsection.5.6.6}%
+\contentsline {section}{Conclusion}{150}{section*.116}%
+\contentsline {chapter}{\numberline {6}Tests et validation du système}{151}{chapter.6}%
+\contentsline {section}{Introduction}{152}{section*.117}%
+\contentsline {section}{\numberline {6.1}Stratégie de validation}{152}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Synthèse des tests réalisés}{152}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Validation End-to-End}{154}{section.6.3}%
+\contentsline {subsection}{\numberline {6.3.1}Navigation et contrôle d'accès}{155}{subsection.6.3.1}%
+\contentsline {subsection}{\numberline {6.3.2}Cycle de vie de l'année universitaire}{155}{subsection.6.3.2}%
+\contentsline {subsection}{\numberline {6.3.3}Alertes système}{156}{subsection.6.3.3}%
+\contentsline {subsection}{\numberline {6.3.4}Scénarios métier administrateur}{156}{subsection.6.3.4}%
+\contentsline {subsection}{\numberline {6.3.5}Import et export des données}{156}{subsection.6.3.5}%
+\contentsline {section}{\numberline {6.4}Validation de la sécurité applicative}{157}{section.6.4}%
+\contentsline {subsection}{\numberline {6.4.1}Analyse complémentaire avec OWASP ZAP}{158}{subsection.6.4.1}%
+\contentsline {section}{\numberline {6.5}Performance et charge}{159}{section.6.5}%
+\contentsline {paragraph}{Temps d'exécution de l'algorithme d'affectation.}{159}{paragraph*.131}%
+\contentsline {paragraph}{Temps de réponse sous charge.}{160}{paragraph*.133}%
+\contentsline {section}{\numberline {6.6}Intégration continue}{160}{section.6.6}%
+\contentsline {section}{\numberline {6.7}Analyse de qualité de code}{160}{section.6.7}%
+\contentsline {section}{\numberline {6.8}Supervision et observabilité}{161}{section.6.8}%
+\contentsline {subsection}{\numberline {6.8.1}Suivi des métriques}{161}{subsection.6.8.1}%
+\contentsline {subsection}{\numberline {6.8.2}Suivi des erreurs}{161}{subsection.6.8.2}%
+\contentsline {section}{\numberline {6.9}Traçabilité des besoins fonctionnels}{162}{section.6.9}%
+\contentsline {section}{\numberline {6.10}Traçabilité des besoins non fonctionnels}{164}{section.6.10}%
+\contentsline {section}{\numberline {6.11}Synthèse et limites de la campagne de test}{165}{section.6.11}%
+\contentsline {section}{Conclusion}{166}{section*.138}%
+\contentsline {chapter}{Conclusion générale}{167}{chapter*.139}%
+\contentsline {chapter}{Annexes}{168}{section*.140}%
+\contentsline {chapter}{Bibliographie}{172}{chapter*.150}%
+\contentsline {chapter}{Netographie}{173}{chapter*.151}%
 \contentsfinish 

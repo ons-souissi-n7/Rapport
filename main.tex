@@ -192,8 +192,8 @@
 % ---------------------------------------------------------
 % PAGES LIMINAIRES
 % ---------------------------------------------------------
-% Pagination A pour cette page non numérotée : évite une ancre hyperref en
-% double avec la pagination romaine (i, ii, ...) qui suit.
+% Page de garde : numérotée « A » (masquée), pour ne pas consommer le « i »
+% de la pagination romaine des pages liminaires.
 \pagenumbering{Alph}
 
 \input{Chapitres/page_de_garde}
@@ -252,14 +252,15 @@
 
 
 \cleardoublepage
-% \includepdf[pages=1,pagecommand={\thispagestyle{empty}}]{Page de garde.pdf}
 \pagenumbering{roman}
 % \RaggedRight
 
+\input{Chapitres/signatures}
+    \clearpage
 
 \input{Chapitres/dedicaces}
     \clearpage
-    
+
 \input{Chapitres/remerciement}
     \clearpage
 
@@ -282,11 +283,11 @@
 \listoftables
 
 \clearpage
-\pagenumbering{arabic}
 
 \input{Chapitres/abreviations}
 
 \clearpage
+\pagenumbering{arabic}
 
 \input{Chapitres/introduction}
     \clearpage

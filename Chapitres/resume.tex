@@ -1,14 +1,14 @@
 % !TEX root = ../main.tex
 % =========================================================
-% RÉSUMÉ (FR) / ABSTRACT (EN)
-% Même contenu dans les deux langues. Cible : ~150-200 mots par version.
+% RÉSUMÉ (FR) / ABSTRACT (EN) sur une seule page.
+% Le 2e titre réutilise le gabarit \chapter* (cadre) mais sans saut de page :
+% on neutralise localement \clearpage / \cleardoublepage.
 % =========================================================
-\thispagestyle{empty}
+\titlespacing*{\chapter}{0pt}{-55pt}{22pt}% resserre l'espace sous les cadres (page unique)
 
-\begin{center}
-    {\Large \bfseries Résumé}
-\end{center}
-\vspace{0.4cm}
+\chapter*{Résumé}
+\phantomsection
+\addcontentsline{toc}{chapter}{Résumé}
 
 \justifying
 Ce projet de fin d'études porte sur la conception et le développement d'une
@@ -27,18 +27,25 @@ une architecture fondée sur Django Ninja et Next.js, une chaîne d'intégration
 continue, et un moteur de recommandation de destinations reposant sur un modèle
 d'apprentissage supervisé.
 
-\vspace{0.4cm}
+\vspace{0.25cm}
 \noindent\textbf{Mots-clés :} mobilité internationale, plateforme web, Django,
 Next.js, algorithme d'affectation, machine à états, système de recommandation,
 apprentissage automatique, Scrum.
 
-\vspace{1.2cm}
+\vspace{0.35cm}
 
-\begin{center}
-    {\Large \bfseries Abstract}
-\end{center}
-\vspace{0.4cm}
+% --- Abstract : même cadre, même page ---
+\begingroup
+\titlespacing*{\chapter}{0pt}{-55pt}{18pt}% resserre l'espace sous le cadre
+\vspace*{55pt}% compense le retrait négatif de \titlespacing{\chapter}
+\let\clearpage\relax
+\let\cleardoublepage\relax
+\chapter*{Abstract}
+\endgroup
+\phantomsection
+\addcontentsline{toc}{chapter}{Abstract}
 
+\justifying
 This graduation project deals with the design and development of a web platform
 for managing international student mobility, carried out within the
 International Relations office of Toulouse INP-ENSEEIHT. Today, the management of
@@ -54,6 +61,8 @@ architecture based on Django Ninja and Next.js, a continuous integration
 pipeline, and a destination recommendation engine based on a supervised machine
 learning model.
 
-\vspace{0.4cm}
+\vspace{0.25cm}
 \noindent\textbf{Keywords:} international mobility, web platform, Django, Next.js,
 matching algorithm, state machine, recommender system, machine learning, Scrum.
+
+\titlespacing*{\chapter}{0pt}{-55pt}{40pt}% rétablit l'espacement chapitre par défaut

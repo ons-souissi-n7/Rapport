@@ -1,71 +1,82 @@
 % !TEX root = ../main.tex
 % =========================================================
 % PAGE DE GARDE
-% Remplace ce fichier par la page de garde officielle de l'ENICarthage
-% si l'administration en fournit une (souvent un PDF à inclure via \includepdf).
+% Gabarit inspiré d'un ancien rapport, sans cadre couleur, sans arabe,
+% sans pied de page. Trois logos : Université de Carthage, ENICarthage,
+% Toulouse INP-ENSEEIHT.
+% Images dans figures/logos/ : universiteCarthage.png, enicarthage.jpg, ENSEEIHT.png
+% Tant qu'un fichier est absent, un cadre de remplacement s'affiche.
 % =========================================================
+
+% Logo avec repli automatique si l'image n'est pas encore présente
+\newcommand{\pdglogo}[2]{%
+  \IfFileExists{#1.png}{\includegraphics[height=18mm,width=46mm,keepaspectratio]{#1.png}}{%
+  \IfFileExists{#1.jpg}{\includegraphics[height=18mm,width=46mm,keepaspectratio]{#1.jpg}}{%
+  \IfFileExists{#1.pdf}{\includegraphics[height=18mm,width=46mm,keepaspectratio]{#1.pdf}}{%
+  \fbox{\parbox[c][18mm][c]{40mm}{\centering\scriptsize #2}}}}}%
+}
+
 \begin{titlepage}
 \thispagestyle{empty}
 \centering
 
-% --- EN-TÊTE : logos (décommenter quand les images sont disponibles) ---
-% \begin{minipage}{0.30\textwidth}
-%     \centering
-%     \includegraphics[width=0.9\textwidth]{figures/logos/enicarthage.png}
-% \end{minipage}\hfill
-% \begin{minipage}{0.30\textwidth}
-%     \centering
-%     \includegraphics[width=0.9\textwidth]{figures/logos/enseeiht.png}
-% \end{minipage}
-% \vspace{1cm}
+% --- LOGOS ---
+\begin{minipage}[c]{0.32\textwidth}\centering
+  \pdglogo{figures/logos/enicarthage}{ENICarthage}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.32\textwidth}\centering
+  \pdglogo{figures/logos/universiteCarthage}{Université de Carthage}
+\end{minipage}\hfill
+\begin{minipage}[c]{0.32\textwidth}\centering
+  \pdglogo{figures/logos/ENSEEIHT}{Toulouse INP -- ENSEEIHT}
+\end{minipage}
 
-{\large République Tunisienne}\\[0.2cm]
-{\large Ministère de l'Enseignement Supérieur et de la Recherche Scientifique}\\[0.3cm]
-{\large Université de Carthage}\\[0.2cm]
-{\large École Nationale d'Ingénieurs de Carthage (ENICarthage)}\\[1.5cm]
+\vspace{0.8cm}
 
-\rule{0.85\textwidth}{1pt}\\[0.5cm]
-{\LARGE \bfseries Rapport de Projet de Fin d'Études}\\[0.4cm]
-{\large En vue de l'obtention du Diplôme National d'Ingénieur en Génie Informatique}\\[0.5cm]
-\rule{0.85\textwidth}{1pt}\\[1.5cm]
+% --- EN-TÊTE INSTITUTIONNEL ---
+{\normalsize République Tunisienne}\\[0.15cm]
+{\normalsize Ministère de l'Enseignement Supérieur et de la Recherche Scientifique}\\[0.15cm]
+{\normalsize Université de Carthage}\\[0.15cm]
+{\normalsize École Nationale d'Ingénieurs de Carthage}\\[0.4cm]
 
-% --- TITRE DU PROJET ---
-{\Large \bfseries Conception et développement d'une plateforme web
-de gestion des mobilités internationales étudiantes}\\[0.3cm]
-% TODO : reprendre le titre exact validé avec l'encadrante.
+\rule{\textwidth}{0.6pt}
+
+\vspace{1.4cm}
+
+{\LARGE \bfseries Rapport de Projet de Fin d'Études}\\[0.8cm]
+{\large \itshape Diplôme National d'Ingénieur en Génie Informatique}
+
+\vspace{1.6cm}
+
+% --- INTITULÉ DU STAGE ---
+{\setlength{\fboxsep}{12pt}%
+ \fbox{\parbox{0.82\textwidth}{\centering \large \bfseries
+ Développement d'un assistant intelligent et stratégique pour les Relations
+ Internationales}}}
+
+\vspace{1.2cm}
+
+{\large \textbf{Organisme d'accueil :} Toulouse INP-ENSEEIHT}
 
 \vfill
 
-\begin{minipage}{0.45\textwidth}
+% --- RÉALISÉ PAR / ENCADRÉ PAR ---
+\begin{minipage}[t]{0.30\textwidth}
 \begin{flushleft}
 \textbf{Réalisé par :}\\[0.2cm]
 Ons SOUISSI
 \end{flushleft}
 \end{minipage}\hfill
-\begin{minipage}{0.45\textwidth}
-\begin{flushright}
-\textbf{Encadrante (ENICarthage) :}\\[0.2cm]
-Mme Myriam FOURATI\\[0.4cm]
-\textbf{Encadrant (organisme d'accueil) :}\\[0.2cm]
-M. Riadh DHAOU
-\end{flushright}
+\begin{minipage}[t]{0.66\textwidth}
+\begin{flushleft}
+\textbf{Encadré par :}\\[0.2cm]
+Encadrant professionnel : M.~Riadh DHAOU\\[0.15cm]
+Encadrante académique : Mme~Myriam FOURATI
+\end{flushleft}
 \end{minipage}
 
-\vspace{1cm}
-\textbf{Organisme d'accueil :} Service des Relations Internationales,\\
-Toulouse INP-ENSEEIHT
-
-\vspace{1cm}
-% --- JURY (à compléter après convocation) ---
-\textbf{Soutenu le \dotfill{} devant le jury composé de :}\\[0.3cm]
-\begin{tabular}{ll}
-M./Mme \dotfill & Président(e) \\
-M./Mme \dotfill & Rapporteur / Examinateur \\
-Mme Myriam FOURATI & Encadrante \\
-\end{tabular}
-% TODO : compléter les membres du jury.
-
 \vfill
-\textbf{Année Universitaire 2025 -- 2026}
+
+{\large \textbf{Année universitaire 2025/2026}}
 
 \end{titlepage}

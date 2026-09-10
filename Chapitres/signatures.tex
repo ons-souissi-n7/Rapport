@@ -1,0 +1,39 @@
+\chapter*{Signatures}
+\phantomsection
+\addcontentsline{toc}{chapter}{Signatures}
+
+\vspace{1cm}
+
+% Boîte encadrée à coins arrondis, réutilisable
+\newcommand{\sigframe}[1]{%
+  \begin{center}
+  \begin{tikzpicture}
+    \node[draw, rounded corners=5pt, line width=0.5pt,
+          inner xsep=8mm, inner ysep=7mm, text width=0.86\textwidth] {#1};
+  \end{tikzpicture}
+  \end{center}%
+}
+
+% --- Encadrant professionnel ---
+\sigframe{%
+  \begin{center}\bfseries Encadrant professionnel\end{center}
+  \vspace{6mm}
+  \begin{center}
+    M.\ Riadh Dhaou\\[6mm]
+    Signature\\[0.2cm]
+    \rule{0pt}{2.6cm}% espace laissé pour la signature manuscrite
+  \end{center}
+}
+
+\vspace{1.2cm}
+
+% --- Encadrante académique ---
+\sigframe{%
+  \begin{center}\bfseries Encadrante académique\end{center}
+  \vspace{6mm}
+  \begin{center}
+    Mme Myriam Fourati\\[6mm]
+    Signature\\[0.2cm]
+    \rule{0pt}{2.6cm}% espace laissé pour la signature manuscrite
+  \end{center}
+}
