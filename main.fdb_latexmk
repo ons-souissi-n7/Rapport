@@ -1,12 +1,12 @@
 # Fdb version 4
-["biber main"] 1789074460.21587 "main.bcf" "main.bbl" "main" 1789075105.36112 0
+["biber main"] 1789752108.65863 "main.bcf" "main.bbl" "main" 1789752222.99214 0
   "bibliographie.bib" 1787508157.63189 13329 c692b73aec25b0ac663f5caa03a0bd09 ""
-  "main.bcf" 1789075101.19056 110139 53a74946f4ef35be1a05301a3d64cfb8 "pdflatex"
+  "main.bcf" 1789752220.83461 110139 53a74946f4ef35be1a05301a3d64cfb8 "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1789075065.68198 "main.tex" "main.pdf" "main" 1789075105.37986 0
+["pdflatex"] 1789752195.93961 "main.tex" "main.pdf" "main" 1789752223.00077 0
   "/usr/local/texlive/2026/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2026/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2026/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -355,7 +355,7 @@
   "figures/conception/Diag_classe/Sprint3.png" 1788980667.57425 71538 dbf8fb1f7d8c3dbbbf32cdc7ab93d326 ""
   "figures/conception/Diag_classe/Sprint4.png" 1787508429.62545 99536 d024605d7c317787f3e310b333d1b1c5 ""
   "figures/conception/Diag_sequence/sequence-assignment-generation.png" 1787561843.68511 43558 16b0000cba420c3851c1a609e9ebe3ee ""
-  "figures/conception/Diag_sequence/sequence-assignment-validation.png" 1787563547.56909 45458 4c2405558b5c83cc4374e7d6d33b16a5 ""
+  "figures/conception/Diag_sequence/sequence-assignment-validation.png" 1788990172.1326 54402 184f305f2f9363acb67c81cac06d9e0f ""
   "figures/conception/Diag_sequence/sequence-auth-cas.png" 1787570675.91601 50940 1e6d87b80119db3e74ccbfa1d5016151 ""
   "figures/conception/Diag_sequence/sequence-complementary-mobility.png" 1787564762.32708 47369 4d07d1656ea713140b37b138ca7d51e5 ""
   "figures/conception/Diag_sequence/sequence-cti-finalization.png" 1787565190.06937 44879 14fdc8b38bb98f54615d041a4de720ed ""
@@ -369,15 +369,15 @@
   "figures/systemes/bpmn-as-is-duree-mobilite.png" 1784623499.52298 472686 1592488faac265c7627d2fc9eb43aabe ""
   "figures/systemes/bpmn-as-is-enquete-cti.png" 1784623499.55523 776535 be008f5a508635e5c7a6282bfaaebaeb ""
   "figures/systemes/systeme-existant.png" 1784468306.17437 1283639 9ddd9dd7ae3790a013a41fade60a8046 ""
-  "main.aux" 1789075101.07847 87074 13efb12904a95b6cf31128342f82cf6e "pdflatex"
-  "main.bbl" 1789074499.11991 23360 eef19f84fe8db0a25c730f6e77b54bcc "biber main"
-  "main.lof" 1789075101.21118 8397 a3890cfab041251c227c6035e4b6b52b "pdflatex"
-  "main.lot" 1789075101.21318 6186 392a29b8f2648e95c059f5c4f9e72b5f "pdflatex"
-  "main.out" 1789075101.16363 53011 731c4a668717ef2d2ffe25c1aead6498 "pdflatex"
-  "main.ptc" 1789075101.21518 28131 c369e836c28f3b1c5878ec1383503f8a "pdflatex"
-  "main.run.xml" 1789075101.19518 2307 60a8fddbe94481e76c23f9cb283ea98c "pdflatex"
+  "main.aux" 1789752220.71469 87074 13efb12904a95b6cf31128342f82cf6e "pdflatex"
+  "main.bbl" 1789752136.99992 23360 eef19f84fe8db0a25c730f6e77b54bcc "biber main"
+  "main.lof" 1789752220.8594 8397 a3890cfab041251c227c6035e4b6b52b "pdflatex"
+  "main.lot" 1789752220.8609 6186 392a29b8f2648e95c059f5c4f9e72b5f "pdflatex"
+  "main.out" 1789752220.79762 53011 731c4a668717ef2d2ffe25c1aead6498 "pdflatex"
+  "main.ptc" 1789752220.86241 28131 c369e836c28f3b1c5878ec1383503f8a "pdflatex"
+  "main.run.xml" 1789752220.85431 2307 60a8fddbe94481e76c23f9cb283ea98c "pdflatex"
   "main.tex" 1789047117.61178 9060 bf5ba6da10f764ec2ff45c1cad270195 ""
-  "main.toc" 1789075101.20852 27813 2649b863381e6e68a8b0ab9f876c365e "pdflatex"
+  "main.toc" 1789752220.85732 27813 2649b863381e6e68a8b0ab9f876c365e "pdflatex"
   (generated)
   "main.aux"
   "main.bcf"

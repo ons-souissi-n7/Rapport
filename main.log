@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.7.19)  10 SEP 2026 21:17
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.7.19)  18 SEP 2026 17:23
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -3127,13 +3127,13 @@ eneration.png  used on input line 1021.
 (pdftex.def)             Requested size: 466.62503pt x 354.69917pt.
  [121 <./figures/conception/Diag_classe/Sprint3.png>]
 <figures/conception/Diag_sequence/sequence-assignment-validation.png, id=2776, 
-541.27219pt x 725.71124pt>
+751.30687pt x 879.285pt>
 File: figures/conception/Diag_sequence/sequence-assignment-validation.png Graph
 ic file (type png)
 <use figures/conception/Diag_sequence/sequence-assignment-validation.png>
 Package pdftex.def Info: figures/conception/Diag_sequence/sequence-assignment-v
 alidation.png  used on input line 1032.
-(pdftex.def)             Requested size: 466.62503pt x 625.6498pt.
+(pdftex.def)             Requested size: 466.62503pt x 546.11708pt.
  [122 <./figures/conception/Diag_sequence/sequence-assignment-generation.png>] 
 [123 <./figures/conception/Diag_sequence/sequence-assignment-validation.png>]
 <figures/captures/sprint3/sprint3-tableau-de-bord.png, id=2787, 1899.095pt x 86
@@ -4835,7 +4835,7 @@ e1/public/cm-super/sfti1440.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1
 ublic/cm-super/sftt1095.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/pub
 lic/cm-super/sftt1200.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/z
 apfding/uzdr.pfb>
-Output written on main.pdf (193 pages, 8903003 bytes).
+Output written on main.pdf (193 pages, 8910258 bytes).
 PDF statistics:
  3471 PDF objects out of 3580 (max. 8388607)
  3057 compressed objects within 31 object streams
